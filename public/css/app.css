@@ -2,3 +2,8 @@
   background-color: #ffffff;
   color: #000000;
 }
+
+#body #toolbar-pb {
+  position: fixed;
+  width: 100%;
+}
