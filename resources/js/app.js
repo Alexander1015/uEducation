@@ -1,16 +1,28 @@
 require('./bootstrap');
 
-window.Vue = require('vue').default;
+import Vue from 'vue';
+window.Vue = Vue;
 
 import Vuetify from '../plugins/vuetify'
+import VueAxios from 'vue-axios';
+import axios from 'axios';
+import VueRouter from 'vue-router';
 
+import App from './components/App.vue'
 import '../sass/app.scss'
+import { routes } from './routes';
 
-Vue.component('index-public', require('./components/public/Index.vue').default);
-Vue.component('index-auth', require('./components/auth/Index.vue').default);
-Vue.component('index-admin', require('./components/admin/Index.vue').default);
+Vue.use(VueRouter);
+Vue.use(VueAxios, axios);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: routes,
+});
 
 const app = new Vue({
     vuetify: Vuetify,
     el: '#app',
+    router: router,
+    render: h => h(App),
 });

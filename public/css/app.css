@@ -1,9 +1,50 @@
+/* $white: #ffffff;
+$black: #000000;
+
+$primary: #66E8FF;
+$secondary: #CF9B93;
+$accent: #CFC6C2;
+$icons: #19060D;
+
+$nav1: #cbcac4;
+$nav2: #d0d5d9;
+$nav3: #b7ccd3;
+ */
 #body {
   background-color: #ffffff;
   color: #000000;
 }
-
-#body #toolbar-pb {
+#body .icon-right {
+  margin-left: 0.5rem;
+}
+#body #toolbar {
   position: fixed;
+  z-index: 999;
   width: 100%;
+  background: #cbcac4;
+  background: linear-gradient(90deg, #cbcac4 0%, #d0d5d9 50%, #b7ccd3 100%);
+}
+#body #toolbar .logo {
+  height: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  text-decoration: none;
+  color: #000000;
+}
+#body #toolbar .logo .logo_navbar {
+  float: left;
+  margin-right: 0.5rem;
+  margin-top: 0.1rem;
+}
+#body #toolbar .logo .title_navbar {
+  margin-left: 0.5rem;
+  margin-top: 0.7rem;
+}
+#body #toolbar .btn-navbar {
+  height: 100%;
+  color: #000000;
+}
+#body #footer {
+  background: #b7ccd3;
+  background: linear-gradient(90deg, #b7ccd3 0%, #cbcac4 50%, #b7ccd3 100%);
 }

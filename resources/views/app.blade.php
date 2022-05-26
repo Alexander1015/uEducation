@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <!--Fonts-->
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <!-- Styles -->
+    <title>{{ config('app.name', 'uEducation') }}</title>
+    {{-- Fonts --}}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {{-- Styles --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
-
-    @yield('content')  
-    
-    <!-- Scripts -->
+    <div id="app">
+        {{-- Aqui va el contenido --}}
+    </div>
+    {{-- Scripts --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 

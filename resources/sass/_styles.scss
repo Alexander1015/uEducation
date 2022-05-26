@@ -1,0 +1,51 @@
+/* $white: #ffffff;
+$black: #000000;
+
+$primary: #66E8FF;
+$secondary: #CF9B93;
+$accent: #CFC6C2;
+$icons: #19060D;
+
+$nav1: #cbcac4;
+$nav2: #d0d5d9;
+$nav3: #b7ccd3;
+ */
+ 
+#body {
+    background-color: $white;
+    color: $black;
+    .icon-right {
+        margin-left: .5rem;
+    }
+    #toolbar {
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        background: $nav1;
+        background: linear-gradient(90deg, $nav1 0%, $nav2 50%, $nav3 100%);
+        .logo {
+            height: 100%;
+            padding-left: .5rem;
+            padding-right: .5rem;
+            text-decoration: none;
+            color: $black;
+            .logo_navbar {
+                float: left;
+                margin-right: .5rem;
+                margin-top: .1rem;
+            }
+            .title_navbar {
+                margin-left: .5rem;
+                margin-top: .7rem;
+            }
+        }
+        .btn-navbar {
+            height: 100%;
+            color: $black;
+        }
+    }
+    #footer {
+        background: $nav3;
+        background: linear-gradient(90deg, $nav3 0%, $nav1 50%, $nav3 100%);
+    }
+}
