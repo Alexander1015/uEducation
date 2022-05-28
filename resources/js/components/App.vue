@@ -1,50 +1,55 @@
 <template>
     <v-app id="body">
         <v-main>
-            <!-- Barra de Navegación -->
-            <v-toolbar dense flat pad dark elevation="1" id="toolbar">
-                <router-link to="/" class="logo">
-                    <v-img :src="navbar.logo" :lazy-src="navbar.logo" :width="navbar.width_logo" contain
-                        class="logo_navbar">
-                        <template v-slot:placeholder>
-                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                            </v-row>
-                        </template>
-                    </v-img>
-                    <v-toolbar-title class="title_navbar">uEducation</v-toolbar-title>
-                </router-link>
-
-                <v-spacer></v-spacer>
-
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn tile to="/" text class="btn-navbar" v-bind="attrs" v-on="on">
-                            <v-icon>home</v-icon>
+            <!-- Navbar Superior -->
+            <v-app-bar dense flat fixed class="bk_brown">
+                <v-app-bar-nav-icon @click.stop="nav = !nav">
+                    <v-icon class="txt_white">menu</v-icon>
+                </v-app-bar-nav-icon>
+                <div>
+                    <v-list-item class="bk_brown txt_white">
+                        <v-img :src='logo.img' :max-width='logo.width'></v-img>
+                        <v-list-item-content class="pl-6">
+                            <v-list-item-title class="text-h6">uEducation</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
+            </v-app-bar>
+            <!-- Navbar Lateral -->
+            <v-navigation-drawer v-model="nav" temporary dark fixed class="bk_blue">
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-icon>
+                            <v-icon>menu</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title class="text-h6">Menú</v-list-item-title>
+                        </v-list-item-content>
+                        <v-btn icon @click.stop="nav = !nav">
+                            <v-icon>arrow_back_ios_new</v-icon>
                         </v-btn>
-                    </template>
-                    <span>Inicio</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn tile to="/auth" text class="btn-navbar" v-bind="attrs" v-on="on">
-                            <v-icon>account_circle</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Ingresar</span>
-                </v-tooltip>
-            </v-toolbar>
-
+                    </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list nav dense>
+                    <div v-for="link in links" :key="links.title">
+                        <v-list-item link :to="link.to" class="mb-2">
+                            <v-list-item-icon>
+                                <v-icon>{{ link.icon }}</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-title>{{ link.title }}</v-list-item-title>
+                        </v-list-item>
+                    </div>
+                </v-list>
+            </v-navigation-drawer>
             <!-- Contenido -->
-            <v-container fluid>
+            <v-container id="container" fluid class="mt-11 mb-10">
                 <router-view></router-view>
             </v-container>
-            <!-- Fin de Contenido -->
-
             <!-- Footer -->
             <v-footer padless absolute>
-                <v-card id="footer" class="flex" flat tile>
-                    <v-card-text class="py-2 black--text text-center">
+                <v-card class="flex bk_brown" flat tile>
+                    <v-card-text class="py-2 text-center txt_white">
                         <strong>uEducation</strong> - {{ new Date().getFullYear() }}
                     </v-card-text>
                 </v-card>
@@ -57,10 +62,23 @@
 export default {
     name: "App",
     data: () => ({
-        navbar: {
-            logo: "./img/logo1.png",
-            width_logo: "50",
+        logo: {
+            img: "./img/logo/logo.png",
+            width: "40",
         },
+        links: [
+            { title: "Inicio", icon: "token", to: "/" },
+            { title: "Cursos/Materias", icon: "collections_bookmark", to: "/cursos" },
+            { title: "Iniciar Sesión", icon: "rocket_launch", to: "/auth" },
+            { title: "Registrarse", icon: "data_saver_on", to: "/register" },
+            { title: "Dashboard", icon: "dashboard", to: "/dashboard" },
+        ],
+        nav: false,
     }),
+    watch: {
+        group() {
+            this.nav = false
+        }
+    }
 }
 </script>

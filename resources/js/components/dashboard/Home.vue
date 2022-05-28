@@ -1,11 +1,9 @@
 <template>
-    <v-app>
-        <v-main>
-            <v-card class="mx-auto my-12">
-                <h1>Dashboard</h1>
-            </v-card>
-        </v-main>
-    </v-app>
+    <v-main>
+        <v-card class="ma-auto">
+            <h1>Dashboard</h1>
+        </v-card>
+    </v-main>
 </template>
 
 <script>
