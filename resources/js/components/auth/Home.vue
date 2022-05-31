@@ -38,13 +38,12 @@
                             <v-text-field v-model="form.password" type="password" :rules="passwordRules" label="Contraseña"
                                 hide-details="auto" required>
                             </v-text-field>
-                            <router-link :to="to.forget" class="a_to_remember mt-4">¿Olvido su contraseña?
                             </router-link>
-                            <v-btn class="mt-4 bk_brown txt_white btn_login" @click.prevent="loginUser" type="submit">
+                            <v-btn class="mt-4 bk_brown txt_white width_100" @click.prevent="loginUser" type="submit">
                                 Ingresar</v-btn>
                         </v-form>
                         <v-divider class="mt-4"></v-divider>
-                        <v-btn class="mt-4 bk_brown txt_white btn_login" :to="to.register">Registrarse</v-btn>
+                        <v-btn class="mt-4 bk_brown txt_white width_100" :to="to.register">Registrarse</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -55,6 +54,7 @@
 <script>
 export default {
     name: "HomeAuth",
+    inject: ['reload'],
     data: () => ({
         banner: {
             img: "/img/banner/banner-login.jpg",
@@ -68,7 +68,6 @@ export default {
             color: ""
         },
         to: {
-            forget: "/auth/remember",
             register: { name: "register" },
         },
         form: {
@@ -87,7 +86,7 @@ export default {
     }),
     methods: {
         async loginUser() {
-            this.loading = true;
+            this.overlay = true;
             if (this.$refs.form.validate()) {
                 await axios.post('/api/auth', this.form)
                     .then(response => {
@@ -95,7 +94,7 @@ export default {
                             console.log(response.data.message);
                             this.$refs.form.reset();
                             this.overlay = false;
-                            this.$router.push({ name: "dashboard" });
+                            window.location.href = "/"
                         }
                         else {
                             this.snackbar.color = "red darken-1";

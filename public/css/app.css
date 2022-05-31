@@ -14,19 +14,25 @@ $primary: #091E32;
 $secondary: #685B4D;
 */
 #body .bk_blue {
-  background: #091E32;
+  background: #091E32 !important;
 }
 #body .bk_brown {
-  background: #685B4D;
+  background: #685B4D !important;
 }
 #body .txt_white {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 #body .txt_black {
-  color: #000000;
+  color: #000000 !important;
 }
 #body .center {
-  text-align: center;
+  text-align: center !important;
+}
+#body .width_100 {
+  width: 100% !important;
+}
+#body .height_100 {
+  height: 100% !important;
 }
 #body .img_login {
   height: 100%;
@@ -35,12 +41,9 @@ $secondary: #685B4D;
 #body #container {
   width: 100vw;
 }
-#body #container .btn_login {
-  width: 100%;
-}
-#body #container .a_to_remember {
-  float: right;
-  font-size: 0.8rem;
-  font-style: italic;
-  text-decoration: none;
+
+@media screen and (max-width: 425px) {
+  .logo {
+    display: none;
+  }
 }

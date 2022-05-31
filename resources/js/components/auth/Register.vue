@@ -49,7 +49,7 @@
                             <v-text-field v-model="form.password_confirmation" type="password"
                                 :rules="passwordconfirmRules" label="Repita la contraseña" required>
                             </v-text-field>
-                            <v-btn class="mt-4 bk_brown txt_white btn_login" @click="registerUser">Registrarme</v-btn>
+                            <v-btn type="submit" class="mt-4 bk_brown txt_white width_100" @click="registerUser">Registrarme</v-btn>
                         </v-form>
                     </div>
                 </v-col>
