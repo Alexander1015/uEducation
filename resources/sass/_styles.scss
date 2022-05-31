@@ -36,5 +36,14 @@ $secondary: #685B4D;
     }
     #container {
         width: 100vw;
+        .btn_login {
+            width: 100%;
+        }
+        .a_to_remember {
+            float: right;
+            font-size: .8rem;
+            font-style: italic;
+            text-decoration: none;
+        }
     }
 }

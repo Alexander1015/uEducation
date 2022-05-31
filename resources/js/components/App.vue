@@ -7,8 +7,14 @@
                     <v-icon class="txt_white">menu</v-icon>
                 </v-app-bar-nav-icon>
                 <div>
-                    <v-list-item class="bk_brown txt_white">
-                        <v-img :src='logo.img' :max-width='logo.width'></v-img>
+                    <v-list-item class="bk_brown txt_white" to="/" exact>
+                        <v-img :src='logo.img' :max-width='logo.width' :lazy-src='logo.lazy'>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
                         <v-list-item-content class="pl-6">
                             <v-list-item-title class="text-h6">uEducation</v-list-item-title>
                         </v-list-item-content>
@@ -43,7 +49,7 @@
                 </v-list>
             </v-navigation-drawer>
             <!-- Contenido -->
-            <v-container id="container" fluid class="mt-11 mb-10">
+            <v-container id="container" fluid class="mt-9 mb-11 px-0">
                 <router-view></router-view>
             </v-container>
             <!-- Footer -->
@@ -63,15 +69,15 @@ export default {
     name: "App",
     data: () => ({
         logo: {
-            img: "./img/logo/logo.png",
+            img: "/img/logo/logo.png",
+            lazy: "/img/lazy/logo.png",
             width: "40",
         },
         links: [
             { title: "Inicio", icon: "token", to: "/" },
             { title: "Cursos/Materias", icon: "collections_bookmark", to: "/cursos" },
-            { title: "Iniciar Sesión", icon: "rocket_launch", to: "/auth" },
-            { title: "Registrarse", icon: "data_saver_on", to: "/register" },
-            { title: "Dashboard", icon: "dashboard", to: "/dashboard" },
+            { title: "Iniciar Sesión", icon: "rocket_launch", to: { name: "auth" } },
+            { title: "Dashboard", icon: "dashboard", to: { name: "dashboard" } },
         ],
         nav: false,
     }),

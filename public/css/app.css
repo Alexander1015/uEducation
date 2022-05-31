@@ -35,3 +35,12 @@ $secondary: #685B4D;
 #body #container {
   width: 100vw;
 }
+#body #container .btn_login {
+  width: 100%;
+}
+#body #container .a_to_remember {
+  float: right;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-decoration: none;
+}
