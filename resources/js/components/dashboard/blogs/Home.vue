@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: "HomeDashboard",
+    name: "HomeBlog",
     data: () => ({
         user: {
             firstname: "",

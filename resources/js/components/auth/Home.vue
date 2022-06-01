@@ -35,10 +35,9 @@
                             <v-text-field v-model="form.user" :rules="userRules" label="Usuario" hide-details="auto"
                                 required>
                             </v-text-field>
-                            <v-text-field v-model="form.password" type="password" :rules="passwordRules" label="Contraseña"
-                                hide-details="auto" required>
+                            <v-text-field v-model="form.password" type="password" :rules="passwordRules"
+                                label="Contraseña" hide-details="auto" required>
                             </v-text-field>
-                            </router-link>
                             <v-btn class="mt-4 bk_brown txt_white width_100" @click.prevent="loginUser" type="submit">
                                 Ingresar</v-btn>
                         </v-form>
@@ -54,7 +53,6 @@
 <script>
 export default {
     name: "HomeAuth",
-    inject: ['reload'],
     data: () => ({
         banner: {
             img: "/img/banner/banner-login.jpg",

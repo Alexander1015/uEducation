@@ -34,7 +34,7 @@
                         </v-card-title>
                         <v-card-subtitle class="center">Cree un usuario administrador nuevo</v-card-subtitle>
                         <!-- Formulario de ingreso -->
-                        <v-form ref="form" lazy-validation>
+                        <v-form ref="form" enctype="multipart/form-data" lazy-validation>
                             <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres" required>
                             </v-text-field>
                             <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos" required>
@@ -49,7 +49,11 @@
                             <v-text-field v-model="form.password_confirmation" type="password"
                                 :rules="passwordconfirmRules" label="Repita la contraseña" required>
                             </v-text-field>
-                            <v-btn type="submit" class="mt-4 bk_brown txt_white width_100" @click="registerUser">Registrarme</v-btn>
+                            <v-file-input v-model="form.avatar" label="Avatar" id="avatar" prepend-icon="photo_camera"
+                                :rules="avatarRules" accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
+                            </v-file-input>
+                            <v-btn class="mt-4 bk_brown txt_white width_100" @click="registerUser">
+                                Registrarme</v-btn>
                         </v-form>
                     </div>
                 </v-col>
@@ -84,6 +88,7 @@ export default {
             email: "",
             password: "",
             password_confirmation: "",
+            avatar: null,
         },
         firstnameRules: [
             v => !!v || 'Los nombres son requeridos',
@@ -109,13 +114,32 @@ export default {
         passwordconfirmRules: [
             v => !!v || 'La contraseña es requerida',
             v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
-        ]
+        ],
+        avatarRules: [
+            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+        ],
     }),
     methods: {
         async registerUser() {
             this.overlay = true;
+            //Mostramos los datos asi por la imagen
+            let data = new FormData();
+            data.append('firstname', this.form.firstname);
+            data.append('lastname', this.form.lastname);
+            data.append('user', this.form.user);
+            data.append('email', this.form.email);
+            data.append('password', this.form.password);
+            data.append('password_confirmation', this.form.password_confirmation);
+            this.form.avatar = document.querySelector('#avatar').files[0];
+            if (this.form.avatar) {
+                data.append('avatar', this.form.avatar);
+            }
             if (this.$refs.form.validate()) {
-                await this.axios.post('/api/user', this.form)
+                await this.axios.post('/api/user', data, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                     .then(response => {
                         if (response.data.complete) {
                             this.snackbar.color = "green darken-1";

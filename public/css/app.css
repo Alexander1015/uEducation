@@ -42,7 +42,7 @@ $secondary: #685B4D;
   width: 100vw;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
   .logo {
     display: none;
   }

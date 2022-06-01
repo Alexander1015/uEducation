@@ -25,7 +25,22 @@
                     <v-menu transition="slide-y-transition" offset-y>
                         <template v-slot:activator="{ on, attrs }">
                             <v-btn text v-bind="attrs" v-on="on" class="height_100 bk_brown txt_white" tile>
-                                <v-icon>account_circle</v-icon>
+                                <template v-if="user.avatar">
+                                    <v-list-item-avatar>
+                                        <v-img :src='"/img/users/" + user.avatar' :max-height='logo.height'
+                                            :lazy-src='"/img/lazy/users/" + user.avatar'>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </v-list-item-avatar>
+                                </template>
+                                <template v-else>
+                                    <v-icon v-icon>account_circle</v-icon>
+                                </template>
                                 <span class="ml-2 mr-1">{{ user.user }}</span>
                                 <v-icon>keyboard_arrow_down</v-icon>
                             </v-btn>
@@ -108,17 +123,19 @@ export default {
     data: () => ({
         user: {
             user: "",
+            avatar: null,
         },
         logo: {
             img: "/img/logo/logo.png",
             lazy: "/img/lazy/logo.png",
             width: "40",
+            height: "40",
         },
         links: [
             { title: "Inicio", icon: "token", to: "/", visible: true },
-            { title: "Cursos/Materias", icon: "collections_bookmark", to: "/cursos", visible: true },
+            { title: "Cursos/Materias", icon: "collections_bookmark", to: { name: "blogs" }, visible: true },
             { title: "Iniciar Sesión", icon: "rocket_launch", to: { name: "auth" }, visible: true },
-            { title: "Dashboard", icon: "dashboard", to: { name: "dashboard" }, visible: false },
+            { title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
         ],
         to: {
             perfil: { name: "profile" },

@@ -6,7 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 
 class UserController extends Controller
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(['id', 'firstname', 'lastname', 'user', 'email', 'password']);
+        $users = User::all(['id', 'firstname', 'lastname', 'user', 'email', 'password', 'avatar']);
         return response()->json($users);
     }
 
@@ -40,11 +41,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            /*
             'firstname' => ['bail', 'required', 'string', 'max:250'],
             'lastname' => ['bail', 'required', 'string', 'max:250'],
             'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
             'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email'],
             'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
+            */
+            'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
         ]);
         if ($validator->fails()) {
             if ($request->input('password') != $request->input('password_confirmation')) {
@@ -59,15 +63,44 @@ class UserController extends Controller
                 ]);
             }
         } else {
+            /*
+             * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
+             * y cambiar la linea: ;extension=gd a: extension=gd
+             * o: ;extension=gd2 a: extension=gd2
+            */
+            $new_avatar = "";
+            if ($request->file('avatar')) {
+                //Direccion de la imagen
+                $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            }
             $data = [
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
                 'user' => $request->input('user'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
+                'avatar' => $new_avatar,
             ];
             $user = User::create($data);
             if ($user) {
+                if ($request->file('avatar')) {
+                    $avatar = $request->file('avatar');
+                    //lazy
+                    $address_l = public_path('/img/users');
+                    if (!File::isDirectory($address_l)) {
+                        File::makeDirectory($address_l, 0777, true, true);
+                    }
+                    $img_l = Image::make($avatar->getRealPath())->resize(100, 100);
+                    $img_l->save($address_l . '/' . $new_avatar, 100);
+                    //original
+                    $address_o = public_path('/img/lazy/users');
+                    if (!File::isDirectory($address_o)) {
+                        File::makeDirectory($address_o, 0777, true, true);
+                    }
+                    $img_o = Image::make($avatar->getRealPath())->resize(100, 100);
+                    $img_o->save($address_o . '/' . $new_avatar, 100);
+
+                }
                 return response()->json([
                     'message' => 'Usuario creado exitosamente',
                     'complete' => true,
@@ -118,10 +151,12 @@ class UserController extends Controller
             'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
             'email' => ['bail', 'required', 'email', 'unique:users,email'],
             'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
+            'avatar' => ['image', 'mimes:jpeg,bmp,png', 'max:25600'],
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'mensaje' => 'Hay datos que no siguen el formato solicitado'
+                'message' => 'Hay datos que no siguen el formato solicitado',
+                'complete' => false,
             ]);
         } else {
             $data = [
@@ -135,11 +170,13 @@ class UserController extends Controller
             $user = User::create($data);
             if ($user) {
                 return response()->json([
-                    'mensaje' => 'Usuario actualizado exitosamente'
+                    'message' => 'Usuario actualizado exitosamente',
+                    'complete' => true,
                 ]);
             } else {
                 return response()->json([
-                    'mensaje' => 'Ha ocurrido un error al actualizar el usuario'
+                    'message' => 'Ha ocurrido un error al actualizar el usuario',
+                    'complete' => false,
                 ]);
             }
         }
