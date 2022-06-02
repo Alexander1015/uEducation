@@ -19,32 +19,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "HomeBlog",
-  data: function data() {
-    return {
-      user: {
-        firstname: "",
-        lastname: "",
-        user: "",
-        email: ""
-      }
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.axios.get('/api/auth').then(function (response) {
-      _this.user = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    });
-  }
+  name: "DashboardBlog"
 });
 
 /***/ }),
@@ -98,22 +74,15 @@ var render = function () {
   return _c(
     "v-main",
     [
-      _c("v-card", { staticClass: "ma-auto" }, [
-        _c("h1", [_vm._v("Dashboard")]),
-        _vm._v(" "),
-        _c("div", [
-          _vm._v(
-            "\n            Name: " +
-              _vm._s(_vm.user.firstname + " " + _vm.user.lastname) +
-              " "
-          ),
-          _c("br"),
-          _vm._v("\n            Usuario: " + _vm._s(_vm.user.user) + " "),
-          _c("br"),
-          _vm._v("\n            Email: " + _vm._s(_vm.user.email) + " "),
-          _c("br"),
-        ]),
-      ]),
+      _c(
+        "v-card",
+        { staticClass: "mx-auto mt-4 py-4", attrs: { "max-width": "374" } },
+        [
+          _c("p", { staticClass: "text-h6 center" }, [
+            _vm._v("Blogs de Dashboard"),
+          ]),
+        ]
+      ),
     ],
     1
   )

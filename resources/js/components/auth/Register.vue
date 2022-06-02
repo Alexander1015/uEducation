@@ -13,9 +13,9 @@
             </template>
         </v-snackbar>
         <!-- Contenido -->
-        <v-card class="mx-auto rounded mt-4" elevation="3" width="700">
+        <v-card class="mx-auto rounded mt-4" elevation="3" width="900">
             <v-row dense class="pl-1">
-                <v-col cols="4" class="bk_blue rounded-l">
+                <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
                     <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
                         <template v-slot:placeholder>
                             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -24,7 +24,7 @@
                         </template>
                     </v-img>
                 </v-col>
-                <v-col cols="8">
+                <v-col>
                     <div class="pb-4 mx-4">
                         <v-btn icon :to="to.auth" exact absolute>
                             <v-icon>keyboard_double_arrow_left</v-icon>
@@ -35,23 +35,52 @@
                         <v-card-subtitle class="center">Cree un usuario administrador nuevo</v-card-subtitle>
                         <!-- Formulario de ingreso -->
                         <v-form ref="form" enctype="multipart/form-data" lazy-validation>
-                            <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres" required>
-                            </v-text-field>
-                            <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos" required>
-                            </v-text-field>
-                            <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico" required>
-                            </v-text-field>
-                            <v-text-field v-model="form.user" :rules="userRules" label="Usuario" required>
-                            </v-text-field>
-                            <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                label="Contraseña" required>
-                            </v-text-field>
-                            <v-text-field v-model="form.password_confirmation" type="password"
-                                :rules="passwordconfirmRules" label="Repita la contraseña" required>
-                            </v-text-field>
-                            <v-file-input v-model="form.avatar" label="Avatar" id="avatar" prepend-icon="photo_camera"
-                                :rules="avatarRules" accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
-                            </v-file-input>
+                            <small class="required_txt">Obligatorio *</small>
+                            <v-row dense>
+                                <v-col cols="6">
+                                    <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres *"
+                                        required>
+                                    </v-text-field>
+                                    <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico *"
+                                        required>
+                                    </v-text-field>
+                                    <v-text-field v-model="form.password" type="password" :rules="passwordRules"
+                                        label="Contraseña *" required>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="6">
+                                    <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos *"
+                                        required>
+                                    </v-text-field>
+                                    <v-text-field v-model="form.user" :rules="userRules" label="Usuario *" required>
+                                    </v-text-field>
+                                    <v-text-field v-model="form.password_confirmation" type="password"
+                                        :rules="passwordconfirmRules" label="Repita la contraseña *" required>
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row dense>
+                                <v-col cols="12">
+                                    <v-file-input v-model="form.avatar" @change="preview_img"
+                                        label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                        prepend-icon="photo_camera" :rules="avatarRules"
+                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
+                                    </v-file-input>
+                                    <template v-if="prev_img.url_img">
+                                        <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar avatar
+                                        </v-btn>
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img" :lazy-src='prev_img.url_img'
+                                            :max-height="prev_img.height" :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </template>
+                                </v-col>
+                            </v-row>
                             <v-btn class="mt-4 bk_brown txt_white width_100" @click="registerUser">
                                 Registrarme</v-btn>
                         </v-form>
@@ -63,7 +92,6 @@
 </template>
 
 <script>
-
 export default {
     name: "RegisterAuth",
     data: () => ({
@@ -118,6 +146,11 @@ export default {
         avatarRules: [
             v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
         ],
+        prev_img: {
+            url_img: "",
+            height: 200,
+            width: 300,
+        }
     }),
     methods: {
         async registerUser() {
@@ -170,6 +203,13 @@ export default {
                 this.overlay = false;
             }
         },
+        preview_img() {
+            this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
+        },
+        clean_img() {
+            this.prev_img.url_img = "";
+            this.form.avatar = null;
+        }
     },
 }
 </script>

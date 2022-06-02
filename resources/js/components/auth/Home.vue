@@ -15,7 +15,7 @@
         <!-- Contenido -->
         <v-card class="mx-auto rounded mt-4" elevation="3" width="700">
             <v-row dense class="pl-1">
-                <v-col cols="4" class="bk_blue rounded-l">
+                <v-col cols="4" class="bk_blue rounded-l d-none d-sm-flex">
                     <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
                         <template v-slot:placeholder>
                             <v-row class="fill-height ma-0" align="center" justify="center">
@@ -24,21 +24,21 @@
                         </template>
                     </v-img>
                 </v-col>
-                <v-col cols="8">
+                <v-col>
                     <div class="py-6 mx-4">
                         <v-card-title class="text-h5">
                             <p class="mx-auto">Inicio de Sesión</p>
                         </v-card-title>
                         <v-card-subtitle class="center">Bienvenido a uEducation</v-card-subtitle>
                         <!-- Formulario de ingreso -->
-                        <v-form ref="form" lazy-validation>
+                        <v-form ref="form" @submit.prevent="loginUser" lazy-validation>
                             <v-text-field v-model="form.user" :rules="userRules" label="Usuario" hide-details="auto"
                                 required>
                             </v-text-field>
                             <v-text-field v-model="form.password" type="password" :rules="passwordRules"
                                 label="Contraseña" hide-details="auto" required>
                             </v-text-field>
-                            <v-btn class="mt-4 bk_brown txt_white width_100" @click.prevent="loginUser" type="submit">
+                            <v-btn class="mt-4 bk_brown txt_white width_100" type="submit">
                                 Ingresar</v-btn>
                         </v-form>
                         <v-divider class="mt-4"></v-divider>

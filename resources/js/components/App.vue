@@ -6,7 +6,7 @@
                 <v-app-bar-nav-icon @click.stop="nav = !nav">
                     <v-icon class="txt_white">menu</v-icon>
                 </v-app-bar-nav-icon>
-                <div class="logo">
+                <div class="d-none d-sm-flex">
                     <v-list-item class="bk_brown txt_white" to="/" exact>
                         <v-img :src='logo.img' :max-width='logo.width' :lazy-src='logo.lazy'>
                             <template v-slot:placeholder>
@@ -109,7 +109,13 @@
             <v-footer padless absolute>
                 <v-card class="flex bk_brown" flat tile>
                     <v-card-text class="py-2 text-center txt_white">
-                        <strong>uEducation</strong> - {{ new Date().getFullYear() }}
+                        <strong>uEducation</strong>
+                        <template v-if="today !== 2022">
+                            <span>(2022 - {{ today }})</span>
+                        </template>
+                        <template v-else>
+                            <span> - 2022</span>
+                        </template>
                     </v-card-text>
                 </v-card>
             </v-footer>
@@ -121,6 +127,7 @@
 export default {
     name: "App",
     data: () => ({
+        today: new Date().getFullYear(),
         user: {
             user: "",
             avatar: null,

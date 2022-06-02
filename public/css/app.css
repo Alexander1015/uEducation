@@ -1,15 +1,7 @@
 /*
-$oprimary: #66E8FF;
-$osecondary: #685B4D;
-$oaccent: #CFC6C2;
-$oicons: #19060D;
-
-$nav1: #cbcac4;
-$nav2: #d0d5d9;
-$nav3: #b7ccd3;
-
 $white: #ffffff;
 $black: #000000;
+$red: #CD1414;
 $primary: #091E32;
 $secondary: #685B4D;
 */
@@ -41,9 +33,7 @@ $secondary: #685B4D;
 #body #container {
   width: 100vw;
 }
-
-@media screen and (max-width: 500px) {
-  .logo {
-    display: none;
-  }
+#body #container .required_txt {
+  color: #CD1414;
+  font-style: italic;
 }

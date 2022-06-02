@@ -83,6 +83,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RegisterAuth",
   data: function data() {
@@ -146,7 +175,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       avatarRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
-      }]
+      }],
+      prev_img: {
+        url_img: "",
+        height: 200,
+        width: 300
+      }
     };
   },
   methods: {
@@ -227,6 +261,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    preview_img: function preview_img() {
+      this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
+    },
+    clean_img: function clean_img() {
+      this.prev_img.url_img = "";
+      this.form.avatar = null;
     }
   }
 });
@@ -762,7 +803,7 @@ var render = function () {
         "v-card",
         {
           staticClass: "mx-auto rounded mt-4",
-          attrs: { elevation: "3", width: "700" },
+          attrs: { elevation: "3", width: "900" },
         },
         [
           _c(
@@ -771,7 +812,10 @@ var render = function () {
             [
               _c(
                 "v-col",
-                { staticClass: "bk_blue rounded-l", attrs: { cols: "4" } },
+                {
+                  staticClass: "bk_blue rounded-l d-none d-md-flex",
+                  attrs: { cols: "4" },
+                },
                 [
                   _c("v-img", {
                     staticClass: "img_login",
@@ -807,7 +851,7 @@ var render = function () {
                 1
               ),
               _vm._v(" "),
-              _c("v-col", { attrs: { cols: "8" } }, [
+              _c("v-col", [
                 _c(
                   "div",
                   { staticClass: "pb-4 mx-4" },
@@ -844,116 +888,229 @@ var render = function () {
                         },
                       },
                       [
-                        _c("v-text-field", {
-                          attrs: {
-                            rules: _vm.firstnameRules,
-                            label: "Nombres",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.firstname,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "firstname", $$v)
-                            },
-                            expression: "form.firstname",
-                          },
-                        }),
+                        _c("small", { staticClass: "required_txt" }, [
+                          _vm._v("Obligatorio *"),
+                        ]),
                         _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            rules: _vm.lastnameRules,
-                            label: "Apellidos",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.lastname,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "lastname", $$v)
-                            },
-                            expression: "form.lastname",
-                          },
-                        }),
+                        _c(
+                          "v-row",
+                          { attrs: { dense: "" } },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.firstnameRules,
+                                    label: "Nombres *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.firstname,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "firstname", $$v)
+                                    },
+                                    expression: "form.firstname",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.emailRules,
+                                    label: "Correo electrónico *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.email,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "email", $$v)
+                                    },
+                                    expression: "form.email",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  attrs: {
+                                    type: "password",
+                                    rules: _vm.passwordRules,
+                                    label: "Contraseña *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.password,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "password", $$v)
+                                    },
+                                    expression: "form.password",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.lastnameRules,
+                                    label: "Apellidos *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.lastname,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "lastname", $$v)
+                                    },
+                                    expression: "form.lastname",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.userRules,
+                                    label: "Usuario *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.user,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "user", $$v)
+                                    },
+                                    expression: "form.user",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _c("v-text-field", {
+                                  attrs: {
+                                    type: "password",
+                                    rules: _vm.passwordconfirmRules,
+                                    label: "Repita la contraseña *",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.password_confirmation,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.form,
+                                        "password_confirmation",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "form.password_confirmation",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            rules: _vm.emailRules,
-                            label: "Correo electrónico",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.email,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "email", $$v)
-                            },
-                            expression: "form.email",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            rules: _vm.userRules,
-                            label: "Usuario",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.user,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "user", $$v)
-                            },
-                            expression: "form.user",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            type: "password",
-                            rules: _vm.passwordRules,
-                            label: "Contraseña",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.password,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "password", $$v)
-                            },
-                            expression: "form.password",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            type: "password",
-                            rules: _vm.passwordconfirmRules,
-                            label: "Repita la contraseña",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.password_confirmation,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "password_confirmation", $$v)
-                            },
-                            expression: "form.password_confirmation",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("v-file-input", {
-                          attrs: {
-                            label: "Avatar",
-                            id: "avatar",
-                            "prepend-icon": "photo_camera",
-                            rules: _vm.avatarRules,
-                            accept:
-                              "image/jpeg, image/jpg, image/png, image/gif, image/svg",
-                            "show-size": "",
-                          },
-                          model: {
-                            value: _vm.form.avatar,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "avatar", $$v)
-                            },
-                            expression: "form.avatar",
-                          },
-                        }),
+                        _c(
+                          "v-row",
+                          { attrs: { dense: "" } },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12" } },
+                              [
+                                _c("v-file-input", {
+                                  attrs: {
+                                    label:
+                                      "Haz clic(k) aquí para subir una imagen",
+                                    id: "avatar",
+                                    "prepend-icon": "photo_camera",
+                                    rules: _vm.avatarRules,
+                                    accept:
+                                      "image/jpeg, image/jpg, image/png, image/gif, image/svg",
+                                    "show-size": "",
+                                  },
+                                  on: { change: _vm.preview_img },
+                                  model: {
+                                    value: _vm.form.avatar,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "avatar", $$v)
+                                    },
+                                    expression: "form.avatar",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _vm.prev_img.url_img
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass:
+                                            "bk_brown txt_white width_100",
+                                          on: { click: _vm.clean_img },
+                                        },
+                                        [
+                                          _vm._v(
+                                            "Borrar avatar\n                                    "
+                                          ),
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-img", {
+                                        staticClass: "mt-4 mx-auto",
+                                        attrs: {
+                                          src: _vm.prev_img.url_img,
+                                          "lazy-src": _vm.prev_img.url_img,
+                                          "max-height": _vm.prev_img.height,
+                                          "max-width": _vm.prev_img.width,
+                                          contain: "",
+                                        },
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "placeholder",
+                                              fn: function () {
+                                                return [
+                                                  _c(
+                                                    "v-row",
+                                                    {
+                                                      staticClass:
+                                                        "fill-height ma-0",
+                                                      attrs: {
+                                                        align: "center",
+                                                        justify: "center",
+                                                      },
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-progress-circular",
+                                                        {
+                                                          attrs: {
+                                                            indeterminate: "",
+                                                            color:
+                                                              "grey lighten-5",
+                                                          },
+                                                        }
+                                                      ),
+                                                    ],
+                                                    1
+                                                  ),
+                                                ]
+                                              },
+                                              proxy: true,
+                                            },
+                                          ],
+                                          null,
+                                          false,
+                                          4034393411
+                                        ),
+                                      }),
+                                    ]
+                                  : _vm._e(),
+                              ],
+                              2
+                            ),
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "v-btn",

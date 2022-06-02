@@ -598,7 +598,10 @@ var render = function () {
             [
               _c(
                 "v-col",
-                { staticClass: "bk_blue rounded-l", attrs: { cols: "4" } },
+                {
+                  staticClass: "bk_blue rounded-l d-none d-sm-flex",
+                  attrs: { cols: "4" },
+                },
                 [
                   _c("v-img", {
                     staticClass: "img_login",
@@ -634,7 +637,7 @@ var render = function () {
                 1
               ),
               _vm._v(" "),
-              _c("v-col", { attrs: { cols: "8" } }, [
+              _c("v-col", [
                 _c(
                   "div",
                   { staticClass: "py-6 mx-4" },
@@ -651,7 +654,16 @@ var render = function () {
                     _vm._v(" "),
                     _c(
                       "v-form",
-                      { ref: "form", attrs: { "lazy-validation": "" } },
+                      {
+                        ref: "form",
+                        attrs: { "lazy-validation": "" },
+                        on: {
+                          submit: function ($event) {
+                            $event.preventDefault()
+                            return _vm.loginUser.apply(null, arguments)
+                          },
+                        },
+                      },
                       [
                         _c("v-text-field", {
                           attrs: {
@@ -691,12 +703,6 @@ var render = function () {
                           {
                             staticClass: "mt-4 bk_brown txt_white width_100",
                             attrs: { type: "submit" },
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.loginUser.apply(null, arguments)
-                              },
-                            },
                           },
                           [_vm._v("\n                            Ingresar")]
                         ),

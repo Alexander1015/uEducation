@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const Public = () => import ('./components/public/Home.vue')
+const PublicBlogs = () => import ('./components/public/blogs/Home.vue')
 const Auth = () => import ('./components/auth/Home.vue')
 const Register = () => import ('./components/auth/Register.vue')
-const Users = () => import ('./components/dashboard/users/Home.vue')
-const Blogs = () => import ('./components/dashboard/blogs/Home.vue')
+const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 
 export const routes = [
     {
@@ -24,12 +24,12 @@ export const routes = [
     },
     {
         name: 'blogs',
-        path: '/dashboard/blogs',
-        component: Blogs
+        path: '/blogs',
+        component: PublicBlogs
     }, {
         name: 'users',
         path: '/dashboard/users',
-        component: Users,
+        component: DashboardUsers,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()

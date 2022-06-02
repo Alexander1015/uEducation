@@ -1,34 +1,13 @@
 <template>
     <v-main>
-        <v-card class="ma-auto">
-            <h1>Dashboard</h1>
-            <div>
-                Name: {{ user.firstname + ' ' + user.lastname }} <br />
-                Usuario: {{ user.user }} <br />
-                Email: {{ user.email }} <br />
-            </div>
+        <v-card class="mx-auto mt-4 py-4" max-width="374">
+            <p class="text-h6 center">Blogs de Dashboard</p>
         </v-card>
     </v-main>
 </template>
 
 <script>
 export default {
-    name: "HomeBlog",
-    data: () => ({
-        user: {
-            firstname: "",
-            lastname: "",
-            user: "",
-            email: "",
-        },
-    }),
-    mounted() {
-        this.axios.get('/api/auth')
-            .then(response => {
-                this.user = response.data;
-            }).catch((error) => {
-                console.log(error);
-            });
-    }
+    name: "DashboardBlog",
 }
 </script>

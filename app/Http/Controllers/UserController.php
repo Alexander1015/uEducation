@@ -41,13 +41,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            /*
             'firstname' => ['bail', 'required', 'string', 'max:250'],
             'lastname' => ['bail', 'required', 'string', 'max:250'],
             'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
             'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email'],
             'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
-            */
             'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
         ]);
         if ($validator->fails()) {
@@ -85,21 +83,25 @@ class UserController extends Controller
             if ($user) {
                 if ($request->file('avatar')) {
                     $avatar = $request->file('avatar');
+                    $size = Image::make($avatar->getRealPath())->width();
                     //lazy
-                    $address_l = public_path('/img/users');
+                    $address_l = public_path('/img/lazy/users');
                     if (!File::isDirectory($address_l)) {
                         File::makeDirectory($address_l, 0777, true, true);
                     }
-                    $img_l = Image::make($avatar->getRealPath())->resize(100, 100);
+                    $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
                     $img_l->save($address_l . '/' . $new_avatar, 100);
                     //original
-                    $address_o = public_path('/img/lazy/users');
+                    $address_o = public_path('/img/users');
                     if (!File::isDirectory($address_o)) {
                         File::makeDirectory($address_o, 0777, true, true);
                     }
-                    $img_o = Image::make($avatar->getRealPath())->resize(100, 100);
+                    $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
                     $img_o->save($address_o . '/' . $new_avatar, 100);
-
                 }
                 return response()->json([
                     'message' => 'Usuario creado exitosamente',

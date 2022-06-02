@@ -5487,10 +5487,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
   data: function data() {
     return {
+      today: new Date().getFullYear(),
       user: {
         user: "",
         avatar: null
@@ -5668,6 +5675,10 @@ var Public = function Public() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_public_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Home.vue */ "./resources/js/components/public/Home.vue"));
 };
 
+var PublicBlogs = function PublicBlogs() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_public_blogs_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/blogs/Home.vue */ "./resources/js/components/public/blogs/Home.vue"));
+};
+
 var Auth = function Auth() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Home.vue */ "./resources/js/components/auth/Home.vue"));
 };
@@ -5676,12 +5687,8 @@ var Register = function Register() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Register.vue */ "./resources/js/components/auth/Register.vue"));
 };
 
-var Users = function Users() {
+var DashboardUsers = function DashboardUsers() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/Home.vue */ "./resources/js/components/dashboard/users/Home.vue"));
-};
-
-var Blogs = function Blogs() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_blogs_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/blogs/Home.vue */ "./resources/js/components/dashboard/blogs/Home.vue"));
 };
 
 var routes = [{
@@ -5698,12 +5705,12 @@ var routes = [{
   component: Register
 }, {
   name: 'blogs',
-  path: '/dashboard/blogs',
-  component: Blogs
+  path: '/blogs',
+  component: PublicBlogs
 }, {
   name: 'users',
   path: '/dashboard/users',
-  component: Users,
+  component: DashboardUsers,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();
@@ -30092,7 +30099,7 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "logo" },
+                { staticClass: "d-none d-sm-flex" },
                 [
                   _c(
                     "v-list-item",
@@ -30511,12 +30518,16 @@ var render = function () {
                     { staticClass: "py-2 text-center txt_white" },
                     [
                       _c("strong", [_vm._v("uEducation")]),
-                      _vm._v(
-                        " - " +
-                          _vm._s(new Date().getFullYear()) +
-                          "\n                "
-                      ),
-                    ]
+                      _vm._v(" "),
+                      _vm.today !== 2022
+                        ? [
+                            _c("span", [
+                              _vm._v("(2022 - " + _vm._s(_vm.today) + ")"),
+                            ]),
+                          ]
+                        : [_c("span", [_vm._v(" - 2022")])],
+                    ],
+                    2
                   ),
                 ],
                 1
@@ -57757,7 +57768,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_blogs_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
