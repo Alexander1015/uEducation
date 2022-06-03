@@ -1,4 +1,4 @@
-# uEducation :student: :teacher: :man_student: :woman_student:
+# uEducation :student: :man_student: :woman_student:
 uEducation es una aplicacion web que le permitira a los docentes el crear blogs de diferentes temas, de acuerdo a las materias que se encuentren en la misma, permitiendole al estudiante, poder leer cada blog que ha sido creada.
 
 ## Para comenzar :school:
