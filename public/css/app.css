@@ -11,14 +11,20 @@ $secondary: #685B4D;
 #body .bk_brown {
   background: #685B4D !important;
 }
+#body .bk_red {
+  background: #CD1414 !important;
+}
 #body .txt_white {
   color: #ffffff !important;
 }
 #body .txt_black {
   color: #000000 !important;
 }
-#body .center {
-  text-align: center !important;
+#body .txt_red {
+  color: #CD1414 !important;
+}
+#body .txt_blue {
+  color: #091E32 !important;
 }
 #body .width_100 {
   width: 100% !important;
@@ -32,10 +38,6 @@ $secondary: #685B4D;
 }
 #body #container {
   width: 100vw;
-}
-#body #container .required_txt {
-  color: #CD1414;
-  font-style: italic;
 }
 #body #container .new_btn {
   position: absolute;

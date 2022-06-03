@@ -30,14 +30,14 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">Inicio de Sesión</p>
                         </v-card-title>
-                        <v-card-subtitle class="center">Bienvenido a uEducation</v-card-subtitle>
+                        <v-card-subtitle class="text-center">Bienvenido a uEducation</v-card-subtitle>
                         <!-- Formulario de ingreso -->
                         <v-form ref="form" @submit.prevent="loginUser" lazy-validation>
                             <v-text-field v-model="form.user" :rules="userRules" label="Usuario" hide-details="auto"
-                                required>
+                                tabindex="1" required>
                             </v-text-field>
                             <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                label="Contraseña" hide-details="auto" required>
+                                label="Contraseña" hide-details="auto" tabindex="2" required>
                             </v-text-field>
                             <v-btn class="mt-4 bk_brown txt_white width_100" type="submit">
                                 Ingresar</v-btn>

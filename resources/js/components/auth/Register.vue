@@ -33,30 +33,32 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">Registro</p>
                         </v-card-title>
-                        <v-card-subtitle class="center">Cree un usuario administrador nuevo</v-card-subtitle>
+                        <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
                         <!-- Formulario de ingreso -->
                         <v-form ref="form" enctype="multipart/form-data" lazy-validation>
-                            <small class="required_txt">Obligatorio *</small>
+                            <small class="font-italic txt_red">Obligatorio *</small>
                             <v-row dense>
                                 <v-col cols="6">
                                     <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres *"
-                                        required>
+                                        tabindex="1" required>
                                     </v-text-field>
                                     <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico *"
-                                        required>
+                                        tabindex="3" required>
                                     </v-text-field>
                                     <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                        label="Contraseña *" required>
+                                        label="Contraseña *" tabindex="5" required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="6">
                                     <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos *"
+                                        tabindex="2" required>
+                                    </v-text-field>
+                                    <v-text-field v-model="form.user" tabindex="4" :rules="userRules" label="Usuario *"
                                         required>
                                     </v-text-field>
-                                    <v-text-field v-model="form.user" :rules="userRules" label="Usuario *" required>
-                                    </v-text-field>
                                     <v-text-field v-model="form.password_confirmation" type="password"
-                                        :rules="passwordconfirmRules" label="Repita la contraseña *" required>
+                                        :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="6"
+                                        required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -65,7 +67,7 @@
                                     <v-file-input v-model="form.avatar" @change="preview_img"
                                         label="Haz clic(k) aquí para subir una imagen" id="avatar"
                                         prepend-icon="photo_camera" :rules="avatarRules"
-                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
+                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" tabindex="7" show-size>
                                     </v-file-input>
                                     <template v-if="prev_img.url_img">
                                         <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar avatar

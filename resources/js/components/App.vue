@@ -153,23 +153,26 @@ export default {
         logout() {
             this.axios.post('/api/logout')
                 .then(response => {
-                    window.location.href = "auth"
+                    window.location.href = "/auth"
+                }).catch((error) => {
+                    console.log(error);
+                });
+        },
+        async login() {
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    this.user = response.data;
+                    if (this.user.user) {
+                        this.links[2].visible = false;
+                        this.links[3].visible = true;
+                    }
                 }).catch((error) => {
                     console.log(error);
                 });
         },
     },
     mounted() {
-        this.axios.get('/api/auth')
-            .then(response => {
-                this.user = response.data;
-                if (this.user.user) {
-                    this.links[2].visible = false;
-                    this.links[3].visible = true;
-                }
-            }).catch((error) => {
-                console.log(error);
-            });
+        this.login()
     },
     watch: {
         group() {

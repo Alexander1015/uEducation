@@ -78,7 +78,7 @@ var render = function () {
         "v-card",
         { staticClass: "mx-auto mt-4 py-4", attrs: { "max-width": "374" } },
         [
-          _c("p", { staticClass: "text-h6 center" }, [
+          _c("p", { staticClass: "text-h6 text-center" }, [
             _vm._v("Página Principal"),
           ]),
         ]

@@ -647,7 +647,7 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("v-card-subtitle", { staticClass: "center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-center" }, [
                       _vm._v("Bienvenido a uEducation"),
                     ]),
                     _vm._v(" "),
@@ -669,6 +669,7 @@ var render = function () {
                             rules: _vm.userRules,
                             label: "Usuario",
                             "hide-details": "auto",
+                            tabindex: "1",
                             required: "",
                           },
                           model: {
@@ -686,6 +687,7 @@ var render = function () {
                             rules: _vm.passwordRules,
                             label: "Contraseña",
                             "hide-details": "auto",
+                            tabindex: "2",
                             required: "",
                           },
                           model: {

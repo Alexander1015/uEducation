@@ -13,14 +13,20 @@ $secondary: #685B4D;
     .bk_brown {
         background: $secondary !important;
     }
+    .bk_red {
+        background: $red !important;
+    }
     .txt_white {
         color: $white !important;
     }
     .txt_black {
         color: $black !important;
     }
-    .center {
-        text-align: center !important;
+    .txt_red {
+        color: $red !important;;
+    }
+    .txt_blue {
+        color: $primary !important;
     }
     .width_100 {
         width: 100% !important;
@@ -34,10 +40,6 @@ $secondary: #685B4D;
     }
     #container {
         width: 100vw;
-        .required_txt {
-            color: $red;
-            font-style: italic;
-        }
         .new_btn {
             position: absolute;
             top: 0;
