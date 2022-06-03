@@ -29,4 +29,4 @@ Mira el archivo [LICENSE]() para mas detalles :scroll:
 
 ## Enlaces de interés :electron:
 * Trello: [Tablero :bookmark:](https://trello.com/b/yRHovYdy/ueducation)
-* Mock Ups: []()
+* Mock Ups: [Archivo PDF :spiral_notepad:](MockUps - uEducation.pdf)
