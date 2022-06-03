@@ -4,6 +4,7 @@
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
+        <!-- Snackbar -->
         <v-snackbar v-model="snackbar.active" :color="snackbar.color" :timeout="snackbar.timeout" top elevation="24">
             {{ snackbar.text }}
             <template v-slot:action="{ attrs }">

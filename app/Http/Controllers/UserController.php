@@ -148,39 +148,44 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
-            'firstname' => ['bail', 'required', 'string', 'max:200'],
-            'lastname' => ['bail', 'required', 'string', 'max:200'],
+            'firstname' => ['bail', 'required', 'string', 'max:250'],
+            'lastname' => ['bail', 'required', 'string', 'max:250'],
             'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
-            'email' => ['bail', 'required', 'email', 'unique:users,email'],
-            'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
-            'avatar' => ['image', 'mimes:jpeg,bmp,png', 'max:25600'],
+            'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email'],
+            'password' => ['bail', 'sometimes', 'string', 'min:8', 'max:50', 'confirmed'],
+            'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Hay datos que no siguen el formato solicitado',
-                'complete' => false,
-            ]);
+            if ($request->input('password') && $request->input('password') != $request->input('password_confirmation')) {
+                return response()->json([
+                    'message' => 'Las contraseñas ingresadas no son iguales',
+                    'complete' => false,
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Hay datos que no siguen el formato solicitado',
+                    'complete' => false,
+                ]);
+            }
         } else {
+            $new_avatar = "";
+            if ($request->file('avatar')) {
+                //Direccion de la imagen
+                $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            }
             $data = [
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
                 'user' => $request->input('user'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
+                'avatar' => $new_avatar,
             ];
             $user->fill($data)->save();
-            $user = User::create($data);
-            if ($user) {
-                return response()->json([
-                    'message' => 'Usuario actualizado exitosamente',
-                    'complete' => true,
-                ]);
-            } else {
-                return response()->json([
-                    'message' => 'Ha ocurrido un error al actualizar el usuario',
-                    'complete' => false,
-                ]);
-            }
+            return response()->json([
+                'message' => 'Usuario actualizado exitosamente',
+                'complete' => true,
+            ]);
         }
     }
 

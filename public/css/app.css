@@ -37,3 +37,8 @@ $secondary: #685B4D;
   color: #CD1414;
   font-style: italic;
 }
+#body #container .new_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

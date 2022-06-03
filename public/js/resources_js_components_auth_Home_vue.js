@@ -71,6 +71,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeAuth",
   data: function data() {
@@ -96,8 +97,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: "",
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
-      errors: [],
-      loading: false,
       userRules: [function (v) {
         return !!v || 'El usuario es requerido';
       }],
