@@ -1,0 +1,4 @@
+Si da error 500 al guardar una imagen (Ejem. al registrar un usuario),
+se debe cambiar el archivo php.ini del servidor
+y cambiar la linea: ;extension=gd a: extension=gd
+o: ;extension=gd2 a: extension=gd2

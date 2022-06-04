@@ -4,15 +4,6 @@
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
-        <!-- Snackbar -->
-        <v-snackbar v-model="snackbar.active" :color="snackbar.color" :timeout="snackbar.timeout" top elevation="24">
-            {{ snackbar.text }}
-            <template v-slot:action="{ attrs }">
-                <v-btn class="txt_white" icon v-bind="attrs" @click="snackbar.active = false">
-                    <v-icon>close</v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
         <!-- Contenido -->
         <v-card class="mx-auto rounded mt-4" elevation="3" width="700">
             <v-row dense class="pl-1">
@@ -60,11 +51,9 @@ export default {
             lazy: "/img/lazy/banner-login.jpg",
         },
         overlay: false,
-        snackbar: {
-            active: false,
-            text: "Mensaje",
-            timeout: 2000,
-            color: ""
+        sweet: {
+            icon: "error",
+            title: "Error",
         },
         to: {
             register: { name: "register" },
@@ -88,22 +77,29 @@ export default {
                 await axios.post('/api/auth', this.form)
                     .then(response => {
                         if (response.data.complete) {
-                            console.log(response.data.message);
                             this.$refs.form.reset();
                             this.overlay = false;
                             window.location.href = "/"
                         }
                         else {
-                            this.snackbar.color = "red darken-1";
-                            this.snackbar.text = response.data.message;
+                            this.sweet.title = "Error"
+                            this.sweet.icon = "error";
+                            this.$swal({
+                                title: this.sweet.title,
+                                icon: this.sweet.icon,
+                                text: response.data.message,
+                            });
                             this.overlay = false;
-                            this.snackbar.active = true;
                         }
                     }).catch((error) => {
-                        this.snackbar.color = "red darken-1"
-                        this.snackbar.text = error;
+                        this.sweet.title = "Error"
+                        this.sweet.icon = "error";
+                        this.$swal({
+                            title: this.sweet.title,
+                            icon: this.sweet.icon,
+                            text: error,
+                        });
                         this.overlay = false;
-                        this.snackbar.active = true;
                     });
             }
             else {

@@ -4,19 +4,10 @@
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
-        <!-- Snackbar -->
-        <v-snackbar v-model="snackbar.active" :color="snackbar.color" :timeout="snackbar.timeout" top elevation="24">
-            {{ snackbar.text }}
-            <template v-slot:action="{ attrs }">
-                <v-btn class="txt_white" icon v-bind="attrs" @click="snackbar.active = false">
-                    <v-icon>close</v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
         <!-- Contenido -->
         <div class="mx-2 my-2">
             <p class="text-h5 my-4 ml-2">Usuarios / Docentes</p>
-            <v-btn class="mr-10 my-2 new_btn txt_white" large color="teal" :to='{ name: "newUsers" }'>
+            <v-btn class="mr-10 my-2 new_btn txt_white bk_green" large :to='{ name: "newUsers" }'>
                 <v-icon class="mr-2">person_add</v-icon>
                 Nuevo
             </v-btn>
@@ -47,7 +38,7 @@
                             </v-list-item-avatar>
                         </template>
                         <template v-else>
-                            <v-icon>account_circle</v-icon>
+                            <v-icon class="ml-2">account_circle</v-icon>
                         </template>
                     </template>
                     <template v-slot:item.actions="{ item }">
@@ -61,7 +52,8 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon small class="mr-2 txt_red" @click="deleteUser(item.id)" v-bind="attrs" v-on="on">
+                                <v-icon small class="mr-2 txt_red" @click="deleteUser(item.id)" v-bind="attrs"
+                                    v-on="on">
                                     delete
                                 </v-icon>
                             </template>
@@ -81,19 +73,17 @@ export default {
     name: "HomeUser",
     data: () => ({
         overlay: false,
-        snackbar: {
-            active: false,
-            text: "Mensaje",
-            timeout: 2000,
-            color: ""
+        sweet: {
+            icon: "error",
+            title: "Error",
         },
         loading_table: true,
         headers: [
+            { text: 'Avatar', value: 'avatar', sortable: false },
             { text: 'Nombres', value: 'firstname' },
             { text: 'Apellidos', value: 'lastname' },
             { text: 'Correo Electrónico', value: 'email' },
             { text: 'Usuario', value: 'user' },
-            { text: 'Avatar', value: 'avatar' },
             { text: 'Acciones', value: 'actions', sortable: false },
         ],
         avatar_height: 40,
@@ -118,27 +108,47 @@ export default {
             // Aqui va codigo para actualizar un Usuario
         },
         deleteUser(item) {
-            if (confirm("¿Esta seguro de eliminar el registro?, esta acción no se puede revertir")) {
-                this.overlay = true;
-                this.axios.delete('/api/user/' + item)
-                    .then(response => {
-                       if (response.data.complete) {
-                            this.snackbar.color = "green darken-1";
-                            // Borramos los datos de los input
-                            this.$refs.form.reset();
-                        }
-                        this.snackbar.text = response.data.message;
-                        this.snackbar.active = true;
-                        this.overlay = false;
-                        this.allUsers()
-                    })
-                    .catch(error => {
-                        this.snackbar.color = "red darken-1"
-                        this.snackbar.text = error;
-                        this.overlay = false;
-                        this.snackbar.active = true;
-                    })
-            }
+            this.$swal({
+                title: '¿Esta seguro de eliminar el usuario?',
+                text: "Esta acción no se puede revertir.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        this.axios.delete('/api/user/' + item)
+                            .then(response => {
+                                if (response.data.complete) {
+                                    this.sweet.title = "Éxito"
+                                    this.sweet.icon = "success";
+                                }
+                                else {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                }
+                                this.$swal({
+                                    title: this.sweet.title,
+                                    icon: this.sweet.icon,
+                                    text: response.data.message,
+                                });
+                                this.overlay = false;
+                                this.allUsers()
+                            })
+                            .catch(error => {
+                                this.sweet.title = "Error"
+                                this.sweet.icon = "error";
+                                this.$swal({
+                                    title: this.sweet.title,
+                                    icon: this.sweet.icon,
+                                    text: error,
+                                });
+                                this.overlay = false;
+                            });
+                    }
+                });
         }
     },
 }

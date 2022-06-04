@@ -2,6 +2,7 @@
 $white: #ffffff;
 $black: #000000;
 $red: #CD1414;
+$green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
 */
@@ -16,6 +17,9 @@ $secondary: #685B4D;
     .bk_red {
         background: $red !important;
     }
+    .bk_green {
+        background: $green !important;
+    }
     .txt_white {
         color: $white !important;
     }
@@ -24,6 +28,9 @@ $secondary: #685B4D;
     }
     .txt_red {
         color: $red !important;;
+    }
+    .txt_green {
+        color: $green !important;;
     }
     .txt_blue {
         color: $primary !important;

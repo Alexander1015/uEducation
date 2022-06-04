@@ -4,15 +4,6 @@
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
-        <!-- Snackbar -->
-        <v-snackbar v-model="snackbar.active" :color="snackbar.color" :timeout="snackbar.timeout" top elevation="24">
-            {{ snackbar.text }}
-            <template v-slot:action="{ attrs }">
-                <v-btn class="txt_white" icon v-bind="attrs" @click="snackbar.active = false">
-                    <v-icon>close</v-icon>
-                </v-btn>
-            </template>
-        </v-snackbar>
         <!-- Contenido -->
         <v-card class="mx-auto rounded mt-4" elevation="3" width="900">
             <v-row dense class="pl-1">
@@ -67,7 +58,8 @@
                                     <v-file-input v-model="form.avatar" @change="preview_img"
                                         label="Haz clic(k) aquí para subir una imagen" id="avatar"
                                         prepend-icon="photo_camera" :rules="avatarRules"
-                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" tabindex="7" show-size>
+                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" tabindex="7"
+                                        show-size>
                                     </v-file-input>
                                     <template v-if="prev_img.url_img">
                                         <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar avatar
@@ -106,11 +98,9 @@ export default {
             auth: { name: "auth" },
         },
         overlay: false,
-        snackbar: {
-            active: false,
-            text: "Mensaje",
-            timeout: 2000,
-            color: ""
+        sweet: {
+            icon: "error",
+            title: "Error",
         },
         form: {
             firstname: "",
@@ -157,50 +147,67 @@ export default {
     }),
     methods: {
         async registerUser() {
-            this.overlay = true;
-            //Mostramos los datos asi por la imagen
-            let data = new FormData();
-            data.append('firstname', this.form.firstname);
-            data.append('lastname', this.form.lastname);
-            data.append('user', this.form.user);
-            data.append('email', this.form.email);
-            data.append('password', this.form.password);
-            data.append('password_confirmation', this.form.password_confirmation);
-            this.form.avatar = document.querySelector('#avatar').files[0];
-            if (this.form.avatar) {
-                data.append('avatar', this.form.avatar);
-            }
             if (this.$refs.form.validate()) {
-                await this.axios.post('/api/user', data, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
+                await this.$swal({
+                    title: '¿Esta seguro de crear el usuario?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
                 })
-                    .then(response => {
-                        if (response.data.complete) {
-                            this.snackbar.color = "green darken-1";
-                            // Borramos los datos de los input
-                            this.$refs.form.reset();
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            //Mostramos los datos asi por la imagen
+                            let data = new FormData();
+                            data.append('firstname', this.form.firstname);
+                            data.append('lastname', this.form.lastname);
+                            data.append('user', this.form.user);
+                            data.append('email', this.form.email);
+                            data.append('password', this.form.password);
+                            data.append('password_confirmation', this.form.password_confirmation);
+                            this.form.avatar = document.querySelector('#avatar').files[0];
+                            if (this.form.avatar) {
+                                data.append('avatar', this.form.avatar);
+                            }
+                            this.axios.post('/api/user', data, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                            })
+                                .then(response => {
+                                    if (response.data.complete) {
+                                        this.sweet.title = "Éxito"
+                                        this.sweet.icon = "success";
+                                    }
+                                    else {
+                                        this.sweet.title = "Error"
+                                        this.sweet.icon = "error";
+                                    }
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: response.data.message,
+                                    });
+                                    if (response.data.complete) {
+                                        setTimeout(() => {
+                                            this.overlay = false;
+                                            window.location.href = "/dashboard/users"
+                                        }, 2000);
+                                    }
+                                    else this.overlay = false;
+                                }).catch(error => {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: error,
+                                    });
+                                    this.overlay = false;
+                                })
                         }
-                        else this.snackbar.color = "red darken-1";
-                        this.snackbar.text = response.data.message;
-                        if (response.data.complete) {
-                            this.snackbar.active = true;
-                            setTimeout(() => {
-                                this.overlay = false;
-                                this.$router.push({ name: "auth" });
-                            }, 2000);
-                        }
-                        else {
-                            this.overlay = false;
-                            this.snackbar.active = true;
-                        }
-                    }).catch(error => {
-                        this.snackbar.color = "red darken-1"
-                        this.snackbar.text = error;
-                        this.overlay = false;
-                        this.snackbar.active = true;
-                    })
+                    });
             }
             else {
                 this.overlay = false;

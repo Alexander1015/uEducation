@@ -197,10 +197,37 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return response()->json([
-            'message' => 'Usuario eliminado exitosamente',
-            'complete' => true,
-        ]);
+        $user_auth = auth()->user()->id;
+        if($user_auth  == $user->id) {
+            return response()->json([
+                'message' => "No puede eliminar su propio usuario.",
+                'complete' => false,
+            ]);
+        }
+        else {
+            $total = sizeof(User::all(['id']));
+            if ($total <= 1) {
+                return response()->json([
+                    'message' => "No puede eliminar el ultimo usuario de la aplicación, si desea eliminarlo, cree uno nuevo y luego elimine el deseado.",
+                    'complete' => false,
+                ]);
+            }
+            else {
+                $exists = User::where('id', $user->id)->first();
+                if (sizeof($exists) > 0) {
+                    $user->delete();
+                    return response()->json([
+                        'message' => 'Usuario eliminado exitosamente',
+                        'complete' => true,
+                    ]);
+                }
+                else {
+                    return response()->json([
+                        'message' => "El usuario ingresado no existe",
+                        'complete' => false,
+                    ]);
+                }
+            }
+        }
     }
 }

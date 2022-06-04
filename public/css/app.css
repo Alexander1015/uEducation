@@ -2,6 +2,7 @@
 $white: #ffffff;
 $black: #000000;
 $red: #CD1414;
+$green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
 */
@@ -14,6 +15,9 @@ $secondary: #685B4D;
 #body .bk_red {
   background: #CD1414 !important;
 }
+#body .bk_green {
+  background: #009664 !important;
+}
 #body .txt_white {
   color: #ffffff !important;
 }
@@ -22,6 +26,9 @@ $secondary: #685B4D;
 }
 #body .txt_red {
   color: #CD1414 !important;
+}
+#body .txt_green {
+  color: #009664 !important;
 }
 #body .txt_blue {
   color: #091E32 !important;
