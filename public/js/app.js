@@ -5730,6 +5730,10 @@ var NewUser = function NewUser() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_newUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/newUser.vue */ "./resources/js/components/dashboard/users/newUser.vue"));
 };
 
+var editUser = function editUser() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_editUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/editUser.vue */ "./resources/js/components/dashboard/users/editUser.vue"));
+};
+
 var routes = [{
   name: 'public',
   path: '/',
@@ -5751,9 +5755,13 @@ var routes = [{
   path: '/dashboard/users',
   component: DashboardUsers,
   children: [{
-    name: 'newUsers',
+    name: 'newUser',
     path: '/dashboard/users/new',
     component: NewUser
+  }, {
+    name: 'editUser',
+    path: '/dashboard/users/edit',
+    component: editUser
   }],
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
@@ -57877,7 +57885,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_newUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_newUser_vue":1,"resources_js_components_dashboard_users_editUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

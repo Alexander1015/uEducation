@@ -192,7 +192,7 @@ export default {
                                     if (response.data.complete) {
                                         setTimeout(() => {
                                             this.overlay = false;
-                                            window.location.href = "/dashboard/users"
+                                            this.$router.push({ name: 'auth' });
                                         }, 2000);
                                     }
                                     else this.overlay = false;

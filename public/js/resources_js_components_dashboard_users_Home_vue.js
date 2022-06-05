@@ -89,6 +89,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -122,10 +127,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       avatar_height: 40,
       search: '',
-      data: []
+      data: [],
+      user: {
+        id: "",
+        user: ""
+      }
     };
   },
   mounted: function mounted() {
+    this.login();
     this.allUsers();
   },
   methods: {
@@ -153,54 +163,97 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    editUser: function editUser(item) {// Aqui va codigo para actualizar un Usuario
-    },
-    deleteUser: function deleteUser(item) {
+    login: function login() {
       var _this2 = this;
 
-      this.$swal({
-        title: '¿Esta seguro de eliminar el usuario?',
-        text: "Esta acción no se puede revertir.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'Cancelar'
-      }).then(function (result) {
-        if (result.isConfirmed) {
-          _this2.overlay = true;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.axios.get('/api/auth').then(function (response) {
+                  _this2.user = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
 
-          _this2.axios["delete"]('/api/user/' + item).then(function (response) {
-            if (response.data.complete) {
-              _this2.sweet.title = "Éxito";
-              _this2.sweet.icon = "success";
-            } else {
-              _this2.sweet.title = "Error";
-              _this2.sweet.icon = "error";
+              case 2:
+              case "end":
+                return _context2.stop();
             }
-
-            _this2.$swal({
-              title: _this2.sweet.title,
-              icon: _this2.sweet.icon,
-              text: response.data.message
-            });
-
-            _this2.overlay = false;
-
-            _this2.allUsers();
-          })["catch"](function (error) {
-            _this2.sweet.title = "Error";
-            _this2.sweet.icon = "error";
-
-            _this2.$swal({
-              title: _this2.sweet.title,
-              icon: _this2.sweet.icon,
-              text: error
-            });
-
-            _this2.overlay = false;
-          });
+          }
+        }, _callee2);
+      }))();
+    },
+    editUser: function editUser(item) {
+      this.$router.push({
+        name: "editUser",
+        params: {
+          id: item
         }
       });
+    },
+    deleteUser: function deleteUser(item) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this3.$swal({
+                  title: '¿Esta seguro de eliminar el usuario?',
+                  text: "Esta acción no se puede revertir.",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this3.overlay = true;
+
+                    _this3.axios["delete"]('/api/user/' + item).then(function (response) {
+                      if (response.data.complete) {
+                        _this3.sweet.title = "Éxito";
+                        _this3.sweet.icon = "success";
+                      } else {
+                        _this3.sweet.title = "Error";
+                        _this3.sweet.icon = "error";
+                      }
+
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
+                        text: response.data.message
+                      });
+
+                      _this3.overlay = false;
+
+                      _this3.allUsers();
+                    })["catch"](function (error) {
+                      _this3.sweet.title = "Error";
+                      _this3.sweet.icon = "error";
+
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
+                        text: error
+                      });
+
+                      _this3.overlay = false;
+                    });
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   }
 });
@@ -1007,7 +1060,7 @@ var render = function () {
             "v-btn",
             {
               staticClass: "mr-10 my-2 new_btn txt_white bk_green",
-              attrs: { large: "", to: { name: "newUsers" } },
+              attrs: { large: "", to: { name: "newUser" } },
             },
             [
               _c("v-icon", { staticClass: "mr-2" }, [_vm._v("person_add")]),
@@ -1148,7 +1201,7 @@ var render = function () {
                                               attrs: { small: "" },
                                               on: {
                                                 click: function ($event) {
-                                                  return _vm.editUser(item)
+                                                  return _vm.editUser(item.id)
                                                 },
                                               },
                                             },

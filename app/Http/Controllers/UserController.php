@@ -49,7 +49,19 @@ class UserController extends Controller
             'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
         ]);
         if ($validator->fails()) {
-            if ($request->input('password') != $request->input('password_confirmation')) {
+            $old_user = User::where('user', $request->input('user'))->first();
+            $old_email = User::where('email', $request->input('email'))->first();
+            if ($old_user->user) {
+                return response()->json([
+                    'message' => 'El usuario ingresado ya existe',
+                    'complete' => false,
+                ]);
+            } else if ($old_email->email) {
+                return response()->json([
+                    'message' => 'El correo electrónico ingresado ya existe',
+                    'complete' => false,
+                ]);
+            } else if ($request->input('password') != $request->input('password_confirmation')) {
                 return response()->json([
                     'message' => 'Las contraseñas ingresadas no son iguales',
                     'complete' => false,
@@ -147,29 +159,59 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // $2y$10$IZLfJyPdNVEF2l4pxfBH/up1s216pU5dLpGNDk.OCmaHiknSdG5lm
         $validator = Validator::make($request->all(), [
             'firstname' => ['bail', 'required', 'string', 'max:250'],
             'lastname' => ['bail', 'required', 'string', 'max:250'],
             'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
             'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email'],
-            'password' => ['bail', 'sometimes', 'string', 'min:8', 'max:50', 'confirmed'],
             'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
+            'avatar_new' => ['bail', 'sometimes', 'boolean'],
         ]);
+        $validate = 0;
         if ($validator->fails()) {
-            if ($request->input('password') && $request->input('password') != $request->input('password_confirmation')) {
+            $old = User::where('id', $user->id)->first();
+            if ($old->user == $user->user) {
+                $validate = 0;
+            } else if ($old->user != $user->user) {
+                $validate = 1;
                 return response()->json([
-                    'message' => 'Las contraseñas ingresadas no son iguales',
+                    'message' => 'El usuario ingresado ya existe',
+                    'complete' => false,
+                ]);
+            } else if ($old->email == $user->email) {
+                $validate = 0;
+            } else if ($old->email != $user->email) {
+                $validate = 1;
+                return response()->json([
+                    'message' => 'El correo electrónico ingresado ya existe',
                     'complete' => false,
                 ]);
             } else {
+                $validate = 1;
                 return response()->json([
                     'message' => 'Hay datos que no siguen el formato solicitado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        }
+        if ($validate == 0) {
             $new_avatar = "";
-            if ($request->file('avatar')) {
+            // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
+            if (!$request->file('avatar')) {
+                if (!$request->input('avatar_new')) {
+                    $new_avatar = $user->avatar;
+                } else {
+                    if ($user->avatar) {
+                        File::delete(public_path('/img/users') . '/' . $user->avatar);
+                        File::delete(public_path('/img/lazy/users/') . '/' . $user->avatar);
+                    }
+                }
+            } else {
+                if ($user->avatar) {
+                    File::delete(public_path('/img/users') . '/' . $user->avatar);
+                    File::delete(public_path('/img/lazy/users/') . '/' . $user->avatar);
+                }
                 //Direccion de la imagen
                 $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
             }
@@ -178,12 +220,33 @@ class UserController extends Controller
                 'lastname' => $request->input('lastname'),
                 'user' => $request->input('user'),
                 'email' => $request->input('email'),
-                'password' => Hash::make($request->input('password')),
                 'avatar' => $new_avatar,
             ];
+            if ($request->file('avatar')) {
+                $avatar = $request->file('avatar');
+                $size = Image::make($avatar->getRealPath())->width();
+                //lazy
+                $address_l = public_path('/img/lazy/users');
+                if (!File::isDirectory($address_l)) {
+                    File::makeDirectory($address_l, 0777, true, true);
+                }
+                $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img_l->save($address_l . '/' . $new_avatar, 100);
+                //original
+                $address_o = public_path('/img/users');
+                if (!File::isDirectory($address_o)) {
+                    File::makeDirectory($address_o, 0777, true, true);
+                }
+                $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img_o->save($address_o . '/' . $new_avatar, 100);
+            }
             $user->fill($data)->save();
             return response()->json([
-                'message' => 'Usuario actualizado exitosamente',
+                'message' => 'Usuario modificado exitosamente',
                 'complete' => true,
             ]);
         }
@@ -198,33 +261,34 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user_auth = auth()->user()->id;
-        if($user_auth  == $user->id) {
+        if ($user_auth  == $user->id) {
             return response()->json([
                 'message' => "No puede eliminar su propio usuario.",
                 'complete' => false,
             ]);
-        }
-        else {
+        } else {
             $total = sizeof(User::all(['id']));
             if ($total <= 1) {
                 return response()->json([
                     'message' => "No puede eliminar el ultimo usuario de la aplicación, si desea eliminarlo, cree uno nuevo y luego elimine el deseado.",
                     'complete' => false,
                 ]);
-            }
-            else {
+            } else {
                 $exists = User::where('id', $user->id)->first();
-                if (sizeof($exists) > 0) {
+                if (!$exists->id) {
+                    return response()->json([
+                        'message' => "El usuario ingresado no existe",
+                        'complete' => false,
+                    ]);
+                } else {
+                    if ($user->avatar) {
+                        File::delete(public_path('/img/users') . '/' . $user->avatar);
+                        File::delete(public_path('/img/lazy/users/') . '/' . $user->avatar);
+                    }
                     $user->delete();
                     return response()->json([
                         'message' => 'Usuario eliminado exitosamente',
                         'complete' => true,
-                    ]);
-                }
-                else {
-                    return response()->json([
-                        'message' => "El usuario ingresado no existe",
-                        'complete' => false,
                     ]);
                 }
             }

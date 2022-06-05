@@ -6,6 +6,7 @@ const Auth = () => import ('./components/auth/Home.vue')
 const Register = () => import ('./components/auth/Register.vue')
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/newUser.vue')
+const editUser = () => import ('./components/dashboard/users/editUser.vue')
 
 export const routes = [
     {
@@ -33,10 +34,14 @@ export const routes = [
         component: DashboardUsers,
         children: [
             {
-                name: 'newUsers',
+                name: 'newUser',
                 path: '/dashboard/users/new',
-                component: NewUser,
-            }
+                component: NewUser
+            }, {
+                name: 'editUser',
+                path: '/dashboard/users/edit',
+                component: editUser
+            },
         ],
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {

@@ -7,7 +7,7 @@
         <!-- Contenido -->
         <div class="mx-2 my-2">
             <p class="text-h5 my-4 ml-2">Usuarios / Docentes</p>
-            <v-btn class="mr-10 my-2 new_btn txt_white bk_green" large :to='{ name: "newUsers" }'>
+            <v-btn class="mr-10 my-2 new_btn txt_white bk_green" large :to='{ name: "newUser" }'>
                 <v-icon class="mr-2">person_add</v-icon>
                 Nuevo
             </v-btn>
@@ -42,9 +42,10 @@
                         </template>
                     </template>
                     <template v-slot:item.actions="{ item }">
+                        <!-- <template v-if="user.id !== item.id"> -->
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon small class="mr-2 txt_blue" @click="editUser(item)" v-bind="attrs" v-on="on">
+                                <v-icon small class="mr-2 txt_blue" @click="editUser(item.id)" v-bind="attrs" v-on="on">
                                     edit
                                 </v-icon>
                             </template>
@@ -59,6 +60,10 @@
                             </template>
                             <span>Eliminar</span>
                         </v-tooltip>
+                        <!-- </template>
+                        <template v-else>
+                            <small>-</small>
+                        </template> -->
                     </template>
                 </v-data-table>
             </v-card>
@@ -89,9 +94,14 @@ export default {
         avatar_height: 40,
         search: '',
         data: [],
+        user: {
+            id: "",
+            user: "",
+        },
     }),
     mounted() {
-        this.allUsers()
+        this.login();
+        this.allUsers();
     },
     methods: {
         async allUsers() {
@@ -104,11 +114,19 @@ export default {
                     this.data = []
                 })
         },
-        editUser(item) {
-            // Aqui va codigo para actualizar un Usuario
+        async login() {
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    this.user = response.data;
+                }).catch((error) => {
+                    console.log(error);
+                });
         },
-        deleteUser(item) {
-            this.$swal({
+        editUser(item) {
+            this.$router.push({ name: "editUser", params: { id: item } });
+        },
+        async deleteUser(item) {
+            await this.$swal({
                 title: '¿Esta seguro de eliminar el usuario?',
                 text: "Esta acción no se puede revertir.",
                 icon: 'warning',
