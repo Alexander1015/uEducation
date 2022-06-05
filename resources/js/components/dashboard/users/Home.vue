@@ -42,28 +42,29 @@
                         </template>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <!-- <template v-if="user.id !== item.id"> -->
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon small class="mr-2 txt_blue" @click="editUser(item.id)" v-bind="attrs" v-on="on">
-                                    edit
-                                </v-icon>
-                            </template>
-                            <span>Modificar</span>
-                        </v-tooltip>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon small class="mr-2 txt_red" @click="deleteUser(item.id)" v-bind="attrs"
-                                    v-on="on">
-                                    delete
-                                </v-icon>
-                            </template>
-                            <span>Eliminar</span>
-                        </v-tooltip>
-                        <!-- </template>
+                        <template v-if="user.id !== item.id">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon small class="mr-2 txt_blue" @click="editUser(item.id)" v-bind="attrs"
+                                        v-on="on">
+                                        edit
+                                    </v-icon>
+                                </template>
+                                <span>Modificar</span>
+                            </v-tooltip>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon small class="mr-2 txt_red" @click="deleteUser(item.id)" v-bind="attrs"
+                                        v-on="on">
+                                        delete
+                                    </v-icon>
+                                </template>
+                                <span>Eliminar</span>
+                            </v-tooltip>
+                        </template>
                         <template v-else>
                             <small>-</small>
-                        </template> -->
+                        </template>
                     </template>
                 </v-data-table>
             </v-card>

@@ -94,6 +94,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -1180,101 +1181,110 @@ var render = function () {
                     fn: function (ref) {
                       var item = ref.item
                       return [
-                        _c(
-                          "v-tooltip",
-                          {
-                            attrs: { bottom: "" },
-                            scopedSlots: _vm._u(
-                              [
+                        _vm.user.id !== item.id
+                          ? [
+                              _c(
+                                "v-tooltip",
                                 {
-                                  key: "activator",
-                                  fn: function (ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-icon",
-                                        _vm._g(
-                                          _vm._b(
-                                            {
-                                              staticClass: "mr-2 txt_blue",
-                                              attrs: { small: "" },
-                                              on: {
-                                                click: function ($event) {
-                                                  return _vm.editUser(item.id)
-                                                },
-                                              },
-                                            },
-                                            "v-icon",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _vm._v(
-                                            "\n                                edit\n                            "
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  },
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function (ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-icon",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass:
+                                                      "mr-2 txt_blue",
+                                                    attrs: { small: "" },
+                                                    on: {
+                                                      click: function ($event) {
+                                                        return _vm.editUser(
+                                                          item.id
+                                                        )
+                                                      },
+                                                    },
+                                                  },
+                                                  "v-icon",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _vm._v(
+                                                  "\n                                    edit\n                                "
+                                                ),
+                                              ]
+                                            ),
+                                          ]
+                                        },
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
                                 },
-                              ],
-                              null,
-                              true
-                            ),
-                          },
-                          [_vm._v(" "), _c("span", [_vm._v("Modificar")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          {
-                            attrs: { bottom: "" },
-                            scopedSlots: _vm._u(
-                              [
+                                [_vm._v(" "), _c("span", [_vm._v("Modificar")])]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-tooltip",
                                 {
-                                  key: "activator",
-                                  fn: function (ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-icon",
-                                        _vm._g(
-                                          _vm._b(
-                                            {
-                                              staticClass: "mr-2 txt_red",
-                                              attrs: { small: "" },
-                                              on: {
-                                                click: function ($event) {
-                                                  return _vm.deleteUser(item.id)
-                                                },
-                                              },
-                                            },
-                                            "v-icon",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _vm._v(
-                                            "\n                                delete\n                            "
-                                          ),
-                                        ]
-                                      ),
-                                    ]
-                                  },
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function (ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-icon",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "mr-2 txt_red",
+                                                    attrs: { small: "" },
+                                                    on: {
+                                                      click: function ($event) {
+                                                        return _vm.deleteUser(
+                                                          item.id
+                                                        )
+                                                      },
+                                                    },
+                                                  },
+                                                  "v-icon",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _vm._v(
+                                                  "\n                                    delete\n                                "
+                                                ),
+                                              ]
+                                            ),
+                                          ]
+                                        },
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
                                 },
-                              ],
-                              null,
-                              true
-                            ),
-                          },
-                          [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
-                        ),
+                                [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
+                              ),
+                            ]
+                          : [_c("small", [_vm._v("-")])],
                       ]
                     },
                   },
