@@ -80,8 +80,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: true,
       banner: {
-        img: "/img/banner/banner-new_user.jpg",
-        lazy: "/img/lazy/banner-new_user.jpg"
+        img: "/img/banner/banner-password_user.jpg",
+        lazy: "/img/lazy/banner-password_user.jpg"
       },
       overlay: false,
       sweet: {

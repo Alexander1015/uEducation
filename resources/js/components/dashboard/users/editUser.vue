@@ -92,8 +92,8 @@ export default {
     data: () => ({
         dialog: true,
         banner: {
-            img: "/img/banner/banner-new_user.jpg",
-            lazy: "/img/lazy/banner-new_user.jpg",
+            img: "/img/banner/banner-update_user.jpg",
+            lazy: "/img/lazy/banner-update_user.jpg",
         },
         overlay: false,
         sweet: {
