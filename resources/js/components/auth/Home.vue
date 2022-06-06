@@ -34,7 +34,7 @@
                                 Ingresar</v-btn>
                         </v-form>
                         <v-divider class="mt-4"></v-divider>
-                        <v-btn class="mt-4 bk_brown txt_white width_100" :to="to.register">Registrarse</v-btn>
+                        <v-btn class="mt-4 bk_brown txt_white width_100" :to='{ name: "register" }'>Registrarse</v-btn>
                     </div>
                 </v-col>
             </v-row>
@@ -54,9 +54,6 @@ export default {
         sweet: {
             icon: "error",
             title: "Error",
-        },
-        to: {
-            register: { name: "register" },
         },
         form: {
             user: "",

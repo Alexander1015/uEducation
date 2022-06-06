@@ -5727,15 +5727,19 @@ var DashboardUsers = function DashboardUsers() {
 };
 
 var NewUser = function NewUser() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_newUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/newUser.vue */ "./resources/js/components/dashboard/users/newUser.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_NewUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/NewUser.vue */ "./resources/js/components/dashboard/users/NewUser.vue"));
 };
 
-var editUser = function editUser() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_editUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/editUser.vue */ "./resources/js/components/dashboard/users/editUser.vue"));
+var EditUser = function EditUser() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_EditUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/EditUser.vue */ "./resources/js/components/dashboard/users/EditUser.vue"));
 };
 
-var passwordUser = function passwordUser() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_passwordUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/passwordUser.vue */ "./resources/js/components/dashboard/users/passwordUser.vue"));
+var PasswordUser = function PasswordUser() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_PasswordUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/PasswordUser.vue */ "./resources/js/components/dashboard/users/PasswordUser.vue"));
+};
+
+var Profile = function Profile() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_profile_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/profile/Home.vue */ "./resources/js/components/dashboard/profile/Home.vue"));
 };
 
 var routes = [{
@@ -5765,12 +5769,25 @@ var routes = [{
   }, {
     name: 'editUser',
     path: '/dashboard/users/edit',
-    component: editUser
+    component: EditUser
   }, {
     name: 'passwordUser',
     path: '/dashboard/users/password',
-    component: passwordUser
+    component: PasswordUser
   }],
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'profile',
+  path: '/dashboard/profile',
+  component: Profile,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();
@@ -30408,7 +30425,7 @@ var render = function () {
                                 "v-btn",
                                 {
                                   staticClass: "width_100",
-                                  attrs: { text: "", to: _vm.to.profile },
+                                  attrs: { text: "", to: _vm.to.perfil },
                                 },
                                 [
                                   _c(
@@ -57884,7 +57901,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_newUser_vue":1,"resources_js_components_dashboard_users_editUser_vue":1,"resources_js_components_dashboard_users_passwordUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_users_PasswordUser_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

@@ -160,7 +160,7 @@ class UserController extends Controller
         $state = auth()->user()->state;
         if ($state == 1) {
             try {
-                if ($request->input('action') == 0) { //Actualizar información general
+                if ($request->input('action') == 0 || $request->input('action') == 3) { //Actualizar información general
                     $validator = Validator::make($request->all(), [
                         'firstname' => ['bail', 'required', 'string', 'max:250'],
                         'lastname' => ['bail', 'required', 'string', 'max:250'],
@@ -198,9 +198,14 @@ class UserController extends Controller
                     }
                     if ($validate == 0) {
                         $user_auth = auth()->user()->id;
-                        if ($user_auth  == $user->id) {
+                        if ($user_auth == $user->id && $request->input('action') != 3) {
                             return response()->json([
                                 'message' => "Debe modificar su información en el apartado de perfil de su usuario.",
+                                'complete' => false,
+                            ]);
+                        } else if ($user_auth != $user->id && $request->input('action') == 3) {
+                            return response()->json([
+                                'message' => "No puede modificar la información de ese usuario en este apartado.",
                                 'complete' => false,
                             ]);
                         } else {
@@ -260,7 +265,7 @@ class UserController extends Controller
                             ]);
                         }
                     }
-                } else if ($request->input('action') == 1) { //Actualizar contraseña
+                } else if ($request->input('action') == 1 || $request->input('action') == 1) { //Actualizar contraseña
                     $validator = Validator::make($request->all(), [
                         'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
                     ]);
@@ -278,9 +283,15 @@ class UserController extends Controller
                         }
                     } else {
                         $user_auth = auth()->user()->id;
-                        if ($user_auth  == $user->id) {
+                        if ($user_auth == $user->id && $request->input('action') != 4) {
                             return response()->json([
                                 'message' => "Debe actualizar su contraseña en el apartado de perfil de su usuario.",
+                                'complete' => false,
+                            ]);
+                        }
+                        if ($user_auth != $user->id && $request->input('action') == 4) {
+                            return response()->json([
+                                'message' => "No puede actualizar la contraseña de ese usuario en este apartado.",
                                 'complete' => false,
                             ]);
                         } else {

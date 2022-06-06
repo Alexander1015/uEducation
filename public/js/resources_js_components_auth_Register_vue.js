@@ -115,11 +115,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         img: "/img/banner/banner-new_user.jpg",
         lazy: "/img/lazy/banner-new_user.jpg"
       },
-      to: {
-        auth: {
-          name: "auth"
-        }
-      },
       overlay: false,
       sweet: {
         icon: "error",
@@ -770,7 +765,7 @@ var render = function () {
                       {
                         attrs: {
                           icon: "",
-                          to: _vm.to.auth,
+                          to: { name: "auth" },
                           exact: "",
                           absolute: "",
                         },

@@ -5,9 +5,10 @@ const PublicBlogs = () => import ('./components/public/blogs/Home.vue')
 const Auth = () => import ('./components/auth/Home.vue')
 const Register = () => import ('./components/auth/Register.vue')
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
-const NewUser = () => import ('./components/dashboard/users/newUser.vue')
-const editUser = () => import ('./components/dashboard/users/editUser.vue')
-const passwordUser = () => import ('./components/dashboard/users/passwordUser.vue')
+const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
+const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
+const PasswordUser = () => import ('./components/dashboard/users/PasswordUser.vue')
+const Profile = () => import ('./components/dashboard/profile/Home.vue')
 
 export const routes = [
     {
@@ -41,12 +42,11 @@ export const routes = [
             }, {
                 name: 'editUser',
                 path: '/dashboard/users/edit',
-                component: editUser
-            },
-            {
+                component: EditUser
+            }, {
                 name: 'passwordUser',
                 path: '/dashboard/users/password',
-                component: passwordUser
+                component: PasswordUser
             },
         ],
         beforeEnter: (to, from, next) => {
@@ -56,5 +56,16 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    },
+    }, {
+        name: 'profile',
+        path: '/dashboard/profile',
+        component: Profile,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }
 ]

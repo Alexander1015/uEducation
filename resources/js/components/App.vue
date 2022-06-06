@@ -47,7 +47,7 @@
                         </template>
                         <v-list>
                             <div>
-                                <v-btn text :to="to.profile" class="width_100">
+                                <v-btn text :to="to.perfil" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="mx-auto mt-1">
                                             <span>Perfil</span>

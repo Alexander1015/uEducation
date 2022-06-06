@@ -76,11 +76,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: "error",
         title: "Error"
       },
-      to: {
-        register: {
-          name: "register"
-        }
-      },
       form: {
         user: "",
         password: "",
@@ -615,7 +610,7 @@ var render = function () {
                       "v-btn",
                       {
                         staticClass: "mt-4 bk_brown txt_white width_100",
-                        attrs: { to: _vm.to.register },
+                        attrs: { to: { name: "register" } },
                       },
                       [_vm._v("Registrarse")]
                     ),

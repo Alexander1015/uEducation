@@ -25,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 Route::resource('auth', App\Http\Controllers\AuthController::class);
 Route::resource('logout', App\Http\Controllers\LogoutController::class);
 Route::resource('user', App\Http\Controllers\UserController::class); //->middleware('auth');
+Route::resource('profile', App\Http\Controllers\ProfileController::class)->middleware('auth');
