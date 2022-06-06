@@ -7,6 +7,7 @@ const Register = () => import ('./components/auth/Register.vue')
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/newUser.vue')
 const editUser = () => import ('./components/dashboard/users/editUser.vue')
+const passwordUser = () => import ('./components/dashboard/users/passwordUser.vue')
 
 export const routes = [
     {
@@ -41,6 +42,11 @@ export const routes = [
                 name: 'editUser',
                 path: '/dashboard/users/edit',
                 component: editUser
+            },
+            {
+                name: 'passwordUser',
+                path: '/dashboard/users/password',
+                component: passwordUser
             },
         ],
         beforeEnter: (to, from, next) => {

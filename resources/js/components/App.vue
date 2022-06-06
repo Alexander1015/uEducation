@@ -28,7 +28,7 @@
                                 <template v-if="user.avatar">
                                     <v-list-item-avatar>
                                         <v-img :src='"/img/users/" + user.avatar' :max-height='logo.height'
-                                            :lazy-src='"/img/lazy/users/" + user.avatar'>
+                                            :lazy-src='"/img/lazy_users/" + user.avatar'>
                                             <template v-slot:placeholder>
                                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -39,7 +39,7 @@
                                     </v-list-item-avatar>
                                 </template>
                                 <template v-else>
-                                    <v-icon v-icon>account_circle</v-icon>
+                                    <v-icon>account_circle</v-icon>
                                 </template>
                                 <span class="ml-2 mr-1">{{ user.user }}</span>
                                 <v-icon>keyboard_arrow_down</v-icon>

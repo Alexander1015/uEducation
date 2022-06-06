@@ -5734,6 +5734,10 @@ var editUser = function editUser() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_editUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/editUser.vue */ "./resources/js/components/dashboard/users/editUser.vue"));
 };
 
+var passwordUser = function passwordUser() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_passwordUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/passwordUser.vue */ "./resources/js/components/dashboard/users/passwordUser.vue"));
+};
+
 var routes = [{
   name: 'public',
   path: '/',
@@ -5762,6 +5766,10 @@ var routes = [{
     name: 'editUser',
     path: '/dashboard/users/edit',
     component: editUser
+  }, {
+    name: 'passwordUser',
+    path: '/dashboard/users/password',
+    component: passwordUser
   }],
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
@@ -30316,7 +30324,7 @@ var render = function () {
                                                     "max-height":
                                                       _vm.logo.height,
                                                     "lazy-src":
-                                                      "/img/lazy/users/" +
+                                                      "/img/lazy_users/" +
                                                       _vm.user.avatar,
                                                   },
                                                   scopedSlots: _vm._u(
@@ -30366,18 +30374,9 @@ var render = function () {
                                             ),
                                           ]
                                         : [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                directives: [
-                                                  {
-                                                    name: "icon",
-                                                    rawName: "v-icon",
-                                                  },
-                                                ],
-                                              },
-                                              [_vm._v("account_circle")]
-                                            ),
+                                            _c("v-icon", [
+                                              _vm._v("account_circle"),
+                                            ]),
                                           ],
                                       _vm._v(" "),
                                       _c("span", { staticClass: "ml-2 mr-1" }, [
@@ -30396,7 +30395,7 @@ var render = function () {
                           ],
                           null,
                           false,
-                          528093108
+                          3793162915
                         ),
                       },
                       [
@@ -57885,7 +57884,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_newUser_vue":1,"resources_js_components_dashboard_users_editUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_newUser_vue":1,"resources_js_components_dashboard_users_editUser_vue":1,"resources_js_components_dashboard_users_passwordUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

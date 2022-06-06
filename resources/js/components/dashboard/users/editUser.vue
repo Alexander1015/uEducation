@@ -20,7 +20,7 @@
                         </v-col>
                         <v-col>
                             <v-card-title class="text-h5">
-                                <p class="mx-auto">Modificar Usuario/Docente</p>
+                                <p class="mx-auto">Modificar informacion de {{ user }}</p>
                             </v-card-title>
                             <v-card-subtitle class="text-center">Modifique el usuario seleccionado</v-card-subtitle>
                             <div class="px-2 pb-2">
@@ -132,7 +132,9 @@ export default {
             url_img: "",
             height: 200,
             width: 300,
-        }
+        },
+        user: "",
+        action: 0,
     }),
     methods: {
         async showUser() {
@@ -140,11 +142,17 @@ export default {
                 await this.axios.get('/api/user/' + this.$route.params.id)
                     .then(response => {
                         const { firstname, lastname, user, email, avatar } = response.data;
-                        this.form.firstname = firstname;
-                        this.form.lastname = lastname;
-                        this.form.user = user;
-                        this.form.email = email;
-                        if (avatar) this.prev_img.url_img = "/img/users/" + avatar;
+                        if (!firstname) {
+                            window.location.href = "/dashboard/users"
+                        }
+                        else {
+                            this.user = user;
+                            this.form.firstname = firstname;
+                            this.form.lastname = lastname;
+                            this.form.user = user;
+                            this.form.email = email;
+                            if (avatar) this.prev_img.url_img = "/img/users/" + avatar;
+                        }
                     }).catch((error) => {
                         console.log(error);
                     });
@@ -176,6 +184,7 @@ export default {
                                 data.append('avatar', this.form.avatar);
                             }
                             data.append('avatar_new', this.form.avatar_new);
+                            data.append('action', this.action);
                             data.append('_method', "put");
                             this.axios.post('/api/user/' + this.$route.params.id, data, {
                                 headers: {

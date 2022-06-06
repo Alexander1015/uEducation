@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +22,6 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
     return true;
 });
 
-Route::resource('user', App\Http\Controllers\UserController::class);
 Route::resource('auth', App\Http\Controllers\AuthController::class);
 Route::resource('logout', App\Http\Controllers\LogoutController::class);
+Route::resource('user', App\Http\Controllers\UserController::class); //->middleware('auth');
