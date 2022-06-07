@@ -134,15 +134,16 @@ export default {
             width: 300,
         },
         user: "",
-        action: 0,
     }),
     methods: {
         async showUser() {
+            this.overlay = true;
             if (this.$route.params.id) {
                 await this.axios.get('/api/user/' + this.$route.params.id)
                     .then(response => {
                         const { firstname, lastname, user, email, avatar } = response.data;
                         if (!firstname) {
+                            this.overlay = false;
                             window.location.href = "/dashboard/users"
                         }
                         else {
@@ -152,12 +153,15 @@ export default {
                             this.form.user = user;
                             this.form.email = email;
                             if (avatar) this.prev_img.url_img = "/img/users/" + avatar;
+                            this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);
+                        this.overlay = false;
                     });
             }
             else {
+                this.overlay = false;
                 window.location.href = "/dashboard/users"
             }
         },
@@ -184,7 +188,6 @@ export default {
                                 data.append('avatar', this.form.avatar);
                             }
                             data.append('avatar_new', this.form.avatar_new);
-                            data.append('action', this.action);
                             data.append('_method', "put");
                             this.axios.post('/api/user/' + this.$route.params.id, data, {
                                 headers: {
@@ -205,7 +208,6 @@ export default {
                                         icon: this.sweet.icon,
                                         text: response.data.message,
                                     });
-                                    console.log(response.data.message);
                                     if (response.data.complete) {
                                         setTimeout(() => {
                                             this.overlay = false;

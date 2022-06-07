@@ -173,8 +173,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user: {
         id: "",
         user: ""
-      },
-      action: 2
+      }
     };
   },
   mounted: function mounted() {
@@ -326,10 +325,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this4.overlay = true;
                     var data = new FormData();
                     data.append('type', type);
-                    data.append('action', _this4.action);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/user/' + item, data).then(function (response) {
+                    _this4.axios.post('/api/user/state/' + item, data).then(function (response) {
                       if (response.data.complete) {
                         _this4.sweet.title = "Éxito";
                         _this4.sweet.icon = "success";

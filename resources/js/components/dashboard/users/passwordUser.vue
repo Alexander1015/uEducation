@@ -80,7 +80,6 @@ export default {
             v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
         ],
         user: "",
-        action: 1,
     }),
     methods: {
         async showUser() {
@@ -118,9 +117,8 @@ export default {
                             let data = new FormData();
                             data.append('password', this.form.password);
                             data.append('password_confirmation', this.form.password_confirmation);
-                            data.append('action', this.action);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.$route.params.id, data)
+                            this.axios.post('/api/user/password/' + this.$route.params.id, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -135,7 +133,6 @@ export default {
                                         icon: this.sweet.icon,
                                         text: response.data.message,
                                     });
-                                    console.log(response.data.message);
                                     if (response.data.complete) {
                                         setTimeout(() => {
                                             this.overlay = false;

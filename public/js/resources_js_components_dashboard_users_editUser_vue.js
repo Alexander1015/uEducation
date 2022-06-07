@@ -159,8 +159,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         height: 200,
         width: 300
       },
-      user: "",
-      action: 0
+      user: ""
     };
   },
   methods: {
@@ -172,12 +171,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.overlay = true;
+
                 if (!_this.$route.params.id) {
-                  _context.next = 5;
+                  _context.next = 6;
                   break;
                 }
 
-                _context.next = 3;
+                _context.next = 4;
                 return _this.axios.get('/api/user/' + _this.$route.params.id).then(function (response) {
                   var _response$data = response.data,
                       firstname = _response$data.firstname,
@@ -187,6 +188,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       avatar = _response$data.avatar;
 
                   if (!firstname) {
+                    _this.overlay = false;
                     window.location.href = "/dashboard/users";
                   } else {
                     _this.user = user;
@@ -195,19 +197,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form.user = user;
                     _this.form.email = email;
                     if (avatar) _this.prev_img.url_img = "/img/users/" + avatar;
+                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
+                  _this.overlay = false;
                 });
 
-              case 3:
-                _context.next = 6;
+              case 4:
+                _context.next = 8;
                 break;
 
-              case 5:
+              case 6:
+                _this.overlay = false;
                 window.location.href = "/dashboard/users";
 
-              case 6:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -251,7 +256,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     data.append('avatar_new', _this2.form.avatar_new);
-                    data.append('action', _this2.action);
                     data.append('_method', "put");
 
                     _this2.axios.post('/api/user/' + _this2.$route.params.id, data, {
@@ -272,8 +276,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: _this2.sweet.icon,
                         text: response.data.message
                       });
-
-                      console.log(response.data.message);
 
                       if (response.data.complete) {
                         setTimeout(function () {

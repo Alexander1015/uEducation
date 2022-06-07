@@ -138,7 +138,6 @@ export default {
             id: "",
             user: "",
         },
-        action: 2,
     }),
     mounted() {
         this.login();
@@ -225,9 +224,8 @@ export default {
                         this.overlay = true;
                         let data = new FormData();
                         data.append('type', type);
-                        data.append('action', this.action);
                         data.append('_method', "put");
-                        this.axios.post('/api/user/' + item, data)
+                        this.axios.post('/api/user/state/' + item, data)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"

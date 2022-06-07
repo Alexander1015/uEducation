@@ -102,8 +102,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, function (v) {
         return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
       }],
-      user: "",
-      action: 1
+      user: ""
     };
   },
   methods: {
@@ -175,10 +174,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('password', _this2.form.password);
                     data.append('password_confirmation', _this2.form.password_confirmation);
-                    data.append('action', _this2.action);
                     data.append('_method', "put");
 
-                    _this2.axios.post('/api/user/' + _this2.$route.params.id, data).then(function (response) {
+                    _this2.axios.post('/api/user/password/' + _this2.$route.params.id, data).then(function (response) {
                       if (response.data.complete) {
                         _this2.sweet.title = "Éxito";
                         _this2.sweet.icon = "success";
@@ -192,8 +190,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: _this2.sweet.icon,
                         text: response.data.message
                       });
-
-                      console.log(response.data.message);
 
                       if (response.data.complete) {
                         setTimeout(function () {

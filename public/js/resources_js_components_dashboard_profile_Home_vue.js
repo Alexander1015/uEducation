@@ -126,7 +126,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
@@ -176,6 +175,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       avatarRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
       }],
+      passwordRules: [function (v) {
+        return !!v || 'La contraseña es requerida';
+      }, function (v) {
+        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+      }],
+      passwordconfirmRules: [function (v) {
+        return !!v || 'La contraseña es requerida';
+      }, function (v) {
+        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+      }],
       prev_img: {
         url_img: "",
         height: 200,
@@ -193,7 +202,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.overlay = true;
+                _context.next = 3;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.user = response.data;
                   _this.form.firstname = _this.user.firstname;
@@ -201,11 +211,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.form.user = _this.user.user;
                   _this.form.email = _this.user.email;
                   if (_this.user.avatar) _this.prev_img.url_img = "/img/users/" + _this.user.avatar;
+                  _this.overlay = false;
                 })["catch"](function (error) {
                   console.log(error);
+                  _this.overlay = false;
+
+                  _this.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
+                  });
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -249,10 +267,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     data.append('avatar_new', _this2.form.avatar_new);
-                    data.append('action', 3);
                     data.append('_method', "put");
 
-                    _this2.axios.post('/api/user/' + _this2.user.id, data, {
+                    _this2.axios.post('/api/profile/' + _this2.user.id, data, {
                       headers: {
                         'Content-Type': 'multipart/form-data'
                       }
@@ -270,8 +287,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: _this2.sweet.icon,
                         text: response.data.message
                       });
-
-                      console.log(response.data.message);
 
                       if (response.data.complete) {
                         setTimeout(function () {
@@ -336,11 +351,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('password', _this3.form.password);
                     data.append('password_confirmation', _this3.form.password_confirmation);
-                    data.append('action', _this3.action);
-                    data.append('action', 4);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/user/' + _this3.user.id, data).then(function (response) {
+                    _this3.axios.post('/api/profile/password/' + _this3.user.id, data).then(function (response) {
                       if (response.data.complete) {
                         _this3.sweet.title = "Éxito";
                         _this3.sweet.icon = "success";
@@ -354,8 +367,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: _this3.sweet.icon,
                         text: response.data.message
                       });
-
-                      console.log(response.data.message);
 
                       if (response.data.complete) {
                         setTimeout(function () {
@@ -1363,11 +1374,7 @@ var render = function () {
                               attrs: { type: "submit" },
                               on: { click: _vm.editPassword },
                             },
-                            [
-                              _vm._v(
-                                "\n                                Actualizar"
-                              ),
-                            ]
+                            [_vm._v("\n                            Actualizar")]
                           ),
                         ],
                         1

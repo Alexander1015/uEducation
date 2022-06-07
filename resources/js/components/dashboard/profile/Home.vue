@@ -83,22 +83,21 @@
                         <div class="px-2 py-2">
                             <v-card-subtitle class="text-center">Actualice su contraseña</v-card-subtitle>
                             <!-- Formulario de ingreso -->
-                                <v-form ref="form" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                        label="Contraseña *" tabindex="1" required>
-                                    </v-text-field>
-                                    <v-text-field v-model="form.password_confirmation" type="password"
-                                        :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2"
-                                        required>
-                                    </v-text-field>
-                                    </v-form>
+                            <v-form ref="form" lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-text-field v-model="form.password" type="password" :rules="passwordRules"
+                                    label="Contraseña *" tabindex="1" required>
+                                </v-text-field>
+                                <v-text-field v-model="form.password_confirmation" type="password"
+                                    :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2" required>
+                                </v-text-field>
+                            </v-form>
                         </div>
-                         <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn class="txt_white bk_green" type="submit" @click="editPassword">
-                                    Actualizar</v-btn>
-                            </v-card-actions>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="txt_white bk_green" type="submit" @click="editPassword">
+                                Actualizar</v-btn>
+                        </v-card-actions>
                     </v-card>
                 </v-tab-item>
             </v-tabs>
@@ -150,6 +149,14 @@ export default {
         avatarRules: [
             v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
         ],
+        passwordRules: [
+            v => !!v || 'La contraseña es requerida',
+            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+        ],
+        passwordconfirmRules: [
+            v => !!v || 'La contraseña es requerida',
+            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+        ],
         prev_img: {
             url_img: "",
             height: 200,
@@ -159,6 +166,7 @@ export default {
     }),
     methods: {
         async showUser() {
+            this.overlay = true;
             await this.axios.get('/api/auth')
                 .then(response => {
                     this.user = response.data;
@@ -167,8 +175,17 @@ export default {
                     this.form.user = this.user.user;
                     this.form.email = this.user.email;
                     if (this.user.avatar) this.prev_img.url_img = "/img/users/" + this.user.avatar;
+                    this.overlay = false;
                 }).catch((error) => {
                     console.log(error);
+                    this.overlay = false;
+                    this.axios.post('/api/logout')
+                        .then(response => {
+                            window.location.href = "/auth"
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+
                 });
         },
         async editUser() {
@@ -194,9 +211,8 @@ export default {
                                 data.append('avatar', this.form.avatar);
                             }
                             data.append('avatar_new', this.form.avatar_new);
-                            data.append('action', 3);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.user.id, data, {
+                            this.axios.post('/api/profile/' + this.user.id, data, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data',
                                 },
@@ -215,7 +231,6 @@ export default {
                                         icon: this.sweet.icon,
                                         text: response.data.message,
                                     });
-                                    console.log(response.data.message);
                                     if (response.data.complete) {
                                         setTimeout(() => {
                                             this.overlay = false;
@@ -256,10 +271,8 @@ export default {
                             let data = new FormData();
                             data.append('password', this.form.password);
                             data.append('password_confirmation', this.form.password_confirmation);
-                            data.append('action', this.action);
-                            data.append('action', 4);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.user.id, data)
+                            this.axios.post('/api/profile/password/' + this.user.id, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -274,7 +287,6 @@ export default {
                                         icon: this.sweet.icon,
                                         text: response.data.message,
                                     });
-                                    console.log(response.data.message);
                                     if (response.data.complete) {
                                         setTimeout(() => {
                                             this.overlay = false;
