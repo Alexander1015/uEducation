@@ -27,7 +27,7 @@
                         <div class="px-2 py-2">
                             <v-card-subtitle class="text-center">Actualice su información</v-card-subtitle>
                             <!-- Formulario de ingreso -->
-                            <v-form ref="form" enctype="multipart/form-data" lazy-validation>
+                            <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
                                 <v-row>
                                     <v-col cols="6">
                                         <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres"
@@ -83,7 +83,7 @@
                         <div class="px-2 py-2">
                             <v-card-subtitle class="text-center">Actualice su contraseña</v-card-subtitle>
                             <!-- Formulario de ingreso -->
-                            <v-form ref="form" lazy-validation>
+                            <v-form ref="form_password" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-text-field v-model="form.password" type="password" :rules="passwordRules"
                                     label="Contraseña *" tabindex="1" required>
@@ -189,7 +189,7 @@ export default {
                 });
         },
         async editUser() {
-            if (this.$refs.form.validate()) {
+            if (this.$refs.form_information.validate()) {
                 await this.$swal({
                     title: '¿Esta seguro de actualizar su información?',
                     icon: 'warning',
@@ -230,14 +230,13 @@ export default {
                                         title: this.sweet.title,
                                         icon: this.sweet.icon,
                                         text: response.data.message,
-                                    });
-                                    if (response.data.complete) {
-                                        setTimeout(() => {
-                                            this.overlay = false;
+                                    }).then(() => {
+                                        if (response.data.complete) {
                                             window.location.href = "/"
-                                        }, 2000);
-                                    }
-                                    else this.overlay = false;
+                                            this.overlay = false;
+                                        }
+                                        else this.overlay = false;
+                                    });
                                 }).catch(error => {
                                     this.sweet.title = "Error"
                                     this.sweet.icon = "error";
@@ -256,7 +255,7 @@ export default {
             }
         },
         async editPassword() {
-            if (this.$refs.form.validate()) {
+            if (this.$refs.form_password.validate()) {
                 await this.$swal({
                     title: '¿Esta seguro de actualizar su contraseña?',
                     icon: 'warning',
@@ -286,14 +285,13 @@ export default {
                                         title: this.sweet.title,
                                         icon: this.sweet.icon,
                                         text: response.data.message,
-                                    });
-                                    if (response.data.complete) {
-                                        setTimeout(() => {
-                                            this.overlay = false;
+                                    }).then(() => {
+                                        if (response.data.complete) {
                                             window.location.href = "/"
-                                        }, 2000);
-                                    }
-                                    else this.overlay = false;
+                                            this.overlay = false;
+                                        }
+                                        else this.overlay = false;
+                                    });
                                 }).catch(error => {
                                     this.sweet.title = "Error"
                                     this.sweet.icon = "error";

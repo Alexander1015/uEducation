@@ -121,10 +121,21 @@ class ProfileController extends Controller
                                     'complete' => true,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'Ah ocurrido un error al momento de modificar el usuario',
-                                    'complete' => false,
-                                ]);
+                                if (
+                                    $data->firstname == $request->input('firstname') && $data->lastname == $request->input('lastname') &&
+                                    $data->user == $request->input('user') && $data->email == $request->input('email') &&
+                                    $data->avatar == $request->input('avatar')
+                                ) {
+                                    return response()->json([
+                                        'message' => 'La información proporcionada no modifica su información, asi que no se ha actualizado',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Ah ocurrido un error al momento de modificar su información',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
                     }

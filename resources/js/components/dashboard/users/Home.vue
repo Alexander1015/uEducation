@@ -138,6 +138,7 @@ export default {
             id: "",
             user: "",
         },
+        reload: 0,
     }),
     mounted() {
         this.login();
@@ -257,5 +258,14 @@ export default {
                 });
         }
     },
+    watch: {
+        reload() {
+            if (this.reload == 1) {
+                this.login();
+                this.allUsers();
+                this.reload = 0;
+            }
+        }
+    }
 }
 </script>

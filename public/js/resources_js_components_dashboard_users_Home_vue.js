@@ -173,7 +173,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       user: {
         id: "",
         user: ""
-      }
+      },
+      reload: 0
     };
   },
   mounted: function mounted() {
@@ -367,6 +368,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    }
+  },
+  watch: {
+    reload: function reload() {
+      if (this.reload == 1) {
+        this.login();
+        this.allUsers();
+        this.reload = 0;
+      }
     }
   }
 });

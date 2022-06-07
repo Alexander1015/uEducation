@@ -239,7 +239,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this2.$refs.form.validate()) {
+                if (!_this2.$refs.form_information.validate()) {
                   _context2.next = 5;
                   break;
                 }
@@ -286,14 +286,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         title: _this2.sweet.title,
                         icon: _this2.sweet.icon,
                         text: response.data.message
-                      });
-
-                      if (response.data.complete) {
-                        setTimeout(function () {
-                          _this2.overlay = false;
+                      }).then(function () {
+                        if (response.data.complete) {
                           window.location.href = "/";
-                        }, 2000);
-                      } else _this2.overlay = false;
+                          _this2.overlay = false;
+                        } else _this2.overlay = false;
+                      });
                     })["catch"](function (error) {
                       _this2.sweet.title = "Error";
                       _this2.sweet.icon = "error";
@@ -332,7 +330,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!_this3.$refs.form.validate()) {
+                if (!_this3.$refs.form_password.validate()) {
                   _context3.next = 5;
                   break;
                 }
@@ -366,14 +364,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         title: _this3.sweet.title,
                         icon: _this3.sweet.icon,
                         text: response.data.message
-                      });
-
-                      if (response.data.complete) {
-                        setTimeout(function () {
-                          _this3.overlay = false;
+                      }).then(function () {
+                        if (response.data.complete) {
                           window.location.href = "/";
-                        }, 2000);
-                      } else _this3.overlay = false;
+                          _this3.overlay = false;
+                        } else _this3.overlay = false;
+                      });
                     })["catch"](function (error) {
                       _this3.sweet.title = "Error";
                       _this3.sweet.icon = "error";
@@ -1070,7 +1066,7 @@ var render = function () {
                           _c(
                             "v-form",
                             {
-                              ref: "form",
+                              ref: "form_information",
                               attrs: {
                                 enctype: "multipart/form-data",
                                 "lazy-validation": "",
@@ -1310,7 +1306,10 @@ var render = function () {
                           _vm._v(" "),
                           _c(
                             "v-form",
-                            { ref: "form", attrs: { "lazy-validation": "" } },
+                            {
+                              ref: "form_password",
+                              attrs: { "lazy-validation": "" },
+                            },
                             [
                               _c(
                                 "small",

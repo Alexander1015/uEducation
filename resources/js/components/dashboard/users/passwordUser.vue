@@ -132,14 +132,13 @@ export default {
                                         title: this.sweet.title,
                                         icon: this.sweet.icon,
                                         text: response.data.message,
-                                    });
-                                    if (response.data.complete) {
-                                        setTimeout(() => {
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            window.location.href = "/dashboard/users";
                                             this.overlay = false;
-                                            window.location.href = "/dashboard/users"
-                                        }, 2000);
-                                    }
-                                    else this.overlay = false;
+                                        }
+                                        else this.overlay = false;
+                                    });
                                 }).catch(error => {
                                     this.sweet.title = "Error"
                                     this.sweet.icon = "error";

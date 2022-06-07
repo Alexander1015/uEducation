@@ -275,14 +275,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         title: _this2.sweet.title,
                         icon: _this2.sweet.icon,
                         text: response.data.message
-                      });
-
-                      if (response.data.complete) {
-                        setTimeout(function () {
-                          _this2.overlay = false;
+                      }).then(function () {
+                        if (response.data.complete) {
                           window.location.href = "/dashboard/users";
-                        }, 2000);
-                      } else _this2.overlay = false;
+                          _this2.overlay = false;
+                        } else _this2.overlay = false;
+                      });
                     })["catch"](function (error) {
                       _this2.sweet.title = "Error";
                       _this2.sweet.icon = "error";
