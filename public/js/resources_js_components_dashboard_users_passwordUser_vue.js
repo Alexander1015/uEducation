@@ -789,7 +789,6 @@ var render = function () {
                                 "v-btn",
                                 {
                                   staticClass: "txt_white bk_green",
-                                  attrs: { type: "submit" },
                                   on: { click: _vm.editPassword },
                                 },
                                 [

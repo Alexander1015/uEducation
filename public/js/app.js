@@ -5544,7 +5544,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         visible: false
       }],
       to: {
-        perfil: {
+        profile: {
           name: "profile"
         }
       },
@@ -5557,6 +5557,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         window.location.href = "/auth";
       })["catch"](function (error) {
         console.log(error);
+      });
+    },
+    profile: function profile() {
+      this.$router.push({
+        name: 'profile'
       });
     },
     login: function login() {
@@ -30425,7 +30430,13 @@ var render = function () {
                                 "v-btn",
                                 {
                                   staticClass: "width_100",
-                                  attrs: { text: "", to: _vm.to.perfil },
+                                  attrs: { text: "" },
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.profile.apply(null, arguments)
+                                    },
+                                  },
                                 },
                                 [
                                   _c(

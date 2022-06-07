@@ -265,7 +265,7 @@ class UserController extends Controller
                             ]);
                         }
                     }
-                } else if ($request->input('action') == 1 || $request->input('action') == 1) { //Actualizar contraseña
+                } else if ($request->input('action') == 1 || $request->input('action') == 4) { //Actualizar contraseña
                     $validator = Validator::make($request->all(), [
                         'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
                     ]);

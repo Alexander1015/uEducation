@@ -47,7 +47,7 @@
                         </template>
                         <v-list>
                             <div>
-                                <v-btn text :to="to.perfil" class="width_100">
+                                <v-btn text @click.prevent="profile" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="mx-auto mt-1">
                                             <span>Perfil</span>
@@ -145,7 +145,7 @@ export default {
             { title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
         ],
         to: {
-            perfil: { name: "profile" },
+            profile: { name: "profile" },
         },
         nav: false,
     }),
@@ -157,6 +157,9 @@ export default {
                 }).catch((error) => {
                     console.log(error);
                 });
+        },
+        profile() {
+            this.$router.push({ name: 'profile' });
         },
         async login() {
             await this.axios.get('/api/auth')

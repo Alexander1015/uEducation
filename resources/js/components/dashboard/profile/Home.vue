@@ -6,73 +6,102 @@
         </v-overlay>
         <!-- Contenido -->
         <v-card class="mx-auto rounded mt-4" elevation="3" width="900">
-            <v-row dense class="pl-1">
-                <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
-                    <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
-                        <template v-slot:placeholder>
-                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                            </v-row>
-                        </template>
-                    </v-img>
-                </v-col>
-                <v-col>
-                    <v-card-title class="text-h5">
-                        <p class="mx-auto">Información de {{ this.user.firstname + " " + this.user.lastname }}</p>
-                    </v-card-title>
-                    <v-card-subtitle class="text-center">Actualice su información</v-card-subtitle>
-                    <div class="px-2 pb-2">
-                        <!-- Formulario de ingreso -->
-                        <v-form ref="form" enctype="multipart/form-data" lazy-validation>
-                            <v-row>
-                                <v-col cols="6">
-                                    <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres"
-                                        tabindex="1" required>
+            <v-toolbar flat class="bk_blue" dark>
+                <v-toolbar-title>Perfil de {{ this.user.firstname + " " + this.user.lastname }}</v-toolbar-title>
+            </v-toolbar>
+            <v-tabs vertical>
+                <v-tab>
+                    <v-icon left>
+                        manage_accounts
+                    </v-icon>
+                    Información
+                </v-tab>
+                <v-tab>
+                    <v-icon left>
+                        lock
+                    </v-icon>
+                    Contraseña
+                </v-tab>
+                <v-tab-item>
+                    <v-card flat>
+                        <div class="px-2 py-2">
+                            <v-card-subtitle class="text-center">Actualice su información</v-card-subtitle>
+                            <!-- Formulario de ingreso -->
+                            <v-form ref="form" enctype="multipart/form-data" lazy-validation>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres"
+                                            tabindex="1" required>
+                                        </v-text-field>
+                                        <v-text-field v-model="form.email" :rules="emailRules"
+                                            label="Correo electrónico" tabindex="3" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos"
+                                            tabindex="2" required>
+                                        </v-text-field>
+                                        <v-text-field v-model="form.user" tabindex="4" :rules="userRules"
+                                            label="Usuario" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-file-input v-model="form.avatar" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                            prepend-icon="photo_camera" :rules="avatarRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="5">
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
+                                                avatar
+                                            </v-btn>
+                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                                :lazy-src='prev_img.url_img' :max-height="prev_img.height"
+                                                :max-width="prev_img.width" contain>
+                                                <template v-slot:placeholder>
+                                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                                        </v-progress-circular>
+                                                    </v-row>
+                                                </template>
+                                            </v-img>
+                                        </template>
+                                    </v-col>
+                                </v-row>
+                            </v-form>
+                        </div>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="txt_white bk_green" type="submit" @click="editUser">
+                                Actualizar</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-card flat>
+                        <div class="px-2 py-2">
+                            <v-card-subtitle class="text-center">Actualice su contraseña</v-card-subtitle>
+                            <!-- Formulario de ingreso -->
+                                <v-form ref="form" lazy-validation>
+                                    <small class="font-italic txt_red">Obligatorio *</small>
+                                    <v-text-field v-model="form.password" type="password" :rules="passwordRules"
+                                        label="Contraseña *" tabindex="1" required>
                                     </v-text-field>
-                                    <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico"
-                                        tabindex="3" required>
-                                    </v-text-field>
-                                </v-col>
-                                <v-col cols="6">
-                                    <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos"
-                                        tabindex="2" required>
-                                    </v-text-field>
-                                    <v-text-field v-model="form.user" tabindex="4" :rules="userRules" label="Usuario"
+                                    <v-text-field v-model="form.password_confirmation" type="password"
+                                        :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2"
                                         required>
                                     </v-text-field>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-file-input v-model="form.avatar" @change="preview_img"
-                                        label="Haz clic(k) aquí para subir una imagen" id="avatar"
-                                        prepend-icon="photo_camera" :rules="avatarRules"
-                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                        tabindex="5">
-                                    </v-file-input>
-                                    <template v-if="prev_img.url_img">
-                                        <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
-                                            avatar
-                                        </v-btn>
-                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img" :lazy-src='prev_img.url_img'
-                                            :max-height="prev_img.height" :max-width="prev_img.width" contain>
-                                            <template v-slot:placeholder>
-                                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                                    <v-progress-circular indeterminate color="grey lighten-5">
-                                                    </v-progress-circular>
-                                                </v-row>
-                                            </template>
-                                        </v-img>
-                                    </template>
-                                </v-col>
-                            </v-row>
-                        </v-form>
-                    </div>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn class="txt_white bk_green" type="submit" @click="editUser">
-                            Actualizar</v-btn>
-                    </v-card-actions>
-                </v-col>
-            </v-row>
+                                    </v-form>
+                        </div>
+                         <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn class="txt_white bk_green" type="submit" @click="editPassword">
+                                    Actualizar</v-btn>
+                            </v-card-actions>
+                    </v-card>
+                </v-tab-item>
+            </v-tabs>
         </v-card>
     </v-main>
 </template>
@@ -172,6 +201,65 @@ export default {
                                     'Content-Type': 'multipart/form-data',
                                 },
                             })
+                                .then(response => {
+                                    if (response.data.complete) {
+                                        this.sweet.title = "Éxito"
+                                        this.sweet.icon = "success";
+                                    }
+                                    else {
+                                        this.sweet.title = "Error"
+                                        this.sweet.icon = "error";
+                                    }
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: response.data.message,
+                                    });
+                                    console.log(response.data.message);
+                                    if (response.data.complete) {
+                                        setTimeout(() => {
+                                            this.overlay = false;
+                                            window.location.href = "/"
+                                        }, 2000);
+                                    }
+                                    else this.overlay = false;
+                                }).catch(error => {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: error,
+                                    });
+                                    this.overlay = false;
+                                })
+                        }
+                    });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
+        async editPassword() {
+            if (this.$refs.form.validate()) {
+                await this.$swal({
+                    title: '¿Esta seguro de actualizar su contraseña?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            //Mostramos los datos asi por la imagen
+                            let data = new FormData();
+                            data.append('password', this.form.password);
+                            data.append('password_confirmation', this.form.password_confirmation);
+                            data.append('action', this.action);
+                            data.append('action', 4);
+                            data.append('_method', "put");
+                            this.axios.post('/api/user/' + this.user.id, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
