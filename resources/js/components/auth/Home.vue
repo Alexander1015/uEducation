@@ -30,11 +30,9 @@
                             <v-text-field v-model="form.password" type="password" :rules="passwordRules"
                                 label="Contraseña" hide-details="auto" tabindex="2" required>
                             </v-text-field>
-                            <v-btn class="mt-4 bk_brown txt_white width_100" type="submit">
+                            <v-btn class="mt-10 bk_brown txt_white width_100" type="submit">
                                 Ingresar</v-btn>
                         </v-form>
-                        <v-divider class="mt-4"></v-divider>
-                        <v-btn class="mt-4 bk_brown txt_white width_100" :to='{ name: "register" }'>Registrarse</v-btn>
                     </div>
                 </v-col>
             </v-row>

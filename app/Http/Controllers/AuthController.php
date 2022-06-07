@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class AuthController extends Controller
@@ -30,7 +30,7 @@ class AuthController extends Controller
                     'complete' => false,
                 ]);
             } else {
-                $user_state = User::where('user', $request->input('user'))->first();
+                $user_state = DB::table('users')->where('user', $request->input('user'))->first();
                 if ($user_state->user) {
                     if ($user_state->state == 1) {
                         if (Auth::attempt($request->only('user', 'password'))) {

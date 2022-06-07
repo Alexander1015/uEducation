@@ -26,7 +26,17 @@ return new class extends Migration
                 "user" => "soporte.ueducation",
                 "password" => Hash::make("Soporte2022"),
                 "avatar" => "",
-                "state" => "1", 
+                "state" => "1",
+            ]);
+        DB::table("users")
+            ->insert([
+                "firstname" => "Edgard Alexander",
+                "lastname" => "Barrera Flamenco",
+                "email" => "alexanderbarrera105@gmail.com",
+                "user" => "bf180436",
+                "password" => Hash::make("12345678"),
+                "avatar" => "",
+                "state" => "1",
             ]);
     }
 

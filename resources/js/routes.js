@@ -3,7 +3,6 @@ import axios from 'axios'
 const Public = () => import ('./components/public/Home.vue')
 const PublicBlogs = () => import ('./components/public/blogs/Home.vue')
 const Auth = () => import ('./components/auth/Home.vue')
-const Register = () => import ('./components/auth/Register.vue')
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
 const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
@@ -20,11 +19,6 @@ export const routes = [
         name: 'auth',
         path: '/auth',
         component: Auth
-    },
-    {
-        name: 'register',
-        path: '/auth/register',
-        component: Register
     },
     {
         name: 'blogs',

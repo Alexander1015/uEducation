@@ -5723,10 +5723,6 @@ var Auth = function Auth() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Home.vue */ "./resources/js/components/auth/Home.vue"));
 };
 
-var Register = function Register() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Register.vue */ "./resources/js/components/auth/Register.vue"));
-};
-
 var DashboardUsers = function DashboardUsers() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/Home.vue */ "./resources/js/components/dashboard/users/Home.vue"));
 };
@@ -5755,10 +5751,6 @@ var routes = [{
   name: 'auth',
   path: '/auth',
   component: Auth
-}, {
-  name: 'register',
-  path: '/auth/register',
-  component: Register
 }, {
   name: 'blogs',
   path: '/blogs',
@@ -57912,7 +57904,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_users_PasswordUser_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_blogs_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_users_PasswordUser_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
