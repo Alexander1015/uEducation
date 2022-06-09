@@ -32,8 +32,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $state = auth()->user()->state;
-        if ($state == 1) {
+        $status = auth()->user()->status;
+        if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
                     'firstname' => ['bail', 'required', 'string', 'max:250'],
@@ -78,7 +78,7 @@ class UserController extends Controller
                         //Direccion de la imagen
                         $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
                     }
-                    DB::table("users")
+                    if (DB::table("users")
                         ->insert([
                             'firstname' => $request->input('firstname'),
                             'lastname' => $request->input('lastname'),
@@ -86,39 +86,45 @@ class UserController extends Controller
                             'email' => $request->input('email'),
                             'password' => Hash::make($request->input('password')),
                             'avatar' => $new_avatar,
-                            'state' => 1,
+                        ])
+                    ) {
+                        if ($request->file('avatar')) {
+                            $avatar = $request->file('avatar');
+                            $size = Image::make($avatar->getRealPath())->width();
+                            //lazy
+                            $address_l = public_path('/img/lazy_users');
+                            if (!File::isDirectory($address_l)) {
+                                File::makeDirectory($address_l, 0777, true, true);
+                            }
+                            $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_l->save($address_l . '/' . $new_avatar, 100);
+                            //original
+                            $address_o = public_path('/img/users');
+                            if (!File::isDirectory($address_o)) {
+                                File::makeDirectory($address_o, 0777, true, true);
+                            }
+                            $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_o->save($address_o . '/' . $new_avatar, 100);
+                        }
+                        return response()->json([
+                            'message' => 'Usuario creado exitosamente',
+                            'complete' => true,
                         ]);
-                    if ($request->file('avatar')) {
-                        $avatar = $request->file('avatar');
-                        $size = Image::make($avatar->getRealPath())->width();
-                        //lazy
-                        $address_l = public_path('/img/lazy_users');
-                        if (!File::isDirectory($address_l)) {
-                            File::makeDirectory($address_l, 0777, true, true);
-                        }
-                        $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
-                        $img_l->save($address_l . '/' . $new_avatar, 100);
-                        //original
-                        $address_o = public_path('/img/users');
-                        if (!File::isDirectory($address_o)) {
-                            File::makeDirectory($address_o, 0777, true, true);
-                        }
-                        $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
-                        $img_o->save($address_o . '/' . $new_avatar, 100);
+                    } else {
+                        return response()->json([
+                            'message' => 'Ah ocurrido un error al momento de crear el usuario',
+                            'complete' => false,
+                        ]);
                     }
-                    return response()->json([
-                        'message' => 'Usuario creado exitosamente',
-                        'complete' => true,
-                    ]);
                 }
             } catch (Exception $ex) {
                 return response()->json([
-                    'message' => $ex->getMessage(),
-                    // 'message' => "Ah ocurrido un error en la aplicación",
+                    // 'message' => $ex->getMessage(),
+                    'message' => "Ah ocurrido un error en la aplicación",
                     'complete' => false,
                 ]);
             }
@@ -151,8 +157,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $state = auth()->user()->state;
-        if ($state == 1) {
+        $status = auth()->user()->status;
+        if ($status == 1) {
             try {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {
@@ -292,8 +298,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $state = auth()->user()->state;
-        if ($state == 1) {
+        $status = auth()->user()->status;
+        if ($status == 1) {
             try {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {

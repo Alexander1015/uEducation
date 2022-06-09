@@ -27,10 +27,10 @@ $secondary: #685B4D;
         color: $black !important;
     }
     .txt_red {
-        color: $red !important;;
+        color: $red !important;
     }
     .txt_green {
-        color: $green !important;;
+        color: $green !important;
     }
     .txt_blue {
         color: $primary !important;
@@ -45,12 +45,20 @@ $secondary: #685B4D;
         height: 100%;
         max-width: 100%;
     }
+    .logo_top {
+        width: 13rem;
+    }
     #container {
         width: 100vw;
         .new_btn {
             position: absolute;
             top: 0;
             right: 0;
+        }
+        .return_btn {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     }
 }

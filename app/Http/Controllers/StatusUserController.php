@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class StateUserController extends Controller
+class StatusUserController extends Controller
 {
     /**
      * Update the specified resource in storage.
@@ -21,8 +18,8 @@ class StateUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $state = auth()->user()->state;
-        if ($state == 1) {
+        $status = auth()->user()->status;
+        if ($status == 1) {
             try {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {
@@ -32,7 +29,7 @@ class StateUserController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'type' => ['bail', 'required', 'boolean'],
+                        'status' => ['bail', 'required', 'in:0,1'],
                     ]);
                     if ($validator->fails()) {
                         return response()->json([
@@ -40,8 +37,8 @@ class StateUserController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        if (DB::update("UPDATE users SET state = ? WHERE id = ?", [
-                            $request->input('type'),
+                        if (DB::update("UPDATE users SET status = ? WHERE id = ?", [
+                            $request->input('status'),
                             $data->id,
                         ])) {
                             return response()->json([
@@ -49,10 +46,17 @@ class StateUserController extends Controller
                                 'complete' => true,
                             ]);
                         } else {
-                            return response()->json([
-                                'message' => 'Ah ocurrido un error al momento de cambiar el estado del usuario',
-                                'complete' => false,
-                            ]);
+                            if ($data->status == $request->input("status")) {
+                                return response()->json([
+                                    'message' => 'El estado seleccionado no modifica al usuario, asi que no se ha actualizado',
+                                    'complete' => false,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Ah ocurrido un error al momento de cambiar el estado del usuario',
+                                    'complete' => false,
+                                ]);
+                            }
                         }
                     }
                 }

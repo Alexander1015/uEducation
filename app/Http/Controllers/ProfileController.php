@@ -22,8 +22,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $state = auth()->user()->state;
-        if ($state == 1) {
+        $status = auth()->user()->status;
+        if ($status == 1) {
             try {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {

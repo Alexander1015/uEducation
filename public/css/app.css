@@ -43,6 +43,9 @@ $secondary: #685B4D;
   height: 100%;
   max-width: 100%;
 }
+#body .logo_top {
+  width: 13rem;
+}
 #body #container {
   width: 100vw;
 }
@@ -50,4 +53,9 @@ $secondary: #685B4D;
   position: absolute;
   top: 0;
   right: 0;
+}
+#body #container .return_btn {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

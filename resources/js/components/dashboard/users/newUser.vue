@@ -82,7 +82,7 @@
                                 <v-btn class="bk_red txt_white" :to='{ name: "users" }'>
                                     Cancelar
                                 </v-btn>
-                                <v-btn class="txt_white bk_green" type="submit" @click="registerUser">
+                                <v-btn class="txt_white bk_green" @click="registerUser">
                                     Crear</v-btn>
                             </v-card-actions>
                         </v-col>

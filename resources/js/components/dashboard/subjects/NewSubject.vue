@@ -20,30 +20,25 @@
                         </v-col>
                         <v-col>
                             <v-card-title class="text-h5">
-                                <p class="mx-auto">Actualizar Contraseña de {{ user }}</p>
+                                <p class="mx-auto">Nuevo Curso/Materia</p>
                             </v-card-title>
-                            <v-card-subtitle class="text-center">Actualize la contraseña del usuario seleccionado
-                            </v-card-subtitle>
+                            <v-card-subtitle class="text-center">Cree un curso nuevo</v-card-subtitle>
                             <div class="px-2 pb-2">
                                 <!-- Formulario de ingreso -->
-                                <v-form ref="form" lazy-validation>
+                                <v-form ref="form" enctype="multipart/form-data" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                        label="Contraseña *" tabindex="1" required>
-                                    </v-text-field>
-                                    <v-text-field v-model="form.password_confirmation" type="password"
-                                        :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2"
+                                    <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *" tabindex="1"
                                         required>
                                     </v-text-field>
                                 </v-form>
                             </div>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn class="bk_red txt_white" :to='{ name: "users" }'>
+                                <v-btn class="bk_red txt_white" :to='{ name: "subjects" }'>
                                     Cancelar
                                 </v-btn>
-                                <v-btn class="txt_white bk_green" @click="editPassword">
-                                    Actualizar</v-btn>
+                                <v-btn class="txt_white bk_green" @click="registerSubject">
+                                    Crear</v-btn>
                             </v-card-actions>
                         </v-col>
                     </v-row>
@@ -55,12 +50,12 @@
 
 <script>
 export default {
-    name: "passwordUser",
+    name: "newSubject",
     data: () => ({
         dialog: true,
         banner: {
-            img: "/img/banner/banner-password_user.jpg",
-            lazy: "/img/lazy/banner-password_user.jpg",
+            img: "/img/banner/banner-new_user.jpg",
+            lazy: "/img/lazy/banner-new_user.jpg",
         },
         overlay: false,
         sweet: {
@@ -68,43 +63,18 @@ export default {
             title: "Error",
         },
         form: {
-            password: "",
-            password_confirmation: "",
+            name: "",
         },
-        passwordRules: [
-            v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+        nameRules: [
+            v => !!v || 'El titulo es requerido',
+            v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
         ],
-        passwordconfirmRules: [
-            v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
-        ],
-        user: "",
     }),
     methods: {
-        async showUser() {
-            if (this.$route.params.id) {
-                await this.axios.get('/api/user/' + this.$route.params.id)
-                    .then(response => {
-                        const { user } = response.data;
-                        if (!user) {
-                            window.location.href = "/dashboard/users"
-                        }
-                        else {
-                            this.user = user;
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-            }
-            else {
-                window.location.href = "/dashboard/users"
-            }
-        },
-        async editPassword() {
+        async registerSubject() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de actualizar la contraseña?',
+                    title: '¿Esta seguro de crear el curso?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -115,10 +85,8 @@ export default {
                             this.overlay = true;
                             //Mostramos los datos asi por la imagen
                             let data = new FormData();
-                            data.append('password', this.form.password);
-                            data.append('password_confirmation', this.form.password_confirmation);
-                            data.append('_method', "put");
-                            this.axios.post('/api/user/password/' + this.$route.params.id, data)
+                            data.append('name', this.form.name);
+                            this.axios.post('/api/subject', data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -134,7 +102,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/dashboard/users";
+                                            window.location.href = "/dashboard/subjects";
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;
@@ -156,9 +124,6 @@ export default {
                 this.overlay = false;
             }
         },
-    },
-    mounted() {
-        this.showUser()
     },
 }
 </script>

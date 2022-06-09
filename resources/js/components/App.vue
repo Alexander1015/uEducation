@@ -7,7 +7,7 @@
                     <v-icon class="txt_white">menu</v-icon>
                 </v-app-bar-nav-icon>
                 <div class="d-none d-sm-flex">
-                    <v-list-item class="bk_brown txt_white" to="/" exact>
+                    <v-list-item class="bk_brown txt_white logo_top" @click.prevent="toInit()" exact>
                         <v-img :src='logo.img' :max-width='logo.width' :lazy-src='logo.lazy'>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -92,12 +92,19 @@
                 <v-divider></v-divider>
                 <v-list nav dense>
                     <div v-for="link in links" :key="links.title">
-                        <v-list-item v-if="link.visible" link :to="link.to" class="mb-2">
-                            <v-list-item-icon>
-                                <v-icon>{{ link.icon }}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-title>{{ link.title }}</v-list-item-title>
-                        </v-list-item>
+                        <template v-if="link.title">
+                            <v-list-item v-if="link.visible" link :to="link.to" class="mb-2">
+                                <v-list-item-icon>
+                                    <v-icon>{{ link.icon }}</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title>{{ link.title }}</v-list-item-title>
+                            </v-list-item>
+                        </template>
+                        <template v-else-if="link.header">
+                            <v-subheader v-if="link.visible" class="mb-2">
+                                {{ link.header }}
+                            </v-subheader>
+                        </template>
                     </div>
                 </v-list>
             </v-navigation-drawer>
@@ -139,10 +146,17 @@ export default {
             height: "40",
         },
         links: [
-            { title: "Inicio", icon: "token", to: "/", visible: true },
-            { title: "Cursos/Materias", icon: "collections_bookmark", to: { name: "blogs" }, visible: true },
-            { title: "Iniciar Sesión", icon: "rocket_launch", to: { name: "auth" }, visible: true },
-            { title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
+            // Public
+            { type: 0, title: "Inicio", icon: "token", to: "/", visible: true },
+            // Login
+            { type: 1, title: "Iniciar Sesión", icon: "rocket_launch", to: { name: "auth" }, visible: true },
+            // Dashboard
+            { type: 2, header: "Dashboard", visible: false },
+            { type: 2, title: "Cursos", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
+            { type: 2, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
+            { type: 2, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
+            { type: 2, header: "Usuarios", visible: false },
+            { type: 2, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
         ],
         to: {
             profile: { name: "profile" },
@@ -150,6 +164,9 @@ export default {
         nav: false,
     }),
     methods: {
+        toInit() {
+            this.$router.push("/");
+        },
         logout() {
             this.axios.post('/api/logout')
                 .then(response => {
@@ -166,8 +183,10 @@ export default {
                 .then(response => {
                     this.user = response.data;
                     if (this.user.user) {
-                        this.links[2].visible = false;
-                        this.links[3].visible = true;
+                        for (let link of this.links) {
+                            if (link.type == 1) link.visible = false;
+                            else if (link.type == 2) link.visible = true;
+                        }
                     }
                 }).catch((error) => {
                     console.log(error);

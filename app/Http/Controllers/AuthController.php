@@ -32,7 +32,7 @@ class AuthController extends Controller
             } else {
                 $user_state = DB::table('users')->where('user', $request->input('user'))->first();
                 if ($user_state->user) {
-                    if ($user_state->state == 1) {
+                    if ($user_state->status == 1) {
                         if (Auth::attempt($request->only('user', 'password'))) {
                             return response()->json([
                                 'message' => 'Bienvenido',
