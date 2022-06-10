@@ -21,7 +21,7 @@
                     lastIcon: 'last_page',
                     prevIcon: 'chevron_left',
                     nextIcon: 'chevron_right'
-                }" :loading="loading_table" loading-text="Obteniendo información... Por favor espere" multi-sort
+                }" :loading="loading_table" loading-text="Obteniendo información..." multi-sort
                     :search="search" fixed-header align="center">
                     <!-- Avatar -->
                     <template v-slot:item.avatar="{ item }">
@@ -79,13 +79,13 @@
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
-                                        :to='{ name: "editUser", params: { id: item } }'>
+                                        :to='{ name: "editUser", params: { id: item.id } }'>
                                         <v-icon>
                                             settings
                                         </v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Ver información</span>
+                                <span>Ver usuario</span>
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -198,6 +198,8 @@ export default {
                                     icon: this.sweet.icon,
                                     text: error,
                                 });
+                                this.login();
+                                this.allUsers();
                                 this.overlay = false;
                             });
                     }
@@ -244,6 +246,8 @@ export default {
                                     icon: this.sweet.icon,
                                     text: error,
                                 });
+                                this.login();
+                                this.allUsers();
                                 this.overlay = false;
                             });
                     }

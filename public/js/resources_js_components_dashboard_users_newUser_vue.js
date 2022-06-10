@@ -117,6 +117,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewUser",
   data: function data() {
@@ -183,6 +191,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    returnUsers: function returnUsers() {
+      this.$router.push({
+        name: "users"
+      });
+    },
     registerUser: function registerUser() {
       var _this = this;
 
@@ -205,8 +218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this.overlay = true; //Mostramos los datos asi por la imagen
-
+                    _this.overlay = true;
                     var data = new FormData();
                     data.append('firstname', _this.form.firstname);
                     data.append('lastname', _this.form.lastname);
@@ -814,7 +826,13 @@ var render = function () {
                                   [
                                     _c(
                                       "v-col",
-                                      { attrs: { cols: "6" } },
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
                                       [
                                         _c("v-text-field", {
                                           attrs: {
@@ -835,7 +853,53 @@ var render = function () {
                                             expression: "form.firstname",
                                           },
                                         }),
-                                        _vm._v(" "),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            rules: _vm.lastnameRules,
+                                            label: "Apellidos *",
+                                            tabindex: "2",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.lastname,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.form,
+                                                "lastname",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "form.lastname",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
+                                      [
                                         _c("v-text-field", {
                                           attrs: {
                                             rules: _vm.emailRules,
@@ -851,7 +915,49 @@ var render = function () {
                                             expression: "form.email",
                                           },
                                         }),
-                                        _vm._v(" "),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            tabindex: "4",
+                                            rules: _vm.userRules,
+                                            label: "Usuario *",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.user,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.form, "user", $$v)
+                                            },
+                                            expression: "form.user",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
+                                      [
                                         _c("v-text-field", {
                                           attrs: {
                                             type: "password",
@@ -878,44 +984,14 @@ var render = function () {
                                     _vm._v(" "),
                                     _c(
                                       "v-col",
-                                      { attrs: { cols: "6" } },
+                                      {
+                                        attrs: {
+                                          cols: "12",
+                                          sm: "12",
+                                          md: "6",
+                                        },
+                                      },
                                       [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            rules: _vm.lastnameRules,
-                                            label: "Apellidos *",
-                                            tabindex: "2",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.lastname,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.form,
-                                                "lastname",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "form.lastname",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            tabindex: "4",
-                                            rules: _vm.userRules,
-                                            label: "Usuario *",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.user,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "user", $$v)
-                                            },
-                                            expression: "form.user",
-                                          },
-                                        }),
-                                        _vm._v(" "),
                                         _c("v-text-field", {
                                           attrs: {
                                             type: "password",
@@ -1061,7 +1137,16 @@ var render = function () {
                             _c(
                               "v-btn",
                               {
-                                attrs: { outlined: "", to: { name: "users" } },
+                                attrs: { outlined: "" },
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.returnUsers.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
                               },
                               [
                                 _c("v-icon", { staticClass: "mr-2" }, [
@@ -1078,7 +1163,15 @@ var render = function () {
                               "v-btn",
                               {
                                 staticClass: "txt_white bk_green",
-                                on: { click: _vm.registerUser },
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.registerUser.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
                               },
                               [
                                 _c("v-icon", { staticClass: "mr-2" }, [

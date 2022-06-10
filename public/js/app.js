@@ -5784,7 +5784,7 @@ var NewUser = function NewUser() {
 
 var EditUser = function EditUser() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_EditUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/EditUser.vue */ "./resources/js/components/dashboard/users/EditUser.vue"));
-}; // Materias
+}; // Cursos
 
 
 var DashboardSubjects = function DashboardSubjects() {
@@ -5873,15 +5873,32 @@ var routes = [{
   name: 'subjects',
   path: '/dashboard/subjects',
   component: DashboardSubjects,
-  children: [{
-    name: 'newSubject',
-    path: '/dashboard/subjects/new',
-    component: NewSubject
-  }, {
-    name: 'editSubject',
-    path: '/dashboard/subjects/edit',
-    component: EditSubject
-  }],
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'newSubject',
+  path: '/dashboard/subjects/new',
+  component: NewSubject,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'editSubject',
+  path: '/dashboard/subjects/edit',
+  component: EditSubject,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();
@@ -5895,15 +5912,32 @@ var routes = [{
   name: 'tags',
   path: '/dashboard/tags',
   component: DashboardTags,
-  children: [{
-    name: 'newTag',
-    path: '/dashboard/tags/new',
-    component: NewTag
-  }, {
-    name: 'editTag',
-    path: '/dashboard/tags/edit',
-    component: EditTag
-  }],
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'newTag',
+  path: '/dashboard/tags/new',
+  component: NewTag,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'editTag',
+  path: '/dashboard/tags/edit',
+  component: EditTag,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();

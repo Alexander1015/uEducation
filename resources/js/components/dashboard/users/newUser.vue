@@ -24,28 +24,36 @@
                             </v-card-title>
                             <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
                             <div class="px-2 pb-2">
-                                <!-- Formulario de ingreso -->
+                                <!-- Formulario -->
                                 <v-form ref="form" enctype="multipart/form-data" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
                                     <v-row>
-                                        <v-col cols="6">
+                                        <v-col cols="12" sm="12" md="6">
                                             <v-text-field v-model="form.firstname" :rules="firstnameRules"
                                                 label="Nombres *" tabindex="1" required>
                                             </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-text-field v-model="form.lastname" :rules="lastnameRules"
+                                                label="Apellidos *" tabindex="2" required>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
                                             <v-text-field v-model="form.email" :rules="emailRules"
                                                 label="Correo electrónico *" tabindex="3" required>
                                             </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-text-field v-model="form.user" tabindex="4" :rules="userRules"
+                                                label="Usuario *" required>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
                                             <v-text-field v-model="form.password" type="password" :rules="passwordRules"
                                                 label="Contraseña *" tabindex="5" required>
                                             </v-text-field>
                                         </v-col>
-                                        <v-col cols="6">
-                                            <v-text-field v-model="form.lastname" :rules="lastnameRules"
-                                                label="Apellidos *" tabindex="2" required>
-                                            </v-text-field>
-                                            <v-text-field v-model="form.user" tabindex="4" :rules="userRules"
-                                                label="Usuario *" required>
-                                            </v-text-field>
+                                        <v-col cols="12" sm="12" md="6">
                                             <v-text-field v-model="form.password_confirmation" type="password"
                                                 :rules="passwordconfirmRules" label="Repita la contraseña *"
                                                 tabindex="6" required>
@@ -79,11 +87,11 @@
                             </div>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn outlined :to='{ name: "users" }'>
+                                <v-btn outlined @click.prevent="returnUsers">
                                     <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
                                     Regresar
                                 </v-btn>
-                                <v-btn class="txt_white bk_green" @click="registerUser">
+                                <v-btn class="txt_white bk_green" @click.prevent="registerUser">
                                     <v-icon class="mr-2">save</v-icon>
                                     Guardar
                                 </v-btn>
@@ -154,6 +162,9 @@ export default {
         }
     }),
     methods: {
+        returnUsers() {
+            this.$router.push({ name: "users" });
+        },
         async registerUser() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
@@ -166,7 +177,6 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            //Mostramos los datos asi por la imagen
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);

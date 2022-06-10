@@ -282,6 +282,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: error
                       });
 
+                      _this3.login();
+
+                      _this3.allUsers();
+
                       _this3.overlay = false;
                     });
                   }
@@ -346,6 +350,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: _this4.sweet.icon,
                         text: error
                       });
+
+                      _this4.login();
+
+                      _this4.allUsers();
 
                       _this4.overlay = false;
                     });
@@ -1156,7 +1164,7 @@ var render = function () {
                     nextIcon: "chevron_right",
                   },
                   loading: _vm.loading_table,
-                  "loading-text": "Obteniendo información... Por favor espere",
+                  "loading-text": "Obteniendo información...",
                   "multi-sort": "",
                   search: _vm.search,
                   "fixed-header": "",
@@ -1336,7 +1344,7 @@ var render = function () {
                                                       icon: "",
                                                       to: {
                                                         name: "editUser",
-                                                        params: { id: item },
+                                                        params: { id: item.id },
                                                       },
                                                     },
                                                   },
@@ -1365,7 +1373,7 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(" "),
-                                  _c("span", [_vm._v("Ver información")]),
+                                  _c("span", [_vm._v("Ver usuario")]),
                                 ]
                               ),
                               _vm._v(" "),

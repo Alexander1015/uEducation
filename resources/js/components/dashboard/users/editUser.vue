@@ -161,8 +161,10 @@
                                         permitido ingresar al apartado de administradores o manipular la información de
                                         la base de datos)
                                     </v-card-subtitle>
-                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado"></v-select>
+                                    <v-form ref="form_status" lazy-validation>
+                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                            label="Estado"></v-select>
+                                    </v-form>
                                     <v-btn class="txt_white bk_green width_100" @click.prevent="statusUser">
                                         <v-icon class="mr-2">save</v-icon>
                                         Guardar
@@ -279,7 +281,7 @@ export default {
                         this.user = response.data;
                         if (!this.user.user) {
                             this.overlay = false;
-                            this.$route.push({ name: "users" });
+                            this.$router.push({ name: "users" });
                         }
                         else {
                             this.form_information.firstname = this.user.firstname;

@@ -8,7 +8,7 @@ const Auth = () => import ('./components/auth/Home.vue')
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
 const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
-// Materias
+// Cursos
 const DashboardSubjects = () => import ('./components/dashboard/subjects/Home.vue')
 const NewSubject = () => import ('./components/dashboard/subjects/NewSubject.vue')
 const EditSubject = () => import ('./components/dashboard/subjects/EditSubject.vue')
@@ -70,17 +70,28 @@ export const routes = [
         name: 'subjects',
         path: '/dashboard/subjects',
         component: DashboardSubjects,
-        children: [
-            {
-                name: 'newSubject',
-                path: '/dashboard/subjects/new',
-                component: NewSubject
-            }, {
-                name: 'editSubject',
-                path: '/dashboard/subjects/edit',
-                component: EditSubject
-            },
-        ],
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'newSubject',
+        path: '/dashboard/subjects/new',
+        component: NewSubject,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'editSubject',
+        path: '/dashboard/subjects/edit',
+        component: EditSubject,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()
@@ -92,17 +103,28 @@ export const routes = [
         name: 'tags',
         path: '/dashboard/tags',
         component: DashboardTags,
-        children: [
-            {
-                name: 'newTag',
-                path: '/dashboard/tags/new',
-                component: NewTag
-            }, {
-                name: 'editTag',
-                path: '/dashboard/tags/edit',
-                component: EditTag
-            },
-        ],
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'newTag',
+        path: '/dashboard/tags/new',
+        component: NewTag,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'editTag',
+        path: '/dashboard/tags/edit',
+        component: EditTag,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()

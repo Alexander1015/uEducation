@@ -209,6 +209,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -339,7 +341,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (!_this2.user.user) {
                     _this2.overlay = false;
 
-                    _this2.$route.push({
+                    _this2.$router.push({
                       name: "users"
                     });
                   } else {
@@ -2031,20 +2033,34 @@ var render = function () {
                                   ]
                                 ),
                                 _vm._v(" "),
-                                _c("v-select", {
-                                  staticClass: "width_100",
-                                  attrs: {
-                                    items: _vm.items_status,
-                                    label: "Estado",
+                                _c(
+                                  "v-form",
+                                  {
+                                    ref: "form_status",
+                                    attrs: { "lazy-validation": "" },
                                   },
-                                  model: {
-                                    value: _vm.form_status.status,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.form_status, "status", $$v)
-                                    },
-                                    expression: "form_status.status",
-                                  },
-                                }),
+                                  [
+                                    _c("v-select", {
+                                      staticClass: "width_100",
+                                      attrs: {
+                                        items: _vm.items_status,
+                                        label: "Estado",
+                                      },
+                                      model: {
+                                        value: _vm.form_status.status,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_status,
+                                            "status",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "form_status.status",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
                                 _c(
                                   "v-btn",

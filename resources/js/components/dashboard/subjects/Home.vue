@@ -5,14 +5,14 @@
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-2 my-2">
-            <p class="text-h5 my-4 ml-2">Cursos / Materias</p>
-            <v-btn class="mr-10 my-2 new_btn txt_white bk_green" large :to='{ name: "newSubject" }'>
-                <v-icon class="mr-2">person_add</v-icon>
+        <div class="mx-4 my-4">
+            <p class="text-h6 my-4 ml-2">CURSOS</p>
+            <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newSubject" }'>
+                <v-icon class="mr-2">post_add</v-icon>
                 Nuevo
             </v-btn>
             <!-- Tabla -->
-            <v-card class="mx-auto rounded mt-2 px-5 py-3" elevation="1">
+            <v-card class="mx-auto mt-10 px-5 py-3" elevation="0">
                 <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1">
                 </v-text-field>
                 <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
@@ -21,55 +21,55 @@
                     lastIcon: 'last_page',
                     prevIcon: 'chevron_left',
                     nextIcon: 'chevron_right'
-                }" :loading="loading_table" loading-text="Obteniendo información... Por favor espera" multi-sort
-                    :search="search" fixed-header>
+                }" :loading="loading_table" loading-text="Obteniendo información..." multi-sort :search="search"
+                    fixed-header>
                     <template v-slot:item.status="{ item }">
-                        <v-switch color="success" v-model="item.status" inset disabled></v-switch>
+                        <div>
+                            <template v-if="item.status == 0">
+                                <v-btn icon @click.prevent="statusSubject(item.id, 1)">
+                                    <v-icon>
+                                        check_box_outline_blank
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <template v-else-if="item.status == 1">
+                                <v-btn icon @click.prevent="statusSubject(item.id, 0)">
+                                    <v-icon>
+                                        check_box
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-icon>indeterminate_check_box</v-icon>
+                            </template>
+                        </div>
                     </template>
                     <template v-slot:item.actions="{ item }">
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="mr-2 txt_green" @click="editSubject(item.id)" v-bind="attrs" v-on="on">
-                                    edit
-                                </v-icon>
+                                <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
+                                    :to='{ name: "editSubject", params: { id: item.id } }'>
+                                    <v-icon>
+                                        settings
+                                    </v-icon>
+                                </v-btn>
                             </template>
-                            <span>Modificar</span>
+                            <span>Ver curso</span>
                         </v-tooltip>
-                        <template v-if="item.status == 0">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="mr-2 txt_green" @click="statusSubject(item.id, 1)" v-bind="attrs"
-                                        v-on="on">
-                                        check_circle
-                                    </v-icon>
-                                </template>
-                                <span>Activar curso</span>
-                            </v-tooltip>
-                        </template>
-                        <template v-else-if="item.status == 1">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-icon class="mr-2 txt_red" @click="statusSubject(item.id, 0)" v-bind="attrs"
-                                        v-on="on">
-                                        cancel
-                                    </v-icon>
-                                </template>
-                                <span>Desactivar curso</span>
-                            </v-tooltip>
-                        </template>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon class="mr-2 txt_red" @click="deleteSubject(item.id)" v-bind="attrs" v-on="on">
-                                    delete
-                                </v-icon>
+                                <v-btn icon class="txt_red" @click.prevent="deleteSubject(item.id)" v-bind="attrs"
+                                    v-on="on">
+                                    <v-icon>
+                                        delete
+                                    </v-icon>
+                                </v-btn>
                             </template>
                             <span>Eliminar</span>
                         </v-tooltip>
                     </template>
                 </v-data-table>
             </v-card>
-            <!-- Models -->
-            <router-view></router-view>
         </div>
     </v-main>
 </template>
@@ -106,9 +106,6 @@ export default {
                     this.data = []
                 })
         },
-        editSubject(item) {
-            this.$router.push({ name: "editSubject", params: { id: item } });
-        },
         async deleteSubject(item) {
             await this.$swal({
                 title: '¿Esta seguro de eliminar el curso?',
@@ -136,8 +133,8 @@ export default {
                                     icon: this.sweet.icon,
                                     text: response.data.message,
                                 });
+                                this.allSubjects();
                                 this.overlay = false;
-                                this.allSubjects()
                             })
                             .catch(error => {
                                 this.sweet.title = "Error"
@@ -147,6 +144,7 @@ export default {
                                     icon: this.sweet.icon,
                                     text: error,
                                 });
+                                this.allSubjects();
                                 this.overlay = false;
                             });
                     }
@@ -181,8 +179,8 @@ export default {
                                     icon: this.sweet.icon,
                                     text: response.data.message,
                                 });
+                                this.allSubjects();
                                 this.overlay = false;
-                                this.allSubjects()
                             })
                             .catch(error => {
                                 this.sweet.title = "Error"
@@ -192,6 +190,7 @@ export default {
                                     icon: this.sweet.icon,
                                     text: error,
                                 });
+                                this.allSubjects();
                                 this.overlay = false;
                             });
                     }
