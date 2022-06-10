@@ -98,6 +98,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -200,22 +232,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    editUser: function editUser(item) {
-      this.$router.push({
-        name: "editUser",
-        params: {
-          id: item
-        }
-      });
-    },
-    passwordUser: function passwordUser(item) {
-      this.$router.push({
-        name: "passwordUser",
-        params: {
-          id: item
-        }
-      });
-    },
     deleteUser: function deleteUser(item) {
       var _this3 = this;
 
@@ -251,9 +267,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       });
 
-                      _this3.overlay = false;
+                      _this3.login();
 
                       _this3.allUsers();
+
+                      _this3.overlay = false;
                     })["catch"](function (error) {
                       _this3.sweet.title = "Error";
                       _this3.sweet.icon = "error";
@@ -314,9 +332,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       });
 
-                      _this4.overlay = false;
+                      _this4.login();
 
                       _this4.allUsers();
+
+                      _this4.overlay = false;
                     })["catch"](function (error) {
                       _this4.sweet.title = "Error";
                       _this4.sweet.icon = "error";
@@ -1085,9 +1105,7 @@ var render = function () {
         "div",
         { staticClass: "mx-4 my-4" },
         [
-          _c("p", { staticClass: "text-h6 my-4 ml-2" }, [
-            _vm._v("Usuarios / Docentes"),
-          ]),
+          _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("USUARIOS")]),
           _vm._v(" "),
           _c(
             "v-btn",
@@ -1216,12 +1234,68 @@ var render = function () {
                           [
                             item.status == 0
                               ? [
-                                  _c("v-icon", [
-                                    _vm._v("check_box_outline_blank"),
-                                  ]),
+                                  _vm.user.id !== item.id
+                                    ? [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { icon: "" },
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.statusUser(
+                                                  item.id,
+                                                  1
+                                                )
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c("v-icon", [
+                                              _vm._v(
+                                                "\n                                        check_box_outline_blank\n                                    "
+                                              ),
+                                            ]),
+                                          ],
+                                          1
+                                        ),
+                                      ]
+                                    : [
+                                        _c("v-icon", [
+                                          _vm._v("check_box_outline_blank"),
+                                        ]),
+                                      ],
                                 ]
                               : item.status == 1
-                              ? [_c("v-icon", [_vm._v("check_box")])]
+                              ? [
+                                  _vm.user.id !== item.id
+                                    ? [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            attrs: { icon: "" },
+                                            on: {
+                                              click: function ($event) {
+                                                $event.preventDefault()
+                                                return _vm.statusUser(
+                                                  item.id,
+                                                  0
+                                                )
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _c("v-icon", [
+                                              _vm._v(
+                                                "\n                                        check_box\n                                    "
+                                              ),
+                                            ]),
+                                          ],
+                                          1
+                                        ),
+                                      ]
+                                    : [_c("v-icon", [_vm._v("check_box")])],
+                                ]
                               : [
                                   _c("v-icon", [
                                     _vm._v("indeterminate_check_box"),
@@ -1258,11 +1332,66 @@ var render = function () {
                                                 _vm._b(
                                                   {
                                                     staticClass: "txt_blue",
+                                                    attrs: {
+                                                      icon: "",
+                                                      to: {
+                                                        name: "editUser",
+                                                        params: { id: item },
+                                                      },
+                                                    },
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(
+                                                    "\n                                        settings\n                                    "
+                                                  ),
+                                                ]),
+                                              ],
+                                              1
+                                            ),
+                                          ]
+                                        },
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Ver información")]),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function (ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "txt_red",
                                                     attrs: { icon: "" },
                                                     on: {
                                                       click: function ($event) {
                                                         $event.preventDefault()
-                                                        return _vm.editUser(
+                                                        return _vm.deleteUser(
                                                           item.id
                                                         )
                                                       },
@@ -1276,7 +1405,9 @@ var render = function () {
                                               ),
                                               [
                                                 _c("v-icon", [
-                                                  _vm._v("settings"),
+                                                  _vm._v(
+                                                    "\n                                        delete\n                                    "
+                                                  ),
                                                 ]),
                                               ],
                                               1
@@ -1289,7 +1420,7 @@ var render = function () {
                                     true
                                   ),
                                 },
-                                [_vm._v(" "), _c("span", [_vm._v("Ver")])]
+                                [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
                               ),
                             ]
                           : [_c("v-icon", [_vm._v("remove")])],

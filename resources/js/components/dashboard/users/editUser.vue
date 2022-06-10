@@ -12,13 +12,13 @@
             </v-btn>
             <div class="text-h6 mt-11 mb-4 ml-2">
                 <template v-if="user.firstname || user.lastname">
-                    <p>{{ user.firstname }} {{ user.lastname }}</p>
+                    <p>{{ user.firstname.toUpperCase() }} {{ user.lastname.toUpperCase() }}</p>
                 </template>
                 <template v-else>
                     <v-icon>remove</v-icon>
                 </template>
             </div>
-            <v-card class="mt-4 mx-4" elevation="0">
+            <v-card class="mt-4 mx-auto" elevation="0" max-width="1250">
                 <v-tabs vertical>
                     <!-- Menú vertical -->
                     <v-tab>

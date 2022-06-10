@@ -479,7 +479,7 @@ var render = function () {
         "v-card",
         {
           staticClass: "mx-auto rounded mt-4",
-          attrs: { elevation: "3", width: "700" },
+          attrs: { elevation: "3", "max-width": "700" },
         },
         [
           _c(

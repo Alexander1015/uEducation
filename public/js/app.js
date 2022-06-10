@@ -5606,11 +5606,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         console.log(error);
       });
     },
-    profile: function profile() {
-      this.$router.push({
-        name: 'profile'
-      });
-    },
     login: function login() {
       var _this = this;
 
@@ -30437,13 +30432,7 @@ var render = function () {
                     "v-list-item",
                     {
                       staticClass: "bk_brown txt_white logo_top",
-                      attrs: { exact: "" },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.toInit()
-                        },
-                      },
+                      attrs: { to: "/", exact: "" },
                     },
                     [
                       _c("v-img", {
@@ -30632,13 +30621,7 @@ var render = function () {
                                 "v-btn",
                                 {
                                   staticClass: "width_100",
-                                  attrs: { text: "" },
-                                  on: {
-                                    click: function ($event) {
-                                      $event.preventDefault()
-                                      return _vm.profile.apply(null, arguments)
-                                    },
-                                  },
+                                  attrs: { text: "", to: _vm.to.profile },
                                 },
                                 [
                                   _c(

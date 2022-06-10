@@ -1,26 +1,26 @@
 <template>
     <v-main>
-        <v-dialog v-model="dialog" max-width="900" persistent transition="dialog-bottom-transition">
-            <!-- Overlay -->
-            <v-overlay :value="overlay" :absolute="true">
-                <v-progress-circular indeterminate size="64"></v-progress-circular>
-            </v-overlay>
-            <!-- Contenido -->
-            <v-card class="pa-0 ma-0">
-                <v-container>
-                    <v-row>
-                        <v-col cols="4" class="bk_blue d-none d-md-flex pa-0">
-                            <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
-                                <template v-slot:placeholder>
-                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                    </v-row>
-                                </template>
-                            </v-img>
-                        </v-col>
-                        <v-col>
+        <!-- Overlay -->
+        <v-overlay :value="overlay">
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
+        <!-- Contenido -->
+        <div class="mx-4 my-4">
+            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
+                <v-row dense class="pl-1">
+                    <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
+                        <v-img class="img_login rounded-sm" :src='banner.img' :lazy-src='banner.lazy'>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
+                    </v-col>
+                    <v-col>
+                        <div class="pb-4 mx-4">
                             <v-card-title class="text-h5">
-                                <p class="mx-auto">Nuevo Usuario/Docente</p>
+                                <p class="mx-auto">NUEVO USUARIO</p>
                             </v-card-title>
                             <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
                             <div class="px-2 pb-2">
@@ -79,23 +79,26 @@
                             </div>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn class="bk_red txt_white" :to='{ name: "users" }'>
-                                    Cancelar
+                                <v-btn outlined :to='{ name: "users" }'>
+                                    <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
+                                    Regresar
                                 </v-btn>
                                 <v-btn class="txt_white bk_green" @click="registerUser">
-                                    Crear</v-btn>
+                                    <v-icon class="mr-2">save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </v-card-actions>
-                        </v-col>
-                    </v-row>
-                </v-container>
+                        </div>
+                    </v-col>
+                </v-row>
             </v-card>
-        </v-dialog>
+        </div>
     </v-main>
 </template>
 
 <script>
 export default {
-    name: "newUser",
+    name: "NewUser",
     data: () => ({
         dialog: true,
         banner: {
@@ -195,7 +198,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/dashboard/users";
+                                            this.$router.push({ name: "users" });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

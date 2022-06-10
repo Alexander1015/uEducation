@@ -1417,9 +1417,9 @@ var render = function () {
                 ? [
                     _c("p", [
                       _vm._v(
-                        _vm._s(_vm.user.firstname) +
+                        _vm._s(_vm.user.firstname.toUpperCase()) +
                           " " +
-                          _vm._s(_vm.user.lastname)
+                          _vm._s(_vm.user.lastname.toUpperCase())
                       ),
                     ]),
                   ]
@@ -1430,7 +1430,10 @@ var render = function () {
           _vm._v(" "),
           _c(
             "v-card",
-            { staticClass: "mt-4 mx-4", attrs: { elevation: "0" } },
+            {
+              staticClass: "mt-4 mx-auto",
+              attrs: { elevation: "0", "max-width": "1250" },
+            },
             [
               _c(
                 "v-tabs",

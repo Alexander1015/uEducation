@@ -114,8 +114,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "newUser",
+  name: "NewUser",
   data: function data() {
     return {
       dialog: true,
@@ -236,7 +239,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          window.location.href = "/dashboard/users";
+                          _this.$router.push({
+                            name: "users"
+                          });
+
                           _this.overlay = false;
                         } else _this.overlay = false;
                       });
@@ -322,29 +328,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "/* Theme */\n.theme--light.v-counter {\n  color: rgba(0, 0, 0, 0.6);\n}\n\n.theme--dark.v-counter {\n  color: rgba(255, 255, 255, 0.7);\n}\n\n.v-counter {\n  flex: 0 1 auto;\n  font-size: 12px;\n  min-height: 12px;\n  line-height: 12px;\n}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VDialog/VDialog.sass":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VDialog/VDialog.sass ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".v-dialog {\n  border-radius: 4px;\n  margin: 24px;\n  overflow-y: auto;\n  pointer-events: auto;\n  transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);\n  width: 100%;\n  z-index: inherit;\n  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);\n}\n.v-dialog:not(.v-dialog--fullscreen) {\n  max-height: 90%;\n}\n.v-dialog > * {\n  width: 100%;\n}\n.v-dialog > .v-card > .v-card__title {\n  font-size: 1.25rem;\n  font-weight: 500;\n  letter-spacing: 0.0125em;\n  padding: 16px 24px 10px;\n}\n.v-dialog > .v-card > .v-card__text {\n  padding: 0 24px 20px;\n}\n.v-dialog > .v-card > .v-card__subtitle {\n  padding: 0 24px 20px;\n}\n.v-dialog > .v-card > .v-card__actions {\n  padding: 8px 16px;\n}\n\n.v-dialog__content {\n  align-items: center;\n  display: flex;\n  height: 100%;\n  justify-content: center;\n  left: 0;\n  pointer-events: none;\n  position: fixed;\n  top: 0;\n  transition: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 1ms;\n  width: 100%;\n  z-index: 6;\n  outline: none;\n}\n\n.v-dialog__container {\n  display: none;\n}\n.v-dialog__container--attached {\n  display: inline;\n}\n\n.v-dialog--animated {\n  -webkit-animation-duration: 0.15s;\n          animation-duration: 0.15s;\n  -webkit-animation-name: animate-dialog;\n          animation-name: animate-dialog;\n  -webkit-animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);\n          animation-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);\n}\n\n.v-dialog--fullscreen {\n  border-radius: 0;\n  margin: 0;\n  height: 100%;\n  position: fixed;\n  overflow-y: auto;\n  top: 0;\n  left: 0;\n}\n.v-dialog--fullscreen > .v-card {\n  min-height: 100%;\n  min-width: 100%;\n  margin: 0 !important;\n  padding: 0 !important;\n}\n\n.v-dialog--scrollable,\n.v-dialog--scrollable > form {\n  display: flex;\n}\n.v-dialog--scrollable > .v-card,\n.v-dialog--scrollable > form > .v-card {\n  display: flex;\n  flex: 1 1 100%;\n  flex-direction: column;\n  max-height: 100%;\n  max-width: 100%;\n}\n.v-dialog--scrollable > .v-card > .v-card__title,\n.v-dialog--scrollable > .v-card > .v-card__actions,\n.v-dialog--scrollable > form > .v-card > .v-card__title,\n.v-dialog--scrollable > form > .v-card > .v-card__actions {\n  flex: 0 0 auto;\n}\n.v-dialog--scrollable > .v-card > .v-card__text,\n.v-dialog--scrollable > form > .v-card > .v-card__text {\n  -webkit-backface-visibility: hidden;\n          backface-visibility: hidden;\n  flex: 1 1 auto;\n  overflow-y: auto;\n}\n\n@-webkit-keyframes animate-dialog {\n  0% {\n    transform: scale(1);\n  }\n  50% {\n    transform: scale(1.03);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n\n@keyframes animate-dialog {\n  0% {\n    transform: scale(1);\n  }\n  50% {\n    transform: scale(1.03);\n  }\n  100% {\n    transform: scale(1);\n  }\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -521,35 +504,6 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VCounter_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/src/components/VDialog/VDialog.sass":
-/*!******************************************************************!*\
-  !*** ./node_modules/vuetify/src/components/VDialog/VDialog.sass ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VDialog_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VDialog.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VDialog/VDialog.sass");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VDialog_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VDialog_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -748,415 +702,401 @@ var render = function () {
     "v-main",
     [
       _c(
-        "v-dialog",
-        {
-          attrs: {
-            "max-width": "900",
-            persistent: "",
-            transition: "dialog-bottom-transition",
-          },
-          model: {
-            value: _vm.dialog,
-            callback: function ($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog",
-          },
-        },
+        "v-overlay",
+        { attrs: { value: _vm.overlay } },
+        [
+          _c("v-progress-circular", {
+            attrs: { indeterminate: "", size: "64" },
+          }),
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "mx-4 my-4" },
         [
           _c(
-            "v-overlay",
-            { attrs: { value: _vm.overlay, absolute: true } },
-            [
-              _c("v-progress-circular", {
-                attrs: { indeterminate: "", size: "64" },
-              }),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
             "v-card",
-            { staticClass: "pa-0 ma-0" },
+            {
+              staticClass: "mt-4 rounded mx-auto",
+              attrs: { elevation: "3", "max-width": "1100" },
+            },
             [
               _c(
-                "v-container",
+                "v-row",
+                { staticClass: "pl-1", attrs: { dense: "" } },
                 [
                   _c(
-                    "v-row",
+                    "v-col",
+                    {
+                      staticClass: "bk_blue rounded-l d-none d-md-flex",
+                      attrs: { cols: "4" },
+                    },
                     [
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "bk_blue d-none d-md-flex pa-0",
-                          attrs: { cols: "4" },
+                      _c("v-img", {
+                        staticClass: "img_login rounded-sm",
+                        attrs: {
+                          src: _vm.banner.img,
+                          "lazy-src": _vm.banner.lazy,
                         },
-                        [
-                          _c("v-img", {
-                            staticClass: "img_login",
-                            attrs: {
-                              src: _vm.banner.img,
-                              "lazy-src": _vm.banner.lazy,
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "placeholder",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "v-row",
-                                      {
-                                        staticClass: "fill-height ma-0",
-                                        attrs: {
-                                          align: "center",
-                                          justify: "center",
-                                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "placeholder",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "v-row",
+                                  {
+                                    staticClass: "fill-height ma-0",
+                                    attrs: {
+                                      align: "center",
+                                      justify: "center",
+                                    },
+                                  },
+                                  [
+                                    _c("v-progress-circular", {
+                                      attrs: {
+                                        indeterminate: "",
+                                        color: "grey lighten-5",
                                       },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                              ]
+                            },
+                            proxy: true,
+                          },
+                        ]),
+                      }),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-col", [
+                    _c(
+                      "div",
+                      { staticClass: "pb-4 mx-4" },
+                      [
+                        _c("v-card-title", { staticClass: "text-h5" }, [
+                          _c("p", { staticClass: "mx-auto" }, [
+                            _vm._v("NUEVO USUARIO"),
+                          ]),
+                        ]),
+                        _vm._v(" "),
+                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                          _vm._v("Cree un usuario nuevo"),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "px-2 pb-2" },
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                ref: "form",
+                                attrs: {
+                                  enctype: "multipart/form-data",
+                                  "lazy-validation": "",
+                                },
+                              },
+                              [
+                                _c(
+                                  "small",
+                                  { staticClass: "font-italic txt_red" },
+                                  [_vm._v("Obligatorio *")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-row",
+                                  [
+                                    _c(
+                                      "v-col",
+                                      { attrs: { cols: "6" } },
                                       [
-                                        _c("v-progress-circular", {
+                                        _c("v-text-field", {
                                           attrs: {
-                                            indeterminate: "",
-                                            color: "grey lighten-5",
+                                            rules: _vm.firstnameRules,
+                                            label: "Nombres *",
+                                            tabindex: "1",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.firstname,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.form,
+                                                "firstname",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "form.firstname",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            rules: _vm.emailRules,
+                                            label: "Correo electrónico *",
+                                            tabindex: "3",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.email,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.form, "email", $$v)
+                                            },
+                                            expression: "form.email",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            type: "password",
+                                            rules: _vm.passwordRules,
+                                            label: "Contraseña *",
+                                            tabindex: "5",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.password,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.form,
+                                                "password",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "form.password",
                                           },
                                         }),
                                       ],
                                       1
                                     ),
-                                  ]
-                                },
-                                proxy: true,
-                              },
-                            ]),
-                          }),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        [
-                          _c("v-card-title", { staticClass: "text-h5" }, [
-                            _c("p", { staticClass: "mx-auto" }, [
-                              _vm._v("Nuevo Usuario/Docente"),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-subtitle",
-                            { staticClass: "text-center" },
-                            [_vm._v("Cree un usuario nuevo")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "px-2 pb-2" },
-                            [
-                              _c(
-                                "v-form",
-                                {
-                                  ref: "form",
-                                  attrs: {
-                                    enctype: "multipart/form-data",
-                                    "lazy-validation": "",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "small",
-                                    { staticClass: "font-italic txt_red" },
-                                    [_vm._v("Obligatorio *")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-row",
-                                    [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "6" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.firstnameRules,
-                                              label: "Nombres *",
-                                              tabindex: "1",
-                                              required: "",
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      { attrs: { cols: "6" } },
+                                      [
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            rules: _vm.lastnameRules,
+                                            label: "Apellidos *",
+                                            tabindex: "2",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.lastname,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.form,
+                                                "lastname",
+                                                $$v
+                                              )
                                             },
-                                            model: {
-                                              value: _vm.form.firstname,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "firstname",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "form.firstname",
+                                            expression: "form.lastname",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            tabindex: "4",
+                                            rules: _vm.userRules,
+                                            label: "Usuario *",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value: _vm.form.user,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.form, "user", $$v)
                                             },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.emailRules,
-                                              label: "Correo electrónico *",
-                                              tabindex: "3",
-                                              required: "",
+                                            expression: "form.user",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _c("v-text-field", {
+                                          attrs: {
+                                            type: "password",
+                                            rules: _vm.passwordconfirmRules,
+                                            label: "Repita la contraseña *",
+                                            tabindex: "6",
+                                            required: "",
+                                          },
+                                          model: {
+                                            value:
+                                              _vm.form.password_confirmation,
+                                            callback: function ($$v) {
+                                              _vm.$set(
+                                                _vm.form,
+                                                "password_confirmation",
+                                                $$v
+                                              )
                                             },
-                                            model: {
-                                              value: _vm.form.email,
-                                              callback: function ($$v) {
-                                                _vm.$set(_vm.form, "email", $$v)
-                                              },
-                                              expression: "form.email",
+                                            expression:
+                                              "form.password_confirmation",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      { attrs: { cols: "12" } },
+                                      [
+                                        _c("v-file-input", {
+                                          attrs: {
+                                            label:
+                                              "Haz clic(k) aquí para subir una imagen",
+                                            id: "avatar",
+                                            "prepend-icon": "photo_camera",
+                                            rules: _vm.avatarRules,
+                                            accept:
+                                              "image/jpeg, image/jpg, image/png, image/gif, image/svg",
+                                            "show-size": "",
+                                            tabindex: "7",
+                                          },
+                                          on: { change: _vm.preview_img },
+                                          model: {
+                                            value: _vm.form.avatar,
+                                            callback: function ($$v) {
+                                              _vm.$set(_vm.form, "avatar", $$v)
                                             },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              type: "password",
-                                              rules: _vm.passwordRules,
-                                              label: "Contraseña *",
-                                              tabindex: "5",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.form.password,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "password",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "form.password",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "6" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.lastnameRules,
-                                              label: "Apellidos *",
-                                              tabindex: "2",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.form.lastname,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "lastname",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "form.lastname",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              tabindex: "4",
-                                              rules: _vm.userRules,
-                                              label: "Usuario *",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.form.user,
-                                              callback: function ($$v) {
-                                                _vm.$set(_vm.form, "user", $$v)
-                                              },
-                                              expression: "form.user",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              type: "password",
-                                              rules: _vm.passwordconfirmRules,
-                                              label: "Repita la contraseña *",
-                                              tabindex: "6",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.form.password_confirmation,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "password_confirmation",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "form.password_confirmation",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-file-input", {
-                                            attrs: {
-                                              label:
-                                                "Haz clic(k) aquí para subir una imagen",
-                                              id: "avatar",
-                                              "prepend-icon": "photo_camera",
-                                              rules: _vm.avatarRules,
-                                              accept:
-                                                "image/jpeg, image/jpg, image/png, image/gif, image/svg",
-                                              "show-size": "",
-                                              tabindex: "7",
-                                            },
-                                            on: { change: _vm.preview_img },
-                                            model: {
-                                              value: _vm.form.avatar,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form,
-                                                  "avatar",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "form.avatar",
-                                            },
-                                          }),
-                                          _vm._v(" "),
-                                          _vm.prev_img.url_img
-                                            ? [
-                                                _c(
-                                                  "v-btn",
-                                                  {
-                                                    staticClass:
-                                                      "bk_brown txt_white width_100",
-                                                    on: {
-                                                      click: _vm.clean_img,
-                                                    },
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "Borrar\n                                                avatar\n                                            "
-                                                    ),
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("v-img", {
-                                                  staticClass: "mt-4 mx-auto",
-                                                  attrs: {
-                                                    src: _vm.prev_img.url_img,
-                                                    "lazy-src":
-                                                      _vm.prev_img.url_img,
-                                                    "max-height":
-                                                      _vm.prev_img.height,
-                                                    "max-width":
-                                                      _vm.prev_img.width,
-                                                    contain: "",
-                                                  },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "placeholder",
-                                                        fn: function () {
-                                                          return [
-                                                            _c(
-                                                              "v-row",
-                                                              {
-                                                                staticClass:
-                                                                  "fill-height ma-0",
-                                                                attrs: {
-                                                                  align:
-                                                                    "center",
-                                                                  justify:
-                                                                    "center",
-                                                                },
-                                                              },
-                                                              [
-                                                                _c(
-                                                                  "v-progress-circular",
-                                                                  {
-                                                                    attrs: {
-                                                                      indeterminate:
-                                                                        "",
-                                                                      color:
-                                                                        "grey lighten-5",
-                                                                    },
-                                                                  }
-                                                                ),
-                                                              ],
-                                                              1
-                                                            ),
-                                                          ]
-                                                        },
-                                                        proxy: true,
-                                                      },
-                                                    ],
-                                                    null,
-                                                    false,
-                                                    4034393411
+                                            expression: "form.avatar",
+                                          },
+                                        }),
+                                        _vm._v(" "),
+                                        _vm.prev_img.url_img
+                                          ? [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass:
+                                                    "bk_brown txt_white width_100",
+                                                  on: { click: _vm.clean_img },
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "Borrar\n                                                avatar\n                                            "
                                                   ),
-                                                }),
-                                              ]
-                                            : _vm._e(),
-                                        ],
-                                        2
-                                      ),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "bk_red txt_white",
-                                  attrs: { to: { name: "users" } },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                Cancelar\n                            "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "txt_white bk_green",
-                                  on: { click: _vm.registerUser },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                Crear"
-                                  ),
-                                ]
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ],
-                    1
-                  ),
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-img", {
+                                                staticClass: "mt-4 mx-auto",
+                                                attrs: {
+                                                  src: _vm.prev_img.url_img,
+                                                  "lazy-src":
+                                                    _vm.prev_img.url_img,
+                                                  "max-height":
+                                                    _vm.prev_img.height,
+                                                  "max-width":
+                                                    _vm.prev_img.width,
+                                                  contain: "",
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "placeholder",
+                                                      fn: function () {
+                                                        return [
+                                                          _c(
+                                                            "v-row",
+                                                            {
+                                                              staticClass:
+                                                                "fill-height ma-0",
+                                                              attrs: {
+                                                                align: "center",
+                                                                justify:
+                                                                  "center",
+                                                              },
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-progress-circular",
+                                                                {
+                                                                  attrs: {
+                                                                    indeterminate:
+                                                                      "",
+                                                                    color:
+                                                                      "grey lighten-5",
+                                                                  },
+                                                                }
+                                                              ),
+                                                            ],
+                                                            1
+                                                          ),
+                                                        ]
+                                                      },
+                                                      proxy: true,
+                                                    },
+                                                  ],
+                                                  null,
+                                                  false,
+                                                  4034393411
+                                                ),
+                                              }),
+                                            ]
+                                          : _vm._e(),
+                                      ],
+                                      2
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-card-actions",
+                          [
+                            _c("v-spacer"),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { outlined: "", to: { name: "users" } },
+                              },
+                              [
+                                _c("v-icon", { staticClass: "mr-2" }, [
+                                  _vm._v("keyboard_double_arrow_left"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Regresar\n                            "
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "txt_white bk_green",
+                                on: { click: _vm.registerUser },
+                              },
+                              [
+                                _c("v-icon", { staticClass: "mr-2" }, [
+                                  _vm._v("save"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Guardar\n                            "
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
                 ],
                 1
               ),
@@ -1196,17 +1136,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VContainer.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/VDialog.js");
-/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VSpacer.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1243,8 +1182,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardActions,VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_18__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardActions,VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_12__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_13__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_14__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_15__["default"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__["default"]})
 
 
 /* hot reload */
@@ -1520,335 +1458,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_VCounter__WEBPACK_IMPORTED_MODULE_0__["default"]);
 //# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./node_modules/vuetify/lib/components/VDialog/VDialog.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/vuetify/lib/components/VDialog/VDialog.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _src_components_VDialog_VDialog_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VDialog/VDialog.sass */ "./node_modules/vuetify/src/components/VDialog/VDialog.sass");
-/* harmony import */ var _VThemeProvider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../VThemeProvider */ "./node_modules/vuetify/lib/components/VThemeProvider/VThemeProvider.js");
-/* harmony import */ var _mixins_activatable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../mixins/activatable */ "./node_modules/vuetify/lib/mixins/activatable/index.js");
-/* harmony import */ var _mixins_dependent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/dependent */ "./node_modules/vuetify/lib/mixins/dependent/index.js");
-/* harmony import */ var _mixins_detachable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/detachable */ "./node_modules/vuetify/lib/mixins/detachable/index.js");
-/* harmony import */ var _mixins_overlayable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/overlayable */ "./node_modules/vuetify/lib/mixins/overlayable/index.js");
-/* harmony import */ var _mixins_returnable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/returnable */ "./node_modules/vuetify/lib/mixins/returnable/index.js");
-/* harmony import */ var _mixins_stackable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../mixins/stackable */ "./node_modules/vuetify/lib/mixins/stackable/index.js");
-/* harmony import */ var _directives_click_outside__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../directives/click-outside */ "./node_modules/vuetify/lib/directives/click-outside/index.js");
-/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
-/* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
-/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
-// Styles
- // Components
-
- // Mixins
-
-
-
-
-
-
- // Directives
-
- // Helpers
-
-
-
-
-const baseMixins = (0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_dependent__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_detachable__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_overlayable__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_returnable__WEBPACK_IMPORTED_MODULE_5__["default"], _mixins_stackable__WEBPACK_IMPORTED_MODULE_6__["default"], _mixins_activatable__WEBPACK_IMPORTED_MODULE_7__["default"]);
-/* @vue/component */
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (baseMixins.extend({
-  name: 'v-dialog',
-  directives: {
-    ClickOutside: _directives_click_outside__WEBPACK_IMPORTED_MODULE_8__["default"]
-  },
-  props: {
-    dark: Boolean,
-    disabled: Boolean,
-    fullscreen: Boolean,
-    light: Boolean,
-    maxWidth: [String, Number],
-    noClickAnimation: Boolean,
-    origin: {
-      type: String,
-      default: 'center center'
-    },
-    persistent: Boolean,
-    retainFocus: {
-      type: Boolean,
-      default: true
-    },
-    scrollable: Boolean,
-    transition: {
-      type: [String, Boolean],
-      default: 'dialog-transition'
-    },
-    width: [String, Number]
-  },
-
-  data() {
-    return {
-      activatedBy: null,
-      animate: false,
-      animateTimeout: -1,
-      stackMinZIndex: 200,
-      previousActiveElement: null
-    };
-  },
-
-  computed: {
-    classes() {
-      return {
-        [`v-dialog ${this.contentClass}`.trim()]: true,
-        'v-dialog--active': this.isActive,
-        'v-dialog--persistent': this.persistent,
-        'v-dialog--fullscreen': this.fullscreen,
-        'v-dialog--scrollable': this.scrollable,
-        'v-dialog--animated': this.animate
-      };
-    },
-
-    contentClasses() {
-      return {
-        'v-dialog__content': true,
-        'v-dialog__content--active': this.isActive
-      };
-    },
-
-    hasActivator() {
-      return Boolean(!!this.$slots.activator || !!this.$scopedSlots.activator);
-    }
-
-  },
-  watch: {
-    isActive(val) {
-      if (val) {
-        this.show();
-        this.hideScroll();
-      } else {
-        var _this$previousActiveE;
-
-        this.removeOverlay();
-        this.unbind();
-        (_this$previousActiveE = this.previousActiveElement) == null ? void 0 : _this$previousActiveE.focus();
-      }
-    },
-
-    fullscreen(val) {
-      if (!this.isActive) return;
-
-      if (val) {
-        this.hideScroll();
-        this.removeOverlay(false);
-      } else {
-        this.showScroll();
-        this.genOverlay();
-      }
-    }
-
-  },
-
-  created() {
-    /* istanbul ignore next */
-    if (this.$attrs.hasOwnProperty('full-width')) {
-      (0,_util_console__WEBPACK_IMPORTED_MODULE_9__.removed)('full-width', this);
-    }
-  },
-
-  beforeMount() {
-    this.$nextTick(() => {
-      this.isBooted = this.isActive;
-      this.isActive && this.show();
-    });
-  },
-
-  beforeDestroy() {
-    if (typeof window !== 'undefined') this.unbind();
-  },
-
-  methods: {
-    animateClick() {
-      this.animate = false; // Needed for when clicking very fast
-      // outside of the dialog
-
-      this.$nextTick(() => {
-        this.animate = true;
-        window.clearTimeout(this.animateTimeout);
-        this.animateTimeout = window.setTimeout(() => this.animate = false, 150);
-      });
-    },
-
-    closeConditional(e) {
-      const target = e.target; // Ignore the click if the dialog is closed or destroyed,
-      // if it was on an element inside the content,
-      // if it was dragged onto the overlay (#6969),
-      // or if this isn't the topmost dialog (#9907)
-
-      return !(this._isDestroyed || !this.isActive || this.$refs.content.contains(target) || this.overlay && target && !this.overlay.$el.contains(target)) && this.activeZIndex >= this.getMaxZIndex();
-    },
-
-    hideScroll() {
-      if (this.fullscreen) {
-        document.documentElement.classList.add('overflow-y-hidden');
-      } else {
-        _mixins_overlayable__WEBPACK_IMPORTED_MODULE_4__["default"].options.methods.hideScroll.call(this);
-      }
-    },
-
-    show() {
-      !this.fullscreen && !this.hideOverlay && this.genOverlay(); // Double nextTick to wait for lazy content to be generated
-
-      this.$nextTick(() => {
-        this.$nextTick(() => {
-          if (!this.$refs.content.contains(document.activeElement)) {
-            this.previousActiveElement = document.activeElement;
-            this.$refs.content.focus();
-          }
-
-          this.bind();
-        });
-      });
-    },
-
-    bind() {
-      window.addEventListener('focusin', this.onFocusin);
-    },
-
-    unbind() {
-      window.removeEventListener('focusin', this.onFocusin);
-    },
-
-    onClickOutside(e) {
-      this.$emit('click:outside', e);
-
-      if (this.persistent) {
-        this.noClickAnimation || this.animateClick();
-      } else {
-        this.isActive = false;
-      }
-    },
-
-    onKeydown(e) {
-      if (e.keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_10__.keyCodes.esc && !this.getOpenDependents().length) {
-        if (!this.persistent) {
-          this.isActive = false;
-          const activator = this.getActivator();
-          this.$nextTick(() => activator && activator.focus());
-        } else if (!this.noClickAnimation) {
-          this.animateClick();
-        }
-      }
-
-      this.$emit('keydown', e);
-    },
-
-    // On focus change, wrap focus to stay inside the dialog
-    // https://github.com/vuetifyjs/vuetify/issues/6892
-    onFocusin(e) {
-      if (!e || !this.retainFocus) return;
-      const target = e.target;
-
-      if (!!target && // It isn't the document or the dialog body
-      ![document, this.$refs.content].includes(target) && // It isn't inside the dialog body
-      !this.$refs.content.contains(target) && // We're the topmost dialog
-      this.activeZIndex >= this.getMaxZIndex() && // It isn't inside a dependent element (like a menu)
-      !this.getOpenDependentElements().some(el => el.contains(target)) // So we must have focused something outside the dialog and its children
-      ) {
-          // Find and focus the first available element inside the dialog
-          const focusable = this.$refs.content.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-          const el = [...focusable].find(el => !el.hasAttribute('disabled'));
-          el && el.focus();
-        }
-    },
-
-    genContent() {
-      return this.showLazyContent(() => [this.$createElement(_VThemeProvider__WEBPACK_IMPORTED_MODULE_11__["default"], {
-        props: {
-          root: true,
-          light: this.light,
-          dark: this.dark
-        }
-      }, [this.$createElement('div', {
-        class: this.contentClasses,
-        attrs: {
-          role: 'dialog',
-          tabindex: this.isActive ? 0 : undefined,
-          'aria-modal': this.hideOverlay ? undefined : 'true',
-          ...this.getScopeIdAttrs()
-        },
-        on: {
-          keydown: this.onKeydown
-        },
-        style: {
-          zIndex: this.activeZIndex
-        },
-        ref: 'content'
-      }, [this.genTransition()])])]);
-    },
-
-    genTransition() {
-      const content = this.genInnerContent();
-      if (!this.transition) return content;
-      return this.$createElement('transition', {
-        props: {
-          name: this.transition,
-          origin: this.origin,
-          appear: true
-        }
-      }, [content]);
-    },
-
-    genInnerContent() {
-      const data = {
-        class: this.classes,
-        ref: 'dialog',
-        directives: [{
-          name: 'click-outside',
-          value: {
-            handler: this.onClickOutside,
-            closeConditional: this.closeConditional,
-            include: this.getOpenDependentElements
-          }
-        }, {
-          name: 'show',
-          value: this.isActive
-        }],
-        style: {
-          transformOrigin: this.origin
-        }
-      };
-
-      if (!this.fullscreen) {
-        data.style = { ...data.style,
-          maxWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_10__.convertToUnit)(this.maxWidth),
-          width: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_10__.convertToUnit)(this.width)
-        };
-      }
-
-      return this.$createElement('div', data, this.getContentSlot());
-    }
-
-  },
-
-  render(h) {
-    return h('div', {
-      staticClass: 'v-dialog__container',
-      class: {
-        'v-dialog__container--attached': this.attach === '' || this.attach === true || this.attach === 'attach'
-      }
-    }, [this.genActivator(), this.genContent()]);
-  }
-
-}));
-//# sourceMappingURL=VDialog.js.map
 
 /***/ }),
 

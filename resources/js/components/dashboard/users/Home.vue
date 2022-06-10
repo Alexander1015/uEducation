@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mx-4 my-4">
-            <p class="text-h6 my-4 ml-2">Usuarios / Docentes</p>
+            <p class="text-h6 my-4 ml-2">USUARIOS</p>
             <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newUser" }'>
                 <v-icon class="mr-2">person_add</v-icon>
                 Nuevo
@@ -46,10 +46,28 @@
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
-                                <v-icon>check_box_outline_blank</v-icon>
+                                <template v-if="user.id !== item.id">
+                                    <v-btn icon @click.prevent="statusUser(item.id, 1)">
+                                        <v-icon>
+                                            check_box_outline_blank
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-icon>check_box_outline_blank</v-icon>
+                                </template>
                             </template>
                             <template v-else-if="item.status == 1">
-                                <v-icon>check_box</v-icon>
+                                <template v-if="user.id !== item.id">
+                                    <v-btn icon @click.prevent="statusUser(item.id, 0)">
+                                        <v-icon>
+                                            check_box
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-icon>check_box</v-icon>
+                                </template>
                             </template>
                             <template v-else>
                                 <v-icon>indeterminate_check_box</v-icon>
@@ -60,11 +78,25 @@
                         <template v-if="user.id !== item.id">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon class="txt_blue" v-bind="attrs" v-on="on" @click.prevent="editUser(item.id)">
-                                        <v-icon>settings</v-icon>
+                                    <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
+                                        :to='{ name: "editUser", params: { id: item } }'>
+                                        <v-icon>
+                                            settings
+                                        </v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Ver</span>
+                                <span>Ver información</span>
+                            </v-tooltip>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon class="txt_red" @click.prevent="deleteUser(item.id)" v-bind="attrs"
+                                        v-on="on">
+                                        <v-icon>
+                                            delete
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Eliminar</span>
                             </v-tooltip>
                         </template>
                         <template v-else>
@@ -127,12 +159,6 @@ export default {
                     console.log(error);
                 });
         },
-        editUser(item) {
-            this.$router.push({ name: "editUser", params: { id: item } });
-        },
-        passwordUser(item) {
-            this.$router.push({ name: "passwordUser", params: { id: item } });
-        },
         async deleteUser(item) {
             await this.$swal({
                 title: '¿Esta seguro de eliminar el usuario?',
@@ -160,8 +186,9 @@ export default {
                                     icon: this.sweet.icon,
                                     text: response.data.message,
                                 });
+                                this.login();
+                                this.allUsers();
                                 this.overlay = false;
-                                this.allUsers()
                             })
                             .catch(error => {
                                 this.sweet.title = "Error"
@@ -205,8 +232,9 @@ export default {
                                     icon: this.sweet.icon,
                                     text: response.data.message,
                                 });
+                                this.login();
+                                this.allUsers();
                                 this.overlay = false;
-                                this.allUsers()
                             })
                             .catch(error => {
                                 this.sweet.title = "Error"

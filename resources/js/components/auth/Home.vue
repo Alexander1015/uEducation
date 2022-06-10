@@ -5,7 +5,7 @@
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <v-card class="mx-auto rounded mt-4" elevation="3" width="700">
+        <v-card class="mx-auto rounded mt-4" elevation="3" max-width="700">
             <v-row dense class="pl-1">
                 <v-col cols="4" class="bk_blue rounded-l d-none d-sm-flex">
                     <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
