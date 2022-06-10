@@ -7,7 +7,7 @@
                     <v-icon class="txt_white">menu</v-icon>
                 </v-app-bar-nav-icon>
                 <div class="d-none d-sm-flex">
-                    <v-list-item class="bk_brown txt_white logo_top" to="/" exact>
+                    <v-list-item class="bk_brown txt_white logo_top" @click.prevent="toInit" exact>
                         <v-img :src='logo.img' :max-width='logo.width' :lazy-src='logo.lazy'>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -49,10 +49,10 @@
                             <div>
                                 <v-btn text :to="to.profile" class="width_100">
                                     <v-row>
-                                        <v-col cols="8" class="mx-auto mt-1">
+                                        <v-col cols="8" class="text-center mt-1">
                                             <span>Perfil</span>
                                         </v-col>
-                                        <v-col cols="4" class="mx-auto">
+                                        <v-col cols="4" class="text-center">
                                             <v-icon>manage_accounts</v-icon>
                                         </v-col>
                                     </v-row>

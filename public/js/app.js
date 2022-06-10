@@ -30466,7 +30466,13 @@ var render = function () {
                     "v-list-item",
                     {
                       staticClass: "bk_brown txt_white logo_top",
-                      attrs: { to: "/", exact: "" },
+                      attrs: { exact: "" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.toInit.apply(null, arguments)
+                        },
+                      },
                     },
                     [
                       _c("v-img", {
@@ -30664,7 +30670,7 @@ var render = function () {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "mx-auto mt-1",
+                                          staticClass: "text-center mt-1",
                                           attrs: { cols: "8" },
                                         },
                                         [_c("span", [_vm._v("Perfil")])]
@@ -30673,7 +30679,7 @@ var render = function () {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "mx-auto",
+                                          staticClass: "text-center",
                                           attrs: { cols: "4" },
                                         },
                                         [
