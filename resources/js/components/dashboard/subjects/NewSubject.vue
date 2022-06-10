@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
+            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="700">
                 <v-row dense class="pl-1">
                     <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
@@ -25,7 +25,7 @@
                             <v-card-subtitle class="text-center">Cree un curso nuevo</v-card-subtitle>
                             <div class="px-2 pb-2">
                                 <!-- Formulario -->
-                                <v-form ref="form" enctype="multipart/form-data" lazy-validation>
+                                <v-form ref="form" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
                                     <v-row>
                                         <v-col cols="12">

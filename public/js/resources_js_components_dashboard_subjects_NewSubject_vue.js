@@ -517,7 +517,7 @@ var render = function () {
             "v-card",
             {
               staticClass: "mt-4 rounded mx-auto",
-              attrs: { elevation: "3", "max-width": "1100" },
+              attrs: { elevation: "3", "max-width": "700" },
             },
             [
               _c(
@@ -592,13 +592,7 @@ var render = function () {
                           [
                             _c(
                               "v-form",
-                              {
-                                ref: "form",
-                                attrs: {
-                                  enctype: "multipart/form-data",
-                                  "lazy-validation": "",
-                                },
-                              },
+                              { ref: "form", attrs: { "lazy-validation": "" } },
                               [
                                 _c(
                                   "small",

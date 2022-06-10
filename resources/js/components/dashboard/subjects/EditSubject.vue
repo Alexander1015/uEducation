@@ -76,7 +76,7 @@
                                 <div>
                                     <v-card-subtitle class="text-justify">
                                         Cambie el estado del curso en el sistema (Si esta desactivado no podra ser
-                                        visualizado por parte del lecto)
+                                        visualizado por parte del lector)
                                     </v-card-subtitle>
                                     <v-form ref="form_status" lazy-validation>
                                         <v-select class="width_100" v-model="form_status.status" :items="items_status"

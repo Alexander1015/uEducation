@@ -1301,7 +1301,7 @@ var render = function () {
                                   { staticClass: "text-justify" },
                                   [
                                     _vm._v(
-                                      "\n                                    Cambie el estado del curso en el sistema (Si esta desactivado no podra ser\n                                    visualizado por parte del lecto)\n                                "
+                                      "\n                                    Cambie el estado del curso en el sistema (Si esta desactivado no podra ser\n                                    visualizado por parte del lector)\n                                "
                                     ),
                                   ]
                                 ),
