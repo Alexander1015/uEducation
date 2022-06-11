@@ -183,6 +183,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return v && v.length <= 250 || 'El titulo debe tener menos de 250 carácteres';
         }]
       },
+      statusRules: [function (v) {
+        return !!v || 'Debe elegir un item';
+      }],
       name: ""
     };
   },
@@ -1806,6 +1809,7 @@ var render = function () {
                                       attrs: {
                                         items: _vm.items_status,
                                         label: "Estado",
+                                        rules: _vm.statusRules,
                                       },
                                       model: {
                                         value: _vm.form_status.status,

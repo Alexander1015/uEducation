@@ -163,7 +163,7 @@
                                     </v-card-subtitle>
                                     <v-form ref="form_status" lazy-validation>
                                         <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado"></v-select>
+                                            label="Estado" :rules="statusRules"></v-select>
                                     </v-form>
                                     <v-btn class="txt_white bk_green width_100" @click.prevent="statusUser">
                                         <v-icon left>save</v-icon>
@@ -255,7 +255,10 @@ export default {
                 v => !!v || 'La contraseña es requerida',
                 v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
             ],
-        }
+        },
+        statusRules: [
+            v => !!v || 'Debe elegir un item',
+        ],
     }),
     mounted() {
         this.login();

@@ -283,7 +283,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, function (v) {
           return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
         }]
-      }
+      },
+      statusRules: [function (v) {
+        return !!v || 'Debe elegir un item';
+      }]
     };
   },
   mounted: function mounted() {
@@ -2045,6 +2048,7 @@ var render = function () {
                                       attrs: {
                                         items: _vm.items_status,
                                         label: "Estado",
+                                        rules: _vm.statusRules,
                                       },
                                       model: {
                                         value: _vm.form_status.status,
