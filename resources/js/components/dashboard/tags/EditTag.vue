@@ -7,7 +7,7 @@
         <!-- Contenido -->
         <div class="mx-4 my-4">
             <v-btn class="mr-4 mt-4 new_btn" text small @click.prevent="returnTags">
-                <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
+                <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
             <div class="text-h6 mt-11 mb-4 ml-2">
@@ -52,17 +52,49 @@
                         </v-card-title>
                         <v-card-subtitle class="text-center">Modifique la etiqueta seleccionada</v-card-subtitle>
                         <div class="px-2 pb-2">
+                            <!-- Vista previa -->
+                            <div class="mb-2">
+                                <small>Vista previa:</small>
+                                <v-chip label class="ml-2" :color="form_information.color_bk"
+                                    :style='"color:" + form_information.color_txt + ";"'>
+                                    <v-icon left>label</v-icon> {{ form_information.name }}
+                                </v-chip>
+                            </div>
                             <!-- Formulario de ingreso -->
                             <v-form ref="form_information" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
-                                <v-text-field v-model="form_information.name" :rules="info.nameRules" label="Titulo *"
-                                    tabindex="1" required>
-                                </v-text-field>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_information.name" :rules="info.nameRules"
+                                            label="Título *" tabindex="1" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <p>Color de fondo:</p>
+                                        <v-btn class="width_100 bk_brown txt_white"
+                                            @click.prevent="form_information.color_bk = '#E0E0E0'">
+                                            Reiniciar color
+                                        </v-btn>
+                                        <v-color-picker v-model="form_information.color_bk" class="mx-auto my-2"
+                                            hide-mode-switch mode="hexa">
+                                        </v-color-picker>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <p>Color del texto:</p>
+                                        <v-btn class="width_100 bk_brown txt_white"
+                                            @click.prevent="form_information.color_txt = '#676767'">
+                                            Reiniciar color
+                                        </v-btn>
+                                        <v-color-picker v-model="form_information.color_txt" class="mx-auto my-2"
+                                            hide-mode-switch mode="hexa">
+                                        </v-color-picker>
+                                    </v-col>
+                                </v-row>
                             </v-form>
                         </div>
                         <v-card-actions>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editTags">
-                                <v-icon class="mr-2">save</v-icon>
+                                <v-icon left>save</v-icon>
                                 Guardar
                             </v-btn>
                         </v-card-actions>
@@ -80,7 +112,7 @@
                                             label="Estado"></v-select>
                                     </v-form>
                                     <v-btn class="txt_white bk_green width_100" @click.prevent="statusTag">
-                                        <v-icon class="mr-2">save</v-icon>
+                                        <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </div>
@@ -91,7 +123,7 @@
                                         revertir
                                     </v-card-subtitle>
                                     <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTag">
-                                        <v-icon class="mr-2">delete</v-icon>
+                                        <v-icon left>delete</v-icon>
                                         Eliminar curso
                                     </v-btn>
                                 </div>
@@ -116,6 +148,8 @@ export default {
         items_status: ["Activo", "Desactivado"],
         form_information: {
             name: "",
+            color_bk: "#E0E0E0",
+            color_txt: "#676767",
         },
         form_status: {
             status: "",
@@ -148,6 +182,8 @@ export default {
                         }
                         else {
                             this.form_information.name = this.tag.name;
+                            this.form_information.color_bk = this.tag.background_color;
+                            this.form_information.color_txt = this.tag.text_color;
                             if (this.tag.status == 0) this.form_status.status = "Desactivado";
                             else if (this.tag.status == 1) this.form_status.status = "Activo";
                             this.overlay = false;
@@ -177,6 +213,8 @@ export default {
                             //Mostramos los datos asi por la imagen
                             let data = new FormData();
                             data.append('name', this.form_information.name);
+                            data.append('background_color', this.form_information.color_bk);
+                            data.append('text_color', this.form_information.color_txt);
                             data.append('_method', "put");
                             this.axios.post('/api/tag/' + this.$route.params.id, data)
                                 .then(response => {

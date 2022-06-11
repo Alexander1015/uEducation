@@ -33,17 +33,19 @@ class TagController extends Controller
             try {
                 $validator = Validator::make($request->all(), [
                     'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name'],
+                    'background_color' => ['bail', 'sometimes', 'string'],
+                    'background_text' => ['bail', 'sometimes', 'string'],
                 ]);
                 if ($validator->fails()) {
                     $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
                     if ($old_name) {
                         return response()->json([
-                            'message' => 'El titulo ingresado ya existe',
+                            'message' => 'El título ingresado ya existe',
                             'complete' => false,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'El titulo solicitado no cumple con el formato',
+                            'message' => 'El título solicitado no cumple con el formato',
                             'complete' => false,
                         ]);
                     }
@@ -51,6 +53,8 @@ class TagController extends Controller
                     if (DB::table("tags")
                         ->insert([
                             'name' => $request->input('name'),
+                            'background_color' => $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
+                            'text_color' => $request->input('text_color') ? $request->input('text_color') : "#676767",
                         ])
                     ) {
                         return response()->json([
@@ -111,24 +115,28 @@ class TagController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name'],
+                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name,' . $data->id],
+                        'background_color' => ['bail', 'sometimes', 'string'],
+                        'background_text' => ['bail', 'sometimes', 'string'],
                     ]);
                     if ($validator->fails()) {
                         $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
                         if ($data->id != $old_name->id) {
                             return response()->json([
-                                'message' => 'El titulo ingresado ya existe',
+                                'message' => 'El título ingresado ya existe',
                                 'complete' => false,
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'El titulo solicitado no cumple con el formato',
+                                'message' => 'Hay datos que no siguen el formato solicitado',
                                 'complete' => false,
                             ]);
                         }
                     } else {
-                        if (DB::update("UPDATE tags SET name = ? WHERE id = ?", [
+                        if (DB::update("UPDATE tags SET name = ?, background_color = ?, text_color = ? WHERE id = ?", [
                             $request->input('name'),
+                            $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
+                            $request->input('text_color') ? $request->input('text_color') : "#676767",
                             $data->id,
                         ])) {
                             return response()->json([
@@ -137,7 +145,9 @@ class TagController extends Controller
                             ]);
                         } else {
                             if (
-                                $data->name == $request->input('name')
+                                $data->name == $request->input('name') &&
+                                $data->background_color == $request->input('background_color') &&
+                                $data->text_color == $request->input('text_color')
                             ) {
                                 return response()->json([
                                     'message' => 'La información proporcionada no modifica la etiqueta, asi que no se ha actualizado',

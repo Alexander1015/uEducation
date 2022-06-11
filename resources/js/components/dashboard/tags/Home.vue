@@ -8,7 +8,7 @@
         <div class="mx-4 my-4">
             <p class="text-h6 my-4 ml-2">ETIQUETAS</p>
             <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newTag" }'>
-                <v-icon class="mr-2">bookmark_add</v-icon>
+                <v-icon left>bookmark_add</v-icon>
                 Nuevo
             </v-btn>
             <!-- Tabla -->
@@ -23,6 +23,19 @@
                     nextIcon: 'chevron_right'
                 }" :loading="loading_table" loading-text="Obteniendo información... Por favor espera" multi-sort
                     :search="search" fixed-header>
+                    <template v-slot:item.background_color="{ item }">
+                        <div>
+                            {{ item.background_color }}
+                            <div class="show_color mx-auto" :style='"background-color:" + item.background_color + ";"'>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-slot:item.text_color="{ item }">
+                        <div>
+                            {{ item.text_color }}
+                            <div class="show_color mx-auto" :style='"background-color:" + item.text_color + ";"'></div>
+                        </div>
+                    </template>
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
@@ -85,7 +98,9 @@ export default {
         },
         loading_table: true,
         headers: [
-            { text: 'Titulo', value: 'name', align: 'center' },
+            { text: 'Título', value: 'name', align: 'center' },
+            { text: 'Color del fondo', value: 'background_color', align: 'center' },
+            { text: 'Color del texto', value: 'text_color', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],

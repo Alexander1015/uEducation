@@ -7,7 +7,7 @@
         <!-- Contenido -->
         <div class="mx-4 my-4">
             <v-btn class="mr-4 mt-4 new_btn" text small @click.prevent="returnSubjects">
-                <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
+                <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
             <div class="text-h6 mt-11 mb-4 ml-2">
@@ -65,7 +65,7 @@
                         </div>
                         <v-card-actions>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editSubject">
-                                <v-icon class="mr-2">save</v-icon>
+                                <v-icon left>save</v-icon>
                                 Guardar
                             </v-btn>
                         </v-card-actions>
@@ -83,7 +83,7 @@
                                             label="Estado"></v-select>
                                     </v-form>
                                     <v-btn class="txt_white bk_green width_100" @click.prevent="statusSubject">
-                                        <v-icon class="mr-2">save</v-icon>
+                                        <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </div>
@@ -94,7 +94,7 @@
                                         revertir
                                     </v-card-subtitle>
                                     <v-btn class="txt_white bk_red width_100" @click.prevent="deleteSubject">
-                                        <v-icon class="mr-2">delete</v-icon>
+                                        <v-icon left>delete</v-icon>
                                         Eliminar curso
                                     </v-btn>
                                 </div>

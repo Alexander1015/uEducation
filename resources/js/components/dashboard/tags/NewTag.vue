@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="700">
+            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
                 <v-row dense class="pl-1">
                     <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
@@ -24,14 +24,41 @@
                             </v-card-title>
                             <v-card-subtitle class="text-center">Cree una etiqueta nueva</v-card-subtitle>
                             <div class="px-2 pb-2">
+                                <!-- Vista previa -->
+                                <div class="mb-2">
+                                    <small>Vista previa:</small>
+                                    <v-chip label class="ml-2" :color="form.color_bk" :style='"color:" + form.color_txt + ";"'>
+                                        <v-icon left>label</v-icon> {{ form.name }}
+                                    </v-chip>
+                                </div>
                                 <!-- Formulario de ingreso -->
                                 <v-form ref="form" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
                                     <v-row>
                                         <v-col cols="12">
-                                            <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
+                                            <v-text-field v-model="form.name" :rules="nameRules" label="Título *"
                                                 tabindex="1" required>
                                             </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <p>Color de fondo:</p>
+                                            <v-btn class="width_100 bk_brown txt_white"
+                                                @click.prevent="form.color_bk = '#E0E0E0'">
+                                                Reiniciar color
+                                            </v-btn>
+                                            <v-color-picker v-model="form.color_bk" class="mx-auto my-2"
+                                                hide-mode-switch mode="hexa">
+                                            </v-color-picker>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <p>Color del texto:</p>
+                                            <v-btn class="width_100 bk_brown txt_white"
+                                                @click.prevent="form.color_txt = '#676767'">
+                                                Reiniciar color
+                                            </v-btn>
+                                            <v-color-picker v-model="form.color_txt" class="mx-auto my-2"
+                                                hide-mode-switch mode="hexa">
+                                            </v-color-picker>
                                         </v-col>
                                     </v-row>
                                 </v-form>
@@ -39,11 +66,11 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn outlined @click.prevent="returnTags">
-                                    <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
+                                    <v-icon left>keyboard_double_arrow_left</v-icon>
                                     Regresar
                                 </v-btn>
                                 <v-btn class="txt_white bk_green" @click.prevent="registerTags">
-                                    <v-icon class="mr-2">save</v-icon>
+                                    <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
                             </v-card-actions>
@@ -71,6 +98,8 @@ export default {
         },
         form: {
             name: "",
+            color_bk: "#E0E0E0",
+            color_txt: "#676767",
         },
         nameRules: [
             v => !!v || 'El titulo es requerido',
@@ -95,6 +124,8 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('name', this.form.name);
+                            data.append('background_color', this.form.color_bk);
+                            data.append('text_color', this.form.color_txt);
                             this.axios.post('/api/tag', data)
                                 .then(response => {
                                     if (response.data.complete) {

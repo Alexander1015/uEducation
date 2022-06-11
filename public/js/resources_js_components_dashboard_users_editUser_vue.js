@@ -1403,7 +1403,7 @@ var render = function () {
               },
             },
             [
-              _c("v-icon", { staticClass: "mr-2" }, [
+              _c("v-icon", { attrs: { left: "" } }, [
                 _vm._v("keyboard_double_arrow_left"),
               ]),
               _vm._v("\n            Regresar\n        "),
@@ -1861,7 +1861,7 @@ var render = function () {
                                     },
                                   },
                                   [
-                                    _c("v-icon", { staticClass: "mr-2" }, [
+                                    _c("v-icon", { attrs: { left: "" } }, [
                                       _vm._v("save"),
                                     ]),
                                     _vm._v(
@@ -1992,7 +1992,7 @@ var render = function () {
                                     },
                                   },
                                   [
-                                    _c("v-icon", { staticClass: "mr-2" }, [
+                                    _c("v-icon", { attrs: { left: "" } }, [
                                       _vm._v("save"),
                                     ]),
                                     _vm._v(
@@ -2077,7 +2077,7 @@ var render = function () {
                                     },
                                   },
                                   [
-                                    _c("v-icon", { staticClass: "mr-2" }, [
+                                    _c("v-icon", { attrs: { left: "" } }, [
                                       _vm._v("save"),
                                     ]),
                                     _vm._v(
@@ -2120,7 +2120,7 @@ var render = function () {
                                     },
                                   },
                                   [
-                                    _c("v-icon", { staticClass: "mr-2" }, [
+                                    _c("v-icon", { attrs: { left: "" } }, [
                                       _vm._v("delete"),
                                     ]),
                                     _vm._v(

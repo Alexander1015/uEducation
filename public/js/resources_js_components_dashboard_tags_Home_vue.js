@@ -95,6 +95,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTag",
   data: function data() {
@@ -106,8 +119,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       loading_table: true,
       headers: [{
-        text: 'Titulo',
+        text: 'Título',
         value: 'name',
+        align: 'center'
+      }, {
+        text: 'Color del fondo',
+        value: 'background_color',
+        align: 'center'
+      }, {
+        text: 'Color del texto',
+        value: 'text_color',
         align: 'center'
       }, {
         text: 'Estado',
@@ -1031,7 +1052,7 @@ var render = function () {
               attrs: { large: "", to: { name: "newTag" } },
             },
             [
-              _c("v-icon", { staticClass: "mr-2" }, [_vm._v("bookmark_add")]),
+              _c("v-icon", { attrs: { left: "" } }, [_vm._v("bookmark_add")]),
               _vm._v("\n            Nuevo\n        "),
             ],
             1
@@ -1079,6 +1100,45 @@ var render = function () {
                   "fixed-header": "",
                 },
                 scopedSlots: _vm._u([
+                  {
+                    key: "item.background_color",
+                    fn: function (ref) {
+                      var item = ref.item
+                      return [
+                        _c("div", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(item.background_color) +
+                              "\n                        "
+                          ),
+                          _c("div", {
+                            staticClass: "show_color mx-auto",
+                            style:
+                              "background-color:" + item.background_color + ";",
+                          }),
+                        ]),
+                      ]
+                    },
+                  },
+                  {
+                    key: "item.text_color",
+                    fn: function (ref) {
+                      var item = ref.item
+                      return [
+                        _c("div", [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(item.text_color) +
+                              "\n                        "
+                          ),
+                          _c("div", {
+                            staticClass: "show_color mx-auto",
+                            style: "background-color:" + item.text_color + ";",
+                          }),
+                        ]),
+                      ]
+                    },
+                  },
                   {
                     key: "item.status",
                     fn: function (ref) {

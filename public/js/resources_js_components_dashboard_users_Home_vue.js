@@ -1122,7 +1122,7 @@ var render = function () {
               attrs: { large: "", to: { name: "newUser" } },
             },
             [
-              _c("v-icon", { staticClass: "mr-2" }, [_vm._v("person_add")]),
+              _c("v-icon", { attrs: { left: "" } }, [_vm._v("person_add")]),
               _vm._v("\n            Nuevo\n        "),
             ],
             1

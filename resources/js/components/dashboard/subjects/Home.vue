@@ -8,7 +8,7 @@
         <div class="mx-4 my-4">
             <p class="text-h6 my-4 ml-2">CURSOS</p>
             <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newSubject" }'>
-                <v-icon class="mr-2">post_add</v-icon>
+                <v-icon left>post_add</v-icon>
                 Nuevo
             </v-btn>
             <!-- Tabla -->

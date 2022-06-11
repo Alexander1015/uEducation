@@ -65,7 +65,21 @@ export default {
             v => !!v || 'La contraseña es requerida'
         ]
     }),
+    mounted() {
+        this.login();
+    },
     methods: {
+        async login() {
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    this.user = response.data;
+                    if (this.user.user) {
+                        window.location.href = "/";
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
+        },
         async loginUser() {
             this.overlay = true;
             if (this.$refs.form.validate()) {
@@ -74,7 +88,7 @@ export default {
                         if (response.data.complete) {
                             this.$refs.form.reset();
                             this.overlay = false;
-                            window.location.href = "/"
+                            window.location.href = "/";
                         }
                         else {
                             this.sweet.title = "Error"

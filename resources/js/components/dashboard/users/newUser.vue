@@ -88,11 +88,11 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn outlined @click.prevent="returnUsers">
-                                    <v-icon class="mr-2">keyboard_double_arrow_left</v-icon>
+                                    <v-icon left>keyboard_double_arrow_left</v-icon>
                                     Regresar
                                 </v-btn>
                                 <v-btn class="txt_white bk_green" @click.prevent="registerUser">
-                                    <v-icon class="mr-2">save</v-icon>
+                                    <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
                             </v-card-actions>

@@ -5,6 +5,7 @@ $red: #CD1414;
 $green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
+$tags: #676767;
 */
 
 #body {
@@ -35,6 +36,9 @@ $secondary: #685B4D;
     .txt_blue {
         color: $primary !important;
     }
+    .txt_tags {
+        color: $tags !important;
+    }
     .width_100 {
         width: 100% !important;
     }
@@ -59,6 +63,11 @@ $secondary: #685B4D;
             position: absolute;
             top: 0;
             left: 0;
+        }
+        .show_color {
+            height: 10px;
+            width: 10px;
+            border: .1px solid black;
         }
     }
 }

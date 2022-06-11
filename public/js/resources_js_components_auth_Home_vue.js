@@ -87,8 +87,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }]
     };
   },
+  mounted: function mounted() {
+    this.login();
+  },
   methods: {
-    loginUser: function loginUser() {
+    login: function login() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -96,58 +99,85 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.overlay = true;
+                _context.next = 2;
+                return _this.axios.get('/api/auth').then(function (response) {
+                  _this.user = response.data;
 
-                if (!_this.$refs.form.validate()) {
-                  _context.next = 6;
-                  break;
-                }
-
-                _context.next = 4;
-                return axios.post('/api/auth', _this.form).then(function (response) {
-                  if (response.data.complete) {
-                    _this.$refs.form.reset();
-
-                    _this.overlay = false;
+                  if (_this.user.user) {
                     window.location.href = "/";
-                  } else {
-                    _this.sweet.title = "Error";
-                    _this.sweet.icon = "error";
-
-                    _this.$swal({
-                      title: _this.sweet.title,
-                      icon: _this.sweet.icon,
-                      text: response.data.message
-                    });
-
-                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
-                  _this.sweet.title = "Error";
-                  _this.sweet.icon = "error";
-
-                  _this.$swal({
-                    title: _this.sweet.title,
-                    icon: _this.sweet.icon,
-                    text: error
-                  });
-
-                  _this.overlay = false;
+                  console.log(error);
                 });
 
-              case 4:
-                _context.next = 7;
-                break;
-
-              case 6:
-                _this.overlay = false;
-
-              case 7:
+              case 2:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    loginUser: function loginUser() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.overlay = true;
+
+                if (!_this2.$refs.form.validate()) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 4;
+                return axios.post('/api/auth', _this2.form).then(function (response) {
+                  if (response.data.complete) {
+                    _this2.$refs.form.reset();
+
+                    _this2.overlay = false;
+                    window.location.href = "/";
+                  } else {
+                    _this2.sweet.title = "Error";
+                    _this2.sweet.icon = "error";
+
+                    _this2.$swal({
+                      title: _this2.sweet.title,
+                      icon: _this2.sweet.icon,
+                      text: response.data.message
+                    });
+
+                    _this2.overlay = false;
+                  }
+                })["catch"](function (error) {
+                  _this2.sweet.title = "Error";
+                  _this2.sweet.icon = "error";
+
+                  _this2.$swal({
+                    title: _this2.sweet.title,
+                    icon: _this2.sweet.icon,
+                    text: error
+                  });
+
+                  _this2.overlay = false;
+                });
+
+              case 4:
+                _context2.next = 7;
+                break;
+
+              case 6:
+                _this2.overlay = false;
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     }
   }

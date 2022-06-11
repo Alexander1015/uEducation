@@ -1033,7 +1033,7 @@ var render = function () {
               attrs: { large: "", to: { name: "newSubject" } },
             },
             [
-              _c("v-icon", { staticClass: "mr-2" }, [_vm._v("post_add")]),
+              _c("v-icon", { attrs: { left: "" } }, [_vm._v("post_add")]),
               _vm._v("\n            Nuevo\n        "),
             ],
             1
