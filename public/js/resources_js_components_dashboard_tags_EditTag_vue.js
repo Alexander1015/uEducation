@@ -181,6 +181,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !!v || 'El titulo es requerido';
         }, function (v) {
           return v && v.length <= 250 || 'El titulo debe tener menos de 250 carácteres';
+        }],
+        colorbkRules: [function (v) {
+          return !!v || 'El color es requerido, o deje el valor por defecto';
+        }],
+        colortxtRules: [function (v) {
+          return !!v || 'El color es requerido, o deje el valor por defecto';
         }]
       },
       statusRules: [function (v) {
@@ -1667,6 +1673,7 @@ var render = function () {
                                         attrs: {
                                           "hide-mode-switch": "",
                                           mode: "hexa",
+                                          rules: _vm.colorbkRules,
                                         },
                                         model: {
                                           value: _vm.form_information.color_bk,
@@ -1718,6 +1725,7 @@ var render = function () {
                                         attrs: {
                                           "hide-mode-switch": "",
                                           mode: "hexa",
+                                          rules: _vm.colortxtRules,
                                         },
                                         model: {
                                           value: _vm.form_information.color_txt,

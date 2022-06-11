@@ -76,7 +76,7 @@
                                             Reiniciar color
                                         </v-btn>
                                         <v-color-picker v-model="form_information.color_bk" class="mx-auto my-2"
-                                            hide-mode-switch mode="hexa">
+                                            hide-mode-switch mode="hexa" :rules="colorbkRules">
                                         </v-color-picker>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -86,7 +86,7 @@
                                             Reiniciar color
                                         </v-btn>
                                         <v-color-picker v-model="form_information.color_txt" class="mx-auto my-2"
-                                            hide-mode-switch mode="hexa">
+                                            hide-mode-switch mode="hexa" :rules="colortxtRules">
                                         </v-color-picker>
                                     </v-col>
                                 </v-row>
@@ -159,6 +159,12 @@ export default {
             nameRules: [
                 v => !!v || 'El titulo es requerido',
                 v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
+            ],
+            colorbkRules: [
+                v => !!v || 'El color es requerido, o deje el valor por defecto',
+            ],
+            colortxtRules: [
+                v => !!v || 'El color es requerido, o deje el valor por defecto',
             ],
         },
         statusRules: [

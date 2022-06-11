@@ -27,7 +27,8 @@
                                 <!-- Vista previa -->
                                 <div class="mb-2">
                                     <small>Vista previa:</small>
-                                    <v-chip label class="ml-2" :color="form.color_bk" :style='"color:" + form.color_txt + ";"'>
+                                    <v-chip label class="ml-2" :color="form.color_bk"
+                                        :style='"color:" + form.color_txt + ";"'>
                                         <v-icon left>label</v-icon> {{ form.name }}
                                     </v-chip>
                                 </div>
@@ -47,7 +48,7 @@
                                                 Reiniciar color
                                             </v-btn>
                                             <v-color-picker v-model="form.color_bk" class="mx-auto my-2"
-                                                hide-mode-switch mode="hexa">
+                                                hide-mode-switch mode="hexa" :rules="colorbkRules">
                                             </v-color-picker>
                                         </v-col>
                                         <v-col cols="12" sm="12" md="6">
@@ -57,7 +58,7 @@
                                                 Reiniciar color
                                             </v-btn>
                                             <v-color-picker v-model="form.color_txt" class="mx-auto my-2"
-                                                hide-mode-switch mode="hexa">
+                                                hide-mode-switch mode="hexa" :rules="colortxtRules">
                                             </v-color-picker>
                                         </v-col>
                                     </v-row>
@@ -104,6 +105,12 @@ export default {
         nameRules: [
             v => !!v || 'El titulo es requerido',
             v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
+        ],
+        colorbkRules: [
+            v => !!v || 'El color es requerido, o deje el valor por defecto',
+        ],
+        colortxtRules: [
+            v => !!v || 'El color es requerido, o deje el valor por defecto',
         ],
     }),
     methods: {
