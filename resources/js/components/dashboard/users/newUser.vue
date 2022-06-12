@@ -66,21 +66,21 @@
                                                 accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
                                                 show-size tabindex="7">
                                             </v-file-input>
-                                            <template v-if="prev_img.url_img">
-                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
-                                                    avatar
+                                            <template v-if="prev_img.url_img != '/img/users/blank.png'">
+                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                    Reiniciar avatar
                                                 </v-btn>
-                                                <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                    :lazy-src='prev_img.url_img' :max-height="prev_img.height"
-                                                    :max-width="prev_img.width" contain>
-                                                    <template v-slot:placeholder>
-                                                        <v-row class="fill-height ma-0" align="center" justify="center">
-                                                            <v-progress-circular indeterminate color="grey lighten-5">
-                                                            </v-progress-circular>
-                                                        </v-row>
-                                                    </template>
-                                                </v-img>
                                             </template>
+                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                                :lazy-src='prev_img.url_img' :max-height="prev_img.height"
+                                                :max-width="prev_img.width" contain>
+                                                <template v-slot:placeholder>
+                                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                                        </v-progress-circular>
+                                                    </v-row>
+                                                </template>
+                                            </v-img>
                                         </v-col>
                                     </v-row>
                                 </v-form>
@@ -156,7 +156,7 @@ export default {
             v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
         ],
         prev_img: {
-            url_img: "",
+            url_img: "/img/users/blank.png",
             height: 200,
             width: 300,
         }
@@ -234,7 +234,7 @@ export default {
             this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
         },
         clean_img() {
-            this.prev_img.url_img = "";
+            this.prev_img.url_img = "/img/users/blank.png";
             this.form.avatar = null;
         }
     },

@@ -237,7 +237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         status: ""
       },
       prev_img: {
-        url_img: "",
+        url_img: "/img/users/blank.png",
         height: 200,
         width: 300
       },
@@ -696,7 +696,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.prev_img.url_img = URL.createObjectURL(this.form_information.avatar);
     },
     clean_img: function clean_img() {
-      this.prev_img.url_img = "";
+      this.prev_img.url_img = "/img/users/blank.png";
       this.form_information.avatar = null;
       this.form_information.avatar_new = 1;
     }
@@ -1763,7 +1763,8 @@ var render = function () {
                                           },
                                         }),
                                         _vm._v(" "),
-                                        _vm.prev_img.url_img
+                                        _vm.prev_img.url_img !=
+                                        "/img/users/blank.png"
                                           ? [
                                               _c(
                                                 "v-btn",
@@ -1774,67 +1775,57 @@ var render = function () {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "Borrar\n                                                avatar\n                                            "
+                                                    "Reiniciar\n                                                avatar\n                                            "
                                                   ),
                                                 ]
                                               ),
-                                              _vm._v(" "),
-                                              _c("v-img", {
-                                                staticClass: "mt-4 mx-auto",
-                                                attrs: {
-                                                  src: _vm.prev_img.url_img,
-                                                  "lazy-src":
-                                                    _vm.prev_img.url_img,
-                                                  "max-height":
-                                                    _vm.prev_img.height,
-                                                  "max-width":
-                                                    _vm.prev_img.width,
-                                                  contain: "",
-                                                },
-                                                scopedSlots: _vm._u(
-                                                  [
-                                                    {
-                                                      key: "placeholder",
-                                                      fn: function () {
-                                                        return [
-                                                          _c(
-                                                            "v-row",
-                                                            {
-                                                              staticClass:
-                                                                "fill-height ma-0",
-                                                              attrs: {
-                                                                align: "center",
-                                                                justify:
-                                                                  "center",
-                                                              },
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-progress-circular",
-                                                                {
-                                                                  attrs: {
-                                                                    indeterminate:
-                                                                      "",
-                                                                    color:
-                                                                      "grey lighten-5",
-                                                                  },
-                                                                }
-                                                              ),
-                                                            ],
-                                                            1
-                                                          ),
-                                                        ]
-                                                      },
-                                                      proxy: true,
-                                                    },
-                                                  ],
-                                                  null,
-                                                  false,
-                                                  4034393411
-                                                ),
-                                              }),
                                             ]
                                           : _vm._e(),
+                                        _vm._v(" "),
+                                        _c("v-img", {
+                                          staticClass: "mt-4 mx-auto",
+                                          attrs: {
+                                            src: _vm.prev_img.url_img,
+                                            "lazy-src": _vm.prev_img.url_img,
+                                            "max-height": _vm.prev_img.height,
+                                            "max-width": _vm.prev_img.width,
+                                            contain: "",
+                                          },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "placeholder",
+                                              fn: function () {
+                                                return [
+                                                  _c(
+                                                    "v-row",
+                                                    {
+                                                      staticClass:
+                                                        "fill-height ma-0",
+                                                      attrs: {
+                                                        align: "center",
+                                                        justify: "center",
+                                                      },
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-progress-circular",
+                                                        {
+                                                          attrs: {
+                                                            indeterminate: "",
+                                                            color:
+                                                              "grey lighten-5",
+                                                          },
+                                                        }
+                                                      ),
+                                                    ],
+                                                    1
+                                                  ),
+                                                ]
+                                              },
+                                              proxy: true,
+                                            },
+                                          ]),
+                                        }),
                                       ],
                                       2
                                     ),

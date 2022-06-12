@@ -21,8 +21,8 @@
                     lastIcon: 'last_page',
                     prevIcon: 'chevron_left',
                     nextIcon: 'chevron_right'
-                }" :loading="loading_table" loading-text="Obteniendo información..." multi-sort
-                    :search="search" fixed-header align="center">
+                }" :loading="loading_table" loading-text="Obteniendo información..." multi-sort :search="search"
+                    fixed-header align="center">
                     <!-- Avatar -->
                     <template v-slot:item.avatar="{ item }">
                         <template v-if="item.avatar">
@@ -39,7 +39,17 @@
                             </v-list-item-avatar>
                         </template>
                         <template v-else>
-                            <v-icon>account_circle</v-icon>
+                            <v-list-item-avatar class="mx-auto">
+                                <v-img src="/img/users/blank.png" :max-height='avatar_height'
+                                    lazy-src="/img/lazy_users/blank.png">
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="grey lighten-5">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img>
+                            </v-list-item-avatar>
                         </template>
                     </template>
                     <!-- Estado -->

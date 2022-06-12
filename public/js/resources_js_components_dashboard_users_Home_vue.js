@@ -130,6 +130,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -1228,7 +1238,56 @@ var render = function () {
                                 1
                               ),
                             ]
-                          : [_c("v-icon", [_vm._v("account_circle")])],
+                          : [
+                              _c(
+                                "v-list-item-avatar",
+                                { staticClass: "mx-auto" },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      src: "/img/users/blank.png",
+                                      "max-height": _vm.avatar_height,
+                                      "lazy-src": "/img/lazy_users/blank.png",
+                                    },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "placeholder",
+                                          fn: function () {
+                                            return [
+                                              _c(
+                                                "v-row",
+                                                {
+                                                  staticClass:
+                                                    "fill-height ma-0",
+                                                  attrs: {
+                                                    align: "center",
+                                                    justify: "center",
+                                                  },
+                                                },
+                                                [
+                                                  _c("v-progress-circular", {
+                                                    attrs: {
+                                                      indeterminate: "",
+                                                      color: "grey lighten-5",
+                                                    },
+                                                  }),
+                                                ],
+                                                1
+                                              ),
+                                            ]
+                                          },
+                                          proxy: true,
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    ),
+                                  }),
+                                ],
+                                1
+                              ),
+                            ],
                       ]
                     },
                   },

@@ -5514,6 +5514,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
   data: function data() {
@@ -30627,9 +30637,62 @@ var render = function () {
                                             ),
                                           ]
                                         : [
-                                            _c("v-icon", [
-                                              _vm._v("account_circle"),
-                                            ]),
+                                            _c(
+                                              "v-list-item-avatar",
+                                              [
+                                                _c("v-img", {
+                                                  attrs: {
+                                                    src: "/img/users/blank.png",
+                                                    "max-height":
+                                                      _vm.logo.height,
+                                                    "lazy-src":
+                                                      "/img/lazy_users/blank.png",
+                                                  },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "placeholder",
+                                                        fn: function () {
+                                                          return [
+                                                            _c(
+                                                              "v-row",
+                                                              {
+                                                                staticClass:
+                                                                  "fill-height ma-0",
+                                                                attrs: {
+                                                                  align:
+                                                                    "center",
+                                                                  justify:
+                                                                    "center",
+                                                                },
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-progress-circular",
+                                                                  {
+                                                                    attrs: {
+                                                                      indeterminate:
+                                                                        "",
+                                                                      color:
+                                                                        "grey lighten-5",
+                                                                    },
+                                                                  }
+                                                                ),
+                                                              ],
+                                                              1
+                                                            ),
+                                                          ]
+                                                        },
+                                                        proxy: true,
+                                                      },
+                                                    ],
+                                                    null,
+                                                    true
+                                                  ),
+                                                }),
+                                              ],
+                                              1
+                                            ),
                                           ],
                                       _vm._v(" "),
                                       _c("span", { staticClass: "ml-2 mr-1" }, [
@@ -30648,7 +30711,7 @@ var render = function () {
                           ],
                           null,
                           false,
-                          3793162915
+                          1822769049
                         ),
                       },
                       [

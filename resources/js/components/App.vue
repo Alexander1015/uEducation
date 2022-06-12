@@ -39,7 +39,17 @@
                                     </v-list-item-avatar>
                                 </template>
                                 <template v-else>
-                                    <v-icon>account_circle</v-icon>
+                                    <v-list-item-avatar>
+                                        <v-img src="/img/users/blank.png" :max-height='logo.height'
+                                            lazy-src="/img/lazy_users/blank.png">
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </v-list-item-avatar>
                                 </template>
                                 <span class="ml-2 mr-1">{{ user.user }}</span>
                                 <v-icon>keyboard_arrow_down</v-icon>
