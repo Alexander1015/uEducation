@@ -126,6 +126,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
@@ -186,7 +197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
       }],
       prev_img: {
-        url_img: "",
+        url_img: "/img/users/blank.png",
         height: 200,
         width: 300
       },
@@ -288,7 +299,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          window.location.href = "/";
+                          window.location.href = "/dashboard/profile";
                           _this2.overlay = false;
                         } else _this2.overlay = false;
                       });
@@ -366,7 +377,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          window.location.href = "/";
+                          window.location.href = "/dashboard/profile";
                           _this3.overlay = false;
                         } else _this3.overlay = false;
                       });
@@ -405,7 +416,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
     },
     clean_img: function clean_img() {
-      this.prev_img.url_img = "";
+      this.prev_img.url_img = "/img/users/blank.png";
       this.form.avatar = null;
       this.form.avatar_new = 1;
     }
@@ -1008,12 +1019,36 @@ var render = function () {
             "v-toolbar",
             { staticClass: "bk_blue", attrs: { flat: "", dark: "" } },
             [
-              _c("v-toolbar-title", [
-                _vm._v(
-                  "Perfil de " +
-                    _vm._s(this.user.firstname + " " + this.user.lastname)
-                ),
-              ]),
+              _c(
+                "v-toolbar-title",
+                [
+                  _vm._v("Perfil de\n                "),
+                  _vm.user.firstname || _vm.user.lastname
+                    ? [
+                        _vm.user.firstname
+                          ? [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.user.firstname) +
+                                  "\n                    "
+                              ),
+                            ]
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.user.lastname
+                          ? [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(_vm.user.lastname) +
+                                  "\n                    "
+                              ),
+                            ]
+                          : _vm._e(),
+                      ]
+                    : [_c("v-icon", [_vm._v("remove")])],
+                ],
+                2
+              ),
             ],
             1
           ),
@@ -1180,7 +1215,8 @@ var render = function () {
                                         },
                                       }),
                                       _vm._v(" "),
-                                      _vm.prev_img.url_img
+                                      _vm.prev_img.url_img !=
+                                      "/img/users/blank.png"
                                         ? [
                                             _c(
                                               "v-btn",
@@ -1195,61 +1231,49 @@ var render = function () {
                                                 ),
                                               ]
                                             ),
-                                            _vm._v(" "),
-                                            _c("v-img", {
-                                              staticClass: "mt-4 mx-auto",
-                                              attrs: {
-                                                src: _vm.prev_img.url_img,
-                                                "lazy-src":
-                                                  _vm.prev_img.url_img,
-                                                "max-height":
-                                                  _vm.prev_img.height,
-                                                "max-width": _vm.prev_img.width,
-                                                contain: "",
-                                              },
-                                              scopedSlots: _vm._u(
-                                                [
-                                                  {
-                                                    key: "placeholder",
-                                                    fn: function () {
-                                                      return [
-                                                        _c(
-                                                          "v-row",
-                                                          {
-                                                            staticClass:
-                                                              "fill-height ma-0",
-                                                            attrs: {
-                                                              align: "center",
-                                                              justify: "center",
-                                                            },
-                                                          },
-                                                          [
-                                                            _c(
-                                                              "v-progress-circular",
-                                                              {
-                                                                attrs: {
-                                                                  indeterminate:
-                                                                    "",
-                                                                  color:
-                                                                    "grey lighten-5",
-                                                                },
-                                                              }
-                                                            ),
-                                                          ],
-                                                          1
-                                                        ),
-                                                      ]
-                                                    },
-                                                    proxy: true,
-                                                  },
-                                                ],
-                                                null,
-                                                false,
-                                                4034393411
-                                              ),
-                                            }),
                                           ]
                                         : _vm._e(),
+                                      _vm._v(" "),
+                                      _c("v-img", {
+                                        staticClass: "mt-4 mx-auto",
+                                        attrs: {
+                                          src: _vm.prev_img.url_img,
+                                          "lazy-src": _vm.prev_img.url_img,
+                                          "max-height": _vm.prev_img.height,
+                                          "max-width": _vm.prev_img.width,
+                                          contain: "",
+                                        },
+                                        scopedSlots: _vm._u([
+                                          {
+                                            key: "placeholder",
+                                            fn: function () {
+                                              return [
+                                                _c(
+                                                  "v-row",
+                                                  {
+                                                    staticClass:
+                                                      "fill-height ma-0",
+                                                    attrs: {
+                                                      align: "center",
+                                                      justify: "center",
+                                                    },
+                                                  },
+                                                  [
+                                                    _c("v-progress-circular", {
+                                                      attrs: {
+                                                        indeterminate: "",
+                                                        color: "grey lighten-5",
+                                                      },
+                                                    }),
+                                                  ],
+                                                  1
+                                                ),
+                                              ]
+                                            },
+                                            proxy: true,
+                                          },
+                                        ]),
+                                      }),
                                     ],
                                     2
                                   ),

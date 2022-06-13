@@ -7,7 +7,19 @@
         <!-- Contenido -->
         <v-card class="mx-auto rounded mt-4" elevation="3" width="900">
             <v-toolbar flat class="bk_blue" dark>
-                <v-toolbar-title>Perfil de {{ this.user.firstname + " " + this.user.lastname }}</v-toolbar-title>
+                <v-toolbar-title>Perfil de
+                    <template v-if="user.firstname || user.lastname">
+                        <template v-if="user.firstname">
+                            {{ user.firstname }}
+                        </template>
+                        <template v-if="user.lastname">
+                            {{ user.lastname }}
+                        </template>
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
+                </v-toolbar-title>
             </v-toolbar>
             <v-tabs vertical>
                 <v-tab>
@@ -52,21 +64,20 @@
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
                                             tabindex="5">
                                         </v-file-input>
-                                        <template v-if="prev_img.url_img">
+                                        <template v-if="prev_img.url_img != '/img/users/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
                                                 avatar
                                             </v-btn>
-                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                :lazy-src='prev_img.url_img' :max-height="prev_img.height"
-                                                :max-width="prev_img.width" contain>
-                                                <template v-slot:placeholder>
-                                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                                        <v-progress-circular indeterminate color="grey lighten-5">
-                                                        </v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>
                                         </template>
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img" :lazy-src='prev_img.url_img'
+                                            :max-height="prev_img.height" :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
                                     </v-col>
                                 </v-row>
                             </v-form>
@@ -158,7 +169,7 @@ export default {
             v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
         ],
         prev_img: {
-            url_img: "",
+            url_img: "/img/users/blank.png",
             height: 200,
             width: 300,
         },
@@ -232,7 +243,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/"
+                                            window.location.href = "/dashboard/profile"
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;
@@ -287,7 +298,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/"
+                                            window.location.href = "/dashboard/profile"
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;
@@ -314,7 +325,7 @@ export default {
             this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
         },
         clean_img() {
-            this.prev_img.url_img = "";
+            this.prev_img.url_img = "/img/users/blank.png";
             this.form.avatar = null;
             this.form.avatar_new = 1;
         }
