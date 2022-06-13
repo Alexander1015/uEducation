@@ -38,3 +38,6 @@ Route::resource('subject/status', App\Http\Controllers\StatusSubjectController::
 // Tags
 Route::resource('tag', App\Http\Controllers\TagController::class)->middleware('auth');
 Route::resource('tag/status', App\Http\Controllers\StatusTagController::class)->middleware('auth');
+// Temas
+Route::resource('topic', App\Http\Controllers\TopicController::class)->middleware('auth');
+Route::resource('topic/status', App\Http\Controllers\StatusTopicController::class)->middleware('auth');

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class TagController extends Controller
+class TopicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = DB::table('tags')->get();
-        return response()->json($tags);
+        $subjects = DB::table('topics')->get();
+        return response()->json($subjects);
     }
 
     /**
@@ -32,38 +32,26 @@ class TagController extends Controller
         if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
-                    'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name'],
-                    'background_color' => ['bail', 'sometimes', 'string'],
-                    'background_text' => ['bail', 'sometimes', 'string'],
+                    'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name'],
                 ]);
                 if ($validator->fails()) {
-                    $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
-                    if ($old_name) {
-                        return response()->json([
-                            'message' => 'El título ingresado ya existe',
-                            'complete' => false,
-                        ]);
-                    } else {
-                        return response()->json([
-                            'message' => 'El título solicitado no cumple con el formato',
-                            'complete' => false,
-                        ]);
-                    }
+                    return response()->json([
+                        'message' => 'El titulo solicitado no cumple con el formato',
+                        'complete' => false,
+                    ]);
                 } else {
-                    if (DB::table("tags")
+                    if (DB::table("topics")
                         ->insert([
                             'name' => $request->input('name'),
-                            'background_color' => $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
-                            'text_color' => $request->input('text_color') ? $request->input('text_color') : "#676767",
                         ])
                     ) {
                         return response()->json([
-                            'message' => 'Etiqueta creada exitosamente',
+                            'message' => 'Tema creado exitosamente',
                             'complete' => true,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de crear la etiqueta',
+                            'message' => 'Ah ocurrido un error al momento de crear el tema',
                             'complete' => false,
                         ]);
                     }
@@ -91,7 +79,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $subject = DB::table("tags")->where("id", $id)->first();
+        $subject = DB::table("topics")->where("id", $id)->first();
         return response()->json($subject);
     }
 
@@ -107,55 +95,41 @@ class TagController extends Controller
         $status = auth()->user()->status;
         if ($status == 1) {
             try {
-                $data = DB::table("tags")->where("id", $id)->first();
+                $data = DB::table("topics")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "La etiqueta seleccionada no existe",
+                        'message' => "El tema seleccionado no existe",
                         'complete' => false,
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name,' . $data->id],
-                        'background_color' => ['bail', 'sometimes', 'string'],
-                        'background_text' => ['bail', 'sometimes', 'string'],
+                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name,' . $data->id],
                     ]);
                     if ($validator->fails()) {
-                        $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
-                        if ($data->id != $old_name->id) {
-                            return response()->json([
-                                'message' => 'El título ingresado ya existe',
-                                'complete' => false,
-                            ]);
-                        } else {
-                            return response()->json([
-                                'message' => 'Hay datos que no siguen el formato solicitado',
-                                'complete' => false,
-                            ]);
-                        }
+                        return response()->json([
+                            'message' => 'El titulo solicitado no cumple con el formato',
+                            'complete' => false,
+                        ]);
                     } else {
-                        if (DB::update("UPDATE tags SET name = ?, background_color = ?, text_color = ? WHERE id = ?", [
+                        if (DB::update("UPDATE topics SET name = ? WHERE id = ?", [
                             $request->input('name'),
-                            $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
-                            $request->input('text_color') ? $request->input('text_color') : "#676767",
                             $data->id,
                         ])) {
                             return response()->json([
-                                'message' => 'Etiqueta modificada exitosamente',
+                                'message' => 'Tema modificado exitosamente',
                                 'complete' => true,
                             ]);
                         } else {
                             if (
-                                $data->name == $request->input('name') &&
-                                $data->background_color == $request->input('background_color') &&
-                                $data->text_color == $request->input('text_color')
+                                $data->name == $request->input('name')
                             ) {
                                 return response()->json([
-                                    'message' => 'La información proporcionada no modifica la etiqueta, asi que no se ha actualizado',
+                                    'message' => 'La información proporcionada no modifica el curso, asi que no se ha actualizado',
                                     'complete' => false,
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ah ocurrido un error al momento de modificar la etiqueta',
+                                    'message' => 'Ah ocurrido un error al momento de modificar el curso',
                                     'complete' => false,
                                 ]);
                             }
@@ -188,21 +162,21 @@ class TagController extends Controller
         $status = auth()->user()->status;
         if ($status == 1) {
             try {
-                $data = DB::table("tags")->where("id", $id)->first();
+                $data = DB::table("topics")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "La etiqueta seleccionada no existe",
+                        'message' => "El tema seleccionado no existe",
                         'complete' => false,
                     ]);
                 } else {
-                    if (DB::table("tags")->delete($data->id)) {
+                    if (DB::table("topics")->delete($data->id)) {
                         return response()->json([
-                            'message' => 'Etiqueta eliminada exitosamente',
+                            'message' => 'Tema eliminado exitosamente',
                             'complete' => true,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de eliminar la etiqueta',
+                            'message' => 'Ah ocurrido un error al momento de eliminar el tema',
                             'complete' => true,
                         ]);
                     }

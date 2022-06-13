@@ -111,7 +111,7 @@ class SubjectController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:subjects,name'],
+                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:subjects,name,' . $data->id],
                     ]);
                     if ($validator->fails()) {
                         $old_name = DB::table("subjects")->where('name', $request->input('name'))->first();
@@ -132,7 +132,7 @@ class SubjectController extends Controller
                             $data->id,
                         ])) {
                             return response()->json([
-                                'message' => 'Usuario modificado exitosamente',
+                                'message' => 'Curso modificado exitosamente',
                                 'complete' => true,
                             ]);
                         } else {

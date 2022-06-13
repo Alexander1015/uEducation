@@ -18,6 +18,8 @@ const NewTag = () => import ('./components/dashboard/tags/NewTag.vue')
 const EditTag = () => import ('./components/dashboard/tags/EditTag.vue')
 // Temas
 const DashboardTopics = () => import ('./components/dashboard/topics/Home.vue')
+const NewTopic = () => import ('./components/dashboard/topics/NewTopic.vue')
+const EditTopic = () => import ('./components/dashboard/topics/EditTopic.vue')
 // Perfil
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
 
@@ -103,6 +105,28 @@ export const routes = [
         name: 'tags',
         path: '/dashboard/tags',
         component: DashboardTags,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'newTopic',
+        path: '/dashboard/topics/new',
+        component: NewTopic,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'editTopic',
+        path: '/dashboard/topics/edit',
+        component: EditTopic,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()

@@ -5825,6 +5825,14 @@ var EditTag = function EditTag() {
 
 var DashboardTopics = function DashboardTopics() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_topics_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/topics/Home.vue */ "./resources/js/components/dashboard/topics/Home.vue"));
+};
+
+var NewTopic = function NewTopic() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_topics_NewTopic_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/topics/NewTopic.vue */ "./resources/js/components/dashboard/topics/NewTopic.vue"));
+};
+
+var EditTopic = function EditTopic() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_topics_EditTopic_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/topics/EditTopic.vue */ "./resources/js/components/dashboard/topics/EditTopic.vue"));
 }; // Perfil
 
 
@@ -5922,6 +5930,32 @@ var routes = [{
   name: 'tags',
   path: '/dashboard/tags',
   component: DashboardTags,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'newTopic',
+  path: '/dashboard/topics/new',
+  component: NewTopic,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'editTopic',
+  path: '/dashboard/topics/edit',
+  component: EditTopic,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();
@@ -58266,7 +58300,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
