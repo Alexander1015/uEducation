@@ -60,6 +60,7 @@ class TopicController extends Controller
                             'name' => $request->input('name'),
                             'abstract' => $request->input('abstract'),
                             'img' => $new_img,
+                            'user_id' => auth()->user()->id,
                             'status' => '0',
                         ])
                     ) {
@@ -87,7 +88,7 @@ class TopicController extends Controller
                         }
                         $data = DB::table("topics")->where("name", $request->input('name'))->first();
                         return response()->json([
-                            'message' => 'Tema creado exitosamente, en modo borrador',
+                            'message' => 'Tema creado exitosamente en modo borrador',
                             'topic' => $data->id,
                             'complete' => true,
                         ]);
