@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('img');
             $table->text('abstract');
-            $table->longText('body');
+            $table->longText('body')->default("");
             $table->boolean('status')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subject_id');

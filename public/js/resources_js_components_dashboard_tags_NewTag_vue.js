@@ -189,10 +189,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }).then(function () {
                         if (response.data.complete) {
                           _this.$router.push({
-                            name: "editTopic",
-                            params: {
-                              id: response.data.topic
-                            }
+                            name: "tags"
                           });
 
                           _this.overlay = false;

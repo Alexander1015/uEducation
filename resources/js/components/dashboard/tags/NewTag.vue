@@ -152,7 +152,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "editTopic", params: { id: response.data.topic } });
+                                            this.$router.push({ name: "tags" });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

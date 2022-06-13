@@ -29,14 +29,20 @@
                                 <v-form ref="form" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
                                     <v-row dense>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-autocomplete v-model="form.subject" :rules="subjectRules"
+                                                :items="subjects" clearable clear-icon="cancel" label="Curso *"
                                                 tabindex="1" required>
+                                            </v-autocomplete>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
+                                                tabindex="2" required>
                                             </v-text-field>
                                         </v-col>
                                         <v-col cols="12">
                                             <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
-                                                clear-icon="cancel" rows="2" label="Descripción">
+                                                clear-icon="cancel" rows="2" label="Descripción" tabindex="3">
                                             </v-textarea>
                                         </v-col>
                                         <v-col cols="12">
@@ -44,7 +50,7 @@
                                                 label="Haz clic(k) aquí para subir una imagen" id="img"
                                                 prepend-icon="photo_camera" :rules="imgRules"
                                                 accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
-                                                show-size tabindex="7">
+                                                show-size tabindex="4">
                                             </v-file-input>
                                             <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                                 <v-btn class="bk_brown txt_white width_100" @click="clean_img">
@@ -102,10 +108,15 @@ export default {
             title: "Error",
         },
         form: {
+            subject: "",
             name: "",
             abstract: "",
             img: null,
         },
+        subjects: [],
+        subjectRules: [
+            v => !!v || 'El curso es requerido',
+        ],
         nameRules: [
             v => !!v || 'El titulo es requerido',
             v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
@@ -123,7 +134,19 @@ export default {
             width: 300,
         }
     }),
+    mounted() {
+        this.showSubjects()
+    },
     methods: {
+        async showSubjects() {
+            await this.axios.get('/api/getsubjects')
+                .then(response => {
+                    this.subjects = response.data;
+                })
+                .catch(error => {
+                    this.subjects = []
+                });
+        },
         returnTopics() {
             this.$router.push({ name: "topics" });
         },
@@ -140,6 +163,7 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
+                            data.append('subject', this.form.subject);
                             data.append('name', this.form.name);
                             data.append('abstract', this.form.abstract);
                             this.form.img = document.querySelector('#img').files[0];
@@ -162,7 +186,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "topics" });
+                                            this.$router.push({ name: "editTopic", params: { id: response.data.topic } });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

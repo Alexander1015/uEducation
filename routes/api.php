@@ -41,3 +41,4 @@ Route::resource('tag/status', App\Http\Controllers\StatusTagController::class)->
 // Temas
 Route::resource('topic', App\Http\Controllers\TopicController::class)->middleware('auth');
 Route::resource('topic/status', App\Http\Controllers\StatusTopicController::class)->middleware('auth');
+Route::resource('getsubjects', App\Http\Controllers\GetSubjectsController::class)->middleware('auth');
