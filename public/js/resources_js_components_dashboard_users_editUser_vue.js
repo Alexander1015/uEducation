@@ -184,6 +184,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -211,6 +212,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       prev_img: {
         url_img: "/img/users/blank.png",
+        lazy_img: "/img/lazy_users/blank.png",
         height: 200,
         width: 300
       },
@@ -325,7 +327,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this2.form_information.lastname = _this2.user.lastname;
                     _this2.form_information.user = _this2.user.user;
                     _this2.form_information.email = _this2.user.email;
-                    if (_this2.user.avatar) _this2.prev_img.url_img = "/img/users/" + _this2.user.avatar;
+
+                    if (_this2.user.avatar) {
+                      _this2.prev_img.url_img = "/img/users/" + _this2.user.avatar;
+                      _this2.prev_img.lazy_img = "/img/lazy_users/" + _this2.user.avatar;
+                    }
+
                     _this2.form_information.avatar = null;
                     _this2.form_information.avatar_new = 0;
                     _this2.form_password.password = "";
@@ -667,9 +674,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     preview_img: function preview_img() {
       this.form_information.avatar_new = 1;
       this.prev_img.url_img = URL.createObjectURL(this.form_information.avatar);
+      this.prev_img.lazy_img = URL.createObjectURL(this.form_information.avatar);
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/users/blank.png";
+      this.prev_img.lazy_img = "/img/lazy_users/blank.png";
       this.form_information.avatar = null;
       this.form_information.avatar_new = 1;
     }
@@ -1641,7 +1650,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "Reiniciar\n                                            avatar\n                                        "
+                                                "\n                                            Reiniciar avatar\n                                        "
                                               ),
                                             ]
                                           ),
@@ -1652,7 +1661,7 @@ var render = function () {
                                       staticClass: "mt-4 mx-auto",
                                       attrs: {
                                         src: _vm.prev_img.url_img,
-                                        "lazy-src": _vm.prev_img.url_img,
+                                        "lazy-src": _vm.prev_img.lazy_img,
                                         "max-height": _vm.prev_img.height,
                                         "max-width": _vm.prev_img.width,
                                         contain: "",

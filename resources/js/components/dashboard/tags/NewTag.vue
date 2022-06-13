@@ -8,7 +8,7 @@
         <div class="mx-4 my-4">
             <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
                 <v-row dense class="pl-1">
-                    <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
+                    <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -64,17 +64,20 @@
                                     </v-row>
                                 </v-form>
                             </div>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn outlined @click.prevent="returnTags">
-                                    <v-icon left>keyboard_double_arrow_left</v-icon>
-                                    Regresar
-                                </v-btn>
-                                <v-btn class="txt_white bk_green" @click.prevent="registerTags">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
-                            </v-card-actions>
+                            <v-row>
+                                <v-col cols="12" sm="12" md="6">
+                                    <v-btn class="width_100" outlined @click.prevent="returnTags">
+                                        <v-icon left>keyboard_double_arrow_left</v-icon>
+                                        Regresar
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="12" sm="12" md="6">
+                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerTags">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
                         </div>
                     </v-col>
                 </v-row>
@@ -149,7 +152,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "tags" });
+                                            this.$router.push({ name: "editTopic", params: { id: response.data.topic } });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

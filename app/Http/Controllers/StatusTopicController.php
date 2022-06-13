@@ -38,7 +38,7 @@ class StatusTopicController extends Controller
                         ]);
                     } else {
                         if (DB::update("UPDATE topics SET status = ? WHERE id = ?", [
-                            $request->input('topics'),
+                            $request->input('status'),
                             $data->id,
                         ])) {
                             return response()->json([

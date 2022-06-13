@@ -8,7 +8,7 @@
         <div class="mx-4 my-4">
             <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
                 <v-row dense class="pl-1">
-                    <v-col cols="4" class="bk_blue rounded-l d-none d-md-flex">
+                    <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login rounded-sm" :src='banner.img' :lazy-src='banner.lazy'>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -72,7 +72,7 @@
                                                 </v-btn>
                                             </template>
                                             <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                :lazy-src='prev_img.url_img' :max-height="prev_img.height"
+                                                :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                                 :max-width="prev_img.width" contain>
                                                 <template v-slot:placeholder>
                                                     <v-row class="fill-height ma-0" align="center" justify="center">
@@ -85,17 +85,20 @@
                                     </v-row>
                                 </v-form>
                             </div>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn outlined @click.prevent="returnUsers">
-                                    <v-icon left>keyboard_double_arrow_left</v-icon>
-                                    Regresar
-                                </v-btn>
-                                <v-btn class="txt_white bk_green" @click.prevent="registerUser">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
-                            </v-card-actions>
+                            <v-row>
+                                <v-col cols="12" sm="12" md="6">
+                                    <v-btn class="width_100" outlined @click.prevent="returnUsers">
+                                        <v-icon left>keyboard_double_arrow_left</v-icon>
+                                        Regresar
+                                    </v-btn>
+                                </v-col>
+                                <v-col cols="12" sm="12" md="6">
+                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerUser">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
                         </div>
                     </v-col>
                 </v-row>
@@ -157,6 +160,7 @@ export default {
         ],
         prev_img: {
             url_img: "/img/users/blank.png",
+            lazy_img: "/img/lazy_users/blank.png",
             height: 200,
             width: 300,
         }
@@ -232,9 +236,11 @@ export default {
         },
         preview_img() {
             this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form.avatar);
         },
         clean_img() {
             this.prev_img.url_img = "/img/users/blank.png";
+            this.prev_img.lazy_img = "/img/lazy_users/blank.png";
             this.form.avatar = null;
         }
     },

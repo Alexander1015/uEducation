@@ -23,9 +23,15 @@
                     <!-- Menú grow -->
                     <v-tab>
                         <v-icon left>
-                            book
+                            menu_book
                         </v-icon>
                         Información
+                    </v-tab>
+                    <v-tab>
+                        <v-icon left>
+                            library_books
+                        </v-icon>
+                        Contenido
                     </v-tab>
                     <v-tab>
                         <v-icon>
@@ -42,11 +48,41 @@
                             <!-- Formulario -->
                             <v-form ref="form_information" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
-                                <v-row>
+                                <v-row dense>
+                                    <v-select class="width_100" v-model="form_information.status" :items="items_status"
+                                        label="Estado" :rules="info.statusRules"></v-select>
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
                                             label="Titulo *" tabindex="1" required>
                                         </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-textarea v-model="form_information.abstract" counter :rules="abstractRules"
+                                            clearable clear-icon="cancel" rows="2" label="Descripción">
+                                        </v-textarea>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-file-input v-model="form_information.img" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una imagen" id="img"
+                                            prepend-icon="photo_camera" :rules="info.imgRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="5">
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img != '/img/topics/blank.png'">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                Reiniciar imagen
+                                            </v-btn>
+                                        </template>
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                            :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
                                     </v-col>
                                 </v-row>
                             </v-form>
@@ -58,21 +94,16 @@
                     </v-tab-item>
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <div>
-                                <v-card-subtitle class="text-justify">
-                                    Cambie el estado del tema en el sistema (Si esta desactivado no podra ser
-                                    visualizado por parte del lector)
-                                </v-card-subtitle>
-                                <v-form ref="form_status" lazy-validation>
-                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules"></v-select>
-                                </v-form>
-                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusTopic">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
+                            <v-card-title class="text-h5 mt-4">
+                                <p class="mx-auto">CONTENIDO</p>
+                            </v-card-title>
+                            <div class="px-2 pb-2">
+
                             </div>
-                            <v-divider class="mt-8 mb-4"></v-divider>
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
                                     Elimine el curso seleccionado de la base de datos, esta opcion no se puede
@@ -100,12 +131,19 @@ export default {
             icon: "error",
             title: "Error",
         },
-        items_status: ["Activo", "Desactivado"],
+        items_status: ["Activo", "Borrador"],
         form_information: {
             name: "",
-        },
-        form_status: {
+            abstract: "",
+            img: null,
+            img_new: 0,
             status: "",
+        },
+        prev_img: {
+            url_img: "/img/topics/blank.png",
+            lazy_img: "/img/lazy_topics/blank.png",
+            height: 200,
+            width: 300,
         },
         topic: {},
         info: {
@@ -113,10 +151,16 @@ export default {
                 v => !!v || 'El titulo es requerido',
                 v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
             ],
+            abstractRules: [
+                v => (!v || v.length <= 300) || 'La descripción debe tener menos de 300 carácteres',
+            ],
+            imgRules: [
+                v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+            ],
+            statusRules: [
+                v => !!v || 'Debe elegir un item',
+            ],
         },
-        statusRules: [
-            v => !!v || 'Debe elegir un item',
-        ],
         name: "",
     }),
     mounted() {
@@ -138,8 +182,15 @@ export default {
                         }
                         else {
                             this.form_information.name = this.topic.name;
-                            if (this.topic.status == 0) this.form_status.status = "Desactivado";
-                            else if (this.topic.status == 1) this.form_status.status = "Activo";
+                            this.form_information.abstract = this.topic.abstract;
+                            if (this.topic.img) {
+                                this.prev_img.url_img = "/img/topics/" + this.user.img;
+                                this.prev_img.lazy_img = "/img/lazy_topics/" + this.user.img;
+                            }
+                            this.form_information.img = null;
+                            this.form_information.img_new = 0;
+                            if (this.topic.status == 0) this.form_information.status = "Desactivado";
+                            else if (this.topic.status == 1) this.form_information.status = "Activo";
                             this.overlay = false;
                         }
                     }).catch((error) => {
@@ -155,7 +206,7 @@ export default {
         async editTopic() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar la información del tema?',
+                    title: '¿Esta seguro de modificar el tema?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -165,7 +216,17 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
+                            let type = 3;
+                            if (this.form_information.status == "Activo") type = 1;
+                            else if (this.form_information.status == "Borrador") type = 0;
+                            data.append('status', type);
                             data.append('name', this.form_information.name);
+                            data.append('abstract', this.form_information.abstract);
+                            this.form_information.img = document.querySelector('#img').files[0];
+                            if (this.form_information.img) {
+                                data.append('img', this.form_information.img);
+                            }
+                            data.append('img_new', this.form_information.img_new);
                             data.append('_method', "put");
                             this.axios.post('/api/topics/' + this.$route.params.id, data)
                                 .then(response => {
@@ -203,57 +264,6 @@ export default {
             else {
                 this.overlay = false;
             }
-        },
-        async statusTopic() {
-            await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del tema?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        let type = 3;
-                        if (this.form_status.status == "Activo") type = 1;
-                        else if (this.form_status.status == "Desactivado") type = 0;
-                        data.append('status', type);
-                        data.append('_method', "put");
-                        this.axios.post('/api/topic/status/' + this.$route.params.id, data)
-                            .then(response => {
-                                if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
-                                }
-                                this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: response.data.message,
-                                }).then(() => {
-                                    if (response.data.complete) {
-                                        this.showTopic();
-                                    }
-                                    this.overlay = false;
-                                });
-                            })
-                            .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
-                                this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
-                                });
-                                this.overlay = false;
-                            });
-                    }
-                });
         },
         async deleteTopic() {
             await this.$swal({
@@ -302,6 +312,17 @@ export default {
                     }
                 });
         },
+        preview_img() {
+            this.form_information.img_new = 1;
+            this.prev_img.url_img = URL.createObjectURL(this.form_information.img);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form_information.img);
+        },
+        clean_img() {
+            this.prev_img.url_img = "/img/topics/blank.png";
+            this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
+            this.form_information.img = null;
+            this.form_information.img_new = 1;
+        }
     },
 }
 </script>

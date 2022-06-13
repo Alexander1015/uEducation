@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -33,6 +36,8 @@ class TopicController extends Controller
             try {
                 $validator = Validator::make($request->all(), [
                     'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name'],
+                    'abstract' => ['bail', 'sometimes', 'string', 'max:300'],
+                    'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -40,13 +45,50 @@ class TopicController extends Controller
                         'complete' => false,
                     ]);
                 } else {
+                    /*
+                    * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
+                    * y cambiar la linea: ;extension=gd a: extension=gd
+                    * o: ;extension=gd2 a: extension=gd2
+                    */
+                    $new_img = "";
+                    if ($request->file('img')) {
+                        //Direccion de la imagen
+                        $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                    }
                     if (DB::table("topics")
                         ->insert([
                             'name' => $request->input('name'),
+                            'abstract' => $request->input('abstract'),
+                            'img' => $new_img,
+                            'status' => '0',
                         ])
                     ) {
+                        if ($request->file('img')) {
+                            $img = $request->file('img');
+                            $size = Image::make($img->getRealPath())->width();
+                            //lazy
+                            $address_l = public_path('/img/lazy_topics');
+                            if (!File::isDirectory($address_l)) {
+                                File::makeDirectory($address_l, 0777, true, true);
+                            }
+                            $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_l->save($address_l . '/' . $new_img, 100);
+                            //original
+                            $address_o = public_path('/img/topics');
+                            if (!File::isDirectory($address_o)) {
+                                File::makeDirectory($address_o, 0777, true, true);
+                            }
+                            $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_o->save($address_o . '/' . $new_img, 100);
+                        }
+                        $data = DB::table("topics")->where("name", $request->input('name'))->first();
                         return response()->json([
-                            'message' => 'Tema creado exitosamente',
+                            'message' => 'Tema creado exitosamente, en modo borrador',
+                            'topic' => $data->id,
                             'complete' => true,
                         ]);
                     } else {
@@ -104,6 +146,10 @@ class TopicController extends Controller
                 } else {
                     $validator = Validator::make($request->all(), [
                         'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name,' . $data->id],
+                        'abstract' => $request->input('abstract'),
+                        'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
+                        'img_new' => ['bail', 'sometimes', 'boolean'],
+                        'status' => ['bail', 'required', 'in:0,1'],
                     ]);
                     if ($validator->fails()) {
                         return response()->json([
@@ -111,17 +157,63 @@ class TopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        if (DB::update("UPDATE topics SET name = ? WHERE id = ?", [
+                        $new_img = "";
+                        //Direccion de la imagen
+                        if (!$request->file('img')) {
+                            if (!$request->input('img_new')) {
+                                $new_img = $data->img;
+                            }
+                        } else {
+                            $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                        }
+                        if (DB::update("UPDATE topics SET name = ?, abstract = ?, img = ?, status = ? WHERE id = ?", [
                             $request->input('name'),
+                            $request->input('abstract'),
+                            $new_img,
+                            $request->input('status'),
                             $data->id,
                         ])) {
+                            // Verificamos si no se ha eliminado el img que ya tenia el usuario
+                            if (!$request->file('img')) {
+                                if ($request->input('img_new') && $data->img) {
+                                    File::delete(public_path('/img/topics') . '/' . $data->img);
+                                    File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                                }
+                            } else {
+                                if ($data->img) {
+                                    File::delete(public_path('/img/topics') . '/' . $data->img);
+                                    File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                                }
+                                $img = $request->file('img');
+                                $size = Image::make($img->getRealPath())->width();
+                                //lazy
+                                $address_l = public_path('/img/lazy_topics');
+                                if (!File::isDirectory($address_l)) {
+                                    File::makeDirectory($address_l, 0777, true, true);
+                                }
+                                $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_l->save($address_l . '/' . $new_img, 100);
+                                //original
+                                $address_o = public_path('/img/topics');
+                                if (!File::isDirectory($address_o)) {
+                                    File::makeDirectory($address_o, 0777, true, true);
+                                }
+                                $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_o->save($address_o . '/' . $new_img, 100);
+                            }
                             return response()->json([
                                 'message' => 'Tema modificado exitosamente',
                                 'complete' => true,
                             ]);
                         } else {
                             if (
-                                $data->name == $request->input('name')
+                                $data->name == $request->input('name') &&
+                                $data->abstract == $request->input('abstract') &&
+                                $data->img == $request->input('img')
                             ) {
                                 return response()->json([
                                     'message' => 'La información proporcionada no modifica el curso, asi que no se ha actualizado',
@@ -170,6 +262,10 @@ class TopicController extends Controller
                     ]);
                 } else {
                     if (DB::table("topics")->delete($data->id)) {
+                        if ($data->img) {
+                            File::delete(public_path('/img/topics') . '/' . $data->img);
+                            File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                        }
                         return response()->json([
                             'message' => 'Tema eliminado exitosamente',
                             'complete' => true,

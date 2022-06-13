@@ -77,12 +77,13 @@
                                             tabindex="5">
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">Reiniciar
-                                                avatar
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                Reiniciar avatar
                                             </v-btn>
                                         </template>
-                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img" :lazy-src='prev_img.url_img'
-                                            :max-height="prev_img.height" :max-width="prev_img.width" contain>
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                            :max-width="prev_img.width" contain>
                                             <template v-slot:placeholder>
                                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -190,6 +191,7 @@ export default {
         },
         prev_img: {
             url_img: "/img/users/blank.png",
+            lazy_img: "/img/lazy_users/blank.png",
             height: 200,
             width: 300,
         },
@@ -264,7 +266,10 @@ export default {
                             this.form_information.lastname = this.user.lastname;
                             this.form_information.user = this.user.user;
                             this.form_information.email = this.user.email;
-                            if (this.user.avatar) this.prev_img.url_img = "/img/users/" + this.user.avatar;
+                            if (this.user.avatar) {
+                                this.prev_img.url_img = "/img/users/" + this.user.avatar;
+                                this.prev_img.lazy_img = "/img/lazy_users/" + this.user.avatar;
+                            }
                             this.form_information.avatar = null;
                             this.form_information.avatar_new = 0;
                             this.form_password.password = "";
@@ -504,9 +509,11 @@ export default {
         preview_img() {
             this.form_information.avatar_new = 1;
             this.prev_img.url_img = URL.createObjectURL(this.form_information.avatar);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form_information.avatar);
         },
         clean_img() {
             this.prev_img.url_img = "/img/users/blank.png";
+            this.prev_img.lazy_img = "/img/lazy_users/blank.png";
             this.form_information.avatar = null;
             this.form_information.avatar_new = 1;
         }
