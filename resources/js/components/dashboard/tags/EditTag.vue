@@ -18,40 +18,28 @@
                     <v-icon>remove</v-icon>
                 </template>
             </div>
-            <v-card class="mt-4 mx-auto" elevation="0" max-width="1250">
-                <v-tabs vertical>
-                    <!-- Menú vertical -->
+            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+                <v-tabs grow>
+                    <!-- Menú grow -->
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    book
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Información
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            book
+                        </v-icon>
+                        Información
                     </v-tab>
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    local_library
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Otros
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            local_library
+                        </v-icon>
+                        Otros
                     </v-tab>
                     <!-- Información del curso -->
                     <v-tab-item>
-                        <v-card-title class="text-h5">
-                            <p class="mx-auto">Modificar informacion de {{ name }}</p>
-                        </v-card-title>
-                        <v-card-subtitle class="text-center">Modifique la etiqueta seleccionada</v-card-subtitle>
-                        <div class="px-2 pb-2">
+                        <div class="px-4 pb-4">
+                            <v-card-title class="text-h5">
+                                <p class="mx-auto">Modificar informacion de {{ name }}</p>
+                            </v-card-title>
+                            <v-card-subtitle class="text-center">Modifique la etiqueta seleccionada</v-card-subtitle>
                             <!-- Vista previa -->
                             <div class="mb-2">
                                 <small>Vista previa:</small>
@@ -91,44 +79,40 @@
                                     </v-col>
                                 </v-row>
                             </v-form>
-                        </div>
-                        <v-card-actions>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editTags">
                                 <v-icon left>save</v-icon>
                                 Guardar
                             </v-btn>
-                        </v-card-actions>
+                        </div>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat>
-                            <div class="px-4 py-2">
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Cambie el estado de la etiqueta en el sistema (Si esta desactivado los temas que
-                                        tengan la etiqueta no podran ser visualizados)
-                                    </v-card-subtitle>
-                                    <v-form ref="form_status" lazy-validation>
-                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado" :rules="statusRules"></v-select>
-                                    </v-form>
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="statusTag">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </div>
-                                <v-divider class="mt-8 mb-4"></v-divider>
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Elimine la etiqueta seleccionada de la base de datos, esta opcion no se puede
-                                        revertir
-                                    </v-card-subtitle>
-                                    <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTag">
-                                        <v-icon left>delete</v-icon>
-                                        Eliminar curso
-                                    </v-btn>
-                                </div>
+                        <div class="px-4 py-4">
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Cambie el estado de la etiqueta en el sistema (Si esta desactivado los temas que
+                                    tengan la etiqueta no podran ser visualizados)
+                                </v-card-subtitle>
+                                <v-form ref="form_status" lazy-validation>
+                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                        label="Estado" :rules="statusRules"></v-select>
+                                </v-form>
+                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusTag">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </div>
-                        </v-card>
+                            <v-divider class="mt-8 mb-4"></v-divider>
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Elimine la etiqueta seleccionada de la base de datos, esta opcion no se puede
+                                    revertir
+                                </v-card-subtitle>
+                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTag">
+                                    <v-icon left>delete</v-icon>
+                                    Eliminar curso
+                                </v-btn>
+                            </div>
+                        </div>
                     </v-tab-item>
                 </v-tabs>
             </v-card>

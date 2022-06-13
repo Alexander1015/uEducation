@@ -18,119 +18,96 @@
                     <v-icon>remove</v-icon>
                 </template>
             </div>
-            <v-card class="mt-4 mx-auto" elevation="0" max-width="1250">
-                <v-tabs vertical>
-                    <!-- Menú vertical -->
+            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+                <v-tabs grow>
+                    <!-- Menú grow -->
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    badge
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Información
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            badge
+                        </v-icon>
+                        Información
                     </v-tab>
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    lock
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Contraseña
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            lock
+                        </v-icon>
+                        Contraseña
                     </v-tab>
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    manage_accounts
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Otros
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            manage_accounts
+                        </v-icon>
+                        Otros
                     </v-tab>
                     <!-- Información del usuario -->
                     <v-tab-item>
-                        <v-card flat>
-                            <div class="px-4 py-2">
-                                <v-card-subtitle class="text-center">
-                                    Información almacenada del usuario seleccionado
-                                </v-card-subtitle>
-                                <!-- Formulario -->
-                                <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
-                                    <small class="font-italic txt_red mb-2">Obligatorio *</small>
-                                    <v-row>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form_information.firstname"
-                                                :rules="info.firstnameRules" label="Nombres *" tabindex="1" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form_information.lastname"
-                                                :rules="info.lastnameRules" label="Apellidos *" tabindex="2" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form_information.email" :rules="info.emailRules"
-                                                label="Correo electrónico *" tabindex="3" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form_information.user" tabindex="4"
-                                                :rules="info.userRules" label="Usuario *" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            <v-file-input v-model="form_information.avatar" @change="preview_img"
-                                                label="Haz clic(k) aquí para subir una imagen" id="avatar"
-                                                prepend-icon="photo_camera" :rules="info.avatarRules"
-                                                accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
-                                                show-size tabindex="5">
-                                            </v-file-input>
-                                            <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">Reiniciar
-                                                    avatar
-                                                </v-btn>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Información almacenada del usuario seleccionado
+                            </v-card-subtitle>
+                            <!-- Formulario -->
+                            <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
+                                <small class="font-italic txt_red mb-2">Obligatorio *</small>
+                                <v-row>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form_information.firstname" :rules="info.firstnameRules"
+                                            label="Nombres *" tabindex="1" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form_information.lastname" :rules="info.lastnameRules"
+                                            label="Apellidos *" tabindex="2" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form_information.email" :rules="info.emailRules"
+                                            label="Correo electrónico *" tabindex="3" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form_information.user" tabindex="4"
+                                            :rules="info.userRules" label="Usuario *" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-file-input v-model="form_information.avatar" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                            prepend-icon="photo_camera" :rules="info.avatarRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="5">
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img != '/img/users/blank.png'">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">Reiniciar
+                                                avatar
+                                            </v-btn>
+                                        </template>
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img" :lazy-src='prev_img.url_img'
+                                            :max-height="prev_img.height" :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
                                             </template>
-                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                :lazy-src='prev_img.url_img' :max-height="prev_img.height"
-                                                :max-width="prev_img.width" contain>
-                                                <template v-slot:placeholder>
-                                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                                        <v-progress-circular indeterminate color="grey lighten-5">
-                                                        </v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>
-                                        </v-col>
-                                    </v-row>
-                                </v-form>
-                                <v-card-actions>
-                                    <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editUser">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </v-card-actions>
-                            </div>
-                        </v-card>
+                                        </v-img>
+                                    </v-col>
+                                </v-row>
+                            </v-form>
+                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editUser">
+                                <v-icon left>save</v-icon>
+                                Guardar
+                            </v-btn>
+                        </div>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat>
-                            <div class="px-4 py-2">
-                                <v-card-subtitle class="text-center">
-                                    Cambie la contraseña del usuario seleccionado
-                                </v-card-subtitle>
-                                <!-- Formulario -->
-                                <v-form ref="form_password" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Cambie la contraseña del usuario seleccionado
+                            </v-card-subtitle>
+                            <!-- Formulario -->
+                            <v-form ref="form_password" lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-row>
                                     <v-col cols="12">
                                         <v-text-field v-model="form_password.password" type="password"
                                             :rules="passw.passwordRules" label="Contraseña *" tabindex="1" required>
@@ -142,47 +119,43 @@
                                             tabindex="2" required>
                                         </v-text-field>
                                     </v-col>
-                                </v-form>
-                                <v-card-actions>
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="editPassword">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </v-card-actions>
-                            </div>
-                        </v-card>
+                                </v-row>
+                            </v-form>
+                            <v-btn class="txt_white bk_green width_100" @click.prevent="editPassword">
+                                <v-icon left>save</v-icon>
+                                Guardar
+                            </v-btn>
+                        </div>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat>
-                            <div class="px-4 py-2">
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Cambie el estado del usuario en el sistema (Si esta desactivado no tendra
-                                        permitido ingresar al apartado de administradores o manipular la información de
-                                        la base de datos)
-                                    </v-card-subtitle>
-                                    <v-form ref="form_status" lazy-validation>
-                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado" :rules="statusRules"></v-select>
-                                    </v-form>
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="statusUser">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </div>
-                                <v-divider class="mt-8 mb-4"></v-divider>
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
-                                        revertir
-                                    </v-card-subtitle>
-                                    <v-btn class="txt_white bk_red width_100" @click.prevent="deleteUser">
-                                        <v-icon left>delete</v-icon>
-                                        Eliminar usuario
-                                    </v-btn>
-                                </div>
+                        <div class="px-4 py-4">
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Cambie el estado del usuario en el sistema (Si esta desactivado no tendra
+                                    permitido ingresar al apartado de administradores o manipular la información de
+                                    la base de datos)
+                                </v-card-subtitle>
+                                <v-form ref="form_status" lazy-validation>
+                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                        label="Estado" :rules="statusRules"></v-select>
+                                </v-form>
+                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusUser">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </div>
-                        </v-card>
+                            <v-divider class="mt-8 mb-4"></v-divider>
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
+                                    revertir
+                                </v-card-subtitle>
+                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteUser">
+                                    <v-icon left>delete</v-icon>
+                                    Eliminar usuario
+                                </v-btn>
+                            </div>
+                        </div>
                     </v-tab-item>
                 </v-tabs>
             </v-card>

@@ -18,88 +18,72 @@
                     <v-icon>remove</v-icon>
                 </template>
             </div>
-            <v-card class="mt-4 mx-auto" elevation="0" max-width="1250">
-                <v-tabs vertical>
-                    <!-- Menú vertical -->
+            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+                <v-tabs grow>
+                    <!-- Menú grow -->
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    book
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Información
-                            </v-col>
-                        </v-row>
+                        <v-icon left>
+                            book
+                        </v-icon>
+                        Información
                     </v-tab>
                     <v-tab>
-                        <v-row>
-                            <v-col cols="2" class="mx-auto">
-                                <v-icon>
-                                    local_library
-                                </v-icon>
-                            </v-col>
-                            <v-col cols="10" class="mx-auto mt-1">
-                                Otros
-                            </v-col>
-                        </v-row>
+                        <v-icon>
+                            local_library
+                        </v-icon>
+                        Otros
                     </v-tab>
                     <!-- Información del curso -->
                     <v-tab-item>
-                        <v-card-subtitle class="text-center">
-                            Información almacenada del curso seleccionado
-                        </v-card-subtitle>
-                        <div class="px-2 pb-2">
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Información almacenada del curso seleccionado
+                            </v-card-subtitle>
                             <!-- Formulario -->
                             <v-form ref="form_information" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row>
-                                    <v-col cols="12" sm="12" md="6">
+                                    <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
                                             label="Titulo *" tabindex="1" required>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
                             </v-form>
-                        </div>
-                        <v-card-actions>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editSubject">
                                 <v-icon left>save</v-icon>
                                 Guardar
                             </v-btn>
-                        </v-card-actions>
+                        </div>
                     </v-tab-item>
                     <v-tab-item>
-                        <v-card flat>
-                            <div class="px-4 py-2">
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Cambie el estado del curso en el sistema (Si esta desactivado no podra ser
-                                        visualizado por parte del lector)
-                                    </v-card-subtitle>
-                                    <v-form ref="form_status" lazy-validation>
-                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado" :rules="statusRules"></v-select>
-                                    </v-form>
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="statusSubject">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </div>
-                                <v-divider class="mt-8 mb-4"></v-divider>
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Elimine el curso seleccionado de la base de datos, esta opcion no se puede
-                                        revertir
-                                    </v-card-subtitle>
-                                    <v-btn class="txt_white bk_red width_100" @click.prevent="deleteSubject">
-                                        <v-icon left>delete</v-icon>
-                                        Eliminar curso
-                                    </v-btn>
-                                </div>
+                        <div class="px-4 py-4">
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Cambie el estado del curso en el sistema (Si esta desactivado no podra ser
+                                    visualizado por parte del lector)
+                                </v-card-subtitle>
+                                <v-form ref="form_status" lazy-validation>
+                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                        label="Estado" :rules="statusRules"></v-select>
+                                </v-form>
+                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusSubject">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </div>
-                        </v-card>
+                            <v-divider class="mt-8 mb-4"></v-divider>
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Elimine el curso seleccionado de la base de datos, esta opcion no se puede
+                                    revertir
+                                </v-card-subtitle>
+                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteSubject">
+                                    <v-icon left>delete</v-icon>
+                                    Eliminar curso
+                                </v-btn>
+                            </div>
+                        </div>
                     </v-tab-item>
                 </v-tabs>
             </v-card>

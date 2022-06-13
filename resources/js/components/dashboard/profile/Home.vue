@@ -5,39 +5,42 @@
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <v-card class="mx-auto rounded mt-4" elevation="3" width="900">
-            <v-toolbar flat class="bk_blue" dark>
-                <v-toolbar-title>Perfil de
-                    <template v-if="user.firstname || user.lastname">
-                        <template v-if="user.firstname">
-                            {{ user.firstname }}
+        <div class="mx-4 my-4">
+            <v-card class="mt-4 mx-auto rounded" elevation="3" max-width="1100">
+                <v-toolbar flat class="bk_blue" dark>
+                    <v-toolbar-title>Perfil de
+                        <template v-if="user.firstname || user.lastname">
+                            <template v-if="user.firstname">
+                                {{ user.firstname }}
+                            </template>
+                            <template v-if="user.lastname">
+                                {{ user.lastname }}
+                            </template>
                         </template>
-                        <template v-if="user.lastname">
-                            {{ user.lastname }}
+                        <template v-else>
+                            <v-icon>remove</v-icon>
                         </template>
-                    </template>
-                    <template v-else>
-                        <v-icon>remove</v-icon>
-                    </template>
-                </v-toolbar-title>
-            </v-toolbar>
-            <v-tabs vertical>
-                <v-tab>
-                    <v-icon left>
-                        manage_accounts
-                    </v-icon>
-                    Información
-                </v-tab>
-                <v-tab>
-                    <v-icon left>
-                        lock
-                    </v-icon>
-                    Contraseña
-                </v-tab>
-                <v-tab-item>
-                    <v-card flat>
-                        <div class="px-2 py-2">
-                            <v-card-subtitle class="text-center">Actualice su información</v-card-subtitle>
+                    </v-toolbar-title>
+                </v-toolbar>
+                <v-tabs grow>
+                    <!-- Menú grow -->
+                    <v-tab>
+                        <v-icon left>
+                            manage_accounts
+                        </v-icon>
+                        Información
+                    </v-tab>
+                    <v-tab>
+                        <v-icon left>
+                            lock
+                        </v-icon>
+                        Contraseña
+                    </v-tab>
+                    <v-tab-item>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Su información almacenada en el sistema
+                            </v-card-subtitle>
                             <!-- Formulario de ingreso -->
                             <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
                                 <v-row>
@@ -81,18 +84,16 @@
                                     </v-col>
                                 </v-row>
                             </v-form>
+                            <v-btn class="txt_white bk_green width_100 mt-4" @click.prevent="editUser">
+                                Guardar
+                            </v-btn>
                         </div>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn class="txt_white bk_green" type="submit" @click="editUser">
-                                Actualizar</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                    <v-card flat>
-                        <div class="px-2 py-2">
-                            <v-card-subtitle class="text-center">Actualice su contraseña</v-card-subtitle>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Cambie su contraseña
+                            </v-card-subtitle>
                             <!-- Formulario de ingreso -->
                             <v-form ref="form_password" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
@@ -103,16 +104,14 @@
                                     :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2" required>
                                 </v-text-field>
                             </v-form>
+                            <v-btn class="txt_white bk_green width_100" @click.prevent="editPassword">
+                                Guardar
+                            </v-btn>
                         </div>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn class="txt_white bk_green" type="submit" @click="editPassword">
-                                Actualizar</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-tab-item>
-            </v-tabs>
-        </v-card>
+                    </v-tab-item>
+                </v-tabs>
+            </v-card>
+        </div>
     </v-main>
 </template>
 

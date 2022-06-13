@@ -112,22 +112,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
   data: function data() {
@@ -1107,46 +1091,23 @@ var render = function () {
             "v-card",
             {
               staticClass: "mt-4 mx-auto",
-              attrs: { elevation: "0", "max-width": "1250" },
+              attrs: { elevation: "3", "max-width": "1100" },
             },
             [
               _c(
                 "v-tabs",
-                { attrs: { vertical: "" } },
+                { attrs: { grow: "" } },
                 [
                   _c(
                     "v-tab",
                     [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            { staticClass: "mx-auto", attrs: { cols: "2" } },
-                            [
-                              _c("v-icon", [
-                                _vm._v(
-                                  "\n                                book\n                            "
-                                ),
-                              ]),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "mx-auto mt-1",
-                              attrs: { cols: "10" },
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Información\n                        "
-                              ),
-                            ]
-                          ),
-                        ],
-                        1
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\n                        book\n                    "
+                        ),
+                      ]),
+                      _vm._v(
+                        "\n                    Información\n                "
                       ),
                     ],
                     1
@@ -1155,254 +1116,66 @@ var render = function () {
                   _c(
                     "v-tab",
                     [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            { staticClass: "mx-auto", attrs: { cols: "2" } },
-                            [
-                              _c("v-icon", [
-                                _vm._v(
-                                  "\n                                local_library\n                            "
-                                ),
-                              ]),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "mx-auto mt-1",
-                              attrs: { cols: "10" },
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Otros\n                        "
-                              ),
-                            ]
-                          ),
-                        ],
-                        1
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c("v-card-subtitle", { staticClass: "text-center" }, [
+                      _c("v-icon", [
                         _vm._v(
-                          "\n                        Información almacenada del curso seleccionado\n                    "
+                          "\n                        local_library\n                    "
                         ),
                       ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "px-2 pb-2" },
-                        [
-                          _c(
-                            "v-form",
-                            {
-                              ref: "form_information",
-                              attrs: { "lazy-validation": "" },
-                            },
-                            [
-                              _c(
-                                "small",
-                                { staticClass: "font-italic txt_red mb-2" },
-                                [_vm._v("Obligatorio *")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-row",
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      attrs: { cols: "12", sm: "12", md: "6" },
-                                    },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          rules: _vm.info.nameRules,
-                                          label: "Titulo *",
-                                          tabindex: "1",
-                                          required: "",
-                                        },
-                                        model: {
-                                          value: _vm.form_information.name,
-                                          callback: function ($$v) {
-                                            _vm.$set(
-                                              _vm.form_information,
-                                              "name",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "form_information.name",
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "txt_white bk_green width_100 mt-2",
-                              on: {
-                                click: function ($event) {
-                                  $event.preventDefault()
-                                  return _vm.editSubject.apply(null, arguments)
-                                },
-                              },
-                            },
-                            [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v("save"),
-                              ]),
-                              _vm._v(
-                                "\n                            Guardar\n                        "
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
+                      _vm._v("\n                    Otros\n                "),
                     ],
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c("v-card", { attrs: { flat: "" } }, [
+                  _c("v-tab-item", [
+                    _c(
+                      "div",
+                      { staticClass: "px-4 py-4" },
+                      [
+                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                          _vm._v(
+                            "\n                            Información almacenada del curso seleccionado\n                        "
+                          ),
+                        ]),
+                        _vm._v(" "),
                         _c(
-                          "div",
-                          { staticClass: "px-4 py-2" },
+                          "v-form",
+                          {
+                            ref: "form_information",
+                            attrs: { "lazy-validation": "" },
+                          },
                           [
                             _c(
-                              "div",
+                              "small",
+                              { staticClass: "font-italic txt_red mb-2" },
+                              [_vm._v("Obligatorio *")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
                               [
                                 _c(
-                                  "v-card-subtitle",
-                                  { staticClass: "text-justify" },
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
                                   [
-                                    _vm._v(
-                                      "\n                                    Cambie el estado del curso en el sistema (Si esta desactivado no podra ser\n                                    visualizado por parte del lector)\n                                "
-                                    ),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-form",
-                                  {
-                                    ref: "form_status",
-                                    attrs: { "lazy-validation": "" },
-                                  },
-                                  [
-                                    _c("v-select", {
-                                      staticClass: "width_100",
+                                    _c("v-text-field", {
                                       attrs: {
-                                        items: _vm.items_status,
-                                        label: "Estado",
-                                        rules: _vm.statusRules,
+                                        rules: _vm.info.nameRules,
+                                        label: "Titulo *",
+                                        tabindex: "1",
+                                        required: "",
                                       },
                                       model: {
-                                        value: _vm.form_status.status,
+                                        value: _vm.form_information.name,
                                         callback: function ($$v) {
                                           _vm.$set(
-                                            _vm.form_status,
-                                            "status",
+                                            _vm.form_information,
+                                            "name",
                                             $$v
                                           )
                                         },
-                                        expression: "form_status.status",
+                                        expression: "form_information.name",
                                       },
                                     }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.statusSubject.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("v-divider", { staticClass: "mt-8 mb-4" }),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              [
-                                _c(
-                                  "v-card-subtitle",
-                                  { staticClass: "text-justify" },
-                                  [
-                                    _vm._v(
-                                      "\n                                    Elimine el curso seleccionado de la base de datos, esta opcion no se puede\n                                    revertir\n                                "
-                                    ),
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_red width_100",
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.deleteSubject.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("delete"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Eliminar curso\n                                "
-                                    ),
                                   ],
                                   1
                                 ),
@@ -1412,10 +1185,151 @@ var render = function () {
                           ],
                           1
                         ),
-                      ]),
-                    ],
-                    1
-                  ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            staticClass: "txt_white bk_green width_100 mt-2",
+                            on: {
+                              click: function ($event) {
+                                $event.preventDefault()
+                                return _vm.editSubject.apply(null, arguments)
+                              },
+                            },
+                          },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("save"),
+                            ]),
+                            _vm._v(
+                              "\n                            Guardar\n                        "
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("v-tab-item", [
+                    _c(
+                      "div",
+                      { staticClass: "px-4 py-4" },
+                      [
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "v-card-subtitle",
+                              { staticClass: "text-justify" },
+                              [
+                                _vm._v(
+                                  "\n                                Cambie el estado del curso en el sistema (Si esta desactivado no podra ser\n                                visualizado por parte del lector)\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-form",
+                              {
+                                ref: "form_status",
+                                attrs: { "lazy-validation": "" },
+                              },
+                              [
+                                _c("v-select", {
+                                  staticClass: "width_100",
+                                  attrs: {
+                                    items: _vm.items_status,
+                                    label: "Estado",
+                                    rules: _vm.statusRules,
+                                  },
+                                  model: {
+                                    value: _vm.form_status.status,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form_status, "status", $$v)
+                                    },
+                                    expression: "form_status.status",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "txt_white bk_green width_100",
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.statusSubject.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
+                              },
+                              [
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("save"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Guardar\n                            "
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider", { staticClass: "mt-8 mb-4" }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "v-card-subtitle",
+                              { staticClass: "text-justify" },
+                              [
+                                _vm._v(
+                                  "\n                                Elimine el curso seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "txt_white bk_red width_100",
+                                on: {
+                                  click: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteSubject.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
+                              },
+                              [
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("delete"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Eliminar curso\n                            "
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
                 ],
                 1
               ),
@@ -1503,8 +1417,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardActions,VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_11__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_11__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_15__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_16__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_17__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"]})
 
 
 /* hot reload */
