@@ -224,17 +224,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         firstnameRules: [function (v) {
           return !!v || 'Los nombres son requeridos';
         }, function (v) {
-          return v && v.length <= 250 || 'Los nombres deben tener menos de 250 carácteres';
+          return v && v.length <= 50 || 'Los nombres deben tener menos de 50 carácteres';
         }],
         lastnameRules: [function (v) {
           return !!v || 'Los apellidos son requeridos';
         }, function (v) {
-          return v && v.length <= 250 || 'Los apellidos deben tener menos de 250 carácteres';
+          return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 carácteres';
         }],
         emailRules: [function (v) {
           return !!v || 'El correo electrónico es requerido';
         }, function (v) {
-          return v && v.length <= 250 || 'El correo electrónico debe tener menos de 250 carácteres';
+          return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 carácteres';
         }, function (v) {
           return /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido';
         }],

@@ -142,13 +142,13 @@ export default {
         info: {
             nameRules: [
                 v => !!v || 'El titulo es requerido',
-                v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
+                v => (v && v.length <= 25) || 'El titulo de la etiqueta debe tener menos de 25 carácteres',
             ],
             colorbkRules: [
-                v => !!v || 'El color es requerido, o deje el valor por defecto',
+                v => !!v || 'El color es requerido, ó deje el valor por defecto',
             ],
             colortxtRules: [
-                v => !!v || 'El color es requerido, o deje el valor por defecto',
+                v => !!v || 'El color es requerido, ó deje el valor por defecto',
             ],
         },
         statusRules: [

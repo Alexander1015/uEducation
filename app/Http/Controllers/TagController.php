@@ -32,7 +32,7 @@ class TagController extends Controller
         if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
-                    'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name'],
+                    'name' => ['bail', 'required', 'string', 'max:25', 'unique:tags,name'],
                     'background_color' => ['bail', 'sometimes', 'string'],
                     'background_text' => ['bail', 'sometimes', 'string'],
                 ]);

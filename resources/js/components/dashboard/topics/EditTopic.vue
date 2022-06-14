@@ -176,10 +176,10 @@ export default {
             ],
             nameRules: [
                 v => !!v || 'El titulo es requerido',
-                v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
+                v => (v && v.length <= 100) || 'El titulo debe tener menos de 100 carácteres',
             ],
             abstractRules: [
-                v => (!v || v.length <= 300) || 'La descripción debe tener menos de 300 carácteres',
+                v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 carácteres',
             ],
             imgRules: [
                 v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',

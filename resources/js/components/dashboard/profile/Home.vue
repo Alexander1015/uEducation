@@ -44,18 +44,22 @@
                             <!-- Formulario de ingreso -->
                             <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
                                 <v-row>
-                                    <v-col cols="6">
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres"
                                             tabindex="1" required>
                                         </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos"
+                                            tabindex="2" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.email" :rules="emailRules"
                                             label="Correo electrónico" tabindex="3" required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="6">
-                                        <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos"
-                                            tabindex="2" required>
-                                        </v-text-field>
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.user" tabindex="4" :rules="userRules"
                                             label="Usuario" required>
                                         </v-text-field>
@@ -141,15 +145,15 @@ export default {
         },
         firstnameRules: [
             v => !!v || 'Los nombres son requeridos',
-            v => (v && v.length <= 250) || 'Los nombres deben tener menos de 250 carácteres',
+            v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
         ],
         lastnameRules: [
             v => !!v || 'Los apellidos son requeridos',
-            v => (v && v.length <= 250) || 'Los apellidos deben tener menos de 250 carácteres',
+            v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
         ],
         emailRules: [
             v => !!v || 'El correo electrónico es requerido',
-            v => (v && v.length <= 250) || 'El correo electrónico debe tener menos de 250 carácteres',
+            v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
             v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
         ],
         userRules: [

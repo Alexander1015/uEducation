@@ -110,8 +110,8 @@ export default {
         subject: {},
         info: {
             nameRules: [
-                v => !!v || 'El titulo es requerido',
-                v => (v && v.length <= 250) || 'El titulo debe tener menos de 250 carácteres',
+                v => !!v || 'El titulo del curso es requerido',
+                v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
             ],
         },
         statusRules: [

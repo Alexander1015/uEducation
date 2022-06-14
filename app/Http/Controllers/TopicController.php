@@ -34,9 +34,9 @@ class TopicController extends Controller
         if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
-                    'subject' => ['bail', 'required', 'string', 'max:250'],
-                    'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name'],
-                    'abstract' => ['bail', 'sometimes', 'string', 'max:300'],
+                    'subject' => ['bail', 'required', 'string', 'max:100'],
+                    'name' => ['bail', 'required', 'string', 'max:100', 'unique:topics,name'],
+                    'abstract' => ['bail', 'sometimes', 'string', 'max:250'],
                     'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
@@ -156,9 +156,9 @@ class TopicController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'subject' => ['bail', 'required', 'string', 'max:250'],
-                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:topics,name,' . $data->id],
-                        'abstract' => ['bail', 'sometimes', 'string', 'max:300'],
+                        'subject' => ['bail', 'required', 'string', 'max:100'],
+                        'name' => ['bail', 'required', 'string', 'max:100', 'unique:topics,name,' . $data->id],
+                        'abstract' => ['bail', 'sometimes', 'string', 'max:250'],
                         'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                         'img_new' => ['bail', 'sometimes', 'boolean'],
                     ]);

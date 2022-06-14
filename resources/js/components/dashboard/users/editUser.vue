@@ -202,15 +202,15 @@ export default {
         info: {
             firstnameRules: [
                 v => !!v || 'Los nombres son requeridos',
-                v => (v && v.length <= 250) || 'Los nombres deben tener menos de 250 carácteres',
+                v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
             ],
             lastnameRules: [
                 v => !!v || 'Los apellidos son requeridos',
-                v => (v && v.length <= 250) || 'Los apellidos deben tener menos de 250 carácteres',
+                v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
             ],
             emailRules: [
                 v => !!v || 'El correo electrónico es requerido',
-                v => (v && v.length <= 250) || 'El correo electrónico debe tener menos de 250 carácteres',
+                v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
                 v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
             ],
             userRules: [

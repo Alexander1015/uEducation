@@ -164,13 +164,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         nameRules: [function (v) {
           return !!v || 'El titulo es requerido';
         }, function (v) {
-          return v && v.length <= 250 || 'El titulo debe tener menos de 250 carácteres';
+          return v && v.length <= 25 || 'El titulo de la etiqueta debe tener menos de 25 carácteres';
         }],
         colorbkRules: [function (v) {
-          return !!v || 'El color es requerido, o deje el valor por defecto';
+          return !!v || 'El color es requerido, ó deje el valor por defecto';
         }],
         colortxtRules: [function (v) {
-          return !!v || 'El color es requerido, o deje el valor por defecto';
+          return !!v || 'El color es requerido, ó deje el valor por defecto';
         }]
       },
       statusRules: [function (v) {

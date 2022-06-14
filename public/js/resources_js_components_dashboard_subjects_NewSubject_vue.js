@@ -97,9 +97,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: ""
       },
       nameRules: [function (v) {
-        return !!v || 'El titulo es requerido';
+        return !!v || 'El titulo del curso es requerido';
       }, function (v) {
-        return v && v.length <= 250 || 'El titulo debe tener menos de 250 carácteres';
+        return v && v.length <= 100 || 'El titulo del curso debe tener menos de 100 carácteres';
       }]
     };
   },

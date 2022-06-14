@@ -141,10 +141,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       nameRules: [function (v) {
         return !!v || 'El titulo es requerido';
       }, function (v) {
-        return v && v.length <= 250 || 'El titulo debe tener menos de 250 carácteres';
+        return v && v.length <= 100 || 'El titulo debe tener menos de 100 carácteres';
       }],
       abstractRules: [function (v) {
-        return !v || v.length <= 300 || 'La descripción debe tener menos de 300 carácteres';
+        return !v || v.length <= 250 || 'La descripción debe tener menos de 250 carácteres';
       }],
       imgRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';

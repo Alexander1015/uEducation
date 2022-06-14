@@ -36,10 +36,10 @@ class UserController extends Controller
         if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
-                    'firstname' => ['bail', 'required', 'string', 'max:250'],
-                    'lastname' => ['bail', 'required', 'string', 'max:250'],
+                    'firstname' => ['bail', 'required', 'string', 'max:50'],
+                    'lastname' => ['bail', 'required', 'string', 'max:50'],
                     'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
-                    'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email'],
+                    'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email'],
                     'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
@@ -168,10 +168,10 @@ class UserController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'firstname' => ['bail', 'required', 'string', 'max:250'],
-                        'lastname' => ['bail', 'required', 'string', 'max:250'],
+                        'firstname' => ['bail', 'required', 'string', 'max:50'],
+                        'lastname' => ['bail', 'required', 'string', 'max:50'],
                         'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user,' . $data->id],
-                        'email' => ['bail', 'required', 'email', 'max:250', 'unique:users,email,' . $data->id],
+                        'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email,' . $data->id],
                         'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                         'avatar_new' => ['bail', 'sometimes', 'boolean'],
                     ]);

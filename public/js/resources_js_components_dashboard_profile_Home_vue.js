@@ -136,6 +136,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
@@ -163,17 +167,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       firstnameRules: [function (v) {
         return !!v || 'Los nombres son requeridos';
       }, function (v) {
-        return v && v.length <= 250 || 'Los nombres deben tener menos de 250 carácteres';
+        return v && v.length <= 50 || 'Los nombres deben tener menos de 50 carácteres';
       }],
       lastnameRules: [function (v) {
         return !!v || 'Los apellidos son requeridos';
       }, function (v) {
-        return v && v.length <= 250 || 'Los apellidos deben tener menos de 250 carácteres';
+        return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 carácteres';
       }],
       emailRules: [function (v) {
         return !!v || 'El correo electrónico es requerido';
       }, function (v) {
-        return v && v.length <= 250 || 'El correo electrónico debe tener menos de 250 carácteres';
+        return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 carácteres';
       }, function (v) {
         return /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido';
       }],
@@ -1116,7 +1120,7 @@ var render = function () {
                               [
                                 _c(
                                   "v-col",
-                                  { attrs: { cols: "6" } },
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-text-field", {
                                       attrs: {
@@ -1133,7 +1137,37 @@ var render = function () {
                                         expression: "form.firstname",
                                       },
                                     }),
-                                    _vm._v(" "),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.lastnameRules,
+                                        label: "Apellidos",
+                                        tabindex: "2",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.lastname,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "lastname", $$v)
+                                        },
+                                        expression: "form.lastname",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
                                     _c("v-text-field", {
                                       attrs: {
                                         rules: _vm.emailRules,
@@ -1155,24 +1189,8 @@ var render = function () {
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
-                                  { attrs: { cols: "6" } },
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        rules: _vm.lastnameRules,
-                                        label: "Apellidos",
-                                        tabindex: "2",
-                                        required: "",
-                                      },
-                                      model: {
-                                        value: _vm.form.lastname,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.form, "lastname", $$v)
-                                        },
-                                        expression: "form.lastname",
-                                      },
-                                    }),
-                                    _vm._v(" "),
                                     _c("v-text-field", {
                                       attrs: {
                                         tabindex: "4",

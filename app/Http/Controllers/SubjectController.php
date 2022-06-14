@@ -32,7 +32,7 @@ class SubjectController extends Controller
         if ($status == 1) {
             try {
                 $validator = Validator::make($request->all(), [
-                    'name' => ['bail', 'required', 'string', 'max:250', 'unique:subjects,name'],
+                    'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name'],
                 ]);
                 if ($validator->fails()) {
                     $old_name = DB::table("subjects")->where('name', $request->input('name'))->first();
@@ -111,7 +111,7 @@ class SubjectController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:subjects,name,' . $data->id],
+                        'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name,' . $data->id],
                     ]);
                     if ($validator->fails()) {
                         $old_name = DB::table("subjects")->where('name', $request->input('name'))->first();
