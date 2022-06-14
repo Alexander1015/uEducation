@@ -28,7 +28,7 @@
                         Información
                     </v-tab>
                     <v-tab>
-                        <v-icon>
+                        <v-icon left>
                             local_library
                         </v-icon>
                         Otros

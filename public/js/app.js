@@ -5876,7 +5876,7 @@ var routes = [{
   }
 }, {
   name: 'editUser',
-  path: '/dashboard/users/edit',
+  path: '/dashboard/users/edit/:id',
   component: EditUser,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
@@ -5915,7 +5915,7 @@ var routes = [{
   }
 }, {
   name: 'editSubject',
-  path: '/dashboard/subjects/edit',
+  path: '/dashboard/subjects/edit/:id',
   component: EditSubject,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
@@ -5954,7 +5954,7 @@ var routes = [{
   }
 }, {
   name: 'editTopic',
-  path: '/dashboard/topics/edit',
+  path: '/dashboard/topics/edit/:id',
   component: EditTopic,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
@@ -5980,7 +5980,7 @@ var routes = [{
   }
 }, {
   name: 'editTag',
-  path: '/dashboard/tags/edit',
+  path: '/dashboard/tags/edit/:id',
   component: EditTag,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {

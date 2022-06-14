@@ -1116,7 +1116,7 @@ var render = function () {
                   _c(
                     "v-tab",
                     [
-                      _c("v-icon", [
+                      _c("v-icon", { attrs: { left: "" } }, [
                         _vm._v(
                           "\n                        local_library\n                    "
                         ),
