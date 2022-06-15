@@ -61,6 +61,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeAuth",
   data: function data() {
@@ -77,7 +87,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         user: "",
         password: "",
-        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        show: false
       },
       userRules: [function (v) {
         return !!v || 'El usuario es requerido';
@@ -493,6 +504,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-overlay",
@@ -508,8 +520,8 @@ var render = function () {
       _c(
         "v-card",
         {
-          staticClass: "mx-auto rounded mt-4",
-          attrs: { elevation: "3", "max-width": "700" },
+          staticClass: "mx-auto rounded mt-2",
+          attrs: { elevation: "2", "max-width": "700" },
         },
         [
           _c(
@@ -564,7 +576,7 @@ var render = function () {
                   [
                     _c("v-card-title", { staticClass: "text-h5" }, [
                       _c("p", { staticClass: "mx-auto" }, [
-                        _vm._v("Inicio de Sesión"),
+                        _vm._v("INICIO DE SESIÓN"),
                       ]),
                     ]),
                     _vm._v(" "),
@@ -585,40 +597,70 @@ var render = function () {
                         },
                       },
                       [
-                        _c("v-text-field", {
-                          attrs: {
-                            rules: _vm.userRules,
-                            label: "Usuario",
-                            "hide-details": "auto",
-                            tabindex: "1",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.user,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "user", $$v)
-                            },
-                            expression: "form.user",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("v-text-field", {
-                          attrs: {
-                            type: "password",
-                            rules: _vm.passwordRules,
-                            label: "Contraseña",
-                            "hide-details": "auto",
-                            tabindex: "2",
-                            required: "",
-                          },
-                          model: {
-                            value: _vm.form.password,
-                            callback: function ($$v) {
-                              _vm.$set(_vm.form, "password", $$v)
-                            },
-                            expression: "form.password",
-                          },
-                        }),
+                        _c(
+                          "v-row",
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.userRules,
+                                    label: "Usuario",
+                                    "prepend-icon": "person",
+                                    tabindex: "1",
+                                    dense: "",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.form.user,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "user", $$v)
+                                    },
+                                    expression: "form.user",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    rules: _vm.passwordRules,
+                                    "append-icon": _vm.form.show
+                                      ? "visibility"
+                                      : "visibility_off",
+                                    type: _vm.form.show ? "text" : "password",
+                                    label: "Contraseña",
+                                    "prepend-icon": "lock",
+                                    tabindex: "2",
+                                    dense: "",
+                                    required: "",
+                                  },
+                                  on: {
+                                    "click:append": function ($event) {
+                                      _vm.form.show = !_vm.form.show
+                                    },
+                                  },
+                                  model: {
+                                    value: _vm.form.password,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form, "password", $$v)
+                                    },
+                                    expression: "form.password",
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "v-btn",
@@ -626,7 +668,15 @@ var render = function () {
                             staticClass: "mt-10 bk_brown txt_white width_100",
                             attrs: { type: "submit" },
                           },
-                          [_vm._v("\n                            Ingresar")]
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("login"),
+                            ]),
+                            _vm._v(
+                              "\n                            Ingresar\n                        "
+                            ),
+                          ],
+                          1
                         ),
                       ],
                       1
@@ -672,12 +722,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -710,7 +761,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_8__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_11__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_8__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_9__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_10__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_11__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_12__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_13__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_14__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__["default"]})
 
 
 /* hot reload */

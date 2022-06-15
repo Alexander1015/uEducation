@@ -73,12 +73,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewSubject",
   data: function data() {
@@ -500,6 +494,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-overlay",
@@ -520,7 +515,7 @@ var render = function () {
             "v-card",
             {
               staticClass: "mt-4 rounded mx-auto",
-              attrs: { elevation: "3", "max-width": "700" },
+              attrs: { elevation: "2", "max-width": "700" },
             },
             [
               _c(
@@ -579,7 +574,30 @@ var render = function () {
                       "div",
                       { staticClass: "pb-4 mx-4" },
                       [
-                        _c("v-card-title", { staticClass: "text-h5 mt-8" }, [
+                        _c(
+                          "v-btn",
+                          {
+                            staticClass: "mr-4",
+                            attrs: { text: "", small: "" },
+                            on: {
+                              click: function ($event) {
+                                $event.preventDefault()
+                                return _vm.returnSubjects.apply(null, arguments)
+                              },
+                            },
+                          },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("keyboard_double_arrow_left"),
+                            ]),
+                            _vm._v(
+                              "\n                            Regresar\n                        "
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-card-title", { staticClass: "text-h5" }, [
                           _c("p", { staticClass: "mx-auto" }, [
                             _vm._v("NUEVO CURSO"),
                           ]),
@@ -595,7 +613,19 @@ var render = function () {
                           [
                             _c(
                               "v-form",
-                              { ref: "form", attrs: { "lazy-validation": "" } },
+                              {
+                                ref: "form",
+                                attrs: { "lazy-validation": "" },
+                                on: {
+                                  submit: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.registerSubject.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
+                              },
                               [
                                 _c(
                                   "small",
@@ -605,6 +635,7 @@ var render = function () {
                                 _vm._v(" "),
                                 _c(
                                   "v-row",
+                                  { staticClass: "mt-2" },
                                   [
                                     _c(
                                       "v-col",
@@ -615,6 +646,9 @@ var render = function () {
                                             rules: _vm.nameRules,
                                             label: "Titulo *",
                                             tabindex: "1",
+                                            dense: "",
+                                            "prepend-icon":
+                                              "collections_bookmark",
                                             required: "",
                                           },
                                           model: {
@@ -631,66 +665,13 @@ var render = function () {
                                   ],
                                   1
                                 ),
-                              ],
-                              1
-                            ),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-row",
-                          [
-                            _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
-                              [
+                                _vm._v(" "),
                                 _c(
                                   "v-btn",
                                   {
-                                    staticClass: "width_100",
-                                    attrs: { outlined: "" },
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.returnSubjects.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("keyboard_double_arrow_left"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Regresar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.registerSubject.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
+                                    staticClass:
+                                      "txt_white bk_green width_100 mt-2",
+                                    attrs: { type: "submit" },
                                   },
                                   [
                                     _c("v-icon", { attrs: { left: "" } }, [

@@ -95,6 +95,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeSubject",
   data: function data() {
@@ -537,6 +538,29 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-select .v-select__sele
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-subheader {\n  color: rgba(0, 0, 0, 0.6);\n}\n\n.theme--dark.v-subheader {\n  color: rgba(255, 255, 255, 0.7);\n}\n\n.v-subheader {\n  align-items: center;\n  display: flex;\n  height: 48px;\n  font-size: 0.875rem;\n  font-weight: 400;\n  padding: 0 16px 0 16px;\n}\n.v-subheader--inset {\n  margin-left: 56px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTextField/VTextField.sass":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTextField/VTextField.sass ***!
@@ -902,6 +926,35 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VSubheader/VSubheader.sass":
+/*!************************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VSubheader/VSubheader.sass ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VSubheader.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VTextField/VTextField.sass":
 /*!************************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VTextField/VTextField.sass ***!
@@ -1008,6 +1061,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-overlay",
@@ -1022,7 +1076,7 @@ var render = function () {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "mx-4 my-4" },
+        { staticClass: "ma-2" },
         [
           _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("CURSOS")]),
           _vm._v(" "),
@@ -1042,7 +1096,7 @@ var render = function () {
           _c(
             "v-card",
             {
-              staticClass: "mx-auto mt-10 px-5 py-3",
+              staticClass: "mx-auto mt-4 px-5 py-3",
               attrs: { elevation: "0" },
             },
             [
@@ -1052,6 +1106,7 @@ var render = function () {
                   "prepend-icon": "search",
                   label: "Buscar",
                   tabindex: "1",
+                  dense: "",
                 },
                 model: {
                   value: _vm.search,
@@ -1075,10 +1130,13 @@ var render = function () {
                     nextIcon: "chevron_right",
                   },
                   loading: _vm.loading_table,
-                  "loading-text": "Obteniendo información...",
+                  "loading-text": "Obteniendo información",
+                  "no-data-text": "No se ha obtenido información",
+                  "no-results-text": "No se obtuvieron resultados",
                   "multi-sort": "",
                   search: _vm.search,
                   "fixed-header": "",
+                  align: "center",
                 },
                 scopedSlots: _vm._u([
                   {
@@ -5786,6 +5844,49 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VSelectList.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VSubheader/VSubheader.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VSubheader/VSubheader.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VSubheader_VSubheader_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VSubheader/VSubheader.sass */ "./node_modules/vuetify/src/components/VSubheader/VSubheader.sass");
+/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+// Styles
+ // Mixins
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_themeable__WEBPACK_IMPORTED_MODULE_2__["default"]
+/* @vue/component */
+).extend({
+  name: 'v-subheader',
+  props: {
+    inset: Boolean
+  },
+
+  render(h) {
+    return h('div', {
+      staticClass: 'v-subheader',
+      class: {
+        'v-subheader--inset': this.inset,
+        ...this.themeClasses
+      },
+      attrs: this.$attrs,
+      on: this.$listeners
+    }, this.$slots.default);
+  }
+
+}));
+//# sourceMappingURL=VSubheader.js.map
 
 /***/ }),
 

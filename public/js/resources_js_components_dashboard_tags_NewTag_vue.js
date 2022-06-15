@@ -99,14 +99,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTags",
   data: function data() {
@@ -902,6 +894,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-overlay",
@@ -915,263 +908,120 @@ var render = function () {
       ),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "mx-4 my-4" },
+        "v-card",
+        {
+          staticClass: "mt-2 rounded mx-auto",
+          attrs: { elevation: "2", "max-width": "1100" },
+        },
         [
           _c(
-            "v-card",
-            {
-              staticClass: "mt-4 rounded mx-auto",
-              attrs: { elevation: "3", "max-width": "1100" },
-            },
+            "v-row",
+            { staticClass: "pl-1", attrs: { dense: "" } },
             [
               _c(
-                "v-row",
-                { staticClass: "pl-1", attrs: { dense: "" } },
+                "v-col",
+                {
+                  staticClass: "bk_blue rounded-l d-none d-md-flex",
+                  attrs: { cols: "3" },
+                },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "bk_blue rounded-l d-none d-md-flex",
-                      attrs: { cols: "3" },
-                    },
-                    [
-                      _c("v-img", {
-                        staticClass: "img_login",
-                        attrs: {
-                          src: _vm.banner.img,
-                          "lazy-src": _vm.banner.lazy,
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "placeholder",
-                            fn: function () {
-                              return [
-                                _c(
-                                  "v-row",
-                                  {
-                                    staticClass: "fill-height ma-0",
-                                    attrs: {
-                                      align: "center",
-                                      justify: "center",
-                                    },
-                                  },
-                                  [
-                                    _c("v-progress-circular", {
-                                      attrs: {
-                                        indeterminate: "",
-                                        color: "grey lighten-5",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]
-                            },
-                            proxy: true,
-                          },
-                        ]),
-                      }),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-col", [
-                    _c(
-                      "div",
-                      { staticClass: "pb-4 mx-4" },
-                      [
-                        _c("v-card-title", { staticClass: "text-h5 mt-8" }, [
-                          _c("p", { staticClass: "mx-auto" }, [
-                            _vm._v("NUEVA ETIQUETA"),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
-                          _vm._v("Cree una etiqueta nueva"),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "px-2 pb-2" },
-                          [
+                  _c("v-img", {
+                    staticClass: "img_login",
+                    attrs: { src: _vm.banner.img, "lazy-src": _vm.banner.lazy },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "placeholder",
+                        fn: function () {
+                          return [
                             _c(
-                              "div",
-                              { staticClass: "mb-2" },
+                              "v-row",
+                              {
+                                staticClass: "fill-height ma-0",
+                                attrs: { align: "center", justify: "center" },
+                              },
                               [
-                                _c("small", [_vm._v("Vista previa:")]),
-                                _vm._v(" "),
-                                _c(
-                                  "v-chip",
-                                  {
-                                    staticClass: "ml-2",
-                                    style: "color:" + _vm.form.color_txt + ";",
-                                    attrs: {
-                                      label: "",
-                                      color: _vm.form.color_bk,
-                                    },
+                                _c("v-progress-circular", {
+                                  attrs: {
+                                    indeterminate: "",
+                                    color: "grey lighten-5",
                                   },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("label"),
-                                    ]),
-                                    _vm._v(
-                                      " " +
-                                        _vm._s(_vm.form.name) +
-                                        "\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
+                                }),
                               ],
                               1
                             ),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                    ]),
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-col", [
+                _c(
+                  "div",
+                  { staticClass: "pb-4 mx-4" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "mr-4",
+                        attrs: { text: "", small: "" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.returnTags.apply(null, arguments)
+                          },
+                        },
+                      },
+                      [
+                        _c("v-icon", { attrs: { left: "" } }, [
+                          _vm._v("keyboard_double_arrow_left"),
+                        ]),
+                        _vm._v(
+                          "\n                        Regresar\n                    "
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-card-title", { staticClass: "text-h5" }, [
+                      _c("p", { staticClass: "mx-auto" }, [
+                        _vm._v("NUEVA ETIQUETA"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                      _vm._v("Cree una etiqueta nueva"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "px-2 pb-2" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "mb-2" },
+                          [
+                            _c("small", [_vm._v("Vista previa:")]),
                             _vm._v(" "),
                             _c(
-                              "v-form",
-                              { ref: "form", attrs: { "lazy-validation": "" } },
+                              "v-chip",
+                              {
+                                staticClass: "ml-2",
+                                style: "color:" + _vm.form.color_txt + ";",
+                                attrs: { label: "", color: _vm.form.color_bk },
+                              },
                               [
-                                _c(
-                                  "small",
-                                  { staticClass: "font-italic txt_red" },
-                                  [_vm._v("Obligatorio *")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-row",
-                                  [
-                                    _c(
-                                      "v-col",
-                                      { attrs: { cols: "12" } },
-                                      [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            rules: _vm.nameRules,
-                                            label: "Título *",
-                                            tabindex: "1",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.name,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "name", $$v)
-                                            },
-                                            expression: "form.name",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
-                                        },
-                                      },
-                                      [
-                                        _c("p", [_vm._v("Color de fondo:")]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass:
-                                              "width_100 bk_brown txt_white",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                _vm.form.color_bk = "#E0E0E0"
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                            Reiniciar color\n                                        "
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("v-color-picker", {
-                                          staticClass: "mx-auto my-2",
-                                          attrs: {
-                                            "hide-mode-switch": "",
-                                            mode: "hexa",
-                                            rules: _vm.colorbkRules,
-                                          },
-                                          model: {
-                                            value: _vm.form.color_bk,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.form,
-                                                "color_bk",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "form.color_bk",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
-                                        },
-                                      },
-                                      [
-                                        _c("p", [_vm._v("Color del texto:")]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass:
-                                              "width_100 bk_brown txt_white",
-                                            on: {
-                                              click: function ($event) {
-                                                $event.preventDefault()
-                                                _vm.form.color_txt = "#676767"
-                                              },
-                                            },
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n                                            Reiniciar color\n                                        "
-                                            ),
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("v-color-picker", {
-                                          staticClass: "mx-auto my-2",
-                                          attrs: {
-                                            "hide-mode-switch": "",
-                                            mode: "hexa",
-                                            rules: _vm.colortxtRules,
-                                          },
-                                          model: {
-                                            value: _vm.form.color_txt,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.form,
-                                                "color_txt",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "form.color_txt",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                  ],
-                                  1
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("label"),
+                                ]),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.form.name) +
+                                    "\n                            "
                                 ),
                               ],
                               1
@@ -1181,34 +1031,137 @@ var render = function () {
                         ),
                         _vm._v(" "),
                         _c(
-                          "v-row",
+                          "v-form",
+                          {
+                            ref: "form",
+                            attrs: { "lazy-validation": "" },
+                            on: {
+                              submit: function ($event) {
+                                $event.preventDefault()
+                                return _vm.registerTags.apply(null, arguments)
+                              },
+                            },
+                          },
                           [
                             _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
+                              "small",
+                              { staticClass: "font-italic txt_red" },
+                              [_vm._v("Obligatorio *")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              { staticClass: "mt-2" },
                               [
                                 _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "width_100",
-                                    attrs: { outlined: "" },
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.returnTags.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
                                   [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("keyboard_double_arrow_left"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Regresar\n                                "
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.nameRules,
+                                        label: "Título *",
+                                        tabindex: "1",
+                                        dense: "",
+                                        "prepend-icon": "sell",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.name,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "name", $$v)
+                                        },
+                                        expression: "form.name",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c("p", [_vm._v("Color de fondo:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "width_100 bk_brown txt_white",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.preventDefault()
+                                            _vm.form.color_bk = "#E0E0E0"
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Reiniciar color\n                                    "
+                                        ),
+                                      ]
                                     ),
+                                    _vm._v(" "),
+                                    _c("v-color-picker", {
+                                      staticClass: "mx-auto my-2",
+                                      attrs: {
+                                        "hide-mode-switch": "",
+                                        mode: "hexa",
+                                        rules: _vm.colorbkRules,
+                                      },
+                                      model: {
+                                        value: _vm.form.color_bk,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "color_bk", $$v)
+                                        },
+                                        expression: "form.color_bk",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c("p", [_vm._v("Color del texto:")]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "width_100 bk_brown txt_white",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.preventDefault()
+                                            _vm.form.color_txt = "#676767"
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                        Reiniciar color\n                                    "
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-color-picker", {
+                                      staticClass: "mx-auto my-2",
+                                      attrs: {
+                                        "hide-mode-switch": "",
+                                        mode: "hexa",
+                                        rules: _vm.colortxtRules,
+                                      },
+                                      model: {
+                                        value: _vm.form.color_txt,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "color_txt", $$v)
+                                        },
+                                        expression: "form.color_txt",
+                                      },
+                                    }),
                                   ],
                                   1
                                 ),
@@ -1217,32 +1170,17 @@ var render = function () {
                             ),
                             _vm._v(" "),
                             _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
+                              "v-btn",
+                              {
+                                staticClass: "txt_white bk_green width_100",
+                                attrs: { type: "submit" },
+                              },
                               [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.registerTags.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("save"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Guardar\n                            "
                                 ),
                               ],
                               1
@@ -1253,10 +1191,10 @@ var render = function () {
                       ],
                       1
                     ),
-                  ]),
-                ],
-                1
-              ),
+                  ],
+                  1
+                ),
+              ]),
             ],
             1
           ),

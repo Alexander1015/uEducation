@@ -73,10 +73,11 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-card",
-        { staticClass: "mx-auto mt-4 py-4", attrs: { "max-width": "374" } },
+        { staticClass: "mx-auto py-4", attrs: { "max-width": "374" } },
         [
           _c("p", { staticClass: "text-h6 text-center" }, [
             _vm._v("Página Principal"),

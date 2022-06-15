@@ -1,88 +1,80 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
-                <v-row dense class="pl-1">
-                    <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
-                        <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
-                            <template v-slot:placeholder>
-                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                </v-row>
-                            </template>
-                        </v-img>
-                    </v-col>
-                    <v-col>
-                        <div class="pb-4 mx-4">
-                            <v-card-title class="text-h5 mt-8">
-                                <p class="mx-auto">NUEVA ETIQUETA</p>
-                            </v-card-title>
-                            <v-card-subtitle class="text-center">Cree una etiqueta nueva</v-card-subtitle>
-                            <div class="px-2 pb-2">
-                                <!-- Vista previa -->
-                                <div class="mb-2">
-                                    <small>Vista previa:</small>
-                                    <v-chip label class="ml-2" :color="form.color_bk"
-                                        :style='"color:" + form.color_txt + ";"'>
-                                        <v-icon left>label</v-icon> {{ form.name }}
-                                    </v-chip>
-                                </div>
-                                <!-- Formulario de ingreso -->
-                                <v-form ref="form" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-row>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="form.name" :rules="nameRules" label="Título *"
-                                                tabindex="1" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <p>Color de fondo:</p>
-                                            <v-btn class="width_100 bk_brown txt_white"
-                                                @click.prevent="form.color_bk = '#E0E0E0'">
-                                                Reiniciar color
-                                            </v-btn>
-                                            <v-color-picker v-model="form.color_bk" class="mx-auto my-2"
-                                                hide-mode-switch mode="hexa" :rules="colorbkRules">
-                                            </v-color-picker>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <p>Color del texto:</p>
-                                            <v-btn class="width_100 bk_brown txt_white"
-                                                @click.prevent="form.color_txt = '#676767'">
-                                                Reiniciar color
-                                            </v-btn>
-                                            <v-color-picker v-model="form.color_txt" class="mx-auto my-2"
-                                                hide-mode-switch mode="hexa" :rules="colortxtRules">
-                                            </v-color-picker>
-                                        </v-col>
-                                    </v-row>
-                                </v-form>
-                            </div>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="width_100" outlined @click.prevent="returnTags">
-                                        <v-icon left>keyboard_double_arrow_left</v-icon>
-                                        Regresar
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerTags">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </v-col>
+        <v-card class="mt-2 rounded mx-auto" elevation="2" max-width="1100">
+            <v-row dense class="pl-1">
+                <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
+                    <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
+                        <template v-slot:placeholder>
+                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
                             </v-row>
+                        </template>
+                    </v-img>
+                </v-col>
+                <v-col>
+                    <div class="pb-4 mx-4">
+                        <v-btn class="mr-4" text small @click.prevent="returnTags">
+                            <v-icon left>keyboard_double_arrow_left</v-icon>
+                            Regresar
+                        </v-btn>
+                        <v-card-title class="text-h5">
+                            <p class="mx-auto">NUEVA ETIQUETA</p>
+                        </v-card-title>
+                        <v-card-subtitle class="text-center">Cree una etiqueta nueva</v-card-subtitle>
+                        <div class="px-2 pb-2">
+                            <!-- Vista previa -->
+                            <div class="mb-2">
+                                <small>Vista previa:</small>
+                                <v-chip label class="ml-2" :color="form.color_bk"
+                                    :style='"color:" + form.color_txt + ";"'>
+                                    <v-icon left>label</v-icon> {{ form.name }}
+                                </v-chip>
+                            </div>
+                            <!-- Formulario de ingreso -->
+                            <v-form ref="form" @submit.prevent="registerTags" lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-row class="mt-2">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form.name" :rules="nameRules" label="Título *"
+                                            tabindex="1" dense prepend-icon="sell" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <p>Color de fondo:</p>
+                                        <v-btn class="width_100 bk_brown txt_white"
+                                            @click.prevent="form.color_bk = '#E0E0E0'">
+                                            Reiniciar color
+                                        </v-btn>
+                                        <v-color-picker v-model="form.color_bk" class="mx-auto my-2" hide-mode-switch
+                                            mode="hexa" :rules="colorbkRules">
+                                        </v-color-picker>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <p>Color del texto:</p>
+                                        <v-btn class="width_100 bk_brown txt_white"
+                                            @click.prevent="form.color_txt = '#676767'">
+                                            Reiniciar color
+                                        </v-btn>
+                                        <v-color-picker v-model="form.color_txt" class="mx-auto my-2" hide-mode-switch
+                                            mode="hexa" :rules="colortxtRules">
+                                        </v-color-picker>
+                                    </v-col>
+                                </v-row>
+                                <v-btn class="txt_white bk_green width_100" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </v-form>
                         </div>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-card>
     </v-main>
 </template>
 

@@ -1,24 +1,26 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-btn class="mr-4 mt-4 new_btn" text small @click.prevent="returnTags">
+        <div class="mt-2">
+            <v-btn class="mr-4" text small @click.prevent="returnTags">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="text-h6 mt-11 mb-4 ml-2">
-                <template v-if="tag.name">
-                    <p>{{ tag.name.toUpperCase() }}</p>
-                </template>
-                <template v-else>
-                    <v-icon>remove</v-icon>
-                </template>
-            </div>
-            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+            <v-card class="mt-4 mx-auto" elevation="2" max-width="1100">
+                <v-toolbar flat class="bk_blue" dark>
+                    <v-toolbar-title>
+                        <template v-if="tag.name">
+                            {{ tag.name.toUpperCase() }}
+                        </template>
+                        <template v-else>
+                            <v-icon>remove</v-icon>
+                        </template>
+                    </v-toolbar-title>
+                </v-toolbar>
                 <v-tabs grow>
                     <!-- Menú grow -->
                     <v-tab>
@@ -35,11 +37,10 @@
                     </v-tab>
                     <!-- Información del curso -->
                     <v-tab-item>
-                        <div class="px-4 pb-4">
-                            <v-card-title class="text-h5">
-                                <p class="mx-auto">Modificar informacion de {{ name }}</p>
-                            </v-card-title>
-                            <v-card-subtitle class="text-center">Modifique la etiqueta seleccionada</v-card-subtitle>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Información almacenada de la etiqueta seleccionada
+                            </v-card-subtitle>
                             <!-- Vista previa -->
                             <div class="mb-2">
                                 <small>Vista previa:</small>
@@ -49,12 +50,12 @@
                                 </v-chip>
                             </div>
                             <!-- Formulario de ingreso -->
-                            <v-form ref="form_information" lazy-validation>
+                            <v-form ref="form_information" @submit.prevent="editTags" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
-                                <v-row>
+                                <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
-                                            label="Título *" tabindex="1" required>
+                                            label="Título *" tabindex="1" dense prepend-icon="sell" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -78,11 +79,11 @@
                                         </v-color-picker>
                                     </v-col>
                                 </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </v-form>
-                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editTags">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -92,14 +93,14 @@
                                     Cambie el estado de la etiqueta en el sistema (Si esta desactivado los temas que
                                     tengan la etiqueta no podran ser visualizados)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusTag" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules"></v-select>
+                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                    <v-btn class="txt_white bk_green width_100" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
                                 </v-form>
-                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusTag">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
                             </div>
                             <v-divider class="mt-8 mb-4"></v-divider>
                             <div>

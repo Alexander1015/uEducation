@@ -109,11 +109,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -278,13 +273,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     preview_img: function preview_img() {
-      this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
-      this.prev_img.lazy_img = URL.createObjectURL(this.form.avatar);
+      this.prev_img.url_img = URL.createObjectURL(this.form.img);
+      this.prev_img.lazy_img = URL.createObjectURL(this.form.img);
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/topics/blank.png";
       this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
-      this.form.avatar = null;
+      this.form.img = null;
     }
   }
 });
@@ -492,6 +487,29 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-select .v-select__selections {\n  color: rgba(0, 0, 0, 0.87);\n}\n.theme--light.v-select.v-input--is-disabled .v-select__selections {\n  color: rgba(0, 0, 0, 0.38);\n}\n.theme--light.v-select .v-select__selection--disabled {\n  color: rgba(0, 0, 0, 0.38);\n}\n.theme--light.v-select.v-text-field--solo-inverted.v-input--is-focused .v-select__selections {\n  color: #FFFFFF;\n}\n\n.theme--dark.v-select .v-select__selections {\n  color: #FFFFFF;\n}\n.theme--dark.v-select.v-input--is-disabled .v-select__selections {\n  color: rgba(255, 255, 255, 0.5);\n}\n.theme--dark.v-select .v-select__selection--disabled {\n  color: rgba(255, 255, 255, 0.5);\n}\n.theme--dark.v-select.v-text-field--solo-inverted.v-input--is-focused .v-select__selections {\n  color: rgba(0, 0, 0, 0.87);\n}\n\n.v-select {\n  position: relative;\n}\n.v-select:not(.v-select--is-multi).v-text-field--single-line .v-select__selections {\n  flex-wrap: nowrap;\n}\n.v-select > .v-input__control > .v-input__slot {\n  cursor: pointer;\n}\n.v-select .v-chip {\n  flex: 0 1 auto;\n  margin: 4px;\n}\n.v-select .v-chip--selected:after {\n  opacity: 0.22;\n}\n.v-select .fade-transition-leave-active {\n  position: absolute;\n  left: 0;\n}\n.v-select.v-input--is-dirty ::-moz-placeholder {\n  color: transparent !important;\n}\n.v-select.v-input--is-dirty :-ms-input-placeholder {\n  color: transparent !important;\n}\n.v-select.v-input--is-dirty ::placeholder {\n  color: transparent !important;\n}\n.v-select:not(.v-input--is-dirty):not(.v-input--is-focused) .v-text-field__prefix {\n  line-height: 20px;\n  top: 7px;\n  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);\n}\n.v-select.v-text-field--enclosed:not(.v-text-field--single-line):not(.v-text-field--outlined) .v-select__selections {\n  padding-top: 20px;\n}\n.v-select.v-text-field--outlined:not(.v-text-field--single-line) .v-select__selections {\n  padding: 8px 0;\n}\n.v-select.v-text-field--outlined:not(.v-text-field--single-line).v-input--dense .v-select__selections {\n  padding: 4px 0;\n}\n.v-select.v-text-field input {\n  flex: 1 1;\n  min-width: 0;\n  pointer-events: none;\n  position: relative;\n}\n.v-select.v-text-field:not(.v-text-field--single-line) input {\n  margin-top: 0;\n}\n.v-select.v-select--is-menu-active .v-input__icon--append .v-icon {\n  transform: rotate(180deg);\n}\n.v-select.v-select--chips input {\n  margin: 0;\n}\n.v-select.v-select--chips .v-select__selections {\n  min-height: 42px;\n}\n.v-select.v-select--chips.v-input--dense .v-select__selections {\n  min-height: 40px;\n}\n.v-select.v-select--chips .v-chip--select.v-chip--active::before {\n  opacity: 0.2;\n}\n.v-select.v-select--chips.v-select--chips--small .v-select__selections {\n  min-height: 26px;\n}\n.v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--box .v-select__selections, .v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--enclosed .v-select__selections {\n  min-height: 68px;\n}\n.v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--box.v-input--dense .v-select__selections, .v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--enclosed.v-input--dense .v-select__selections {\n  min-height: 40px;\n}\n.v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--box.v-select--chips--small .v-select__selections, .v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--enclosed.v-select--chips--small .v-select__selections {\n  min-height: 26px;\n}\n.v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--box.v-select--chips--small.v-input--dense .v-select__selections, .v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--enclosed.v-select--chips--small.v-input--dense .v-select__selections {\n  min-height: 38px;\n}\n.v-select.v-text-field--reverse .v-select__slot,\n.v-select.v-text-field--reverse .v-select__selections {\n  flex-direction: row-reverse;\n}\n.v-select__selections {\n  align-items: center;\n  display: flex;\n  flex: 1 1;\n  flex-wrap: wrap;\n  line-height: 18px;\n  max-width: 100%;\n  min-width: 0;\n}\n.v-select__selection {\n  max-width: 90%;\n}\n.v-select__selection--comma {\n  margin: 7px 4px 7px 0;\n  min-height: 10px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.v-select.v-input--dense .v-select__selection--comma {\n  margin: 5px 4px 3px 0;\n}\n.v-select.v-input--dense .v-chip {\n  margin: 0 4px 0 4px;\n}\n.v-select__slot {\n  position: relative;\n  align-items: center;\n  display: flex;\n  max-width: 100%;\n  min-width: 0;\n  width: 100%;\n}\n.v-select:not(.v-text-field--single-line):not(.v-text-field--outlined) .v-select__slot > input {\n  align-self: flex-end;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-subheader {\n  color: rgba(0, 0, 0, 0.6);\n}\n\n.theme--dark.v-subheader {\n  color: rgba(255, 255, 255, 0.7);\n}\n\n.v-subheader {\n  align-items: center;\n  display: flex;\n  height: 48px;\n  font-size: 0.875rem;\n  font-weight: 400;\n  padding: 0 16px 0 16px;\n}\n.v-subheader--inset {\n  margin-left: 56px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -805,6 +823,35 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VSubheader/VSubheader.sass":
+/*!************************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VSubheader/VSubheader.sass ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VSubheader.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VSubheader/VSubheader.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VSubheader_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VTextField/VTextField.sass":
 /*!************************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VTextField/VTextField.sass ***!
@@ -911,6 +958,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "v-main",
+    { staticClass: "ma-2" },
     [
       _c(
         "v-overlay",
@@ -924,322 +972,295 @@ var render = function () {
       ),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "mx-4 my-4" },
+        "v-card",
+        {
+          staticClass: "mt-2 rounded mx-auto",
+          attrs: { elevation: "2", "max-width": "1100" },
+        },
         [
           _c(
-            "v-card",
-            {
-              staticClass: "mt-4 mx-auto",
-              attrs: { elevation: "0", "max-width": "1100" },
-            },
+            "v-row",
+            { staticClass: "pl-1", attrs: { dense: "" } },
             [
               _c(
-                "v-row",
-                { staticClass: "pl-1", attrs: { dense: "" } },
+                "v-col",
+                {
+                  staticClass: "bk_blue rounded-l d-none d-md-flex",
+                  attrs: { cols: "3" },
+                },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "bk_blue my-1 d-none d-md-flex",
-                      attrs: { cols: "3" },
-                    },
-                    [
-                      _c("v-img", {
-                        staticClass: "img_login",
-                        attrs: {
-                          src: _vm.banner.img,
-                          "lazy-src": _vm.banner.lazy,
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "placeholder",
-                            fn: function () {
-                              return [
-                                _c(
-                                  "v-row",
-                                  {
-                                    staticClass: "fill-height ma-0",
-                                    attrs: {
-                                      align: "center",
-                                      justify: "center",
-                                    },
+                  _c("v-img", {
+                    staticClass: "img_login rounded-sm",
+                    attrs: { src: _vm.banner.img, "lazy-src": _vm.banner.lazy },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "placeholder",
+                        fn: function () {
+                          return [
+                            _c(
+                              "v-row",
+                              {
+                                staticClass: "fill-height ma-0",
+                                attrs: { align: "center", justify: "center" },
+                              },
+                              [
+                                _c("v-progress-circular", {
+                                  attrs: {
+                                    indeterminate: "",
+                                    color: "grey lighten-5",
                                   },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                    ]),
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-col", [
+                _c(
+                  "div",
+                  { staticClass: "pb-4 mx-4" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "mr-4",
+                        attrs: { text: "", small: "" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.returnTopics.apply(null, arguments)
+                          },
+                        },
+                      },
+                      [
+                        _c("v-icon", { attrs: { left: "" } }, [
+                          _vm._v("keyboard_double_arrow_left"),
+                        ]),
+                        _vm._v(
+                          "\n                        Regresar\n                    "
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-card-title", { staticClass: "text-h5" }, [
+                      _c("p", { staticClass: "mx-auto" }, [
+                        _vm._v("NUEVO TEMA"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                      _vm._v("Cree un tema nuevo"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "px-2 pb-2" },
+                      [
+                        _c(
+                          "v-form",
+                          {
+                            ref: "form",
+                            attrs: { "lazy-validation": "" },
+                            on: {
+                              submit: function ($event) {
+                                $event.preventDefault()
+                                return _vm.registerTopic.apply(null, arguments)
+                              },
+                            },
+                          },
+                          [
+                            _c(
+                              "small",
+                              { staticClass: "font-italic txt_red" },
+                              [_vm._v("Obligatorio *")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              { staticClass: "mt-2" },
+                              [
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c("v-progress-circular", {
+                                    _c("v-autocomplete", {
                                       attrs: {
-                                        indeterminate: "",
-                                        color: "grey lighten-5",
+                                        rules: _vm.subjectRules,
+                                        items: _vm.subjects,
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        label: "Curso *",
+                                        tabindex: "1",
+                                        dense: "",
+                                        "prepend-icon": "collections_bookmark",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.subject,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "subject", $$v)
+                                        },
+                                        expression: "form.subject",
                                       },
                                     }),
                                   ],
                                   1
                                 ),
-                              ]
-                            },
-                            proxy: true,
-                          },
-                        ]),
-                      }),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-col", [
-                    _c(
-                      "div",
-                      { staticClass: "pb-4 mx-4" },
-                      [
-                        _c("v-card-title", { staticClass: "text-h5 mt-4" }, [
-                          _c("p", { staticClass: "mx-auto" }, [
-                            _vm._v("NUEVO TEMA"),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
-                          _vm._v("Cree un tema nuevo"),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "px-2 pb-2" },
-                          [
-                            _c(
-                              "v-form",
-                              { ref: "form", attrs: { "lazy-validation": "" } },
-                              [
-                                _c(
-                                  "small",
-                                  { staticClass: "font-italic txt_red" },
-                                  [_vm._v("Obligatorio *")]
-                                ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-row",
-                                  { attrs: { dense: "" } },
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
-                                        },
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.nameRules,
+                                        label: "Titulo *",
+                                        tabindex: "2",
+                                        dense: "",
+                                        "prepend-icon": "library_books",
+                                        required: "",
                                       },
-                                      [
-                                        _c("v-autocomplete", {
-                                          attrs: {
-                                            rules: _vm.subjectRules,
-                                            items: _vm.subjects,
-                                            clearable: "",
-                                            "clear-icon": "cancel",
-                                            label: "Curso *",
-                                            tabindex: "1",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.subject,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "subject", $$v)
-                                            },
-                                            expression: "form.subject",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
+                                      model: {
+                                        value: _vm.form.name,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "name", $$v)
                                         },
+                                        expression: "form.name",
                                       },
-                                      [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            rules: _vm.nameRules,
-                                            label: "Titulo *",
-                                            tabindex: "2",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.name,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "name", $$v)
-                                            },
-                                            expression: "form.name",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      { attrs: { cols: "12" } },
-                                      [
-                                        _c("v-textarea", {
-                                          attrs: {
-                                            counter: "",
-                                            rules: _vm.abstractRules,
-                                            clearable: "",
-                                            "clear-icon": "cancel",
-                                            rows: "2",
-                                            label: "Descripción",
-                                            tabindex: "3",
-                                          },
-                                          model: {
-                                            value: _vm.form.abstract,
-                                            callback: function ($$v) {
-                                              _vm.$set(
-                                                _vm.form,
-                                                "abstract",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "form.abstract",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      { attrs: { cols: "12" } },
-                                      [
-                                        _c("v-file-input", {
-                                          attrs: {
-                                            label:
-                                              "Haz clic(k) aquí para subir una imagen",
-                                            id: "img",
-                                            "prepend-icon": "photo_camera",
-                                            rules: _vm.imgRules,
-                                            accept:
-                                              "image/jpeg, image/jpg, image/png, image/gif, image/svg",
-                                            "show-size": "",
-                                            tabindex: "4",
-                                          },
-                                          on: { change: _vm.preview_img },
-                                          model: {
-                                            value: _vm.form.img,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "img", $$v)
-                                            },
-                                            expression: "form.img",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _vm.prev_img.url_img !=
-                                        "/img/topics/blank.png"
-                                          ? [
-                                              _c(
-                                                "v-btn",
-                                                {
-                                                  staticClass:
-                                                    "bk_brown txt_white width_100",
-                                                  on: { click: _vm.clean_img },
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                                Reiniciar imagen\n                                            "
-                                                  ),
-                                                ]
-                                              ),
-                                            ]
-                                          : _vm._e(),
-                                        _vm._v(" "),
-                                        _c("v-img", {
-                                          staticClass: "mt-4 mx-auto",
-                                          attrs: {
-                                            src: _vm.prev_img.url_img,
-                                            "lazy-src": _vm.prev_img.lazy_img,
-                                            "max-height": _vm.prev_img.height,
-                                            "max-width": _vm.prev_img.width,
-                                            contain: "",
-                                          },
-                                          scopedSlots: _vm._u([
-                                            {
-                                              key: "placeholder",
-                                              fn: function () {
-                                                return [
-                                                  _c(
-                                                    "v-row",
-                                                    {
-                                                      staticClass:
-                                                        "fill-height ma-0",
-                                                      attrs: {
-                                                        align: "center",
-                                                        justify: "center",
-                                                      },
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-progress-circular",
-                                                        {
-                                                          attrs: {
-                                                            indeterminate: "",
-                                                            color:
-                                                              "grey lighten-5",
-                                                          },
-                                                        }
-                                                      ),
-                                                    ],
-                                                    1
-                                                  ),
-                                                ]
-                                              },
-                                              proxy: true,
-                                            },
-                                          ]),
-                                        }),
-                                      ],
-                                      2
-                                    ),
+                                    }),
                                   ],
                                   1
                                 ),
-                              ],
-                              1
-                            ),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-row",
-                          [
-                            _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
-                              [
+                                _vm._v(" "),
                                 _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "width_100",
-                                    attrs: { outlined: "" },
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.returnTopics.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
                                   [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("keyboard_double_arrow_left"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Regresar\n                                "
-                                    ),
+                                    _c("v-textarea", {
+                                      attrs: {
+                                        counter: "",
+                                        rules: _vm.abstractRules,
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        rows: "2",
+                                        label: "Descripción",
+                                        dense: "",
+                                        "prepend-icon": "subject",
+                                        tabindex: "3",
+                                      },
+                                      model: {
+                                        value: _vm.form.abstract,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "abstract", $$v)
+                                        },
+                                        expression: "form.abstract",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c("v-file-input", {
+                                      attrs: {
+                                        label:
+                                          "Haz clic(k) aquí para subir una imagen",
+                                        id: "img",
+                                        "prepend-icon": "photo_camera",
+                                        rules: _vm.imgRules,
+                                        accept:
+                                          "image/jpeg, image/jpg, image/png, image/gif, image/svg",
+                                        "show-size": "",
+                                        tabindex: "4",
+                                      },
+                                      on: { change: _vm.preview_img },
+                                      model: {
+                                        value: _vm.form.img,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "img", $$v)
+                                        },
+                                        expression: "form.img",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.prev_img.url_img !=
+                                    "/img/topics/blank.png"
+                                      ? [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass:
+                                                "bk_brown txt_white width_100",
+                                              on: { click: _vm.clean_img },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                            Borrar imagen\n                                        "
+                                              ),
+                                            ]
+                                          ),
+                                        ]
+                                      : _vm._e(),
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c("v-img", {
+                                      staticClass: "mt-4 mx-auto",
+                                      attrs: {
+                                        src: _vm.prev_img.url_img,
+                                        "lazy-src": _vm.prev_img.lazy_img,
+                                        "max-height": _vm.prev_img.height,
+                                        "max-width": _vm.prev_img.width,
+                                        contain: "",
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "placeholder",
+                                          fn: function () {
+                                            return [
+                                              _c(
+                                                "v-row",
+                                                {
+                                                  staticClass:
+                                                    "fill-height ma-0",
+                                                  attrs: {
+                                                    align: "center",
+                                                    justify: "center",
+                                                  },
+                                                },
+                                                [
+                                                  _c("v-progress-circular", {
+                                                    attrs: {
+                                                      indeterminate: "",
+                                                      color: "grey lighten-5",
+                                                    },
+                                                  }),
+                                                ],
+                                                1
+                                              ),
+                                            ]
+                                          },
+                                          proxy: true,
+                                        },
+                                      ]),
+                                    }),
                                   ],
                                   1
                                 ),
@@ -1248,32 +1269,18 @@ var render = function () {
                             ),
                             _vm._v(" "),
                             _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
+                              "v-btn",
+                              {
+                                staticClass:
+                                  "txt_white bk_green width_100 mt-2",
+                                attrs: { type: "submit" },
+                              },
                               [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.registerTopic.apply(
-                                          null,
-                                          arguments
-                                        )
-                                      },
-                                    },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("save"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Guardar\n                            "
                                 ),
                               ],
                               1
@@ -1284,10 +1291,10 @@ var render = function () {
                       ],
                       1
                     ),
-                  ]),
-                ],
-                1
-              ),
+                  ],
+                  1
+                ),
+              ]),
             ],
             1
           ),
@@ -4305,6 +4312,49 @@ __webpack_require__.r(__webpack_exports__);
 
 }));
 //# sourceMappingURL=VSelectList.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VSubheader/VSubheader.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VSubheader/VSubheader.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VSubheader_VSubheader_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VSubheader/VSubheader.sass */ "./node_modules/vuetify/src/components/VSubheader/VSubheader.sass");
+/* harmony import */ var _mixins_themeable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/themeable */ "./node_modules/vuetify/lib/mixins/themeable/index.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+// Styles
+ // Mixins
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_themeable__WEBPACK_IMPORTED_MODULE_2__["default"]
+/* @vue/component */
+).extend({
+  name: 'v-subheader',
+  props: {
+    inset: Boolean
+  },
+
+  render(h) {
+    return h('div', {
+      staticClass: 'v-subheader',
+      class: {
+        'v-subheader--inset': this.inset,
+        ...this.themeClasses
+      },
+      attrs: this.$attrs,
+      on: this.$listeners
+    }, this.$slots.default);
+  }
+
+}));
+//# sourceMappingURL=VSubheader.js.map
 
 /***/ }),
 

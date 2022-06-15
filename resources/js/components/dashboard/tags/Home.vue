@@ -1,18 +1,18 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
+        <div class="ma-2">
             <p class="text-h6 my-4 ml-2">ETIQUETAS</p>
             <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newTag" }'>
                 <v-icon left>bookmark_add</v-icon>
                 Nuevo
             </v-btn>
             <!-- Tabla -->
-            <v-card class="mx-auto mt-10 px-5 py-3" elevation="0">
+            <v-card class="mx-auto mt-4 px-5 py-3" elevation="0">
                 <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1">
                 </v-text-field>
                 <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
@@ -21,8 +21,9 @@
                     lastIcon: 'last_page',
                     prevIcon: 'chevron_left',
                     nextIcon: 'chevron_right'
-                }" :loading="loading_table" loading-text="Obteniendo información... Por favor espera" multi-sort
-                    :search="search" fixed-header>
+                }" :loading="loading_table" loading-text="Obteniendo información"
+                    no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados"
+                    multi-sort :search="search" fixed-header align="center">
                     <template v-slot:item.background_color="{ item }">
                         <div>
                             {{ item.background_color }}

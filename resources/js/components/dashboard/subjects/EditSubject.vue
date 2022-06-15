@@ -1,24 +1,26 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-btn class="mr-4 mt-4 new_btn" text small @click.prevent="returnSubjects">
+        <div class="mt-2">
+            <v-btn class="mr-4" text small @click.prevent="returnSubjects">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="text-h6 mt-11 mb-4 ml-2">
-                <template v-if="subject.name">
-                    <p>{{ subject.name.toUpperCase() }}</p>
-                </template>
-                <template v-else>
-                    <v-icon>remove</v-icon>
-                </template>
-            </div>
-            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+            <v-card class="mt-4 mx-auto" elevation="2" max-width="700">
+                <v-toolbar flat class="bk_blue" dark>
+                    <v-toolbar-title>
+                        <template v-if="subject.name">
+                            {{ subject.name.toUpperCase() }}
+                        </template>
+                        <template v-else>
+                            <v-icon>remove</v-icon>
+                        </template>
+                    </v-toolbar-title>
+                </v-toolbar>
                 <v-tabs grow>
                     <!-- Menú grow -->
                     <v-tab>
@@ -40,20 +42,21 @@
                                 Información almacenada del curso seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_information" lazy-validation>
+                            <v-form ref="form_information" @submit.prevent="editSubject" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
-                                <v-row>
+                                <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
-                                            label="Titulo *" tabindex="1" required>
+                                            label="Titulo *" tabindex="1" dense prepend-icon="collections_bookmark"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </v-form>
-                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editSubject">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -63,14 +66,14 @@
                                     Cambie el estado del curso en el sistema (Si esta desactivado no podra ser
                                     visualizado por parte del lector)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules"></v-select>
+                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                    <v-btn class="txt_white bk_green width_100">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
                                 </v-form>
-                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusSubject">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
                             </div>
                             <v-divider class="mt-8 mb-4"></v-divider>
                             <div>

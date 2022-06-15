@@ -3,12 +3,11 @@ import axios from 'axios'
 // Public
 const Public = () => import ('./components/public/Home.vue')
 const Auth = () => import ('./components/auth/Home.vue')
-// Dashboard
-// Usuarios
+// Users
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
 const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
-// Cursos
+// Subjects
 const DashboardSubjects = () => import ('./components/dashboard/subjects/Home.vue')
 const NewSubject = () => import ('./components/dashboard/subjects/NewSubject.vue')
 const EditSubject = () => import ('./components/dashboard/subjects/EditSubject.vue')
@@ -16,11 +15,11 @@ const EditSubject = () => import ('./components/dashboard/subjects/EditSubject.v
 const DashboardTags = () => import ('./components/dashboard/tags/Home.vue')
 const NewTag = () => import ('./components/dashboard/tags/NewTag.vue')
 const EditTag = () => import ('./components/dashboard/tags/EditTag.vue')
-// Temas
+// Topics
 const DashboardTopics = () => import ('./components/dashboard/topics/Home.vue')
 const NewTopic = () => import ('./components/dashboard/topics/NewTopic.vue')
 const EditTopic = () => import ('./components/dashboard/topics/EditTopic.vue')
-// Perfil
+// Profile
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
 
 export const routes = [
@@ -102,9 +101,9 @@ export const routes = [
             });
         }
     }, {
-        name: 'tags',
-        path: '/dashboard/tags',
-        component: DashboardTags,
+        name: 'topics',
+        path: '/dashboard/topics',
+        component: DashboardTopics,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()
@@ -135,6 +134,17 @@ export const routes = [
             });
         }
     }, {
+        name: 'tags',
+        path: '/dashboard/tags',
+        component: DashboardTags,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
         name: 'newTag',
         path: '/dashboard/tags/new',
         component: NewTag,
@@ -157,17 +167,6 @@ export const routes = [
             });
         }
     }, {
-        name: 'topics',
-        path: '/dashboard/topics',
-        component: DashboardTopics,
-        beforeEnter: (to, from, next) => {
-            axios.get('/api/authenticated').then(response => {
-                next()
-            }).catch((error) => {
-                return next({name: 'auth'})
-            });
-        }
-    }, {
         name: 'profile',
         path: '/dashboard/profile',
         component: Profile,
@@ -179,7 +178,7 @@ export const routes = [
             });
         }
     },
-    //  Error 404
+    // Error 404
     /* {
         path: '*',
         component: "",

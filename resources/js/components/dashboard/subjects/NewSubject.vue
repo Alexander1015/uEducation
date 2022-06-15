@@ -1,12 +1,12 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
         <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="700">
+            <v-card class="mt-4 rounded mx-auto" elevation="2" max-width="700">
                 <v-row dense class="pl-1">
                     <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
@@ -19,37 +19,31 @@
                     </v-col>
                     <v-col>
                         <div class="pb-4 mx-4">
-                            <v-card-title class="text-h5 mt-8">
+                            <v-btn class="mr-4" text small @click.prevent="returnSubjects">
+                                <v-icon left>keyboard_double_arrow_left</v-icon>
+                                Regresar
+                            </v-btn>
+                            <v-card-title class="text-h5">
                                 <p class="mx-auto">NUEVO CURSO</p>
                             </v-card-title>
                             <v-card-subtitle class="text-center">Cree un curso nuevo</v-card-subtitle>
                             <div class="px-2 pb-2">
                                 <!-- Formulario -->
-                                <v-form ref="form" lazy-validation>
+                                <v-form ref="form" @submit.prevent="registerSubject" lazy-validation>
                                     <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-row>
+                                    <v-row class="mt-2">
                                         <v-col cols="12">
                                             <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
-                                                tabindex="1" required>
+                                                tabindex="1" dense prepend-icon="collections_bookmark" required>
                                             </v-text-field>
                                         </v-col>
                                     </v-row>
-                                </v-form>
-                            </div>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="width_100" outlined @click.prevent="returnSubjects">
-                                        <v-icon left>keyboard_double_arrow_left</v-icon>
-                                        Regresar
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerSubject">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
-                                </v-col>
-                            </v-row>
+                                </v-form>
+                            </div>
                         </div>
                     </v-col>
                 </v-row>

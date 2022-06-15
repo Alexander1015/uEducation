@@ -1,95 +1,90 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-card class="mt-4 mx-auto" elevation="0" max-width="1100">
-                <v-row dense class="pl-1">
-                    <v-col cols="3" class="bk_blue my-1 d-none d-md-flex">
-                        <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
-                            <template v-slot:placeholder>
-                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <v-progress-circular indeterminate color="grey lighten-5">
-                                    </v-progress-circular>
-                                </v-row>
-                            </template>
-                        </v-img>
-                    </v-col>
-                    <v-col>
-                        <div class="pb-4 mx-4">
-                            <v-card-title class="text-h5 mt-4">
-                                <p class="mx-auto">NUEVO TEMA</p>
-                            </v-card-title>
-                            <v-card-subtitle class="text-center">Cree un tema nuevo</v-card-subtitle>
-                            <div class="px-2 pb-2">
-                                <!-- Formulario -->
-                                <v-form ref="form" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-row dense>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-autocomplete v-model="form.subject" :rules="subjectRules"
-                                                :items="subjects" clearable clear-icon="cancel" label="Curso *"
-                                                tabindex="1" required>
-                                            </v-autocomplete>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
-                                                tabindex="2" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
-                                                clear-icon="cancel" rows="2" label="Descripción" tabindex="3">
-                                            </v-textarea>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            <v-file-input v-model="form.img" @change="preview_img"
-                                                label="Haz clic(k) aquí para subir una imagen" id="img"
-                                                prepend-icon="photo_camera" :rules="imgRules"
-                                                accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
-                                                show-size tabindex="4">
-                                            </v-file-input>
-                                            <template v-if="prev_img.url_img != '/img/topics/blank.png'">
-                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">
-                                                    Reiniciar imagen
-                                                </v-btn>
-                                            </template>
-                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
-                                                :max-width="prev_img.width" contain>
-                                                <template v-slot:placeholder>
-                                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                                        <v-progress-circular indeterminate color="grey lighten-5">
-                                                        </v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>
-                                        </v-col>
-                                    </v-row>
-                                </v-form>
-                            </div>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="width_100" outlined @click.prevent="returnTopics">
-                                        <v-icon left>keyboard_double_arrow_left</v-icon>
-                                        Regresar
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerTopic">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </v-col>
+        <v-card class="mt-2 rounded mx-auto" elevation="2" max-width="1100">
+            <v-row dense class="pl-1">
+                <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
+                    <v-img class="img_login rounded-sm" :src='banner.img' :lazy-src='banner.lazy'>
+                        <template v-slot:placeholder>
+                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                <v-progress-circular indeterminate color="grey lighten-5">
+                                </v-progress-circular>
                             </v-row>
+                        </template>
+                    </v-img>
+                </v-col>
+                <v-col>
+                    <div class="pb-4 mx-4">
+                        <v-btn class="mr-4" text small @click.prevent="returnTopics">
+                            <v-icon left>keyboard_double_arrow_left</v-icon>
+                            Regresar
+                        </v-btn>
+                        <v-card-title class="text-h5">
+                            <p class="mx-auto">NUEVO TEMA</p>
+                        </v-card-title>
+                        <v-card-subtitle class="text-center">Cree un tema nuevo</v-card-subtitle>
+                        <div class="px-2 pb-2">
+                            <!-- Formulario -->
+                            <v-form ref="form" @submit.prevent="registerTopic" lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-row class="mt-2">
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-autocomplete v-model="form.subject" :rules="subjectRules" :items="subjects"
+                                            clearable clear-icon="cancel" label="Curso *" tabindex="1" dense
+                                            prepend-icon="collections_bookmark" required>
+                                        </v-autocomplete>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
+                                            tabindex="2" dense prepend-icon="library_books" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
+                                            clear-icon="cancel" rows="2" label="Descripción" dense
+                                            prepend-icon="subject" tabindex="3">
+                                        </v-textarea>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-file-input v-model="form.img" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una imagen" id="img"
+                                            prepend-icon="photo_camera" :rules="imgRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="4">
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img != '/img/topics/blank.png'">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                Borrar imagen
+                                            </v-btn>
+                                        </template>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                            :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </v-col>
+                                </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </v-form>
                         </div>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-card>
     </v-main>
 </template>
 
@@ -209,13 +204,13 @@ export default {
             }
         },
         preview_img() {
-            this.prev_img.url_img = URL.createObjectURL(this.form.avatar);
-            this.prev_img.lazy_img = URL.createObjectURL(this.form.avatar);
+            this.prev_img.url_img = URL.createObjectURL(this.form.img);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form.img);
         },
         clean_img() {
             this.prev_img.url_img = "/img/topics/blank.png";
             this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
-            this.form.avatar = null;
+            this.form.img = null;
         }
     },
 }

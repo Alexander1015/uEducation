@@ -1,24 +1,31 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-btn class="mr-4 mt-4 new_btn" text small @click.prevent="returnUsers">
+        <div class="mt-2">
+            <v-btn class="mr-4" text small @click.prevent="returnUsers">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="text-h6 mt-11 mb-4 ml-2">
-                <template v-if="user.firstname || user.lastname">
-                    <p>{{ user.firstname.toUpperCase() }} {{ user.lastname.toUpperCase() }}</p>
-                </template>
-                <template v-else>
-                    <v-icon>remove</v-icon>
-                </template>
-            </div>
-            <v-card class="mt-4 mx-auto" elevation="3" max-width="1100">
+            <v-card class="mt-2 mx-auto" elevation="2" max-width="1100">
+                <v-toolbar flat class="bk_blue" dark>
+                    <v-toolbar-title>
+                        <template v-if="user.firstname || user.lastname">
+                            <template v-if="user.firstname">
+                                {{ user.firstname.toUpperCase() }}
+                            </template>
+                            <template v-if="user.lastname">
+                                {{ user.lastname.toUpperCase() }}
+                            </template>
+                        </template>
+                        <template v-else>
+                            <v-icon>remove</v-icon>
+                        </template>
+                    </v-toolbar-title>
+                </v-toolbar>
                 <v-tabs grow>
                     <!-- Menú grow -->
                     <v-tab>
@@ -46,30 +53,33 @@
                                 Información almacenada del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_information" enctype="multipart/form-data" lazy-validation>
+                            <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser"
+                                lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
-                                <v-row>
+                                <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.firstname" :rules="info.firstnameRules"
-                                            label="Nombres *" tabindex="1" required>
+                                            label="Nombres *" tabindex="1" dense prepend-icon="contacts" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.lastname" :rules="info.lastnameRules"
-                                            label="Apellidos *" tabindex="2" required>
+                                            label="Apellidos *" tabindex="2" dense prepend-icon="contacts" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.email" :rules="info.emailRules"
-                                            label="Correo electrónico *" tabindex="3" required>
+                                            label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.user" tabindex="4"
-                                            :rules="info.userRules" label="Usuario *" required>
+                                            :rules="info.userRules" label="Usuario *" dense prepend-icon="person"
+                                            required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-file-input v-model="form_information.avatar" @change="preview_img"
                                             label="Haz clic(k) aquí para subir una imagen" id="avatar"
                                             prepend-icon="photo_camera" :rules="info.avatarRules"
@@ -81,6 +91,8 @@
                                                 Reiniciar avatar
                                             </v-btn>
                                         </template>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
                                             :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                             :max-width="prev_img.width" contain>
@@ -93,11 +105,11 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </v-form>
-                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="editUser">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -106,26 +118,32 @@
                                 Cambie la contraseña del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_password" lazy-validation>
+                            <v-form ref="form_password" @submit.prevent="editPassword" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
-                                <v-row>
+                                <v-row class="mt-2">
                                     <v-col cols="12">
-                                        <v-text-field v-model="form_password.password" type="password"
-                                            :rules="passw.passwordRules" label="Contraseña *" tabindex="1" required>
+                                        <v-text-field v-model="form_password.password" :rules="passw.passwordRules"
+                                            label="Contraseña *" tabindex="1" dense prepend-icon="lock"
+                                            :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
+                                            :type="form_password.show1 ? 'text' : 'password'"
+                                            @click:append="form_password.show1 = !form_password.show1" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="form_password.password_confirmation" type="password"
+                                        <v-text-field v-model="form_password.password_confirmation"
                                             :rules="passw.passwordconfirmRules" label="Repita la contraseña *"
-                                            tabindex="2" required>
+                                            tabindex="2" dense prepend-icon="lock"
+                                            :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
+                                            :type="form_password.show2 ? 'text' : 'password'"
+                                            @click:append="form_password.show2 = !form_password.show2" required>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
                             </v-form>
-                            <v-btn class="txt_white bk_green width_100" @click.prevent="editPassword">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -136,14 +154,14 @@
                                     permitido ingresar al apartado de administradores o manipular la información de
                                     la base de datos)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusUser" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules"></v-select>
+                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                    <v-btn class="txt_white bk_green width_100" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
                                 </v-form>
-                                <v-btn class="txt_white bk_green width_100" @click.prevent="statusUser">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
                             </div>
                             <v-divider class="mt-8 mb-4"></v-divider>
                             <div>
@@ -185,6 +203,8 @@ export default {
         form_password: {
             password: "",
             password_confirmation: "",
+            show1: false,
+            show2: false,
         },
         form_status: {
             status: "",

@@ -1,109 +1,110 @@
 <template>
-    <v-main>
+    <v-main class="ma-2">
         <!-- Overlay -->
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="3" max-width="1100">
-                <v-row dense class="pl-1">
-                    <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
-                        <v-img class="img_login rounded-sm" :src='banner.img' :lazy-src='banner.lazy'>
-                            <template v-slot:placeholder>
-                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                </v-row>
-                            </template>
-                        </v-img>
-                    </v-col>
-                    <v-col>
-                        <div class="pb-4 mx-4">
-                            <v-card-title class="text-h5">
-                                <p class="mx-auto">NUEVO USUARIO</p>
-                            </v-card-title>
-                            <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
-                            <div class="px-2 pb-2">
-                                <!-- Formulario -->
-                                <v-form ref="form" enctype="multipart/form-data" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-row>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.firstname" :rules="firstnameRules"
-                                                label="Nombres *" tabindex="1" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.lastname" :rules="lastnameRules"
-                                                label="Apellidos *" tabindex="2" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.email" :rules="emailRules"
-                                                label="Correo electrónico *" tabindex="3" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.user" tabindex="4" :rules="userRules"
-                                                label="Usuario *" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.password" type="password" :rules="passwordRules"
-                                                label="Contraseña *" tabindex="5" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" sm="12" md="6">
-                                            <v-text-field v-model="form.password_confirmation" type="password"
-                                                :rules="passwordconfirmRules" label="Repita la contraseña *"
-                                                tabindex="6" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            <v-file-input v-model="form.avatar" @change="preview_img"
-                                                label="Haz clic(k) aquí para subir una imagen" id="avatar"
-                                                prepend-icon="photo_camera" :rules="avatarRules"
-                                                accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
-                                                show-size tabindex="7">
-                                            </v-file-input>
-                                            <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">
-                                                    Reiniciar avatar
-                                                </v-btn>
-                                            </template>
-                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
-                                                :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
-                                                :max-width="prev_img.width" contain>
-                                                <template v-slot:placeholder>
-                                                    <v-row class="fill-height ma-0" align="center" justify="center">
-                                                        <v-progress-circular indeterminate color="grey lighten-5">
-                                                        </v-progress-circular>
-                                                    </v-row>
-                                                </template>
-                                            </v-img>
-                                        </v-col>
-                                    </v-row>
-                                </v-form>
-                            </div>
-                            <v-row>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="width_100" outlined @click.prevent="returnUsers">
-                                        <v-icon left>keyboard_double_arrow_left</v-icon>
-                                        Regresar
-                                    </v-btn>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="txt_white bk_green width_100" @click.prevent="registerUser">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </v-col>
+        <v-card class="mt-2 rounded mx-auto" elevation="2" max-width="1100">
+            <v-row dense class="pl-1">
+                <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
+                    <v-img class="img_login rounded-sm" :src='banner.img' :lazy-src='banner.lazy'>
+                        <template v-slot:placeholder>
+                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
                             </v-row>
+                        </template>
+                    </v-img>
+                </v-col>
+                <v-col>
+                    <div class="pb-4 mx-4">
+                        <v-btn class="mr-4" text small @click.prevent="returnUsers">
+                            <v-icon left>keyboard_double_arrow_left</v-icon>
+                            Regresar
+                        </v-btn>
+                        <v-card-title class="text-h5">
+                            <p class="mx-auto">NUEVO USUARIO</p>
+                        </v-card-title>
+                        <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
+                        <div class="px-2 pb-2">
+                            <!-- Formulario -->
+                            <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser"
+                                lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-row class="mt-2">
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres *"
+                                            tabindex="1" dense prepend-icon="contacts" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos *"
+                                            tabindex="2" dense prepend-icon="contacts" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.email" :rules="emailRules"
+                                            label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
+                                            required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.user" tabindex="4" dense prepend-icon="person"
+                                            :rules="userRules" label="Usuario *" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.password" :rules="passwordRules"
+                                            label="Contraseña *" tabindex="5" dense prepend-icon="lock"
+                                            :append-icon="form.show1 ? 'visibility' : 'visibility_off'"
+                                            :type="form.show1 ? 'text' : 'password'"
+                                            @click:append="form.show1 = !form.show1" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.password_confirmation" :rules="passwordconfirmRules"
+                                            label="Repita la contraseña *" dense tabindex="6" prepend-icon="lock"
+                                            :append-icon="form.show2 ? 'visibility' : 'visibility_off'"
+                                            :type="form.show2 ? 'text' : 'password'"
+                                            @click:append="form.show2 = !form.show2" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-file-input v-model="form.avatar" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                            prepend-icon="photo_camera" :rules="avatarRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="7" dense>
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img != '/img/users/blank.png'">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                Borrar avatar
+                                            </v-btn>
+                                        </template>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                            :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </v-col>
+                                </v-row>
+                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </v-form>
                         </div>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-card>
     </v-main>
 </template>
 
@@ -129,6 +130,8 @@ export default {
             password: "",
             password_confirmation: "",
             avatar: null,
+            show1: false,
+            show2: false,
         },
         firstnameRules: [
             v => !!v || 'Los nombres son requeridos',
