@@ -178,5 +178,10 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }
+    },
+    //  Error 404
+    /* {
+        path: '*',
+        component: "",
+    } */
 ]

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Topics;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
@@ -30,9 +31,9 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $validator = Validator::make($request->all(), [
                     'subject' => ['bail', 'required', 'string', 'max:100'],
                     'name' => ['bail', 'required', 'string', 'max:100', 'unique:topics,name'],
@@ -40,10 +41,18 @@ class TopicController extends Controller
                     'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
-                    return response()->json([
-                        'message' => 'El titulo solicitado no cumple con el formato',
-                        'complete' => false,
-                    ]);
+                    $old_name = DB::table("topics")->where('name', $request->input('name'))->first();
+                    if ($old_name) {
+                        return response()->json([
+                            'message' => 'El título ingresado ya existe',
+                            'complete' => false,
+                        ]);
+                    } else {
+                        return response()->json([
+                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                            'complete' => false,
+                        ]);
+                    }
                 } else {
                     $exist_subject = DB::table("subjects")->where("name", $request->input('subject'),)->first();
                     if (!$exist_subject) {
@@ -78,18 +87,12 @@ class TopicController extends Controller
                                 $size = Image::make($img->getRealPath())->width();
                                 //lazy
                                 $address_l = public_path('/img/lazy_topics');
-                                if (!File::isDirectory($address_l)) {
-                                    File::makeDirectory($address_l, 0777, true, true);
-                                }
                                 $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                     $constraint->aspectRatio();
                                 });
                                 $img_l->save($address_l . '/' . $new_img, 100);
                                 //original
                                 $address_o = public_path('/img/topics');
-                                if (!File::isDirectory($address_o)) {
-                                    File::makeDirectory($address_o, 0777, true, true);
-                                }
                                 $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
                                     $constraint->aspectRatio();
                                 });
@@ -103,22 +106,22 @@ class TopicController extends Controller
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Ah ocurrido un error al momento de crear el tema',
+                                'message' => 'Ha ocurrido un error al momento de crear el tema',
                                 'complete' => false,
                             ]);
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -145,9 +148,9 @@ class TopicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $data = DB::table("topics")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -163,10 +166,18 @@ class TopicController extends Controller
                         'img_new' => ['bail', 'sometimes', 'boolean'],
                     ]);
                     if ($validator->fails()) {
-                        return response()->json([
-                            'message' => 'El titulo solicitado no cumple con el formato',
-                            'complete' => false,
-                        ]);
+                        $old_name = DB::table("topics")->where('name', $request->input('name'))->first();
+                        if ($data->id != $old_name->id) {
+                            return response()->json([
+                                'message' => 'El título ingresado ya existe',
+                                'complete' => false,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                                'complete' => false,
+                            ]);
+                        }
                     } else {
                         $exist_subject = DB::table("subjects")->where("name", $request->input('subject'),)->first();
                         if (!$exist_subject) {
@@ -206,18 +217,12 @@ class TopicController extends Controller
                                     $size = Image::make($img->getRealPath())->width();
                                     //lazy
                                     $address_l = public_path('/img/lazy_topics');
-                                    if (!File::isDirectory($address_l)) {
-                                        File::makeDirectory($address_l, 0777, true, true);
-                                    }
                                     $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
                                     $img_l->save($address_l . '/' . $new_img, 100);
                                     //original
                                     $address_o = public_path('/img/topics');
-                                    if (!File::isDirectory($address_o)) {
-                                        File::makeDirectory($address_o, 0777, true, true);
-                                    }
                                     $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
@@ -235,12 +240,12 @@ class TopicController extends Controller
                                     $data->img == $request->input('img')
                                 ) {
                                     return response()->json([
-                                        'message' => 'La información proporcionada no modifica el curso, asi que no se ha actualizado',
+                                        'message' => 'La información proporcionada no modifica el tema, asi que no se ha actualizado',
                                         'complete' => false,
                                     ]);
                                 } else {
                                     return response()->json([
-                                        'message' => 'Ah ocurrido un error al momento de modificar el curso',
+                                        'message' => 'Ha ocurrido un error al momento de modificar el tema',
                                         'complete' => false,
                                     ]);
                                 }
@@ -248,16 +253,16 @@ class TopicController extends Controller
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    'message' => $ex->getMessage(),
-                    // 'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -271,9 +276,9 @@ class TopicController extends Controller
      */
     public function destroy($id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $data = DB::table("topics")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -292,21 +297,21 @@ class TopicController extends Controller
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de eliminar el tema',
+                            'message' => 'Ha ocurrido un error al momento de eliminar el tema',
                             'complete' => true,
                         ]);
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

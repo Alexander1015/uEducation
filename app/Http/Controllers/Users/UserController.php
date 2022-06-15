@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -9,7 +10,6 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Exception;
-
 
 class UserController extends Controller
 {
@@ -32,9 +32,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $validator = Validator::make($request->all(), [
                     'firstname' => ['bail', 'required', 'string', 'max:50'],
                     'lastname' => ['bail', 'required', 'string', 'max:50'],
@@ -63,7 +63,7 @@ class UserController extends Controller
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Hay datos que no siguen el formato solicitado',
+                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                             'complete' => false,
                         ]);
                     }
@@ -93,18 +93,12 @@ class UserController extends Controller
                             $size = Image::make($avatar->getRealPath())->width();
                             //lazy
                             $address_l = public_path('/img/lazy_users');
-                            if (!File::isDirectory($address_l)) {
-                                File::makeDirectory($address_l, 0777, true, true);
-                            }
                             $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
                             $img_l->save($address_l . '/' . $new_avatar, 100);
                             //original
                             $address_o = public_path('/img/users');
-                            if (!File::isDirectory($address_o)) {
-                                File::makeDirectory($address_o, 0777, true, true);
-                            }
                             $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
@@ -116,21 +110,21 @@ class UserController extends Controller
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de crear el usuario',
+                            'message' => 'Ha ocurrido un error al momento de crear el usuario',
                             'complete' => false,
                         ]);
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -139,7 +133,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -152,14 +146,14 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -190,15 +184,14 @@ class UserController extends Controller
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Hay datos que no siguen el formato solicitado',
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                                 'complete' => false,
                             ]);
                         }
                     } else {
-                        $user_auth = auth()->user()->id;
-                        if ($user_auth == $data->id) {
+                        if ($auth_user->id == $data->id) {
                             return response()->json([
-                                'message' => "Debe modificar su información en el apartado de perfil de su usuario.",
+                                'message' => "Debe modificar su información en el perfil de su usuario",
                                 'complete' => false,
                             ]);
                         } else {
@@ -234,18 +227,12 @@ class UserController extends Controller
                                     $size = Image::make($avatar->getRealPath())->width();
                                     //lazy
                                     $address_l = public_path('/img/lazy_users');
-                                    if (!File::isDirectory($address_l)) {
-                                        File::makeDirectory($address_l, 0777, true, true);
-                                    }
                                     $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
                                     $img_l->save($address_l . '/' . $new_avatar, 100);
                                     //original
                                     $address_o = public_path('/img/users');
-                                    if (!File::isDirectory($address_o)) {
-                                        File::makeDirectory($address_o, 0777, true, true);
-                                    }
                                     $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
@@ -267,7 +254,7 @@ class UserController extends Controller
                                     ]);
                                 } else {
                                     return response()->json([
-                                        'message' => 'Ah ocurrido un error al momento de modificar el usuario',
+                                        'message' => 'Ha ocurrido un error al momento de modificar el usuario',
                                         'complete' => false,
                                     ]);
                                 }
@@ -275,16 +262,16 @@ class UserController extends Controller
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -293,14 +280,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -308,8 +295,7 @@ class UserController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    $user_auth = auth()->user()->id;
-                    if ($user_auth  == $data->id) {
+                    if ($auth_user->id  == $data->id) {
                         return response()->json([
                             'message' => "No puede eliminar su propio usuario.",
                             'complete' => false,
@@ -322,7 +308,6 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-
                             if (DB::table("users")->delete($data->id)) {
                                 if ($data->avatar) {
                                     File::delete(public_path('/img/users') . '/' . $data->avatar);
@@ -334,23 +319,23 @@ class UserController extends Controller
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ah ocurrido un error al momento de eliminar el usuario',
+                                    'message' => 'Ha ocurrido un error al momento de eliminar el usuario',
                                     'complete' => true,
                                 ]);
                             }
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

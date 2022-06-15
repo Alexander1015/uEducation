@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -10,13 +11,23 @@ use Exception;
 
 class AuthController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $user = auth()->user();
         return response()->json($user);
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         try {
@@ -44,10 +55,9 @@ class AuthController extends Controller
                                 'complete' => false,
                             ]);
                         }
-                    }
-                    else {
+                    } else {
                         return response()->json([
-                            'message' => 'El usuario esta desactivado, no tiene permitido ingresar',
+                            'message' => 'El usuario esta desactivado y no tiene permitido el ingreso al sistema',
                             'complete' => false,
                         ]);
                     }
@@ -61,7 +71,7 @@ class AuthController extends Controller
         } catch (Exception $ex) {
             return response()->json([
                 // 'message' => $ex->getMessage(),
-                'message' => "Ah ocurrido un error en la aplicación",
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

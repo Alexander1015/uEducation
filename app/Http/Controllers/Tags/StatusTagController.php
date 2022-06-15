@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tags;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class StatusSubjectController extends Controller
+class StatusTagController extends Controller
 {
     /**
      * Update the specified resource in storage.
@@ -18,13 +19,13 @@ class StatusSubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
-                $data = DB::table("subjects")->where("id", $id)->first();
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $data = DB::table("tags")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La etiqueta seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
@@ -33,36 +34,39 @@ class StatusSubjectController extends Controller
                     ]);
                     if ($validator->fails()) {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error con el envío de información',
+                            'message' => 'Ha ocurrido un error con el envío de información',
                             'complete' => false,
                         ]);
                     } else {
-                        if (DB::update("UPDATE subjects SET status = ? WHERE id = ?", [
+                        if (DB::update("UPDATE tags SET status = ? WHERE id = ?", [
                             $request->input('status'),
                             $data->id,
                         ])) {
+                            $message = "";
+                            if ($request->input('status') == 0) $message = "Se ha desactivado la etiqueta exitosamente";
+                            else if ($request->input('status') == 1) $message = "Se ha activado la etiqueta exitosamente";
                             return response()->json([
-                                'message' => 'Se ha cambiado el estado del curso exitosamente',
+                                'message' => $message,
                                 'complete' => true,
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Ah ocurrido un error al momento de cambiar el estado del curso',
+                                'message' => 'Ha ocurrido un error al momento de cambiar el estado de la etiqueta',
                                 'complete' => false,
                             ]);
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

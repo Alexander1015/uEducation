@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tags;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class SubjectController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = DB::table('subjects')->get();
-        return response()->json($subjects);
+        $tags = DB::table('tags')->get();
+        return response()->json($tags);
     }
 
     /**
@@ -28,52 +29,56 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $validator = Validator::make($request->all(), [
-                    'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name'],
+                    'name' => ['bail', 'required', 'string', 'max:25', 'unique:tags,name'],
+                    'background_color' => ['bail', 'sometimes', 'string'],
+                    'background_text' => ['bail', 'sometimes', 'string'],
                 ]);
                 if ($validator->fails()) {
-                    $old_name = DB::table("subjects")->where('name', $request->input('name'))->first();
+                    $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
                     if ($old_name) {
                         return response()->json([
-                            'message' => 'El titulo ingresado ya existe',
+                            'message' => 'El título ingresado ya existe',
                             'complete' => false,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'El titulo solicitado no cumple con el formato',
+                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                             'complete' => false,
                         ]);
                     }
                 } else {
-                    if (DB::table("subjects")
+                    if (DB::table("tags")
                         ->insert([
                             'name' => $request->input('name'),
+                            'background_color' => $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
+                            'text_color' => $request->input('text_color') ? $request->input('text_color') : "#676767",
                         ])
                     ) {
                         return response()->json([
-                            'message' => 'Curso creado exitosamente',
+                            'message' => 'Etiqueta creada exitosamente',
                             'complete' => true,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de crear el curso',
+                            'message' => 'Ha ocurrido un error al momento de crear la etiqueta',
                             'complete' => false,
                         ]);
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -87,7 +92,7 @@ class SubjectController extends Controller
      */
     public function show($id)
     {
-        $subject = DB::table("subjects")->where("id", $id)->first();
+        $subject = DB::table("tags")->where("id", $id)->first();
         return response()->json($subject);
     }
 
@@ -100,68 +105,74 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
-                $data = DB::table("subjects")->where("id", $id)->first();
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $data = DB::table("tags")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La etiqueta seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name,' . $data->id],
+                        'name' => ['bail', 'required', 'string', 'max:250', 'unique:tags,name,' . $data->id],
+                        'background_color' => ['bail', 'sometimes', 'string'],
+                        'background_text' => ['bail', 'sometimes', 'string'],
                     ]);
                     if ($validator->fails()) {
-                        $old_name = DB::table("subjects")->where('name', $request->input('name'))->first();
+                        $old_name = DB::table("tags")->where('name', $request->input('name'))->first();
                         if ($data->id != $old_name->id) {
                             return response()->json([
-                                'message' => 'El titulo ingresado ya existe',
+                                'message' => 'El título ingresado ya existe',
                                 'complete' => false,
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'El titulo solicitado no cumple con el formato',
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                                 'complete' => false,
                             ]);
                         }
                     } else {
-                        if (DB::update("UPDATE subjects SET name = ? WHERE id = ?", [
+                        if (DB::update("UPDATE tags SET name = ?, background_color = ?, text_color = ? WHERE id = ?", [
                             $request->input('name'),
+                            $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
+                            $request->input('text_color') ? $request->input('text_color') : "#676767",
                             $data->id,
                         ])) {
                             return response()->json([
-                                'message' => 'Curso modificado exitosamente',
+                                'message' => 'Etiqueta modificada exitosamente',
                                 'complete' => true,
                             ]);
                         } else {
                             if (
-                                $data->name == $request->input('name')
+                                $data->name == $request->input('name') &&
+                                $data->background_color == $request->input('background_color') &&
+                                $data->text_color == $request->input('text_color')
                             ) {
                                 return response()->json([
-                                    'message' => 'La información proporcionada no modifica el curso, asi que no se ha actualizado',
+                                    'message' => 'La información proporcionada no modifica la etiqueta, asi que no se ha actualizado',
                                     'complete' => false,
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ah ocurrido un error al momento de modificar el curso',
+                                    'message' => 'Ha ocurrido un error al momento de modificar la etiqueta',
                                     'complete' => false,
                                 ]);
                             }
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -178,21 +189,21 @@ class SubjectController extends Controller
         $status = auth()->user()->status;
         if ($status == 1) {
             try {
-                $data = DB::table("subjects")->where("id", $id)->first();
+                $data = DB::table("tags")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La etiqueta seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
-                    if (DB::table("subjects")->delete($data->id)) {
+                    if (DB::table("tags")->delete($data->id)) {
                         return response()->json([
-                            'message' => 'Curso eliminado exitosamente',
+                            'message' => 'Etiqueta eliminada exitosamente',
                             'complete' => true,
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ah ocurrido un error al momento de eliminar el curso',
+                            'message' => 'Ha ocurrido un error al momento de eliminar la etiqueta',
                             'complete' => true,
                         ]);
                     }
@@ -200,7 +211,7 @@ class SubjectController extends Controller
             } catch (Exception $ex) {
                 return response()->json([
                     // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => "Ha ocurrido un error en la aplicación",
                     'complete' => false,
                 ]);
             }

@@ -225,8 +225,7 @@ export default {
                                 data.append('avatar', this.form.avatar);
                             }
                             data.append('avatar_new', this.form.avatar_new);
-                            data.append('_method', "put");
-                            this.axios.post('/api/profile/' + this.user.id, data, {
+                            this.axios.post('/api/profile', data, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data',
                                 },
@@ -284,8 +283,7 @@ export default {
                             let data = new FormData();
                             data.append('password', this.form.password);
                             data.append('password_confirmation', this.form.password_confirmation);
-                            data.append('_method', "put");
-                            this.axios.post('/api/profile/password/' + this.user.id, data)
+                            this.axios.post('/api/profile/password', data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"

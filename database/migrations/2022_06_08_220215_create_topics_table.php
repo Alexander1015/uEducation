@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('img');
-            $table->text('abstract');
+            $table->string('name')->unique()->unique()->default("");
+            $table->string('img')->unique()->default("");
+            $table->text('abstract')->unique()->default("");
             $table->longText('body')->default("");
             $table->boolean('status')->default(0);
+            $table->integer('sequence')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subject_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

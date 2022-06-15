@@ -281,9 +281,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     data.append('avatar_new', _this2.form.avatar_new);
-                    data.append('_method', "put");
 
-                    _this2.axios.post('/api/profile/' + _this2.user.id, data, {
+                    _this2.axios.post('/api/profile', data, {
                       headers: {
                         'Content-Type': 'multipart/form-data'
                       }
@@ -363,9 +362,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('password', _this3.form.password);
                     data.append('password_confirmation', _this3.form.password_confirmation);
-                    data.append('_method', "put");
 
-                    _this3.axios.post('/api/profile/password/' + _this3.user.id, data).then(function (response) {
+                    _this3.axios.post('/api/profile/password', data).then(function (response) {
                       if (response.data.complete) {
                         _this3.sweet.title = "Éxito";
                         _this3.sweet.icon = "success";

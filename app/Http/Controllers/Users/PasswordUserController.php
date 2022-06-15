@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -9,20 +10,20 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 
 
-class PasswordProfileController extends Controller
+class PasswordUserController extends Controller
 {
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
-            try {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
                 $data = DB::table("users")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -41,15 +42,15 @@ class PasswordProfileController extends Controller
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Hay datos que no siguen el formato solicitado',
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                                 'complete' => false,
                             ]);
                         }
                     } else {
                         $user_auth = auth()->user()->id;
-                        if ($user_auth != $data->id) {
+                        if ($user_auth == $data->id) {
                             return response()->json([
-                                'message' => "No puede actualizar la contraseña del usuario en este apartado",
+                                'message' => "Debe modificar su contraseña en el perfil de su usuario",
                                 'complete' => false,
                             ]);
                         } else {
@@ -63,23 +64,23 @@ class PasswordProfileController extends Controller
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ah ocurrido un error al momento de modificar la contraseña usuario',
+                                    'message' => 'Ha ocurrido un error al momento de modificar la contraseña usuario',
                                     'complete' => false,
                                 ]);
                             }
                         }
                     }
                 }
-            } catch (Exception $ex) {
+            } else {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ah ocurrido un error en la aplicación",
+                    'message' => 'El usuario actual esta desactivado',
                     'complete' => false,
                 ]);
             }
-        } else {
+        } catch (Exception $ex) {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

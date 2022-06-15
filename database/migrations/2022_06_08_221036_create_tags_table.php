@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name')->unique()->unique()->default("");
             $table->string('background_color')->default("#E0E0E0");
             $table->string('text_color')->default("#676767");
             $table->boolean('status')->default(1);
