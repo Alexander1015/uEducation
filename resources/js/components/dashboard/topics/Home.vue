@@ -87,8 +87,8 @@ export default {
         loading_table: true,
         headers: [
             { text: 'Título', value: 'name', align: 'center' },
-            { text: 'Curso', value: 'subject_id', align: 'center' },
-            { text: 'Creado por', value: 'user_id', align: 'center' },
+            { text: 'Curso', value: 'subject', align: 'center' },
+            { text: 'Creado por', value: 'user', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
@@ -106,7 +106,8 @@ export default {
                     this.loading_table = false;
                 })
                 .catch(error => {
-                    this.data = []
+                    this.data = [];
+                    this.loading_table = false;
                 })
         },
         async deleteTopic(item) {

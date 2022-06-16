@@ -48,13 +48,15 @@
                                 Información almacenada del tema seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_information" @submit.prevent="editSubject" lazy-validation>
+                            <v-form ref="form_information" @submit.prevent="editTopic" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
                                         <v-autocomplete v-model="form_information.subject" :rules="info.subjectRules"
-                                            :items="subjects" clearable clear-icon="cancel" label="Curso *" dense
-                                            prepend-icon="collections_bookmark" tabindex="1" required>
+                                            :items="data_subject" clearable clear-icon="cancel" label="Curso *"
+                                            tabindex="1" dense :loading="loading_autocomplete"
+                                            no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
                                         </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -77,7 +79,7 @@
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">
-                                                Reiniciar imagen
+                                                Borrar imagen
                                             </v-btn>
                                         </template>
                                     </v-col>
@@ -166,7 +168,8 @@ export default {
         form_status: {
             status: "",
         },
-        subjects: [],
+        loading_autocomplete: true,
+        data_subject: [],
         prev_img: {
             url_img: "/img/topics/blank.png",
             lazy_img: "/img/lazy_topics/blank.png",
@@ -195,17 +198,19 @@ export default {
         name: "",
     }),
     mounted() {
-        this.showTopic()
         this.showSubjects();
+        this.showTopic();
     },
     methods: {
         async showSubjects() {
             await this.axios.get('/api/getsubjects')
                 .then(response => {
-                    this.subjects = response.data;
+                    this.data_subject = response.data;
+                    this.loading_autocomplete = false;
                 })
                 .catch(error => {
-                    this.subjects = []
+                    this.data_subject = [];
+                    this.loading_autocomplete = false;
                 });
         },
         returnTopics() {

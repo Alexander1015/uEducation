@@ -104,7 +104,8 @@ export default {
                     this.loading_table = false;
                 })
                 .catch(error => {
-                    this.data = []
+                    this.data = [];
+                    this.loading_table = false;
                 })
         },
         async deleteSubject(item) {

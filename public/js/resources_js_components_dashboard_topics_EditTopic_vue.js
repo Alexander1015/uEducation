@@ -167,6 +167,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditTopic",
   data: function data() {
@@ -187,7 +189,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form_status: {
         status: ""
       },
-      subjects: [],
+      loading_autocomplete: true,
+      data_subject: [],
       prev_img: {
         url_img: "/img/topics/blank.png",
         lazy_img: "/img/lazy_topics/blank.png",
@@ -218,8 +221,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    this.showTopic();
     this.showSubjects();
+    this.showTopic();
   },
   methods: {
     showSubjects: function showSubjects() {
@@ -232,9 +235,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return _this.axios.get('/api/getsubjects').then(function (response) {
-                  _this.subjects = response.data;
+                  _this.data_subject = response.data;
+                  _this.loading_autocomplete = false;
                 })["catch"](function (error) {
-                  _this.subjects = [];
+                  _this.data_subject = [];
+                  _this.loading_autocomplete = false;
                 });
 
               case 2:
@@ -1516,7 +1521,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.editSubject.apply(null, arguments)
+                                return _vm.editTopic.apply(null, arguments)
                               },
                             },
                           },
@@ -1538,13 +1543,17 @@ var render = function () {
                                     _c("v-autocomplete", {
                                       attrs: {
                                         rules: _vm.info.subjectRules,
-                                        items: _vm.subjects,
+                                        items: _vm.data_subject,
                                         clearable: "",
                                         "clear-icon": "cancel",
                                         label: "Curso *",
-                                        dense: "",
-                                        "prepend-icon": "collections_bookmark",
                                         tabindex: "1",
+                                        dense: "",
+                                        loading: _vm.loading_autocomplete,
+                                        "no-data-text":
+                                          "No se encuentra información para mostrar",
+                                        "prepend-icon": "collections_bookmark",
+                                        "append-icon": "arrow_drop_down",
                                         required: "",
                                       },
                                       model: {
@@ -1666,7 +1675,7 @@ var render = function () {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                            Reiniciar imagen\n                                        "
+                                                "\n                                            Borrar imagen\n                                        "
                                               ),
                                             ]
                                           ),

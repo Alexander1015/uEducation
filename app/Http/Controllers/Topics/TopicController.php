@@ -19,8 +19,15 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $subjects = DB::table('topics')->get();
-        return response()->json($subjects);
+        $topics = DB::select(
+            'SELECT
+                T.id, T.name, T.img, T.abstract, T.body, T.status, T.sequence, U.user AS user, S.name AS subject, T.created_at, T.updated_at
+            FROM 
+                topics AS T
+            INNER JOIN subjects AS S ON T.subject_id = S.id
+            INNER JOIN users AS U ON T.user_id = U.id'
+        );
+        return response()->json($topics);
     }
 
     /**
@@ -135,8 +142,8 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        $subject = DB::table("topics")->where("id", $id)->first();
-        return response()->json($subject);
+        $topic = DB::table("topics")->where("id", $id)->first();
+        return response()->json($topic);
     }
 
     /**

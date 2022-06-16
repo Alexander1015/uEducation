@@ -22,6 +22,7 @@ use App\Http\Controllers\Tags\StatusTagController;
 //Topics
 use App\Http\Controllers\Topics\TopicController;
 use App\Http\Controllers\Topics\StatusTopicController;
+use App\Http\Controllers\Topics\SubjectsController as TopicSubjectsController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -50,4 +51,4 @@ Route::resource('tag/status', StatusTagController::class)->middleware('auth');
 // Topics
 Route::resource('topic', TopicController::class)->middleware('auth');
 Route::resource('topic/status', StatusTopicController::class)->middleware('auth');
-Route::resource('getsubjects', App\Http\Controllers\GetSubjectsController::class)->middleware('auth');
+Route::resource('getsubjects', TopicSubjectsController::class)->middleware('auth');

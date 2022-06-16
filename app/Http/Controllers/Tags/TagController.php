@@ -92,8 +92,8 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $subject = DB::table("tags")->where("id", $id)->first();
-        return response()->json($subject);
+        $tag = DB::table("tags")->where("id", $id)->first();
+        return response()->json($tag);
     }
 
     /**

@@ -43,7 +43,7 @@ class StatusTopicController extends Controller
                             $data->id,
                         ])) {
                             $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha desactivado el tema exitosamente";
+                            if ($request->input('status') == 0) $message = "El estado del tema seleccionado se ha cambiado a borrador exitosamente";
                             else if ($request->input('status') == 1) $message = "Se ha activado el tema exitosamente";
                             return response()->json([
                                 'message' => $message,

@@ -163,6 +163,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.loading_table = false;
                 })["catch"](function (error) {
                   _this.data = [];
+                  _this.loading_table = false;
                 });
 
               case 2:

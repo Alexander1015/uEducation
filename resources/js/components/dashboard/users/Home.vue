@@ -158,7 +158,8 @@ export default {
                     this.loading_table = false;
                 })
                 .catch(error => {
-                    this.data = []
+                    this.data = [];
+                    his.loading_table = false;
                 })
         },
         async login() {

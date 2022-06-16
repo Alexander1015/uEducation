@@ -33,9 +33,11 @@
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-autocomplete v-model="form.subject" :rules="subjectRules" :items="subjects"
-                                            clearable clear-icon="cancel" label="Curso *" tabindex="1" dense
-                                            prepend-icon="collections_bookmark" required>
+                                        <v-autocomplete v-model="form.subject" :rules="subjectRules"
+                                            :items="data_subject" clearable clear-icon="cancel" label="Curso *"
+                                            tabindex="1" dense :loading="loading_autocomplete"
+                                            no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
                                         </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -108,7 +110,8 @@ export default {
             abstract: "",
             img: null,
         },
-        subjects: [],
+        loading_autocomplete: true,
+        data_subject: [],
         subjectRules: [
             v => !!v || 'El curso es requerido',
         ],
@@ -136,10 +139,12 @@ export default {
         async showSubjects() {
             await this.axios.get('/api/getsubjects')
                 .then(response => {
-                    this.subjects = response.data;
+                    this.data_subject = response.data;
+                    this.loading_autocomplete = false;
                 })
                 .catch(error => {
-                    this.subjects = []
+                    this.data_subject = [];
+                    this.loading_autocomplete = false;
                 });
         },
         returnTopics() {
