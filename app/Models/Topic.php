@@ -25,4 +25,10 @@ class Topic extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    //Relación uno a muchos
+    public function images()
+    {
+        return $this->hasMany(Images::class);
+    }
 }

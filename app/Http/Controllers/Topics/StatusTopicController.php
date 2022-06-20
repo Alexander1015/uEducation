@@ -38,22 +38,29 @@ class StatusTopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        if (DB::update("UPDATE topics SET status = ? WHERE id = ?", [
-                            $request->input('status'),
-                            $data->id,
-                        ])) {
-                            $message = "";
-                            if ($request->input('status') == 0) $message = "El estado del tema seleccionado se ha cambiado a borrador exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha activado el tema exitosamente";
+                        if ($data->status == "0" && $request->input('status') == "1" && $data->body == "") {
                             return response()->json([
-                                'message' => $message,
-                                'complete' => true,
-                            ]);
-                        } else {
-                            return response()->json([
-                                'message' => 'Ha ocurrido un error al momento de cambiar el estado del tema',
+                                'message' => 'No se puede activar el tema, debido a que no tiene contenido para mostrar',
                                 'complete' => false,
                             ]);
+                        } else {
+                            if (DB::update("UPDATE topics SET status = ? WHERE id = ?", [
+                                $request->input('status'),
+                                $data->id,
+                            ])) {
+                                $message = "";
+                                if ($request->input('status') == 0) $message = "El estado del tema seleccionado se ha cambiado a borrador exitosamente";
+                                else if ($request->input('status') == 1) $message = "Se ha activado el tema exitosamente";
+                                return response()->json([
+                                    'message' => $message,
+                                    'complete' => true,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Ha ocurrido un error al momento de cambiar el estado del tema',
+                                    'complete' => false,
+                                ]);
+                            }
                         }
                     }
                 }

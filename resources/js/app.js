@@ -9,6 +9,7 @@ import axios from 'axios';
 import VueRouter from 'vue-router';
 import VueSweetalert2 from "vue-sweetalert2"
 import 'sweetalert2/dist/sweetalert2.min.css';
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 
 const options = {
     confirmButtonColor: '#009664',
@@ -21,7 +22,8 @@ import {routes} from './routes';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-Vue.use(VueSweetalert2, options)
+Vue.use(VueSweetalert2, options);
+Vue.use(CKEditor);
 
 const router = new VueRouter({mode: 'history', routes: routes});
 

@@ -1304,7 +1304,8 @@ var render = function () {
                                   _c("v-img", {
                                     attrs: {
                                       src: "/img/users/blank.png",
-                                      "max-height": _vm.avatar_height,
+                                      "max-height": "38",
+                                      "max-width": "38",
                                       "lazy-src": "/img/lazy_users/blank.png",
                                     },
                                     scopedSlots: _vm._u(

@@ -41,7 +41,7 @@
                         </template>
                         <template v-else>
                             <v-list-item-avatar class="mx-auto">
-                                <v-img src="/img/users/blank.png" :max-height='avatar_height'
+                                <v-img src="/img/users/blank.png" max-height="38" max-width="38"
                                     lazy-src="/img/lazy_users/blank.png">
                                     <template v-slot:placeholder>
                                         <v-row class="fill-height ma-0" align="center" justify="center">

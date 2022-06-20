@@ -1,6 +1,21 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/*!
+ * @license Copyright (c) 2003-2022, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md.
+ */
+!function(t,e){ true?module.exports=e(__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")):0}(window,(function(t){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var r=e[i]={i:i,l:!1,exports:{}};return t[i].call(r.exports,r,r.exports,n),r.l=!0,r.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)n.d(i,r,function(e){return t[e]}.bind(null,r));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=3)}([function(e,n){e.exports=t},function(t,e,n){"use strict";(function(t){var n="object"==typeof t&&t&&t.Object===Object&&t;e.a=n}).call(this,n(2))},function(t,e){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(t){"object"==typeof window&&(n=window)}t.exports=n},function(t,e,n){"use strict";n.r(e);var i=n(0),r=n.n(i);var o=function(t){var e=typeof t;return null!=t&&("object"==e||"function"==e)},a=n(1),u="object"==typeof self&&self&&self.Object===Object&&self,c=a.a||u||Function("return this")(),s=function(){return c.Date.now()},l=/\s/;var f=function(t){for(var e=t.length;e--&&l.test(t.charAt(e)););return e},d=/^\s+/;var p=function(t){return t?t.slice(0,f(t)+1).replace(d,""):t},v=c.Symbol,h=Object.prototype,m=h.hasOwnProperty,y=h.toString,b=v?v.toStringTag:void 0;var g=function(t){var e=m.call(t,b),n=t[b];try{t[b]=void 0;var i=!0}catch(t){}var r=y.call(t);return i&&(e?t[b]=n:delete t[b]),r},j=Object.prototype.toString;var w=function(t){return j.call(t)},O=v?v.toStringTag:void 0;var $=function(t){return null==t?void 0===t?"[object Undefined]":"[object Null]":O&&O in Object(t)?g(t):w(t)};var _=function(t){return null!=t&&"object"==typeof t};var E=function(t){return"symbol"==typeof t||_(t)&&"[object Symbol]"==$(t)},S=/^[-+]0x[0-9a-f]+$/i,x=/^0b[01]+$/i,T=/^0o[0-7]+$/i,D=parseInt;var N=function(t){if("number"==typeof t)return t;if(E(t))return NaN;if(o(t)){var e="function"==typeof t.valueOf?t.valueOf():t;t=o(e)?e+"":e}if("string"!=typeof t)return 0===t?t:+t;t=p(t);var n=x.test(t);return n||T.test(t)?D(t.slice(2),n?2:8):S.test(t)?NaN:+t},I=Math.max,M=Math.min;var C=function(t,e,n){var i,r,a,u,c,l,f=0,d=!1,p=!1,v=!0;if("function"!=typeof t)throw new TypeError("Expected a function");function h(e){var n=i,o=r;return i=r=void 0,f=e,u=t.apply(o,n)}function m(t){return f=t,c=setTimeout(b,e),d?h(t):u}function y(t){var n=t-l;return void 0===l||n>=e||n<0||p&&t-f>=a}function b(){var t=s();if(y(t))return g(t);c=setTimeout(b,function(t){var n=e-(t-l);return p?M(n,a-(t-f)):n}(t))}function g(t){return c=void 0,v&&i?h(t):(i=r=void 0,u)}function j(){var t=s(),n=y(t);if(i=arguments,r=this,l=t,n){if(void 0===c)return m(l);if(p)return clearTimeout(c),c=setTimeout(b,e),h(l)}return void 0===c&&(c=setTimeout(b,e)),u}return e=N(e)||0,o(n)&&(d=!!n.leading,a=(p="maxWait"in n)?I(N(n.maxWait)||0,e):a,v="trailing"in n?!!n.trailing:v),j.cancel=function(){void 0!==c&&clearTimeout(c),f=0,i=l=r=c=void 0},j.flush=function(){return void 0===c?u:g(s())},j};var K={name:"ckeditor",created(){const{CKEDITOR_VERSION:t}=window;if(t){const[e]=t.split(".").map(Number);e<34&&console.warn("The <CKEditor> component requires using CKEditor 5 in version 34 or higher.")}else console.warn('Cannot find the "CKEDITOR_VERSION" in the "window" scope.')},render(t){return t(this.tagName)},props:{editor:{type:Function,default:null},value:{type:String,default:""},config:{type:Object,default:()=>({})},tagName:{type:String,default:"div"},disabled:{type:Boolean,default:!1}},data:()=>({$_instance:null,$_lastEditorData:{type:String,default:""}}),mounted(){const t=Object.assign({},this.config);this.value&&(t.initialData=this.value),this.editor.create(this.$el,t).then(e=>{this.$_instance=e,this.$_setUpEditorEvents(),this.value!==t.initialData&&e.setData(this.value),this.disabled&&e.enableReadOnlyMode("Integration Sample"),this.$emit("ready",e)}).catch(t=>{console.error(t)})},beforeDestroy(){this.$_instance&&(this.$_instance.destroy(),this.$_instance=null),this.$emit("destroy",this.$_instance)},watch:{value(t){this.$_instance&&t!==this.$_lastEditorData&&this.$_instance.setData(t)},disabled(t){t?this.$_instance.enableReadOnlyMode("Integration Sample"):this.$_instance.disableReadOnlyMode("Integration Sample")}},methods:{$_setUpEditorEvents(){const t=this.$_instance,e=C(e=>{const n=this.$_lastEditorData=t.getData();this.$emit("input",n,e,t)},300,{leading:!0});t.model.document.on("change:data",e),t.editing.view.document.on("focus",e=>{this.$emit("focus",e,t)}),t.editing.view.document.on("blur",e=>{this.$emit("blur",e,t)})}}};const R=r.a?r.a.version:i.version,[k]=R.split(".").map(t=>parseInt(t,10));if(2!==k)throw new Error("The CKEditor plugin works only with Vue 2.x. For more information, please refer to https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs-v2.html");const P={install(t){t.component("ckeditor",K)},component:K};e.default=P}]).default}));
+//# sourceMappingURL=ckeditor.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@popperjs/core/lib/createPopper.js":
 /*!*********************************************************!*\
   !*** ./node_modules/@popperjs/core/lib/createPopper.js ***!
@@ -5665,17 +5680,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-axios */ "./node_modules/vue-axios/dist/vue-axios.esm.min.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/vue-sweetalert.umd.js");
 /* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2/dist/sweetalert2.min.css */ "./node_modules/sweetalert2/dist/sweetalert2.min.css");
-/* harmony import */ var _components_App_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue");
-/* harmony import */ var _sass_app_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../sass/app.scss */ "./resources/sass/app.scss");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
+/* harmony import */ var _ckeditor_ckeditor5_vue2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ckeditor/ckeditor5-vue2 */ "./node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js");
+/* harmony import */ var _ckeditor_ckeditor5_vue2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_vue2__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_App_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue");
+/* harmony import */ var _sass_app_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../sass/app.scss */ "./resources/sass/app.scss");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_0__["default"];
+
 
 
 
@@ -5689,19 +5707,20 @@ var options = {
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_axios__WEBPACK_IMPORTED_MODULE_2__["default"], (axios__WEBPACK_IMPORTED_MODULE_3___default()));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use((vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()), options);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]({
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].use((_ckeditor_ckeditor5_vue2__WEBPACK_IMPORTED_MODULE_6___default()));
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]({
   mode: 'history',
-  routes: _routes__WEBPACK_IMPORTED_MODULE_8__.routes
+  routes: _routes__WEBPACK_IMPORTED_MODULE_9__.routes
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
   vuetify: _plugins_vuetify__WEBPACK_IMPORTED_MODULE_1__["default"],
   el: '#app',
   router: router,
   render: function render(h) {
-    return h(_components_App_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    return h(_components_App_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
   }
 });
 

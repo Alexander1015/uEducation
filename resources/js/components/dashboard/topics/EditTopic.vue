@@ -105,12 +105,17 @@
                     </v-tab-item>
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-title class="text-h5 mt-4">
+                            <v-card-title class="text-h5 mt-2">
                                 <p class="mx-auto">CONTENIDO</p>
                             </v-card-title>
                             <div class="px-2 pb-2">
-
+                                <ckeditor :editor="editor" v-model="editorData" :config="editorConfig">
+                                </ckeditor>
                             </div>
+                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
+                                <v-icon left>save</v-icon>
+                                Guardar
+                            </v-btn>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -149,9 +154,64 @@
 </template>
 
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+function myCustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new UploadAdapter(loader);
+    };
+}
+
+export class UploadAdapter {
+    constructor(loader) {
+        this.loader = loader;
+    }
+
+    upload() {
+        return this.loader.file
+            .then(uploadedFile => {
+                return new Promise((resolve, reject) => {
+                    let data = new FormData();
+                    data.append('image', uploadedFile);
+                    data.append('_method', "put");
+                    let url = window.location.href;
+                    const id = url.substring(url.lastIndexOf("/") + 1);
+                    axios.post('/api/topic/upload/' + id, data, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data;'
+                        },
+                    })
+                        .then(response => {
+                            if (response.data.url) {
+                                alert(response.data.message);
+                                resolve({
+                                    default: response.data.url
+                                });
+                            }
+                            else {
+                                reject(response.data.message);
+                            }
+                        }).catch(response => {
+                            reject("Ha ocurrido un error al subir la imagen");
+                        });
+                });
+            });
+    }
+
+    abort() {
+
+    }
+}
+
 export default {
     name: "EditTopic",
     data: () => ({
+        editor: ClassicEditor,
+        editorData: "",
+        editorConfig: {
+            height: 900,
+            extraPlugins: [myCustomUploadAdapterPlugin],
+        },
         overlay: false,
         sweet: {
             icon: "error",
@@ -235,6 +295,7 @@ export default {
                             }
                             this.form_information.img = null;
                             this.form_information.img_new = 0;
+                            this.editorData = this.topic.body;
                             if (this.topic.status == 0) this.form_status.status = "Borrador";
                             else if (this.topic.status == 1) this.form_status.status = "Activo";
                             this.axios.get('/api/subject/' + this.topic.subject_id)
@@ -314,6 +375,53 @@ export default {
             else {
                 this.overlay = false;
             }
+        },
+        async saveBody() {
+            await this.$swal({
+                title: '¿Esta seguro de guardar el contenido?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        let data = new FormData();
+                        data.append('body', this.editorData);
+                        data.append('_method', "put");
+                        this.axios.post('/api/topic/body/' + this.$route.params.id, data)
+                            .then(response => {
+                                if (response.data.complete) {
+                                    this.sweet.title = "Éxito"
+                                    this.sweet.icon = "success";
+                                }
+                                else {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                }
+                                this.$swal({
+                                    title: this.sweet.title,
+                                    icon: this.sweet.icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.showTopic()
+                                    }
+                                    this.overlay = false;
+                                });
+                            }).catch(error => {
+                                this.sweet.title = "Error"
+                                this.sweet.icon = "error";
+                                this.$swal({
+                                    title: this.sweet.title,
+                                    icon: this.sweet.icon,
+                                    text: error,
+                                });
+                                this.overlay = false;
+                            })
+                    }
+                });
         },
         async statusTopic() {
             await this.$swal({
