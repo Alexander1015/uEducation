@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Topics;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Exception;
 
 class BodyController extends Controller
@@ -33,6 +34,50 @@ class BodyController extends Controller
                         $request->input('body') ? $request->input('body') : "",
                         $data->id,
                     ])) {
+                        // Eliminamos de la BD las imagenes que se eliminaron
+                        $images_db = DB::table("images")->where("topic_id", $id)->get();
+                        foreach ($images_db as $db) {
+                            $data = "<img src=\"/img/topics/" . $id . "/" . $db->image . "\">";
+                            if (!Str::contains($request->input('body'), $data)) {
+                                DB::table("images")->delete($db->id);
+                            }
+                        }
+                        $directory = public_path('/img/topics') . "/" . $id;
+                        $files = array();
+                        if (File::isDirectory($directory)) {
+                            // Obtenemos todos los datos
+                            $images_db = DB::table("images")->where("topic_id", $id)->get();
+                            $data = File::allFiles($directory);
+                            foreach ($data as $item) {
+                                array_push($files, $item->getRelativePathname());
+                            }
+                            //Eliminamos registros si no existen en la carpeta
+                            foreach ($images_db as $db) {
+                                $exist = false;
+                                foreach ($files as $dir) {
+                                    if ($db->image == $dir) {
+                                        $exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!$exist) {
+                                    DB::table("images")->delete($db->id);
+                                }
+                            }
+                            // Eliminamos archivos si no existen en la BD
+                            foreach ($files as $dir) {
+                                $exist = false;
+                                foreach ($images_db as $db) {
+                                    if ($db->image == $dir) {
+                                        $exist = true;
+                                        break;
+                                    }
+                                }
+                                if (!$exist) {
+                                    File::delete($directory . '/' . $dir);
+                                }
+                            }
+                        }
                         return response()->json([
                             'message' => 'Contenido guardado exitosamente',
                             'complete' => true,

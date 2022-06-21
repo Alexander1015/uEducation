@@ -142,6 +142,42 @@ class TopicController extends Controller
      */
     public function show($id)
     {
+        $directory = public_path('/img/topics') . "/" . $id;
+        $files = array();
+        if (File::isDirectory($directory)) {
+            // Obtenemos todos los datos
+            $images_db = DB::table("images")->where("topic_id", $id)->get();
+            $data = File::allFiles($directory);
+            foreach ($data as $item) {
+                array_push($files, $item->getRelativePathname());
+            }
+            //Eliminamos registros si no existen en la carpeta
+            foreach ($images_db as $db) {
+                $exist = false;
+                foreach ($files as $dir) {
+                    if ($db->image == $dir) {
+                        $exist = true;
+                        break;
+                    }
+                }
+                if (!$exist) {
+                    DB::table("images")->delete($db->id);
+                }
+            }
+            // Eliminamos archivos si no existen en la BD
+            foreach ($files as $dir) {
+                $exist = false;
+                foreach ($images_db as $db) {
+                    if ($db->image == $dir) {
+                        $exist = true;
+                        break;
+                    }
+                }
+                if (!$exist) {
+                    File::delete($directory . '/' . $dir);
+                }
+            }
+        }
         $topic = DB::table("topics")->where("id", $id)->first();
         return response()->json($topic);
     }

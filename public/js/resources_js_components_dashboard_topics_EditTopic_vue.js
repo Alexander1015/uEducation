@@ -531,6 +531,8 @@ var UploadAdapter = /*#__PURE__*/function () {
                         _this4.sweet.icon = "error";
                       }
 
+                      console.log(response.data.message);
+
                       _this4.$swal({
                         title: _this4.sweet.title,
                         icon: _this4.sweet.icon,

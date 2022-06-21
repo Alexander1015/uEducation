@@ -400,6 +400,7 @@ export default {
                                     this.sweet.title = "Error"
                                     this.sweet.icon = "error";
                                 }
+                                console.log(response.data.message);
                                 this.$swal({
                                     title: this.sweet.title,
                                     icon: this.sweet.icon,

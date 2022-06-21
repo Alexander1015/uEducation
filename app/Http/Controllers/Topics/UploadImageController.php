@@ -47,7 +47,7 @@ class UploadImageController extends Controller
                         DB::table("images")
                             ->insert([
                                 'topic_id' => $id,
-                                'image' => '/img/topics/' . $id . '/' . $new_img,
+                                'image' => $new_img,
                             ]);
                         return response()->json([
                             'url' => '/img/topics/' . $id . '/' . $new_img,
