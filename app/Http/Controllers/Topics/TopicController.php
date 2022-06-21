@@ -148,33 +148,43 @@ class TopicController extends Controller
             // Obtenemos todos los datos
             $images_db = DB::table("images")->where("topic_id", $id)->get();
             $data = File::allFiles($directory);
-            foreach ($data as $item) {
-                array_push($files, $item->getRelativePathname());
+            if (sizeof($data) > 0) {
+                foreach ($data as $item) {
+                    array_push($files, $item->getRelativePathname());
+                }
             }
             //Eliminamos registros si no existen en la carpeta
-            foreach ($images_db as $db) {
-                $exist = false;
-                foreach ($files as $dir) {
-                    if ($db->image == $dir) {
-                        $exist = true;
-                        break;
+            if (sizeof($images_db) > 0) {
+                foreach ($images_db as $db) {
+                    $exist = false;
+                    if (sizeof($files) > 0) {
+                        foreach ($files as $dir) {
+                            if ($db->image == $dir) {
+                                $exist = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if (!$exist) {
-                    DB::table("images")->delete($db->id);
+                    if (!$exist) {
+                        DB::table("images")->delete($db->id);
+                    }
                 }
             }
-            // Eliminamos archivos si no existen en la BD
-            foreach ($files as $dir) {
-                $exist = false;
-                foreach ($images_db as $db) {
-                    if ($db->image == $dir) {
-                        $exist = true;
-                        break;
+            if (sizeof($files) > 0) {
+                // Eliminamos archivos si no existen en la BD
+                foreach ($files as $dir) {
+                    $exist = false;
+                    if (sizeof($images_db) > 0) {
+                        foreach ($images_db as $db) {
+                            if ($db->image == $dir) {
+                                $exist = true;
+                                break;
+                            }
+                        }
                     }
-                }
-                if (!$exist) {
-                    File::delete($directory . '/' . $dir);
+                    if (!$exist) {
+                        File::delete($directory . '/' . $dir);
+                    }
                 }
             }
         }
@@ -333,6 +343,20 @@ class TopicController extends Controller
                         if ($data->img) {
                             File::delete(public_path('/img/topics') . '/' . $data->img);
                             File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                        }
+                        // Eliminamos las imagenes del body
+                        $directory = public_path('/img/topics') . "/" . $id;
+                        if (File::isDirectory($directory)) {
+                            // Tabla Images
+                            DB::table("images")->where("topic_id", $id)->delete();
+                            // Carpeta en topics
+                            $data = File::allFiles($directory);
+                            if (sizeof($data) > 0) {
+                                foreach ($data as $item) {
+                                    File::delete($directory . '/' . $item->getRelativePathname());
+                                }
+                            }
+                            rmdir($directory);
                         }
                         return response()->json([
                             'message' => 'Tema eliminado exitosamente',

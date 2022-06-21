@@ -48,33 +48,43 @@ class BodyController extends Controller
                             // Obtenemos todos los datos
                             $images_db = DB::table("images")->where("topic_id", $id)->get();
                             $data = File::allFiles($directory);
-                            foreach ($data as $item) {
-                                array_push($files, $item->getRelativePathname());
+                            if (sizeof($data) > 0) {
+                                foreach ($data as $item) {
+                                    array_push($files, $item->getRelativePathname());
+                                }
                             }
                             //Eliminamos registros si no existen en la carpeta
-                            foreach ($images_db as $db) {
-                                $exist = false;
-                                foreach ($files as $dir) {
-                                    if ($db->image == $dir) {
-                                        $exist = true;
-                                        break;
+                            if (sizeof($images_db) > 0) {
+                                foreach ($images_db as $db) {
+                                    $exist = false;
+                                    if (sizeof($files) > 0) {
+                                        foreach ($files as $dir) {
+                                            if ($db->image == $dir) {
+                                                $exist = true;
+                                                break;
+                                            }
+                                        }
                                     }
-                                }
-                                if (!$exist) {
-                                    DB::table("images")->delete($db->id);
+                                    if (!$exist) {
+                                        DB::table("images")->delete($db->id);
+                                    }
                                 }
                             }
-                            // Eliminamos archivos si no existen en la BD
-                            foreach ($files as $dir) {
-                                $exist = false;
-                                foreach ($images_db as $db) {
-                                    if ($db->image == $dir) {
-                                        $exist = true;
-                                        break;
+                            if (sizeof($files) > 0) {
+                                // Eliminamos archivos si no existen en la BD
+                                foreach ($files as $dir) {
+                                    $exist = false;
+                                    if (sizeof($images_db) > 0) {
+                                        foreach ($images_db as $db) {
+                                            if ($db->image == $dir) {
+                                                $exist = true;
+                                                break;
+                                            }
+                                        }
                                     }
-                                }
-                                if (!$exist) {
-                                    File::delete($directory . '/' . $dir);
+                                    if (!$exist) {
+                                        File::delete($directory . '/' . $dir);
+                                    }
                                 }
                             }
                         }
