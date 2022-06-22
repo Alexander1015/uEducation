@@ -32,31 +32,49 @@
                             <v-form ref="form" @submit.prevent="registerTopic" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
+                                            tabindex="1" dense prepend-icon="library_books" required>
+                                        </v-text-field>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-autocomplete v-model="form.subject" :rules="subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                            tabindex="1" dense :loading="loading_autocomplete"
+                                            tabindex="2" dense :loading="loading_subjects"
                                             no-data-text="No se encuentra información para mostrar"
                                             prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
                                         </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
-                                            tabindex="2" dense prepend-icon="library_books" required>
-                                        </v-text-field>
+                                        <v-autocomplete v-model="form.tags" :rules="tagsRules" :items="data_tags"
+                                            clearable clear-icon="cancel" label="Etiquetas *" tabindex="3" dense
+                                            :loading="loading_tags" item-text="name"
+                                            no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
+                                            multiple required>
+                                            <template v-slot:selection="data">
+                                                <v-chip label class="my-1" :color="data.item.background_color"
+                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs">
+                                                    <v-icon left>label</v-icon> {{ data.item.name }}
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item="data">
+                                                <v-list-item-content v-text="data.item.name"></v-list-item-content>
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
                                             clear-icon="cancel" rows="2" label="Descripción" dense
-                                            prepend-icon="subject" tabindex="3">
+                                            prepend-icon="subject" tabindex="4">
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-file-input v-model="form.img" @change="preview_img"
-                                            label="Haz clic(k) aquí para subir una imagen" id="img"
+                                            label="Haz clic(k) aquí para subir una portada" id="img"
                                             prepend-icon="photo_camera" :rules="imgRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="4">
+                                            tabindex="5">
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">
@@ -107,13 +125,19 @@ export default {
         form: {
             subject: "",
             name: "",
+            tags: [],
             abstract: "",
             img: null,
         },
-        loading_autocomplete: true,
+        loading_subjects: true,
+        loading_tags: true,
         data_subject: [],
+        data_tags: [],
         subjectRules: [
             v => !!v || 'El curso es requerido',
+        ],
+        tagsRules: [
+            v => !!v || 'Debe elegir al menos una etiqueta',
         ],
         nameRules: [
             v => !!v || 'El titulo es requerido',
@@ -133,18 +157,36 @@ export default {
         }
     }),
     mounted() {
-        this.showSubjects()
+        this.showSubjects();
+        this.showTags();
     },
     methods: {
+        remove(item) {
+            const index = this.form.tags.indexOf(item.name)
+            if (index >= 0) this.form.tags.splice(index, 1)
+        },
         async showSubjects() {
+            this.loading_subjects = true;
             await this.axios.get('/api/getsubjects')
                 .then(response => {
                     this.data_subject = response.data;
-                    this.loading_autocomplete = false;
+                    this.loading_subjects = false;
                 })
                 .catch(error => {
                     this.data_subject = [];
-                    this.loading_autocomplete = false;
+                    this.loading_subjects = false;
+                });
+        },
+        async showTags() {
+            this.loading_tags = true;
+            await this.axios.get('/api/gettags')
+                .then(response => {
+                    this.data_tags = response.data;
+                    this.loading_tags = false;
+                })
+                .catch(error => {
+                    this.data_subject = [];
+                    this.loading_tags = false;
                 });
         },
         returnTopics() {

@@ -96,6 +96,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeSubject",
   data: function data() {
@@ -136,7 +148,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.loading_table = true;
+                _this.data = [];
+                _context.next = 4;
                 return _this.axios.get('/api/subject').then(function (response) {
                   _this.data = response.data;
                   _this.loading_table = false;
@@ -145,7 +159,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.loading_table = false;
                 });
 
-              case 2:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -1082,14 +1096,63 @@ var render = function () {
           _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("CURSOS")]),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              staticClass: "mr-4 mt-4 new_btn txt_white bk_green",
-              attrs: { large: "", to: { name: "newSubject" } },
-            },
+            "div",
+            { staticClass: "new_btn mr-4 mt-4" },
             [
-              _c("v-icon", { attrs: { left: "" } }, [_vm._v("post_add")]),
-              _vm._v("\n            Nuevo\n        "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "txt_white bk_green mr-4",
+                  attrs: { large: "", to: { name: "newSubject" } },
+                },
+                [
+                  _c("v-icon", { attrs: { left: "" } }, [_vm._v("post_add")]),
+                  _vm._v("\n                Nuevo\n            "),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "bk_blue txt_white mr-4",
+                                  attrs: { fab: "", small: "", elevation: "3" },
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.allSubjects()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("autorenew")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
+              ),
             ],
             1
           ),
@@ -1107,6 +1170,8 @@ var render = function () {
                   "prepend-icon": "search",
                   label: "Buscar",
                   tabindex: "1",
+                  clearable: "",
+                  "clear-icon": "cancel",
                   dense: "",
                 },
                 model: {

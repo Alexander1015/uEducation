@@ -52,17 +52,17 @@
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form_information.name" :rules="info.nameRules"
+                                            label="Titulo *" tabindex="1" dense prepend-icon="library_books" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
                                         <v-autocomplete v-model="form_information.subject" :rules="info.subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                            tabindex="1" dense :loading="loading_autocomplete"
+                                            tabindex="2" dense :loading="loading_subjects"
                                             no-data-text="No se encuentra información para mostrar"
                                             prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
                                         </v-autocomplete>
-                                    </v-col>
-                                    <v-col cols="12" sm="12" md="6">
-                                        <v-text-field v-model="form_information.name" :rules="info.nameRules"
-                                            label="Titulo *" tabindex="2" dense prepend-icon="library_books" required>
-                                        </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-textarea v-model="form_information.abstract" counter
@@ -72,7 +72,7 @@
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-file-input v-model="form_information.img" @change="preview_img"
-                                            label="Haz clic(k) aquí para subir una imagen" id="img"
+                                            label="Haz clic(k) aquí para subir una portada" id="img"
                                             prepend-icon="photo_camera" :rules="info.imgRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
                                             tabindex="5">
@@ -109,7 +109,8 @@
                                 <p class="mx-auto">CONTENIDO</p>
                             </v-card-title>
                             <div class="px-2 pb-2">
-                                <ckeditor id="ckeditor"  :editor="editor" v-model="editorData" :config="editorConfig" @ready="onReady">
+                                <ckeditor id="ckeditor" :editor="editor" v-model="editorData" :config="editorConfig"
+                                    @ready="onReady">
                                 </ckeditor>
                             </div>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
@@ -175,6 +176,7 @@ export default {
         items_status: ["Activo", "Borrador"],
         form_information: {
             subject: "",
+            tags: [],
             name: "",
             abstract: "",
             img: null,
@@ -183,8 +185,10 @@ export default {
         form_status: {
             status: "",
         },
-        loading_autocomplete: true,
+        loading_subjects: true,
+        loading_tags: true,
         data_subject: [],
+        data_tags: [],
         prev_img: {
             url_img: "/img/topics/blank.png",
             lazy_img: "/img/lazy_topics/blank.png",
@@ -195,6 +199,9 @@ export default {
         info: {
             subjectRules: [
                 v => !!v || 'El curso es requerido',
+            ],
+            tagsRules: [
+                v => !!v || 'Debe elegir al menos una etiqueta',
             ],
             nameRules: [
                 v => !!v || 'El titulo es requerido',
@@ -213,6 +220,7 @@ export default {
         name: "",
     }),
     mounted() {
+        this.showTags();
         this.showSubjects();
         this.showTopic();
     },
@@ -224,15 +232,27 @@ export default {
                 editor.ui.getEditableElement()
             );
         },
+        async showTags() {
+            this.loading_tags = true;
+            await this.axios.get('/api/gettags')
+                .then(response => {
+                    this.data_tags = response.data;
+                    this.loading_tags = false;
+                })
+                .catch(error => {
+                    this.data_subject = [];
+                    this.loading_tags = false;
+                });
+        },
         async showSubjects() {
             await this.axios.get('/api/getsubjects')
                 .then(response => {
                     this.data_subject = response.data;
-                    this.loading_autocomplete = false;
+                    this.loading_subjects = false;
                 })
                 .catch(error => {
                     this.data_subject = [];
-                    this.loading_autocomplete = false;
+                    this.loading_subjects = false;
                 });
         },
         returnTopics() {

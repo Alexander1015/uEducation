@@ -7,13 +7,25 @@
         <!-- Contenido -->
         <div class="ma-2">
             <p class="text-h6 my-4 ml-2">TEMAS</p>
-            <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newTopic" }'>
-                <v-icon left>note_add</v-icon>
-                Nuevo
-            </v-btn>
+            <div class="new_btn mr-4 mt-4">
+                <v-btn class="txt_white bk_green mr-4" large :to='{ name: "newTopic" }'>
+                    <v-icon left>note_add</v-icon>
+                    Nuevo
+                </v-btn>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="allTopics()" elevation="3"
+                            class="bk_blue txt_white mr-4">
+                            <v-icon>autorenew</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Actualizar</span>
+                </v-tooltip>
+            </div>
             <!-- Tabla -->
             <v-card class="mx-auto mt-4 px-5 py-3" elevation="0">
-                <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1">
+                <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" clearable
+                    clear-icon="cancel" dense>
                 </v-text-field>
                 <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
                     showFirstLastPage: true,
@@ -24,6 +36,18 @@
                 }" :loading="loading_table" loading-text="Obteniendo información"
                     no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados"
                     multi-sort :search="search" fixed-header align="center">
+                    <template v-slot:item.image="{ item }">
+                        <v-img class="mx-auto" :src='"/img/topics/" + (item.image ? item.image : "blank.png")'
+                            :lazy-src='"/img/lazy_topics/" + (item.image ? item.image : "blank.png")' 
+                            max-height="40" max-width="60" contain>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                    </v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
+                    </template>
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
@@ -86,6 +110,7 @@ export default {
         },
         loading_table: true,
         headers: [
+            { text: 'Portada', value: 'image', align: 'center', sortable: false },
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Curso', value: 'subject', align: 'center' },
             { text: 'Creado por', value: 'user', align: 'center' },
@@ -100,6 +125,8 @@ export default {
     },
     methods: {
         async allTopics() {
+            this.loading_table = true;
+            this.data = [];
             await this.axios.get('/api/topic')
                 .then(response => {
                     this.data = response.data;

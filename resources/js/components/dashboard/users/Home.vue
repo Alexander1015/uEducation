@@ -7,13 +7,25 @@
         <!-- Contenido -->
         <div class="ma-2">
             <p class="text-h6 my-4 ml-2">USUARIOS</p>
-            <v-btn class="mr-4 mt-4 new_btn txt_white bk_green" large :to='{ name: "newUser" }'>
-                <v-icon left>person_add</v-icon>
-                Nuevo
-            </v-btn>
+            <div class="new_btn mr-4 mt-4">
+                <v-btn class="txt_white bk_green mr-4" large :to='{ name: "newUser" }'>
+                    <v-icon left>person_add</v-icon>
+                    Nuevo
+                </v-btn>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="allUsers()" elevation="3"
+                            class="bk_blue txt_white mr-4">
+                            <v-icon>autorenew</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Actualizar</span>
+                </v-tooltip>
+            </div>
             <!-- Tabla -->
             <v-card class="mx-auto mt-4 px-5 py-3" elevation="0">
-                <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" dense>
+                <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" clearable
+                    clear-icon="cancel" dense>
                 </v-text-field>
                 <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
                     showFirstLastPage: true,
@@ -152,6 +164,8 @@ export default {
     },
     methods: {
         async allUsers() {
+            this.loading_table = true;
+            this.data = [];
             await this.axios.get('/api/user')
                 .then(response => {
                     this.data = response.data;
@@ -159,7 +173,7 @@ export default {
                 })
                 .catch(error => {
                     this.data = [];
-                    his.loading_table = false;
+                    this.loading_table = false;
                 })
         },
         async login() {

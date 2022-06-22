@@ -96,6 +96,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTopic",
   data: function data() {
@@ -107,6 +131,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       loading_table: true,
       headers: [{
+        text: 'Portada',
+        value: 'image',
+        align: 'center',
+        sortable: false
+      }, {
         text: 'Título',
         value: 'name',
         align: 'center'
@@ -144,7 +173,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.loading_table = true;
+                _this.data = [];
+                _context.next = 4;
                 return _this.axios.get('/api/topic').then(function (response) {
                   _this.data = response.data;
                   _this.loading_table = false;
@@ -153,7 +184,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.loading_table = false;
                 });
 
-              case 2:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -1088,14 +1119,63 @@ var render = function () {
           _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("TEMAS")]),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              staticClass: "mr-4 mt-4 new_btn txt_white bk_green",
-              attrs: { large: "", to: { name: "newTopic" } },
-            },
+            "div",
+            { staticClass: "new_btn mr-4 mt-4" },
             [
-              _c("v-icon", { attrs: { left: "" } }, [_vm._v("note_add")]),
-              _vm._v("\n            Nuevo\n        "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "txt_white bk_green mr-4",
+                  attrs: { large: "", to: { name: "newTopic" } },
+                },
+                [
+                  _c("v-icon", { attrs: { left: "" } }, [_vm._v("note_add")]),
+                  _vm._v("\n                Nuevo\n            "),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "bk_blue txt_white mr-4",
+                                  attrs: { fab: "", small: "", elevation: "3" },
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.allTopics()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("autorenew")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
+              ),
             ],
             1
           ),
@@ -1113,6 +1193,9 @@ var render = function () {
                   "prepend-icon": "search",
                   label: "Buscar",
                   tabindex: "1",
+                  clearable: "",
+                  "clear-icon": "cancel",
+                  dense: "",
                 },
                 model: {
                   value: _vm.search,
@@ -1145,6 +1228,61 @@ var render = function () {
                   align: "center",
                 },
                 scopedSlots: _vm._u([
+                  {
+                    key: "item.image",
+                    fn: function (ref) {
+                      var item = ref.item
+                      return [
+                        _c("v-img", {
+                          staticClass: "mx-auto",
+                          attrs: {
+                            src:
+                              "/img/topics/" +
+                              (item.image ? item.image : "blank.png"),
+                            "lazy-src":
+                              "/img/lazy_topics/" +
+                              (item.image ? item.image : "blank.png"),
+                            "max-height": "40",
+                            "max-width": "60",
+                            contain: "",
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "placeholder",
+                                fn: function () {
+                                  return [
+                                    _c(
+                                      "v-row",
+                                      {
+                                        staticClass: "fill-height ma-0",
+                                        attrs: {
+                                          align: "center",
+                                          justify: "center",
+                                        },
+                                      },
+                                      [
+                                        _c("v-progress-circular", {
+                                          attrs: {
+                                            indeterminate: "",
+                                            color: "grey lighten-5",
+                                          },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                                proxy: true,
+                              },
+                            ],
+                            null,
+                            true
+                          ),
+                        }),
+                      ]
+                    },
+                  },
                   {
                     key: "item.status",
                     fn: function (ref) {
@@ -1361,11 +1499,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
 /* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -1395,7 +1535,9 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_12__["default"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__["default"]})
 
 
 /* hot reload */

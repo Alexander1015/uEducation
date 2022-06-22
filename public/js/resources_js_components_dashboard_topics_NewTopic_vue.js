@@ -111,6 +111,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -128,13 +146,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         subject: "",
         name: "",
+        tags: [],
         "abstract": "",
         img: null
       },
-      loading_autocomplete: true,
+      loading_subjects: true,
+      loading_tags: true,
       data_subject: [],
+      data_tags: [],
       subjectRules: [function (v) {
         return !!v || 'El curso es requerido';
+      }],
+      tagsRules: [function (v) {
+        return !!v || 'Debe elegir al menos una etiqueta';
       }],
       nameRules: [function (v) {
         return !!v || 'El titulo es requerido';
@@ -157,8 +181,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     this.showSubjects();
+    this.showTags();
   },
   methods: {
+    remove: function remove(item) {
+      var index = this.form.tags.indexOf(item.name);
+      if (index >= 0) this.form.tags.splice(index, 1);
+    },
     showSubjects: function showSubjects() {
       var _this = this;
 
@@ -167,21 +196,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.loading_subjects = true;
+                _context.next = 3;
                 return _this.axios.get('/api/getsubjects').then(function (response) {
                   _this.data_subject = response.data;
-                  _this.loading_autocomplete = false;
+                  _this.loading_subjects = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
-                  _this.loading_autocomplete = false;
+                  _this.loading_subjects = false;
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    showTags: function showTags() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.loading_tags = true;
+                _context2.next = 3;
+                return _this2.axios.get('/api/gettags').then(function (response) {
+                  _this2.data_tags = response.data;
+                  _this2.loading_tags = false;
+                })["catch"](function (error) {
+                  _this2.data_subject = [];
+                  _this2.loading_tags = false;
+                });
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     },
     returnTopics: function returnTopics() {
@@ -190,20 +246,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     registerTopic: function registerTopic() {
-      var _this2 = this;
+      var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                if (!_this2.$refs.form.validate()) {
-                  _context2.next = 5;
+                if (!_this3.$refs.form.validate()) {
+                  _context3.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
-                return _this2.$swal({
+                _context3.next = 3;
+                return _this3.$swal({
                   title: '¿Esta seguro de crear el tema?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -211,70 +267,70 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true;
+                    _this3.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this2.form.subject);
-                    data.append('name', _this2.form.name);
-                    data.append('abstract', _this2.form["abstract"]);
-                    _this2.form.img = document.querySelector('#img').files[0];
+                    data.append('subject', _this3.form.subject);
+                    data.append('name', _this3.form.name);
+                    data.append('abstract', _this3.form["abstract"]);
+                    _this3.form.img = document.querySelector('#img').files[0];
 
-                    if (_this2.form.img) {
-                      data.append('img', _this2.form.img);
+                    if (_this3.form.img) {
+                      data.append('img', _this3.form.img);
                     }
 
-                    _this2.axios.post('/api/topic', data).then(function (response) {
+                    _this3.axios.post('/api/topic', data).then(function (response) {
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
+                        _this3.sweet.title = "Éxito";
+                        _this3.sweet.icon = "success";
                       } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        _this3.sweet.title = "Error";
+                        _this3.sweet.icon = "error";
                       }
 
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this2.$router.push({
+                          _this3.$router.push({
                             name: "editTopic",
                             params: {
                               id: response.data.topic
                             }
                           });
 
-                          _this2.overlay = false;
-                        } else _this2.overlay = false;
+                          _this3.overlay = false;
+                        } else _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
+                      _this3.sweet.title = "Error";
+                      _this3.sweet.icon = "error";
 
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
                         text: error
                       });
 
-                      _this2.overlay = false;
+                      _this3.overlay = false;
                     });
                   }
                 });
 
               case 3:
-                _context2.next = 6;
+                _context3.next = 6;
                 break;
 
               case 5:
-                _this2.overlay = false;
+                _this3.overlay = false;
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     preview_img: function preview_img() {
@@ -1095,6 +1151,31 @@ var render = function () {
                               [
                                 _c(
                                   "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.nameRules,
+                                        label: "Titulo *",
+                                        tabindex: "1",
+                                        dense: "",
+                                        "prepend-icon": "library_books",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.name,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "name", $$v)
+                                        },
+                                        expression: "form.name",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-autocomplete", {
@@ -1104,9 +1185,9 @@ var render = function () {
                                         clearable: "",
                                         "clear-icon": "cancel",
                                         label: "Curso *",
-                                        tabindex: "1",
+                                        tabindex: "2",
                                         dense: "",
-                                        loading: _vm.loading_autocomplete,
+                                        loading: _vm.loading_subjects,
                                         "no-data-text":
                                           "No se encuentra información para mostrar",
                                         "prepend-icon": "collections_bookmark",
@@ -1129,21 +1210,89 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c("v-text-field", {
+                                    _c("v-autocomplete", {
                                       attrs: {
-                                        rules: _vm.nameRules,
-                                        label: "Titulo *",
-                                        tabindex: "2",
+                                        rules: _vm.tagsRules,
+                                        items: _vm.data_tags,
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        label: "Etiquetas *",
+                                        tabindex: "3",
                                         dense: "",
-                                        "prepend-icon": "library_books",
+                                        loading: _vm.loading_tags,
+                                        "item-text": "name",
+                                        "no-data-text":
+                                          "No se encuentra información para mostrar",
+                                        "prepend-icon": "local_offer",
+                                        "append-icon": "arrow_drop_down",
+                                        chips: "",
+                                        "small-chips": "",
+                                        multiple: "",
                                         required: "",
                                       },
-                                      model: {
-                                        value: _vm.form.name,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.form, "name", $$v)
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "selection",
+                                          fn: function (data) {
+                                            return [
+                                              _c(
+                                                "v-chip",
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "my-1",
+                                                    style:
+                                                      "color:" +
+                                                      data.item.text_color +
+                                                      ";",
+                                                    attrs: {
+                                                      label: "",
+                                                      color:
+                                                        data.item
+                                                          .background_color,
+                                                    },
+                                                  },
+                                                  "v-chip",
+                                                  data.attrs,
+                                                  false
+                                                ),
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { left: "" } },
+                                                    [_vm._v("label")]
+                                                  ),
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(data.item.name) +
+                                                      "\n                                            "
+                                                  ),
+                                                ],
+                                                1
+                                              ),
+                                            ]
+                                          },
                                         },
-                                        expression: "form.name",
+                                        {
+                                          key: "item",
+                                          fn: function (data) {
+                                            return [
+                                              _c("v-list-item-content", {
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    data.item.name
+                                                  ),
+                                                },
+                                              }),
+                                            ]
+                                          },
+                                        },
+                                      ]),
+                                      model: {
+                                        value: _vm.form.tags,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "tags", $$v)
+                                        },
+                                        expression: "form.tags",
                                       },
                                     }),
                                   ],
@@ -1164,7 +1313,7 @@ var render = function () {
                                         label: "Descripción",
                                         dense: "",
                                         "prepend-icon": "subject",
-                                        tabindex: "3",
+                                        tabindex: "4",
                                       },
                                       model: {
                                         value: _vm.form.abstract,
@@ -1185,14 +1334,14 @@ var render = function () {
                                     _c("v-file-input", {
                                       attrs: {
                                         label:
-                                          "Haz clic(k) aquí para subir una imagen",
+                                          "Haz clic(k) aquí para subir una portada",
                                         id: "img",
                                         "prepend-icon": "photo_camera",
                                         rules: _vm.imgRules,
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "4",
+                                        tabindex: "5",
                                       },
                                       on: { change: _vm.preview_img },
                                       model: {
@@ -1340,17 +1489,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
-/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/VTextarea.js");
+/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/VChip.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
+/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/VTextarea.js");
 
 
 
@@ -1387,7 +1538,9 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_9__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_17__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_18__["default"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemContent,VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_15__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_16__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_17__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_20__["default"]})
 
 
 /* hot reload */
