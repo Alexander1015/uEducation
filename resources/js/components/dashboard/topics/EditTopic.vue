@@ -10,7 +10,7 @@
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <v-card class="mt-4 mx-auto" elevation="2" max-width="1100">
+            <v-card class="mt-4 mx-auto" elevation="2" max-width="1250">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
                         <template v-if="topic.name">
@@ -109,7 +109,7 @@
                                 <p class="mx-auto">CONTENIDO</p>
                             </v-card-title>
                             <div class="px-2 pb-2">
-                                <ckeditor :editor="editor" v-model="editorData" :config="editorConfig">
+                                <ckeditor id="ckeditor"  :editor="editor" v-model="editorData" :config="editorConfig" @ready="onReady">
                                 </ckeditor>
                             </div>
                             <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
@@ -154,16 +154,18 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
 export default {
     name: "EditTopic",
     data: () => ({
-        editor: ClassicEditor,
+        editor: DecoupledEditor,
         editorData: "",
         editorConfig: {
-            height: 900,
             extraPlugins: [myCustomUploadAdapterPlugin],
+            language: 'es',
+            placeholder: 'Escribe aqui el contenido...',
         },
         overlay: false,
         sweet: {
@@ -215,6 +217,13 @@ export default {
         this.showTopic();
     },
     methods: {
+        onReady(editor) {
+            // Insert the toolbar before the editable area.
+            editor.ui.getEditableElement().parentElement.insertBefore(
+                editor.ui.view.toolbar.element,
+                editor.ui.getEditableElement()
+            );
+        },
         async showSubjects() {
             await this.axios.get('/api/getsubjects')
                 .then(response => {

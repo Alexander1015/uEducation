@@ -66,5 +66,8 @@ $tags: #676767;
 #body #container .show_color {
   height: 10px;
   width: 10px;
-  border: 0.1px solid black;
+  border: 0.1px solid #000000;
+}
+#body #container #ckeditor {
+  border: 1px solid #C4C4C4;
 }

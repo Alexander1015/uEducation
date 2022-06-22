@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^34.1.0",
+        "@ckeditor/ckeditor5-build-decoupled-document": "^34.1.0",
         "@ckeditor/ckeditor5-vue2": "^3.0.1",
         "autoprefixer": "10.4.5",
         "vue": "^2.6.14",
