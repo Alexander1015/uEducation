@@ -156,53 +156,6 @@
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-function myCustomUploadAdapterPlugin(editor) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return new UploadAdapter(loader);
-    };
-}
-
-export class UploadAdapter {
-    constructor(loader) {
-        this.loader = loader;
-    }
-
-    upload() {
-        return this.loader.file
-            .then(uploadedFile => {
-                return new Promise((resolve, reject) => {
-                    let data = new FormData();
-                    data.append('image', uploadedFile);
-                    data.append('_method', "put");
-                    let url = window.location.href;
-                    const id = url.substring(url.lastIndexOf("/") + 1);
-                    axios.post('/api/topic/upload/' + id, data, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data;'
-                        },
-                    })
-                        .then(response => {
-                            if (response.data.url) {
-                                alert(response.data.message);
-                                resolve({
-                                    default: response.data.url
-                                });
-                            }
-                            else {
-                                reject(response.data.message);
-                            }
-                        }).catch(response => {
-                            reject("Ha ocurrido un error al subir la imagen");
-                        });
-                });
-            });
-    }
-
-    abort() {
-
-    }
-}
-
 export default {
     name: "EditTopic",
     data: () => ({
@@ -535,4 +488,52 @@ export default {
         }
     },
 }
+
+function myCustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new UploadAdapter(loader);
+    };
+}
+
+export class UploadAdapter {
+    constructor(loader) {
+        this.loader = loader;
+    }
+
+    upload() {
+        return this.loader.file
+            .then(uploadedFile => {
+                return new Promise((resolve, reject) => {
+                    let data = new FormData();
+                    data.append('image', uploadedFile);
+                    data.append('_method', "put");
+                    let url = window.location.href;
+                    const id = url.substring(url.lastIndexOf("/") + 1);
+                    axios.post('/api/topic/upload/' + id, data, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data;'
+                        },
+                    })
+                        .then(response => {
+                            if (response.data.url) {
+                                alert(response.data.message);
+                                resolve({
+                                    default: response.data.url
+                                });
+                            }
+                            else {
+                                reject(response.data.message);
+                            }
+                        }).catch(response => {
+                            reject("Ha ocurrido un error al subir la imagen");
+                        });
+                });
+            });
+    }
+
+    abort() {
+
+    }
+}
+
 </script>
