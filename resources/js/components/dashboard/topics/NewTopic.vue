@@ -37,24 +37,27 @@
                                             tabindex="1" dense prepend-icon="library_books" required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="12" md="6">
+                                    <v-col cols="12">
                                         <v-autocomplete v-model="form.subject" :rules="subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
                                             tabindex="2" dense :loading="loading_subjects"
                                             no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
+                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
+                                            hide-selected required>
                                         </v-autocomplete>
                                     </v-col>
-                                    <v-col cols="12" sm="12" md="6">
+                                    <v-col cols="12">
                                         <v-autocomplete v-model="form.tags" :rules="tagsRules" :items="data_tags"
-                                            clearable clear-icon="cancel" label="Etiquetas *" tabindex="3" dense
+                                            clearable clear-icon="cancel" label="Etiquetas (Max. 5)*" tabindex="3" dense
                                             :loading="loading_tags" item-text="name"
                                             no-data-text="No se encuentra información para mostrar"
                                             prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
-                                            multiple required>
+                                            multiple @change="limitTags" hide-selected required>
                                             <template v-slot:selection="data">
                                                 <v-chip label class="my-1" :color="data.item.background_color"
-                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs">
+                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs"
+                                                    close @click="data.select" @click:close="remove(data.item)"
+                                                    :input-value="data.selected" close-icon="close">
                                                     <v-icon left>label</v-icon> {{ data.item.name }}
                                                 </v-chip>
                                             </template>
@@ -161,6 +164,9 @@ export default {
         this.showTags();
     },
     methods: {
+        limitTags() {
+            if (this.form.tags.length > 5) this.form.tags.pop();
+        },
         remove(item) {
             const index = this.form.tags.indexOf(item.name)
             if (index >= 0) this.form.tags.splice(index, 1)
@@ -206,6 +212,11 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('subject', this.form.subject);
+                            if (this.form.tags.length > 0) {
+                                for (let tag of this.form.tags) {
+                                    data.append('tags[]', tag);
+                                }
+                            }
                             data.append('name', this.form.name);
                             data.append('abstract', this.form.abstract);
                             this.form.img = document.querySelector('#img').files[0];

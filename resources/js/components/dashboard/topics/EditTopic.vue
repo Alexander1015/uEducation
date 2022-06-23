@@ -51,17 +51,38 @@
                             <v-form ref="form_information" @submit.prevent="editTopic" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row class="mt-2">
-                                    <v-col cols="12" sm="12" md="6">
+                                    <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
                                             label="Titulo *" tabindex="1" dense prepend-icon="library_books" required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="12" md="6">
+                                    <v-col cols="12">
                                         <v-autocomplete v-model="form_information.subject" :rules="info.subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
                                             tabindex="2" dense :loading="loading_subjects"
                                             no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down" required>
+                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
+                                            hide-selected required>
+                                        </v-autocomplete>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-autocomplete v-model="form_information.tags" :rules="info.tagsRules"
+                                            :items="data_tags" clearable clear-icon="cancel" label="Etiquetas (Max. 5)*"
+                                            tabindex="3" dense :loading="loading_tags" item-text="name"
+                                            no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
+                                            multiple @change="limitTags" hide-selected required>
+                                            <template v-slot:selection="data">
+                                                <v-chip label class="my-1" :color="data.item.background_color"
+                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs"
+                                                    close @click="data.select" @click:close="remove(data.item)"
+                                                    :input-value="data.selected" close-icon="close">
+                                                    <v-icon left>label</v-icon> {{ data.item.name }}
+                                                </v-chip>
+                                            </template>
+                                            <template v-slot:item="data">
+                                                <v-list-item-content v-text="data.item.name"></v-list-item-content>
+                                            </template>
                                         </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12">
@@ -225,6 +246,13 @@ export default {
         this.showTopic();
     },
     methods: {
+        limitTags() {
+            if (this.form_information.tags.length > 5) this.form_information.tags.pop();
+        },
+        remove(item) {
+            const index = this.form_information.tags.indexOf(item.name)
+            if (index >= 0) this.form_information.tags.splice(index, 1)
+        },
         onReady(editor) {
             // Insert the toolbar before the editable area.
             editor.ui.getEditableElement().parentElement.insertBefore(
@@ -280,12 +308,22 @@ export default {
                             this.editorData = this.topic.body;
                             if (this.topic.status == 0) this.form_status.status = "Borrador";
                             else if (this.topic.status == 1) this.form_status.status = "Activo";
-                            this.axios.get('/api/subject/' + this.topic.subject_id)
+                            this.axios.get('/api/getsubjects/' + this.topic.subject_id)
                                 .then(response_sub => {
                                     this.form_information.subject = response_sub.data.name;
                                     this.overlay = false;
                                 }).catch((error) => {
                                     console.log(error);
+                                    this.form_information.subject = "";
+                                    this.overlay = false;
+                                });
+                            this.axios.get('/api/gettags/' + this.topic.id)
+                                .then(response_sub => {
+                                    this.form_information.tags = response_sub.data;
+                                    this.overlay = false;
+                                }).catch((error) => {
+                                    console.log(error);
+                                    this.form_information.tags = [];
                                     this.overlay = false;
                                 });
                         }
@@ -313,6 +351,11 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('subject', this.form_information.subject);
+                            if(this.form_information.tags.length > 0) {
+                                for(let tag of this.form_information.tags) {
+                                    data.append('tags[]', tag);
+                                }
+                            }
                             data.append('name', this.form_information.name);
                             data.append('abstract', this.form_information.abstract);
                             this.form_information.img = document.querySelector('#img').files[0];

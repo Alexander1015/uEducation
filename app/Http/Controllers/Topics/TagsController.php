@@ -27,7 +27,14 @@ class TagsController extends Controller
      */
     public function show($id)
     {
-        $tags = DB::table("tags")->where("id", $id)->first();
+        $tags_ids = DB::table("topic_tag")->where("topic_id", $id)->get();
+        $tags = array();
+        if (sizeof($tags_ids) > 0) {
+            foreach ($tags_ids as $tag) {
+                $data = DB::table("tags")->where("id", $tag->tag_id)->first();
+                array_push($tags, $data->name);
+            }
+        }
         return response()->json($tags);
     }
 }

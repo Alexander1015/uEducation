@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->unique()->default("");
-            $table->string('img')->unique()->default("");
-            $table->text('abstract')->unique()->default("");
+            $table->string('img')->default("");
+            $table->text('abstract')->default("");
             $table->longText('body')->default("");
             $table->boolean('status')->default(0);
             $table->integer('sequence')->default(0);
