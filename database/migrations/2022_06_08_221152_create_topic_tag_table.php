@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('topic_tag', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('topic_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('topic_id')->nullable();
+            $table->unsignedBigInteger('tag_id')->nullable();
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

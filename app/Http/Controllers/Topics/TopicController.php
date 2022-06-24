@@ -21,11 +21,12 @@ class TopicController extends Controller
     {
         $topics = DB::select(
             'SELECT
-                T.id, T.name, T.img, T.abstract, T.body, T.status, T.sequence, U.user AS user, S.name AS subject, T.created_at, T.updated_at
+                T.id, T.name, T.img, T.abstract, T.body, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject
             FROM 
                 topics AS T
-            INNER JOIN subjects AS S ON T.subject_id = S.id
-            INNER JOIN users AS U ON T.user_id = U.id'
+            LEFT JOIN subjects AS S ON T.subject_id = S.id
+            LEFT JOIN users AS Uc ON T.user_id = Uc.id
+            LEFT JOIN users AS Uu ON T.user_update_id = Uu.id'
         );
         return response()->json($topics);
     }
@@ -97,6 +98,7 @@ class TopicController extends Controller
                                     'abstract' => $request->input('abstract') ? $request->input('abstract') : "",
                                     'img' => $new_img,
                                     'user_id' => auth()->user()->id,
+                                    'user_update_id' => null,
                                     'body' => "",
                                     'status' => "0",
                                 ])
@@ -286,11 +288,12 @@ class TopicController extends Controller
                                 } else {
                                     $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
                                 }
-                                if (DB::update("UPDATE topics SET subject_id = ?, name = ?, abstract = ?, img = ? WHERE id = ?", [
+                                if (DB::update("UPDATE topics SET subject_id = ?, name = ?, abstract = ?, img = ?, user_id = ? WHERE id = ?", [
                                     $exist_subject->id,
                                     $request->input('name'),
                                     $request->input('abstract') ? $request->input('abstract') : "",
                                     $new_img,
+                                    auth()->user()->id,
                                     $data->id,
                                 ])) {
                                     // Actualizamos las etiquetas
@@ -447,28 +450,28 @@ class TopicController extends Controller
                         'complete' => false,
                     ]);
                 } else {
+                    $topic_tag = DB::table("topic_tag")->where("topic_id", $data->id)->get();
+                    if (sizeof($topic_tag) > 0) {
+                        DB::table("topic_tag")->where("topic_id", $topic_tag->topic_id)->delete();
+                    }
+                    // Eliminamos las imagenes del body
+                    $directory = public_path('/img/topics') . "/" . $id;
+                    if (File::isDirectory($directory)) {
+                        // Tabla Images
+                        DB::table("images")->where("topic_id", $id)->delete();
+                        // Carpeta en topics
+                        $data = File::allFiles($directory);
+                        if (sizeof($data) > 0) {
+                            foreach ($data as $item) {
+                                File::delete($directory . '/' . $item->getRelativePathname());
+                            }
+                        }
+                        rmdir($directory);
+                    }
                     if (DB::table("topics")->delete($data->id)) {
                         if ($data->img) {
                             File::delete(public_path('/img/topics') . '/' . $data->img);
                             File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
-                        }
-                        // Eliminamos las imagenes del body
-                        $directory = public_path('/img/topics') . "/" . $id;
-                        if (File::isDirectory($directory)) {
-                            $topic_tag = DB::table("topic_tag")->where("topic_id", $data->id)->get();
-                            if (sizeof($topic_tag) > 0) {
-                                DB::table("topic_tag")->where("topic_id", $topic_tag->topic_id)->delete();
-                            }
-                            // Tabla Images
-                            DB::table("images")->where("topic_id", $id)->delete();
-                            // Carpeta en topics
-                            $data = File::allFiles($directory);
-                            if (sizeof($data) > 0) {
-                                foreach ($data as $item) {
-                                    File::delete($directory . '/' . $item->getRelativePathname());
-                                }
-                            }
-                            rmdir($directory);
                         }
                         return response()->json([
                             'message' => 'Tema eliminado exitosamente',

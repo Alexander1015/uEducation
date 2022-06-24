@@ -19,12 +19,9 @@ return new class extends Migration
             $table->string('lastname')->default("");
             $table->string('user')->unique()->default("");
             $table->string('email')->unique()->default("");
-            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default("");
             $table->string('avatar')->default("");
             $table->boolean('status')->default(1);
-            // $table->rememberToken();
-            $table->timestamps();
         });
     }
 

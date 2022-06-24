@@ -196,6 +196,10 @@ class TagController extends Controller
                         'complete' => false,
                     ]);
                 } else {
+                    $topic_tag = DB::table("topic_tag")->where("tag_id", $data->id)->get();
+                    if (sizeof($topic_tag) > 0) {
+                        DB::table("topic_tag")->where("tag_id", $data->id)->delete();
+                    }
                     if (DB::table("tags")->delete($data->id)) {
                         return response()->json([
                             'message' => 'Etiqueta eliminada exitosamente',
@@ -210,8 +214,8 @@ class TagController extends Controller
                 }
             } catch (Exception $ex) {
                 return response()->json([
-                    // 'message' => $ex->getMessage(),
-                    'message' => "Ha ocurrido un error en la aplicación",
+                    'message' => $ex->getMessage(),
+                    // 'message' => "Ha ocurrido un error en la aplicación",
                     'complete' => false,
                 ]);
             }

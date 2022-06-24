@@ -186,6 +186,13 @@ class SubjectController extends Controller
                         'complete' => false,
                     ]);
                 } else {
+                    $topics = DB::table("topics")->where("subject_id", $id)->get();
+                    if (sizeof($topics) > 0) {
+                        DB::update("UPDATE topics SET subject_id = ? WHERE subject_id = ?", [
+                            null,
+                            $id,
+                        ]);
+                    }
                     if (DB::table("subjects")->delete($data->id)) {
                         return response()->json([
                             'message' => 'Curso eliminado exitosamente',

@@ -21,11 +21,12 @@ return new class extends Migration
             $table->longText('body')->default("");
             $table->boolean('status')->default(0);
             $table->integer('sequence')->default(0);
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_update_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_update_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

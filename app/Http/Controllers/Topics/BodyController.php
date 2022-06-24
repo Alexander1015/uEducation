@@ -30,8 +30,9 @@ class BodyController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    if (DB::update("UPDATE topics SET body = ? WHERE id = ?", [
+                    if (DB::update("UPDATE topics SET body = ?, user_update_id = ? WHERE id = ?", [
                         $request->input('body') ? $request->input('body') : "",
+                        $auth_user->id,
                         $data->id,
                     ])) {
                         // Eliminamos de la BD las imagenes que se eliminaron

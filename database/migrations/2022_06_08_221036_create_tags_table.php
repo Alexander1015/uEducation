@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('background_color')->default("#E0E0E0");
             $table->string('text_color')->default("#676767");
             $table->boolean('status')->default(1);
-            $table->timestamps();
         });
     }
 

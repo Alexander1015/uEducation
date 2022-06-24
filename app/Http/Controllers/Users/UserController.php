@@ -309,6 +309,20 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
+                            $topics_c = DB::table("topics")->where("user_id", $id)->get();
+                            if (sizeof($topics_c) > 0) {
+                                DB::update("UPDATE topics SET user_id = ? WHERE user_id = ?", [
+                                    null,
+                                    $id,
+                                ]);
+                            }
+                            $topics_u = DB::table("topics")->where("user_update_id", $id)->get();
+                            if (sizeof($topics_u) > 0) {
+                                DB::update("UPDATE topics SET user_update_id = ? WHERE user_update_id = ?", [
+                                    null,
+                                    $id,
+                                ]);
+                            }
                             if (DB::table("users")->delete($data->id)) {
                                 if ($data->avatar) {
                                     File::delete(public_path('/img/users') . '/' . $data->avatar);

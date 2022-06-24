@@ -114,6 +114,7 @@ export default {
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Curso', value: 'subject', align: 'center' },
             { text: 'Creado por', value: 'user', align: 'center' },
+            { text: 'Actualizado por', value: 'user_update', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
