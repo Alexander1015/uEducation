@@ -138,6 +138,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -167,7 +179,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'El curso es requerido';
       }],
       tagsRules: [function (v) {
-        return !!v || 'Debe elegir al menos una etiqueta';
+        return !!(v && v.length) || 'Debe elegir al menos una etiqueta';
       }],
       nameRules: [function (v) {
         return !!v || 'El titulo es requerido';
@@ -1472,25 +1484,48 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form.name != "" &&
+                            _vm.form.subject != "" &&
+                            _vm.form.tags.length > 0
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1

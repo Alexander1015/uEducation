@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 use Exception;
 
 class UserController extends Controller
@@ -40,7 +41,7 @@ class UserController extends Controller
                     'lastname' => ['bail', 'required', 'string', 'max:50'],
                     'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
                     'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email'],
-                    'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
+                    'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()],
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {

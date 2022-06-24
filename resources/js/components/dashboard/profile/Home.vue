@@ -90,10 +90,24 @@
                                     </v-img>
                                 </v-col>
                             </v-row>
-                            <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
+                            <template v-if="
+                                form.firstname != user.firstname ||
+                                form.lastname != user.lastname ||
+                                form.email != user.email ||
+                                form.user != user.user ||
+                                form.avatar != null
+                            ">
+                                <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-btn class="width_100 mt-4" disabled>
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
                         </v-form>
                     </div>
                 </v-tab-item>
@@ -125,10 +139,21 @@
                                 </v-col>
                             </v-row>
                         </v-form>
-                        <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
-                            <v-icon left>save</v-icon>
-                            Guardar
-                        </v-btn>
+                        <template v-if="
+                            form_password.password != '' &&
+                            form_password.password_confirmation != ''
+                        ">
+                            <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                <v-icon left>save</v-icon>
+                                Guardar
+                            </v-btn>
+                        </template>
+                        <template v-else>
+                            <v-btn class="width_100 mt-4" disabled>
+                                <v-icon left>save</v-icon>
+                                Guardar
+                            </v-btn>
+                        </template>
                     </div>
                 </v-tab-item>
             </v-tabs>
@@ -187,10 +212,10 @@ export default {
         passwordRules: [
             v => !!v || 'La contraseña es requerida',
             v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+            v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
         ],
         passwordconfirmRules: [
-            v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+            v => !!v || 'El repetir la contraseña es requerido',
         ],
         prev_img: {
             url_img: "/img/users/blank.png",

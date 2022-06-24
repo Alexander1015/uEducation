@@ -98,10 +98,22 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
+                                <template v-if="
+                                    form.name != '' &&
+                                    form.subject != '' &&
+                                    form.tags.length > 0
+                                ">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="width_100 mt-2" disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
                             </v-form>
                         </div>
                     </div>
@@ -140,7 +152,7 @@ export default {
             v => !!v || 'El curso es requerido',
         ],
         tagsRules: [
-            v => !!v || 'Debe elegir al menos una etiqueta',
+            v => !!(v && v.length) || 'Debe elegir al menos una etiqueta',
         ],
         nameRules: [
             v => !!v || 'El titulo es requerido',

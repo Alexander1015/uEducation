@@ -203,6 +203,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -272,11 +307,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !!v || 'La contraseña es requerida';
         }, function (v) {
           return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+        }, function (v) {
+          return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas';
         }],
         passwordconfirmRules: [function (v) {
-          return !!v || 'La contraseña es requerida';
-        }, function (v) {
-          return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+          return !!v || 'El repetir la contraseña es requerido';
         }]
       },
       statusRules: [function (v) {
@@ -1817,25 +1852,53 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form_information.firstname !=
+                              _vm.user.firstname ||
+                            _vm.form_information.lastname !=
+                              _vm.user.lastname ||
+                            _vm.form_information.email != _vm.user.email ||
+                            _vm.form_information.user != _vm.user.user ||
+                            _vm.form_information.avatar != null ||
+                            _vm.form_information.avatar_new != 0
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-4",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-4",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
@@ -1964,25 +2027,47 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form_password.password != "" &&
+                            _vm.form_password.password_confirmation != ""
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
@@ -2038,24 +2123,53 @@ var render = function () {
                                   },
                                 }),
                                 _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    attrs: { type: "submit" },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
+                                _vm.form_status.status !=
+                                (_vm.user.status == 1
+                                  ? "Activo"
+                                  : "Desactivado")
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass:
+                                            "txt_white bk_green width_100",
+                                          attrs: { type: "submit" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "width_100",
+                                          attrs: { disabled: "" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
                               ],
-                              1
+                              2
                             ),
                           ],
                           1

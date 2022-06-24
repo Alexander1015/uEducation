@@ -115,6 +115,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
   data: function data() {
@@ -1260,25 +1279,46 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form_information.name != _vm.subject.name
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
@@ -1337,23 +1377,53 @@ var render = function () {
                                   },
                                 }),
                                 _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
+                                _vm.form_status.status !=
+                                (_vm.subject.status == 1
+                                  ? "Activo"
+                                  : "Desactivado")
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass:
+                                            "txt_white bk_green width_100",
+                                          attrs: { type: "submit" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "width_100",
+                                          attrs: { disabled: "" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
                               ],
-                              1
+                              2
                             ),
                           ],
                           1

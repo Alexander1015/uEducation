@@ -59,30 +59,70 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <p>Color de fondo:</p>
-                                        <v-btn class="width_100 bk_brown txt_white"
-                                            @click.prevent="form_information.color_bk = '#E0E0E0'">
-                                            Reiniciar color
-                                        </v-btn>
+                                        <div>
+                                            <span>Color de fondo:</span>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }"
+                                                    v-if="form_information.color_bk != '#E0E0E0'">
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form_information.color_bk = '#E0E0E0'">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <template v-slot:activator="{ on, attrs }" v-else>
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form_information.color_bk = tag.background_color">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Restablecer color</span>
+                                            </v-tooltip>
+                                        </div>
                                         <v-color-picker v-model="form_information.color_bk" class="mx-auto my-2"
                                             hide-mode-switch mode="hexa" :rules="colorbkRules">
                                         </v-color-picker>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <p>Color del texto:</p>
-                                        <v-btn class="width_100 bk_brown txt_white"
-                                            @click.prevent="form_information.color_txt = '#676767'">
-                                            Reiniciar color
-                                        </v-btn>
+                                        <div>
+                                            <span>Color del texto:</span>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }"
+                                                    v-if="form_information.color_txt != '#676767'">
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form_information.color_txt = '#676767'">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <template v-slot:activator="{ on, attrs }" v-else>
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form_information.color_txt = tag.text_color">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Restablecer color</span>
+                                            </v-tooltip>
+                                        </div>
                                         <v-color-picker v-model="form_information.color_txt" class="mx-auto my-2"
                                             hide-mode-switch mode="hexa" :rules="colortxtRules">
                                         </v-color-picker>
                                     </v-col>
                                 </v-row>
-                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
+                                <template v-if="
+                                    form_information.name != tag.name ||
+                                    form_information.color_bk != tag.background_color ||
+                                    form_information.color_txt != tag.text_color
+                                ">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="width_100 mt-2" disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
                             </v-form>
                         </div>
                     </v-tab-item>
@@ -96,10 +136,18 @@
                                 <v-form ref="form_status" @submit.prevent="statusTag" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <v-btn class="txt_white bk_green width_100" type="submit">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
+                                    <template v-if="form_status.status != (tag.status == 1 ? 'Activo' : 'Desactivado')">
+                                        <v-btn class="txt_white bk_green width_100" type="submit">
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
+                                    <template v-else>
+                                        <v-btn class="width_100" disabled>
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
                                 </v-form>
                             </div>
                             <v-divider class="mt-8 mb-4"></v-divider>

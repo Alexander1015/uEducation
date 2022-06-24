@@ -117,10 +117,26 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
+                                <template v-if="
+                                    form_information.name != topic.name ||
+                                    form_information.subject != form_information.copy_subject ||
+                                    form_information.tags.length != form_information.tags_size ||
+                                    form_information.tags != form_information.tags_copy ||
+                                    form_information.abstract != topic.abstract ||
+                                    form_information.img != null ||
+                                    form_information.img_new != 0
+                                ">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="width_100 mt-2" disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
                             </v-form>
                         </div>
                     </v-tab-item>
@@ -134,10 +150,18 @@
                                     @ready="onReady">
                                 </ckeditor>
                             </div>
-                            <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
+                            <template v-if="editorData != topic.body">
+                                <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-btn class="width_100 mt-2" disabled>
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
                         </div>
                     </v-tab-item>
                     <v-tab-item>
@@ -150,10 +174,18 @@
                                 <v-form ref="form_status" @submit.prevent="statusTopic" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <v-btn class="txt_white bk_green width_100" type="submit">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
+                                    <template v-if="form_status.status != (topic.status == 1 ? 'Activo' : 'Borrador')">
+                                        <v-btn class="txt_white bk_green width_100" type="submit">
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
+                                    <template v-else>
+                                        <v-btn class="width_100" disabled>
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
                                 </v-form>
                             </div>
                             <v-divider class="mt-8 mb-4"></v-divider>
@@ -197,7 +229,10 @@ export default {
         items_status: ["Activo", "Borrador"],
         form_information: {
             subject: "",
+            copy_subject: "",
             tags: [],
+            tags_copy: [],
+            tags_size: 0,
             name: "",
             abstract: "",
             img: null,
@@ -222,7 +257,7 @@ export default {
                 v => !!v || 'El curso es requerido',
             ],
             tagsRules: [
-                v => !!v || 'Debe elegir al menos una etiqueta',
+                v => !!(v && v.length) || 'Debe elegir al menos una etiqueta',
             ],
             nameRules: [
                 v => !!v || 'El titulo es requerido',
@@ -311,19 +346,25 @@ export default {
                             this.axios.get('/api/getsubjects/' + this.topic.subject_id)
                                 .then(response_sub => {
                                     this.form_information.subject = response_sub.data.name;
+                                    this.form_information.copy_subject = response_sub.data.name;
                                     this.overlay = false;
                                 }).catch((error) => {
                                     console.log(error);
                                     this.form_information.subject = "";
+                                    this.form_information.copy_subject = "";
                                     this.overlay = false;
                                 });
                             this.axios.get('/api/gettags/' + this.topic.id)
                                 .then(response_sub => {
                                     this.form_information.tags = response_sub.data;
+                                    this.form_information.tags_copy = response_sub.data;
+                                    this.form_information.tags_size = response_sub.data.length;
                                     this.overlay = false;
                                 }).catch((error) => {
                                     console.log(error);
                                     this.form_information.tags = [];
+                                    this.form_information.tags_copy = [];
+                                    this.form_information.tags_size = 0;
                                     this.overlay = false;
                                 });
                         }
@@ -351,8 +392,8 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('subject', this.form_information.subject);
-                            if(this.form_information.tags.length > 0) {
-                                for(let tag of this.form_information.tags) {
+                            if (this.form_information.tags.length > 0) {
+                                for (let tag of this.form_information.tags) {
                                     data.append('tags[]', tag);
                                 }
                             }

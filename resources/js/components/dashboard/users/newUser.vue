@@ -95,10 +95,25 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
-                                    <v-icon left>save</v-icon>
-                                    Guardar
-                                </v-btn>
+                                <template v-if="
+                                    form.firstname != '' &&
+                                    form.lastname != '' &&
+                                    form.email != '' &&
+                                    form.user != '' &&
+                                    form.password != '' &&
+                                    form.password_confirmation != ''
+                                ">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="width_100 mt-2" disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
                             </v-form>
                         </div>
                     </div>
@@ -153,10 +168,10 @@ export default {
         passwordRules: [
             v => !!v || 'La contraseña es requerida',
             v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+            v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
         ],
         passwordconfirmRules: [
-            v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+            v => !!v || 'El repetir la contraseña es requerido',
         ],
         avatarRules: [
             v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',

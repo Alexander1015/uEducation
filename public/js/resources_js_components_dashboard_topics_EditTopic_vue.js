@@ -240,6 +240,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -261,7 +293,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       items_status: ["Activo", "Borrador"],
       form_information: {
         subject: "",
+        copy_subject: "",
         tags: [],
+        tags_copy: [],
+        tags_size: 0,
         name: "",
         "abstract": "",
         img: null,
@@ -286,7 +321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !!v || 'El curso es requerido';
         }],
         tagsRules: [function (v) {
-          return !!v || 'Debe elegir al menos una etiqueta';
+          return !!(v && v.length) || 'Debe elegir al menos una etiqueta';
         }],
         nameRules: [function (v) {
           return !!v || 'El titulo es requerido';
@@ -420,19 +455,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     _this3.axios.get('/api/getsubjects/' + _this3.topic.subject_id).then(function (response_sub) {
                       _this3.form_information.subject = response_sub.data.name;
+                      _this3.form_information.copy_subject = response_sub.data.name;
                       _this3.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
                       _this3.form_information.subject = "";
+                      _this3.form_information.copy_subject = "";
                       _this3.overlay = false;
                     });
 
                     _this3.axios.get('/api/gettags/' + _this3.topic.id).then(function (response_sub) {
                       _this3.form_information.tags = response_sub.data;
+                      _this3.form_information.tags_copy = response_sub.data;
+                      _this3.form_information.tags_size = response_sub.data.length;
                       _this3.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
                       _this3.form_information.tags = [];
+                      _this3.form_information.tags_copy = [];
+                      _this3.form_information.tags_size = 0;
                       _this3.overlay = false;
                     });
                   }
@@ -2153,25 +2194,56 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form_information.name != _vm.topic.name ||
+                            _vm.form_information.subject !=
+                              _vm.form_information.copy_subject ||
+                            _vm.form_information.tags.length !=
+                              _vm.form_information.tags_size ||
+                            _vm.form_information.tags !=
+                              _vm.form_information.tags_copy ||
+                            _vm.form_information.abstract !=
+                              _vm.topic.abstract ||
+                            _vm.form_information.img != null ||
+                            _vm.form_information.img_new != 0
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
@@ -2212,29 +2284,51 @@ var render = function () {
                           1
                         ),
                         _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            staticClass: "txt_white bk_green width_100 mt-2",
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.saveBody()
-                              },
-                            },
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v("save"),
-                            ]),
-                            _vm._v(
-                              "\n                            Guardar\n                        "
-                            ),
-                          ],
-                          1
-                        ),
+                        _vm.editorData != _vm.topic.body
+                          ? [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass:
+                                    "txt_white bk_green width_100 mt-2",
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.saveBody()
+                                    },
+                                  },
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("save"),
+                                  ]),
+                                  _vm._v(
+                                    "\n                                Guardar\n                            "
+                                  ),
+                                ],
+                                1
+                              ),
+                            ]
+                          : [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "width_100 mt-2",
+                                  attrs: { disabled: "" },
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("save"),
+                                  ]),
+                                  _vm._v(
+                                    "\n                                Guardar\n                            "
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
                       ],
-                      1
+                      2
                     ),
                   ]),
                   _vm._v(" "),
@@ -2290,24 +2384,51 @@ var render = function () {
                                   },
                                 }),
                                 _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    attrs: { type: "submit" },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
+                                _vm.form_status.status !=
+                                (_vm.topic.status == 1 ? "Activo" : "Borrador")
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass:
+                                            "txt_white bk_green width_100",
+                                          attrs: { type: "submit" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "width_100",
+                                          attrs: { disabled: "" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
                               ],
-                              1
+                              2
                             ),
                           ],
                           1

@@ -38,10 +38,18 @@
                                             </v-text-field>
                                         </v-col>
                                     </v-row>
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
+                                    <template v-if="form.name != ''">
+                                        <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
+                                    <template v-else>
+                                        <v-btn class="width_100 mt-2" disabled>
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
                                 </v-form>
                             </div>
                         </div>

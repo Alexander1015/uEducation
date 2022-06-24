@@ -142,6 +142,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditTags",
   data: function data() {
@@ -852,6 +900,29 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-text-field > .v-input_
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-tooltip {\n  display: none;\n}\n.v-tooltip--attached {\n  display: inline;\n}\n.v-tooltip__content {\n  background: rgba(97, 97, 97, 0.9);\n  color: #FFFFFF;\n  border-radius: 4px;\n  font-size: 14px;\n  line-height: 22px;\n  display: inline-block;\n  padding: 5px 16px;\n  position: absolute;\n  text-transform: initial;\n  width: auto;\n  opacity: 0;\n  pointer-events: none;\n}\n.v-tooltip__content.menuable__content__active {\n  opacity: 0.9;\n}\n.v-tooltip__content--fixed {\n  position: fixed;\n}\n.v-tooltip__content[class*=-active] {\n  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);\n}\n.v-tooltip__content[class*=enter-active] {\n  transition-duration: 150ms;\n}\n.v-tooltip__content[class*=leave-active] {\n  transition-duration: 75ms;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VWindow/VWindow.sass":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VWindow/VWindow.sass ***!
@@ -1368,6 +1439,35 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!********************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VTooltip.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VWindow/VWindow.sass":
 /*!******************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VWindow/VWindow.sass ***!
@@ -1647,26 +1747,123 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c("p", [_vm._v("Color de fondo:")]),
-                                    _vm._v(" "),
                                     _c(
-                                      "v-btn",
-                                      {
-                                        staticClass:
-                                          "width_100 bk_brown txt_white",
-                                        on: {
-                                          click: function ($event) {
-                                            $event.preventDefault()
-                                            _vm.form_information.color_bk =
-                                              "#E0E0E0"
-                                          },
-                                        },
-                                      },
+                                      "div",
                                       [
-                                        _vm._v(
-                                          "\n                                        Reiniciar color\n                                    "
+                                        _c("span", [_vm._v("Color de fondo:")]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-tooltip",
+                                          {
+                                            attrs: { bottom: "" },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                _vm.form_information.color_bk !=
+                                                "#E0E0E0"
+                                                  ? {
+                                                      key: "activator",
+                                                      fn: function (ref) {
+                                                        var on = ref.on
+                                                        var attrs = ref.attrs
+                                                        return [
+                                                          _c(
+                                                            "v-btn",
+                                                            _vm._g(
+                                                              _vm._b(
+                                                                {
+                                                                  staticClass:
+                                                                    "txt_blue mt-n1",
+                                                                  attrs: {
+                                                                    icon: "",
+                                                                  },
+                                                                  on: {
+                                                                    click:
+                                                                      function (
+                                                                        $event
+                                                                      ) {
+                                                                        $event.preventDefault()
+                                                                        _vm.form_information.color_bk =
+                                                                          "#E0E0E0"
+                                                                      },
+                                                                  },
+                                                                },
+                                                                "v-btn",
+                                                                attrs,
+                                                                false
+                                                              ),
+                                                              on
+                                                            ),
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "restart_alt"
+                                                                ),
+                                                              ]),
+                                                            ],
+                                                            1
+                                                          ),
+                                                        ]
+                                                      },
+                                                    }
+                                                  : {
+                                                      key: "activator",
+                                                      fn: function (ref) {
+                                                        var on = ref.on
+                                                        var attrs = ref.attrs
+                                                        return [
+                                                          _c(
+                                                            "v-btn",
+                                                            _vm._g(
+                                                              _vm._b(
+                                                                {
+                                                                  staticClass:
+                                                                    "txt_blue mt-n1",
+                                                                  attrs: {
+                                                                    icon: "",
+                                                                  },
+                                                                  on: {
+                                                                    click:
+                                                                      function (
+                                                                        $event
+                                                                      ) {
+                                                                        $event.preventDefault()
+                                                                        _vm.form_information.color_bk =
+                                                                          _vm.tag.background_color
+                                                                      },
+                                                                  },
+                                                                },
+                                                                "v-btn",
+                                                                attrs,
+                                                                false
+                                                              ),
+                                                              on
+                                                            ),
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "restart_alt"
+                                                                ),
+                                                              ]),
+                                                            ],
+                                                            1
+                                                          ),
+                                                        ]
+                                                      },
+                                                    },
+                                              ],
+                                              null,
+                                              true
+                                            ),
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v("Restablecer color"),
+                                            ]),
+                                          ]
                                         ),
-                                      ]
+                                      ],
+                                      1
                                     ),
                                     _vm._v(" "),
                                     _c("v-color-picker", {
@@ -1696,26 +1893,125 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c("p", [_vm._v("Color del texto:")]),
-                                    _vm._v(" "),
                                     _c(
-                                      "v-btn",
-                                      {
-                                        staticClass:
-                                          "width_100 bk_brown txt_white",
-                                        on: {
-                                          click: function ($event) {
-                                            $event.preventDefault()
-                                            _vm.form_information.color_txt =
-                                              "#676767"
-                                          },
-                                        },
-                                      },
+                                      "div",
                                       [
-                                        _vm._v(
-                                          "\n                                        Reiniciar color\n                                    "
+                                        _c("span", [
+                                          _vm._v("Color del texto:"),
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-tooltip",
+                                          {
+                                            attrs: { bottom: "" },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                _vm.form_information
+                                                  .color_txt != "#676767"
+                                                  ? {
+                                                      key: "activator",
+                                                      fn: function (ref) {
+                                                        var on = ref.on
+                                                        var attrs = ref.attrs
+                                                        return [
+                                                          _c(
+                                                            "v-btn",
+                                                            _vm._g(
+                                                              _vm._b(
+                                                                {
+                                                                  staticClass:
+                                                                    "txt_blue mt-n1",
+                                                                  attrs: {
+                                                                    icon: "",
+                                                                  },
+                                                                  on: {
+                                                                    click:
+                                                                      function (
+                                                                        $event
+                                                                      ) {
+                                                                        $event.preventDefault()
+                                                                        _vm.form_information.color_txt =
+                                                                          "#676767"
+                                                                      },
+                                                                  },
+                                                                },
+                                                                "v-btn",
+                                                                attrs,
+                                                                false
+                                                              ),
+                                                              on
+                                                            ),
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "restart_alt"
+                                                                ),
+                                                              ]),
+                                                            ],
+                                                            1
+                                                          ),
+                                                        ]
+                                                      },
+                                                    }
+                                                  : {
+                                                      key: "activator",
+                                                      fn: function (ref) {
+                                                        var on = ref.on
+                                                        var attrs = ref.attrs
+                                                        return [
+                                                          _c(
+                                                            "v-btn",
+                                                            _vm._g(
+                                                              _vm._b(
+                                                                {
+                                                                  staticClass:
+                                                                    "txt_blue mt-n1",
+                                                                  attrs: {
+                                                                    icon: "",
+                                                                  },
+                                                                  on: {
+                                                                    click:
+                                                                      function (
+                                                                        $event
+                                                                      ) {
+                                                                        $event.preventDefault()
+                                                                        _vm.form_information.color_txt =
+                                                                          _vm.tag.text_color
+                                                                      },
+                                                                  },
+                                                                },
+                                                                "v-btn",
+                                                                attrs,
+                                                                false
+                                                              ),
+                                                              on
+                                                            ),
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "restart_alt"
+                                                                ),
+                                                              ]),
+                                                            ],
+                                                            1
+                                                          ),
+                                                        ]
+                                                      },
+                                                    },
+                                              ],
+                                              null,
+                                              true
+                                            ),
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v("Restablecer color"),
+                                            ]),
+                                          ]
                                         ),
-                                      ]
+                                      ],
+                                      1
                                     ),
                                     _vm._v(" "),
                                     _c("v-color-picker", {
@@ -1745,25 +2041,49 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass:
-                                  "txt_white bk_green width_100 mt-2",
-                                attrs: { type: "submit" },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("save"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Guardar\n                            "
-                                ),
-                              ],
-                              1
-                            ),
+                            _vm.form_information.name != _vm.tag.name ||
+                            _vm.form_information.color_bk !=
+                              _vm.tag.background_color ||
+                            _vm.form_information.color_txt != _vm.tag.text_color
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
@@ -1819,24 +2139,51 @@ var render = function () {
                                   },
                                 }),
                                 _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "txt_white bk_green width_100",
-                                    attrs: { type: "submit" },
-                                  },
-                                  [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v("save"),
-                                    ]),
-                                    _vm._v(
-                                      "\n                                    Guardar\n                                "
-                                    ),
-                                  ],
-                                  1
-                                ),
+                                _vm.form_status.status !=
+                                (_vm.tag.status == 1 ? "Activo" : "Desactivado")
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass:
+                                            "txt_white bk_green width_100",
+                                          attrs: { type: "submit" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "width_100",
+                                          attrs: { disabled: "" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
                               ],
-                              1
+                              2
                             ),
                           ],
                           1
@@ -1940,6 +2287,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 /* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
 /* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -1980,7 +2328,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VColorPicker: vuetify_lib_components_VColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__.VToolbarTitle})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VColorPicker: vuetify_lib_components_VColorPicker__WEBPACK_IMPORTED_MODULE_9__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__.VToolbarTitle,VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_24__["default"]})
 
 
 /* hot reload */
@@ -7502,6 +7851,243 @@ const VToolbarItems = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimple
   }
 });
 //# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VTooltip/VTooltip.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VTooltip_VTooltip_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VTooltip/VTooltip.sass */ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+/* harmony import */ var _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixins/activatable */ "./node_modules/vuetify/lib/mixins/activatable/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/delayable */ "./node_modules/vuetify/lib/mixins/delayable/index.js");
+/* harmony import */ var _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/dependent */ "./node_modules/vuetify/lib/mixins/dependent/index.js");
+/* harmony import */ var _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/menuable */ "./node_modules/vuetify/lib/mixins/menuable/index.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+/* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+ // Mixins
+
+
+
+
+
+ // Helpers
+
+
+
+
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_colorable__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__["default"]).extend({
+  name: 'v-tooltip',
+  props: {
+    closeDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    disabled: Boolean,
+    openDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    openOnHover: {
+      type: Boolean,
+      default: true
+    },
+    openOnFocus: {
+      type: Boolean,
+      default: true
+    },
+    tag: {
+      type: String,
+      default: 'span'
+    },
+    transition: String
+  },
+  data: () => ({
+    calculatedMinWidth: 0,
+    closeDependents: false
+  }),
+  computed: {
+    calculatedLeft() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const unknown = !this.bottom && !this.left && !this.top && !this.right;
+      const activatorLeft = this.attach !== false ? activator.offsetLeft : activator.left;
+      let left = 0;
+
+      if (this.top || this.bottom || unknown) {
+        left = activatorLeft + activator.width / 2 - content.width / 2;
+      } else if (this.left || this.right) {
+        left = activatorLeft + (this.right ? activator.width : -content.width) + (this.right ? 10 : -10);
+      }
+
+      if (this.nudgeLeft) left -= parseInt(this.nudgeLeft);
+      if (this.nudgeRight) left += parseInt(this.nudgeRight);
+      return `${this.calcXOverflow(left, this.dimensions.content.width)}px`;
+    },
+
+    calculatedTop() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const activatorTop = this.attach !== false ? activator.offsetTop : activator.top;
+      let top = 0;
+
+      if (this.top || this.bottom) {
+        top = activatorTop + (this.bottom ? activator.height : -content.height) + (this.bottom ? 10 : -10);
+      } else if (this.left || this.right) {
+        top = activatorTop + activator.height / 2 - content.height / 2;
+      }
+
+      if (this.nudgeTop) top -= parseInt(this.nudgeTop);
+      if (this.nudgeBottom) top += parseInt(this.nudgeBottom);
+      if (this.attach === false) top += this.pageYOffset;
+      return `${this.calcYOverflow(top)}px`;
+    },
+
+    classes() {
+      return {
+        'v-tooltip--top': this.top,
+        'v-tooltip--right': this.right,
+        'v-tooltip--bottom': this.bottom,
+        'v-tooltip--left': this.left,
+        'v-tooltip--attached': this.attach === '' || this.attach === true || this.attach === 'attach'
+      };
+    },
+
+    computedTransition() {
+      if (this.transition) return this.transition;
+      return this.isActive ? 'scale-transition' : 'fade-transition';
+    },
+
+    offsetY() {
+      return this.top || this.bottom;
+    },
+
+    offsetX() {
+      return this.left || this.right;
+    },
+
+    styles() {
+      return {
+        left: this.calculatedLeft,
+        maxWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.maxWidth),
+        minWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.minWidth),
+        top: this.calculatedTop,
+        zIndex: this.zIndex || this.activeZIndex
+      };
+    }
+
+  },
+
+  beforeMount() {
+    this.$nextTick(() => {
+      this.value && this.callActivate();
+    });
+  },
+
+  mounted() {
+    if ((0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.getSlotType)(this, 'activator', true) === 'v-slot') {
+      (0,_util_console__WEBPACK_IMPORTED_MODULE_7__.consoleError)(`v-tooltip's activator slot must be bound, try '<template #activator="data"><v-btn v-on="data.on>'`, this);
+    }
+  },
+
+  methods: {
+    activate() {
+      // Update coordinates and dimensions of menu
+      // and its activator
+      this.updateDimensions(); // Start the transition
+
+      requestAnimationFrame(this.startTransition);
+    },
+
+    deactivate() {
+      this.runDelay('close');
+    },
+
+    genActivatorListeners() {
+      const listeners = _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__["default"].options.methods.genActivatorListeners.call(this);
+
+      if (this.openOnFocus) {
+        listeners.focus = e => {
+          this.getActivator(e);
+          this.runDelay('open');
+        };
+
+        listeners.blur = e => {
+          this.getActivator(e);
+          this.runDelay('close');
+        };
+      }
+
+      listeners.keydown = e => {
+        if (e.keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_6__.keyCodes.esc) {
+          this.getActivator(e);
+          this.runDelay('close');
+        }
+      };
+
+      return listeners;
+    },
+
+    genActivatorAttributes() {
+      return {
+        'aria-haspopup': true,
+        'aria-expanded': String(this.isActive)
+      };
+    },
+
+    genTransition() {
+      const content = this.genContent();
+      if (!this.computedTransition) return content;
+      return this.$createElement('transition', {
+        props: {
+          name: this.computedTransition
+        }
+      }, [content]);
+    },
+
+    genContent() {
+      return this.$createElement('div', this.setBackgroundColor(this.color, {
+        staticClass: 'v-tooltip__content',
+        class: {
+          [this.contentClass]: true,
+          menuable__content__active: this.isActive,
+          'v-tooltip__content--fixed': this.activatorFixed
+        },
+        style: this.styles,
+        attrs: this.getScopeIdAttrs(),
+        directives: [{
+          name: 'show',
+          value: this.isContentActive
+        }],
+        ref: 'content'
+      }), this.getContentSlot());
+    }
+
+  },
+
+  render(h) {
+    return h(this.tag, {
+      staticClass: 'v-tooltip',
+      class: this.classes
+    }, [this.showLazyContent(() => [this.genTransition()]), this.genActivator()]);
+  }
+
+}));
+//# sourceMappingURL=VTooltip.js.map
 
 /***/ }),
 

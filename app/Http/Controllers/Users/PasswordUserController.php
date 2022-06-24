@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 use Exception;
 
 
@@ -32,7 +33,7 @@ class PasswordUserController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
+                        'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()],
                     ]);
                     if ($validator->fails()) {
                         if ($request->input('password') != $request->input('password_confirmation')) {
