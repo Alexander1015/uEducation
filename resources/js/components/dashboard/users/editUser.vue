@@ -6,10 +6,21 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="mr-4" text small @click.prevent="returnUsers">
+            <v-btn class="ml-4" text small @click.prevent="returnUsers">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
+            <div class="new_btn mr-4">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="login(), showUser()" elevation="3"
+                            class="bk_blue txt_white mr-4">
+                            <v-icon>autorenew</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Recargar</span>
+                </v-tooltip>
+            </div>
             <v-card class="mt-2 mx-auto" elevation="2" max-width="1100">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
@@ -308,8 +319,8 @@ export default {
         },
         async showUser() {
             this.overlay = true;
-            if (this.$route.params.id && this.login_user.id != this.$route.params.id) {
-                await this.axios.get('/api/user/' + this.$route.params.id)
+            if (this.$route.params.slug && this.login_user.slug != this.$route.params.slug) {
+                await this.axios.get('/api/user/' + this.$route.params.slug)
                     .then(response => {
                         this.user = response.data;
                         if (!this.user.user) {
@@ -366,7 +377,7 @@ export default {
                             }
                             data.append('avatar_new', this.form_information.avatar_new);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.$route.params.id, data, {
+                            this.axios.post('/api/user/' + this.$route.params.slug, data, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data',
                                 },
@@ -424,7 +435,7 @@ export default {
                             data.append('password', this.form_password.password);
                             data.append('password_confirmation', this.form_password.password_confirmation);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/password/' + this.$route.params.id, data)
+                            this.axios.post('/api/user/password/' + this.$route.params.slug, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -479,7 +490,7 @@ export default {
                         else if (this.form_status.status == "Desactivado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        this.axios.post('/api/user/status/' + this.$route.params.id, data)
+                        this.axios.post('/api/user/status/' + this.$route.params.slug, data)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"
@@ -526,7 +537,7 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/user/' + this.$route.params.id)
+                        this.axios.delete('/api/user/' + this.$route.params.slug)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"

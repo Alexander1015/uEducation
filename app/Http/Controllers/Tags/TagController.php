@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Exception;
 
 class TagController extends Controller
@@ -17,7 +18,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = DB::table('tags')->get();
+        $tags = DB::table('tags')->orderBy('name', 'asc')->get();
         return response()->json($tags);
     }
 
@@ -51,8 +52,10 @@ class TagController extends Controller
                         ]);
                     }
                 } else {
+                    $slug = Str::slug($request->input('name'));
                     if (DB::table("tags")
                         ->insert([
+                            'slug' => $slug,
                             'name' => $request->input('name'),
                             'background_color' => $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
                             'text_color' => $request->input('text_color') ? $request->input('text_color') : "#676767",
@@ -63,10 +66,18 @@ class TagController extends Controller
                             'complete' => true,
                         ]);
                     } else {
-                        return response()->json([
-                            'message' => 'Ha ocurrido un error al momento de crear la etiqueta',
-                            'complete' => false,
-                        ]);
+                        $old_slug = DB::table("tags")->where('slug', $slug)->first();
+                        if ($old_slug) {
+                            return response()->json([
+                                'message' => 'El slug generado ya existe, genere uno nuevo',
+                                'complete' => false,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Ha ocurrido un error al momento de crear la etiqueta',
+                                'complete' => false,
+                            ]);
+                        }
                     }
                 }
             } else {
@@ -90,9 +101,9 @@ class TagController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $tag = DB::table("tags")->where("id", $id)->first();
+        $tag = DB::table("tags")->where("slug", $slug)->first();
         return response()->json($tag);
     }
 
@@ -103,12 +114,12 @@ class TagController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("tags")->where("id", $id)->first();
+                $data = DB::table("tags")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "La etiqueta seleccionada no existe",
@@ -134,16 +145,26 @@ class TagController extends Controller
                             ]);
                         }
                     } else {
-                        if (DB::update("UPDATE tags SET name = ?, background_color = ?, text_color = ? WHERE id = ?", [
+                        $slug = Str::slug($request->input('name'));
+                        if (DB::update("UPDATE tags SET slug = ?, name = ?, background_color = ?, text_color = ? WHERE id = ?", [
+                            $slug,
                             $request->input('name'),
                             $request->input('background_color') ? $request->input('background_color') : "#E0E0E0",
                             $request->input('text_color') ? $request->input('text_color') : "#676767",
                             $data->id,
                         ])) {
-                            return response()->json([
-                                'message' => 'Etiqueta modificada exitosamente',
-                                'complete' => true,
-                            ]);
+                            if ($data->slug != $slug) {
+                                return response()->json([
+                                    'message' => 'Etiqueta modificada exitosamente',
+                                    'complete' => true,
+                                    'reload' => $slug,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Etiqueta modificada exitosamente',
+                                    'complete' => true,
+                                ]);
+                            }
                         } else {
                             if (
                                 $data->name == $request->input('name') &&
@@ -155,10 +176,18 @@ class TagController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de modificar la etiqueta',
-                                    'complete' => false,
-                                ]);
+                                $old_slug = DB::table("tags")->where('slug', $slug)->first();
+                                if ($old_slug) {
+                                    return response()->json([
+                                        'message' => 'El slug generado ya existe, genere uno nuevo',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Ha ocurrido un error al momento de modificar la etiqueta',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -184,12 +213,12 @@ class TagController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         $status = auth()->user()->status;
         if ($status == 1) {
             try {
-                $data = DB::table("tags")->where("id", $id)->first();
+                $data = DB::table("tags")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "La etiqueta seleccionada no existe",

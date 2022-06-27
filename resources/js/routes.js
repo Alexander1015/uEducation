@@ -58,7 +58,7 @@ export const routes = [
         }
     }, {
         name: 'editUser',
-        path: '/dashboard/users/edit/:id',
+        path: '/dashboard/users/edit/:slug',
         component: EditUser,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
@@ -91,7 +91,7 @@ export const routes = [
         }
     }, {
         name: 'editSubject',
-        path: '/dashboard/subjects/edit/:id',
+        path: '/dashboard/subjects/edit/:slug',
         component: EditSubject,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
@@ -124,7 +124,7 @@ export const routes = [
         }
     }, {
         name: 'editTopic',
-        path: '/dashboard/topics/edit/:id',
+        path: '/dashboard/topics/edit/:slug',
         component: EditTopic,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
@@ -157,7 +157,7 @@ export const routes = [
         }
     }, {
         name: 'editTag',
-        path: '/dashboard/tags/edit/:id',
+        path: '/dashboard/tags/edit/:slug',
         component: EditTag,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {

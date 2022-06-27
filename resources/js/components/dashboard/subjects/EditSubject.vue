@@ -6,10 +6,21 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="mr-4" text small @click.prevent="returnSubjects">
+            <v-btn class="ml-4" text small @click.prevent="returnSubjects">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
+            <div class="new_btn mr-4">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showSubject()" elevation="3"
+                            class="bk_blue txt_white mr-4">
+                            <v-icon>autorenew</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Recargar</span>
+                </v-tooltip>
+            </div>
             <v-card class="mt-4 mx-auto" elevation="2" max-width="700">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
@@ -49,6 +60,11 @@
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
                                             label="Titulo *" tabindex="1" dense prepend-icon="collections_bookmark"
                                             required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)" tabindex="2" dense
+                                            prepend-icon="code_off" :loading="loading_slug" disabled>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
@@ -123,7 +139,9 @@ export default {
             title: "Error",
         },
         items_status: ["Activo", "Desactivado"],
+        loading_slug: false,
         form_information: {
+            slug: "",
             name: "",
         },
         form_status: {
@@ -141,6 +159,21 @@ export default {
         ],
         name: "",
     }),
+    watch: {
+        "form_information.name"() {
+            this.loading_slug = true;
+            let data = new FormData();
+            data.append('name', this.form_information.name);
+            this.axios.post('/api/slug', data)
+                .then(response => {
+                    this.form_information.slug = response.data.slug;
+                    this.loading_slug = false;
+                }).catch(error => {
+                    this.form_information.slug = "n/a";
+                    this.loading_slug = false;
+                })
+        },
+    },
     mounted() {
         this.showSubject()
     },
@@ -150,8 +183,8 @@ export default {
         },
         async showSubject() {
             this.overlay = true;
-            if (this.$route.params.id) {
-                await this.axios.get('/api/subject/' + this.$route.params.id)
+            if (this.$route.params.slug) {
+                await this.axios.get('/api/subject/' + this.$route.params.slug)
                     .then(response => {
                         this.subject = response.data;
                         if (!this.subject.name) {
@@ -189,7 +222,7 @@ export default {
                             let data = new FormData();
                             data.append('name', this.form_information.name);
                             data.append('_method', "put");
-                            this.axios.post('/api/subject/' + this.$route.params.id, data)
+                            this.axios.post('/api/subject/' + this.$route.params.slug, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -205,7 +238,10 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.showSubject()
+                                            if (response.data.reload) {
+                                                this.$router.push({ name: "editSubject", params: { slug: response.data.reload } });
+                                            }
+                                            else this.showSubject();
                                         }
                                         this.overlay = false;
                                     });
@@ -243,7 +279,7 @@ export default {
                         else if (this.form_status.status == "Desactivado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        this.axios.post('/api/subject/status/' + this.$route.params.id, data)
+                        this.axios.post('/api/subject/status/' + this.$route.params.slug, data)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"
@@ -289,7 +325,7 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/subject/' + this.$route.params.id)
+                        this.axios.delete('/api/subject/' + this.$route.params.slug)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"

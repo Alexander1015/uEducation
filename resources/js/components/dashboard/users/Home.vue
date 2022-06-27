@@ -69,8 +69,8 @@
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
-                                <template v-if="user.id !== item.id">
-                                    <v-btn icon @click.prevent="statusUser(item.id, 1)">
+                                <template v-if="user.id !== item.slug">
+                                    <v-btn icon @click.prevent="statusUser(item.slug, 1)">
                                         <v-icon>
                                             check_box_outline_blank
                                         </v-icon>
@@ -81,8 +81,8 @@
                                 </template>
                             </template>
                             <template v-else-if="item.status == 1">
-                                <template v-if="user.id !== item.id">
-                                    <v-btn icon @click.prevent="statusUser(item.id, 0)">
+                                <template v-if="user.id !== item.slug">
+                                    <v-btn icon @click.prevent="statusUser(item.slug, 0)">
                                         <v-icon>
                                             check_box
                                         </v-icon>
@@ -98,11 +98,11 @@
                         </div>
                     </template>
                     <template v-slot:item.actions="{ item }">
-                        <template v-if="user.id !== item.id">
+                        <template v-if="user.id !== item.slug">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
-                                        :to='{ name: "editUser", params: { id: item.id } }'>
+                                        :to='{ name: "editUser", params: { slug: item.slug } }'>
                                         <v-icon>
                                             settings
                                         </v-icon>
@@ -112,7 +112,7 @@
                             </v-tooltip>
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon class="txt_red" @click.prevent="deleteUser(item.id)" v-bind="attrs"
+                                    <v-btn icon class="txt_red" @click.prevent="deleteUser(item.slug)" v-bind="attrs"
                                         v-on="on">
                                         <v-icon>
                                             delete

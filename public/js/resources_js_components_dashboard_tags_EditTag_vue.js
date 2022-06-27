@@ -190,6 +190,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditTags",
   data: function data() {
@@ -200,7 +216,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "Error"
       },
       items_status: ["Activo", "Desactivado"],
+      loading_slug: false,
       form_information: {
+        slug: "",
         name: "",
         color_bk: "#E0E0E0",
         color_txt: "#676767"
@@ -228,6 +246,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       name: ""
     };
   },
+  watch: {
+    "form_information.name": function form_informationName() {
+      var _this = this;
+
+      this.loading_slug = true;
+      var data = new FormData();
+      data.append('name', this.form_information.name);
+      this.axios.post('/api/slug', data).then(function (response) {
+        _this.form_information.slug = response.data.slug;
+        _this.loading_slug = false;
+      })["catch"](function (error) {
+        _this.form_information.slug = "n/a";
+        _this.loading_slug = false;
+      });
+    }
+  },
   mounted: function mounted() {
     this.showTag();
   },
@@ -238,40 +272,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     showTag: function showTag() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.overlay = true;
+                _this2.overlay = true;
 
-                if (!_this.$route.params.id) {
+                if (!_this2.$route.params.slug) {
                   _context.next = 6;
                   break;
                 }
 
                 _context.next = 4;
-                return _this.axios.get('/api/tag/' + _this.$route.params.id).then(function (response) {
-                  _this.tag = response.data;
+                return _this2.axios.get('/api/tag/' + _this2.$route.params.slug).then(function (response) {
+                  _this2.tag = response.data;
 
-                  if (!_this.tag.name) {
-                    _this.overlay = false;
+                  if (!_this2.tag.name) {
+                    _this2.overlay = false;
 
-                    _this.$router.push({
+                    _this2.$router.push({
                       name: "tags"
                     });
                   } else {
-                    _this.form_information.name = _this.tag.name;
-                    _this.form_information.color_bk = _this.tag.background_color;
-                    _this.form_information.color_txt = _this.tag.text_color;
-                    if (_this.tag.status == 0) _this.form_status.status = "Desactivado";else if (_this.tag.status == 1) _this.form_status.status = "Activo";
-                    _this.overlay = false;
+                    _this2.form_information.name = _this2.tag.name;
+                    _this2.form_information.color_bk = _this2.tag.background_color;
+                    _this2.form_information.color_txt = _this2.tag.text_color;
+                    if (_this2.tag.status == 0) _this2.form_status.status = "Desactivado";else if (_this2.tag.status == 1) _this2.form_status.status = "Activo";
+                    _this2.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
+                  _this2.overlay = false;
                 });
 
               case 4:
@@ -279,9 +313,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 6:
-                _this.overlay = false;
+                _this2.overlay = false;
 
-                _this.$router.push({
+                _this2.$router.push({
                   name: "tags"
                 });
 
@@ -294,20 +328,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editTags: function editTags() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this2.$refs.form_information.validate()) {
+                if (!_this3.$refs.form_information.validate()) {
                   _context2.next = 5;
                   break;
                 }
 
                 _context2.next = 3;
-                return _this2.$swal({
+                return _this3.$swal({
                   title: '¿Esta seguro de modificar la etiqueta?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -315,88 +349,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true; //Mostramos los datos asi por la imagen
+                    _this3.overlay = true; //Mostramos los datos asi por la imagen
 
                     var data = new FormData();
-                    data.append('name', _this2.form_information.name);
-                    data.append('background_color', _this2.form_information.color_bk);
-                    data.append('text_color', _this2.form_information.color_txt);
+                    data.append('name', _this3.form_information.name);
+                    data.append('background_color', _this3.form_information.color_bk);
+                    data.append('text_color', _this3.form_information.color_txt);
                     data.append('_method', "put");
 
-                    _this2.axios.post('/api/tag/' + _this2.$route.params.id, data).then(function (response) {
-                      if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
-                      } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
-                      }
-
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this2.showTag();
-                        }
-
-                        _this2.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
-
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: error
-                      });
-
-                      _this2.overlay = false;
-                    });
-                  }
-                });
-
-              case 3:
-                _context2.next = 6;
-                break;
-
-              case 5:
-                _this2.overlay = false;
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    statusTag: function statusTag() {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return _this3.$swal({
-                  title: '¿Esta seguro de cambiar el estado de la etiqueta?',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this3.overlay = true;
-                    var data = new FormData();
-                    var type = 3;
-                    if (_this3.form_status.status == "Activo") type = 1;else if (_this3.form_status.status == "Desactivado") type = 0;
-                    data.append('status', type);
-                    data.append('_method', "put");
-                    thshowTagis.axios.post('/api/tag/status/' + _this3.$route.params.id, data).then(function (response) {
+                    _this3.axios.post('/api/tag/' + _this3.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this3.sweet.title = "Éxito";
                         _this3.sweet.icon = "success";
@@ -411,7 +372,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this3.showTag();
+                          if (response.data.reload) {
+                            _this3.$router.push({
+                              name: "editTag",
+                              params: {
+                                slug: response.data.reload
+                              }
+                            });
+                          } else _this3.showTag();
                         }
 
                         _this3.overlay = false;
@@ -431,26 +399,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
+                _context2.next = 6;
+                break;
+
+              case 5:
+                _this3.overlay = false;
+
+              case 6:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
-    deleteTag: function deleteTag() {
+    statusTag: function statusTag() {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de eliminar la etiqueta?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Esta seguro de cambiar el estado de la etiqueta?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -458,8 +432,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (result) {
                   if (result.isConfirmed) {
                     _this4.overlay = true;
-
-                    _this4.axios["delete"]('/api/tag/' + _this4.$route.params.id).then(function (response) {
+                    var data = new FormData();
+                    var type = 3;
+                    if (_this4.form_status.status == "Activo") type = 1;else if (_this4.form_status.status == "Desactivado") type = 0;
+                    data.append('status', type);
+                    data.append('_method', "put");
+                    thshowTagis.axios.post('/api/tag/status/' + _this4.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this4.sweet.title = "Éxito";
                         _this4.sweet.icon = "success";
@@ -474,12 +452,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this4.overlay = false;
+                          _this4.showTag();
+                        }
 
-                          _this4.$router.push({
-                            name: "tags"
-                          });
-                        } else _this4.overlay = false;
+                        _this4.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this4.sweet.title = "Error";
@@ -492,6 +468,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
 
                       _this4.overlay = false;
+                    });
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    deleteTag: function deleteTag() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _this5.$swal({
+                  title: '¿Esta seguro de eliminar la etiqueta?',
+                  text: "Esta acción no se puede revertir",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this5.overlay = true;
+
+                    _this5.axios["delete"]('/api/tag/' + _this5.$route.params.slug).then(function (response) {
+                      if (response.data.complete) {
+                        _this5.sweet.title = "Éxito";
+                        _this5.sweet.icon = "success";
+                      } else {
+                        _this5.sweet.title = "Error";
+                        _this5.sweet.icon = "error";
+                      }
+
+                      _this5.$swal({
+                        title: _this5.sweet.title,
+                        icon: _this5.sweet.icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          _this5.overlay = false;
+
+                          _this5.$router.push({
+                            name: "tags"
+                          });
+                        } else _this5.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this5.sweet.title = "Error";
+                      _this5.sweet.icon = "error";
+
+                      _this5.$swal({
+                        title: _this5.sweet.title,
+                        icon: _this5.sweet.icon,
+                        text: error
+                      });
+
+                      _this5.overlay = false;
                     });
                   }
                 });
@@ -1565,7 +1606,7 @@ var render = function () {
           _c(
             "v-btn",
             {
-              staticClass: "mr-4",
+              staticClass: "ml-4",
               attrs: { text: "", small: "" },
               on: {
                 click: function ($event) {
@@ -1579,6 +1620,55 @@ var render = function () {
                 _vm._v("keyboard_double_arrow_left"),
               ]),
               _vm._v("\n            Regresar\n        "),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "new_btn mr-4" },
+            [
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "bk_blue txt_white mr-4",
+                                  attrs: { fab: "", small: "", elevation: "3" },
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.showTag()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("autorenew")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Recargar")])]
+              ),
             ],
             1
           ),
@@ -1737,6 +1827,35 @@ var render = function () {
                                           )
                                         },
                                         expression: "form_information.name",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        label: "Slug (Vista previa)",
+                                        tabindex: "2",
+                                        dense: "",
+                                        "prepend-icon": "code_off",
+                                        loading: _vm.loading_slug,
+                                        disabled: "",
+                                      },
+                                      model: {
+                                        value: _vm.form_information.slug,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_information,
+                                            "slug",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "form_information.slug",
                                       },
                                     }),
                                   ],

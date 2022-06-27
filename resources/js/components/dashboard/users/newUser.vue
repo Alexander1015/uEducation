@@ -103,13 +103,13 @@
                                     form.password != '' &&
                                     form.password_confirmation != ''
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-2" disabled>
+                                    <v-btn class="width_100 mt-4" disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>

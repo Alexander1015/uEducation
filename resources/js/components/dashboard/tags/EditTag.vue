@@ -6,10 +6,21 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="mr-4" text small @click.prevent="returnTags">
+            <v-btn class="ml-4" text small @click.prevent="returnTags">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
+            <div class="new_btn mr-4">
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showTag()" elevation="3"
+                            class="bk_blue txt_white mr-4">
+                            <v-icon>autorenew</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Recargar</span>
+                </v-tooltip>
+            </div>
             <v-card class="mt-4 mx-auto" elevation="2" max-width="1100">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
@@ -56,6 +67,11 @@
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
                                             label="Título *" tabindex="1" dense prepend-icon="sell" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)" tabindex="2" dense
+                                            prepend-icon="code_off" :loading="loading_slug" disabled>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -179,7 +195,9 @@ export default {
             title: "Error",
         },
         items_status: ["Activo", "Desactivado"],
+        loading_slug: false,
         form_information: {
+            slug: "",
             name: "",
             color_bk: "#E0E0E0",
             color_txt: "#676767",
@@ -205,6 +223,21 @@ export default {
         ],
         name: "",
     }),
+    watch: {
+        "form_information.name"() {
+            this.loading_slug = true;
+            let data = new FormData();
+            data.append('name', this.form_information.name);
+            this.axios.post('/api/slug', data)
+                .then(response => {
+                    this.form_information.slug = response.data.slug;
+                    this.loading_slug = false;
+                }).catch(error => {
+                    this.form_information.slug = "n/a";
+                    this.loading_slug = false;
+                })
+        },
+    },
     mounted() {
         this.showTag()
     },
@@ -214,8 +247,8 @@ export default {
         },
         async showTag() {
             this.overlay = true;
-            if (this.$route.params.id) {
-                await this.axios.get('/api/tag/' + this.$route.params.id)
+            if (this.$route.params.slug) {
+                await this.axios.get('/api/tag/' + this.$route.params.slug)
                     .then(response => {
                         this.tag = response.data;
                         if (!this.tag.name) {
@@ -258,7 +291,7 @@ export default {
                             data.append('background_color', this.form_information.color_bk);
                             data.append('text_color', this.form_information.color_txt);
                             data.append('_method', "put");
-                            this.axios.post('/api/tag/' + this.$route.params.id, data)
+                            this.axios.post('/api/tag/' + this.$route.params.slug, data)
                                 .then(response => {
                                     if (response.data.complete) {
                                         this.sweet.title = "Éxito"
@@ -274,7 +307,10 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.showTag()
+                                            if (response.data.reload) {
+                                                this.$router.push({ name: "editTag", params: { slug: response.data.reload } });
+                                            }
+                                            else this.showTag();
                                         }
                                         this.overlay = false;
                                     });
@@ -312,7 +348,7 @@ export default {
                         else if (this.form_status.status == "Desactivado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        thshowTagis.axios.post('/api/tag/status/' + this.$route.params.id, data)
+                        thshowTagis.axios.post('/api/tag/status/' + this.$route.params.slug, data)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"
@@ -358,7 +394,7 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/tag/' + this.$route.params.id)
+                        this.axios.delete('/api/tag/' + this.$route.params.slug)
                             .then(response => {
                                 if (response.data.complete) {
                                     this.sweet.title = "Éxito"

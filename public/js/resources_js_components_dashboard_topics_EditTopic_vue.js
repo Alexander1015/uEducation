@@ -272,6 +272,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -298,6 +314,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tags_copy: [],
         tags_size: 0,
         name: "",
+        slug: "",
         "abstract": "",
         img: null,
         img_new: 0
@@ -307,6 +324,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       loading_subjects: true,
       loading_tags: true,
+      loading_slug: false,
       data_subject: [],
       data_tags: [],
       prev_img: {
@@ -341,6 +359,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       name: ""
     };
   },
+  watch: {
+    "form_information.name": function form_informationName() {
+      var _this = this;
+
+      this.loading_slug = true;
+      var data = new FormData();
+      data.append('name', this.form_information.name);
+      this.axios.post('/api/slug', data).then(function (response) {
+        _this.form_information.slug = response.data.slug;
+        _this.loading_slug = false;
+      })["catch"](function (error) {
+        _this.form_information.slug = "n/a";
+        _this.loading_slug = false;
+      });
+    }
+  },
   mounted: function mounted() {
     this.showTags();
     this.showSubjects();
@@ -359,21 +393,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       editor.ui.getEditableElement().parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
     },
     showTags: function showTags() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.loading_tags = true;
+                _this2.loading_tags = true;
                 _context.next = 3;
-                return _this.axios.get('/api/gettags').then(function (response) {
-                  _this.data_tags = response.data;
-                  _this.loading_tags = false;
+                return _this2.axios.get('/api/gettags').then(function (response) {
+                  _this2.data_tags = response.data;
+                  _this2.loading_tags = false;
                 })["catch"](function (error) {
-                  _this.data_subject = [];
-                  _this.loading_tags = false;
+                  _this2.data_subject = [];
+                  _this2.loading_tags = false;
                 });
 
               case 3:
@@ -385,7 +419,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     showSubjects: function showSubjects() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -393,12 +427,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this2.axios.get('/api/getsubjects').then(function (response) {
-                  _this2.data_subject = response.data;
-                  _this2.loading_subjects = false;
+                return _this3.axios.get('/api/getsubjects').then(function (response) {
+                  _this3.data_subject = response.data;
+                  _this3.loading_subjects = false;
                 })["catch"](function (error) {
-                  _this2.data_subject = [];
-                  _this2.loading_subjects = false;
+                  _this3.data_subject = [];
+                  _this3.loading_subjects = false;
                 });
 
               case 2:
@@ -415,71 +449,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     showTopic: function showTopic() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.overlay = true;
+                _this4.overlay = true;
 
-                if (!_this3.$route.params.id) {
+                if (!_this4.$route.params.slug) {
                   _context3.next = 6;
                   break;
                 }
 
                 _context3.next = 4;
-                return _this3.axios.get('/api/topic/' + _this3.$route.params.id).then(function (response) {
-                  _this3.topic = response.data;
+                return _this4.axios.get('/api/topic/' + _this4.$route.params.slug).then(function (response) {
+                  _this4.topic = response.data;
 
-                  if (!_this3.topic.name) {
-                    _this3.overlay = false;
+                  if (!_this4.topic.name) {
+                    _this4.overlay = false;
 
-                    _this3.$router.push({
+                    _this4.$router.push({
                       name: "topics"
                     });
                   } else {
-                    _this3.form_information.name = _this3.topic.name;
-                    _this3.form_information["abstract"] = _this3.topic["abstract"];
+                    _this4.form_information.name = _this4.topic.name;
+                    _this4.form_information["abstract"] = _this4.topic["abstract"];
 
-                    if (_this3.topic.img) {
-                      _this3.prev_img.url_img = "/img/topics/" + _this3.topic.img;
-                      _this3.prev_img.lazy_img = "/img/lazy_topics/" + _this3.topic.img;
+                    if (_this4.topic.img) {
+                      _this4.prev_img.url_img = "/img/topics/" + _this4.topic.img;
+                      _this4.prev_img.lazy_img = "/img/lazy_topics/" + _this4.topic.img;
                     }
 
-                    _this3.form_information.img = null;
-                    _this3.form_information.img_new = 0;
-                    _this3.editorData = _this3.topic.body;
-                    if (_this3.topic.status == 0) _this3.form_status.status = "Borrador";else if (_this3.topic.status == 1) _this3.form_status.status = "Activo";
+                    _this4.form_information.img = null;
+                    _this4.form_information.img_new = 0;
+                    _this4.editorData = _this4.topic.body;
+                    if (_this4.topic.status == 0) _this4.form_status.status = "Borrador";else if (_this4.topic.status == 1) _this4.form_status.status = "Activo";
 
-                    _this3.axios.get('/api/getsubjects/' + _this3.topic.subject_id).then(function (response_sub) {
-                      _this3.form_information.subject = response_sub.data.name;
-                      _this3.form_information.copy_subject = response_sub.data.name;
-                      _this3.overlay = false;
+                    _this4.axios.get('/api/getsubjects/' + _this4.topic.subject_id).then(function (response_sub) {
+                      _this4.form_information.subject = response_sub.data.name;
+                      _this4.form_information.copy_subject = response_sub.data.name;
+                      _this4.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
-                      _this3.form_information.subject = "";
-                      _this3.form_information.copy_subject = "";
-                      _this3.overlay = false;
+                      _this4.form_information.subject = "";
+                      _this4.form_information.copy_subject = "";
+                      _this4.overlay = false;
                     });
 
-                    _this3.axios.get('/api/gettags/' + _this3.topic.id).then(function (response_sub) {
-                      _this3.form_information.tags = response_sub.data;
-                      _this3.form_information.tags_copy = response_sub.data;
-                      _this3.form_information.tags_size = response_sub.data.length;
-                      _this3.overlay = false;
+                    _this4.axios.get('/api/gettags/' + _this4.topic.id).then(function (response_sub) {
+                      _this4.form_information.tags = response_sub.data;
+                      _this4.form_information.tags_copy = response_sub.data;
+                      _this4.form_information.tags_size = response_sub.data.length;
+                      _this4.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
-                      _this3.form_information.tags = [];
-                      _this3.form_information.tags_copy = [];
-                      _this3.form_information.tags_size = 0;
-                      _this3.overlay = false;
+                      _this4.form_information.tags = [];
+                      _this4.form_information.tags_copy = [];
+                      _this4.form_information.tags_size = 0;
+                      _this4.overlay = false;
                     });
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this3.overlay = false;
+                  _this4.overlay = false;
                 });
 
               case 4:
@@ -487,9 +521,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 6:
-                _this3.overlay = false;
+                _this4.overlay = false;
 
-                _this3.$router.push({
+                _this4.$router.push({
                   name: "topics"
                 });
 
@@ -502,20 +536,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editTopic: function editTopic() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!_this4.$refs.form_information.validate()) {
+                if (!_this5.$refs.form_information.validate()) {
                   _context4.next = 5;
                   break;
                 }
 
                 _context4.next = 3;
-                return _this4.$swal({
+                return _this5.$swal({
                   title: '¿Esta seguro de modificar el tema?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -523,12 +557,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this4.overlay = true;
+                    _this5.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this4.form_information.subject);
+                    data.append('subject', _this5.form_information.subject);
 
-                    if (_this4.form_information.tags.length > 0) {
-                      var _iterator = _createForOfIteratorHelper(_this4.form_information.tags),
+                    if (_this5.form_information.tags.length > 0) {
+                      var _iterator = _createForOfIteratorHelper(_this5.form_information.tags),
                           _step;
 
                       try {
@@ -543,90 +577,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     }
 
-                    data.append('name', _this4.form_information.name);
-                    data.append('abstract', _this4.form_information["abstract"]);
-                    _this4.form_information.img = document.querySelector('#img').files[0];
+                    data.append('name', _this5.form_information.name);
+                    data.append('abstract', _this5.form_information["abstract"]);
+                    _this5.form_information.img = document.querySelector('#img').files[0];
 
-                    if (_this4.form_information.img) {
-                      data.append('img', _this4.form_information.img);
+                    if (_this5.form_information.img) {
+                      data.append('img', _this5.form_information.img);
                     }
 
-                    data.append('img_new', _this4.form_information.img_new);
+                    data.append('img_new', _this5.form_information.img_new);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/topic/' + _this4.$route.params.id, data).then(function (response) {
-                      if (response.data.complete) {
-                        _this4.sweet.title = "Éxito";
-                        _this4.sweet.icon = "success";
-                      } else {
-                        _this4.sweet.title = "Error";
-                        _this4.sweet.icon = "error";
-                      }
-
-                      _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this4.showTopic();
-                        }
-
-                        _this4.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this4.sweet.title = "Error";
-                      _this4.sweet.icon = "error";
-
-                      _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
-                        text: error
-                      });
-
-                      _this4.overlay = false;
-                    });
-                  }
-                });
-
-              case 3:
-                _context4.next = 6;
-                break;
-
-              case 5:
-                _this4.overlay = false;
-
-              case 6:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    saveBody: function saveBody() {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return _this5.$swal({
-                  title: '¿Esta seguro de guardar el contenido?',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this5.overlay = true;
-                    var data = new FormData();
-                    data.append('body', _this5.editorData);
-                    data.append('_method', "put");
-
-                    _this5.axios.post('/api/topic/body/' + _this5.$route.params.id, data).then(function (response) {
+                    _this5.axios.post('/api/topic/' + _this5.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this5.sweet.title = "Éxito";
                         _this5.sweet.icon = "success";
@@ -635,15 +597,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this5.sweet.icon = "error";
                       }
 
-                      console.log(response.data.message);
-
                       _this5.$swal({
                         title: _this5.sweet.title,
                         icon: _this5.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this5.showTopic();
+                          if (response.data.reload) {
+                            _this5.$router.push({
+                              name: "editTopic",
+                              params: {
+                                slug: response.data.reload
+                              }
+                            });
+                          } else _this5.showTopic();
                         }
 
                         _this5.overlay = false;
@@ -663,25 +630,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
+                _context4.next = 6;
+                break;
+
+              case 5:
+                _this5.overlay = false;
+
+              case 6:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5);
+        }, _callee4);
       }))();
     },
-    statusTopic: function statusTopic() {
+    saveBody: function saveBody() {
       var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context6.next = 2;
+                _context5.next = 2;
                 return _this6.$swal({
-                  title: '¿Esta seguro de cambiar el estado del tema?',
+                  title: '¿Esta seguro de guardar el contenido?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -690,12 +664,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this6.overlay = true;
                     var data = new FormData();
-                    var type = 3;
-                    if (_this6.form_status.status == "Activo") type = 1;else if (_this6.form_status.status == "Borrador") type = 0;
-                    data.append('status', type);
+                    data.append('body', _this6.editorData);
                     data.append('_method', "put");
 
-                    _this6.axios.post('/api/topic/status/' + _this6.$route.params.id, data).then(function (response) {
+                    _this6.axios.post('/api/topic/body/' + _this6.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this6.sweet.title = "Éxito";
                         _this6.sweet.icon = "success";
@@ -703,6 +675,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this6.sweet.title = "Error";
                         _this6.sweet.icon = "error";
                       }
+
+                      console.log(response.data.message);
 
                       _this6.$swal({
                         title: _this6.sweet.title,
@@ -732,24 +706,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6);
+        }, _callee5);
       }))();
     },
-    deleteTopic: function deleteTopic() {
+    statusTopic: function statusTopic() {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return _this7.$swal({
-                  title: '¿Esta seguro de eliminar el tema?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Esta seguro de cambiar el estado del tema?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -757,8 +730,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (result) {
                   if (result.isConfirmed) {
                     _this7.overlay = true;
+                    var data = new FormData();
+                    var type = 3;
+                    if (_this7.form_status.status == "Activo") type = 1;else if (_this7.form_status.status == "Borrador") type = 0;
+                    data.append('status', type);
+                    data.append('_method', "put");
 
-                    _this7.axios["delete"]('/api/topic/' + _this7.$route.params.id).then(function (response) {
+                    _this7.axios.post('/api/topic/status/' + _this7.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this7.sweet.title = "Éxito";
                         _this7.sweet.icon = "success";
@@ -773,12 +751,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this7.overlay = false;
+                          _this7.showTopic();
+                        }
 
-                          _this7.$router.push({
-                            name: "topics"
-                          });
-                        } else _this7.overlay = false;
+                        _this7.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this7.sweet.title = "Error";
@@ -791,6 +767,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
 
                       _this7.overlay = false;
+                    });
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    deleteTopic: function deleteTopic() {
+      var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return _this8.$swal({
+                  title: '¿Esta seguro de eliminar el tema?',
+                  text: "Esta acción no se puede revertir",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this8.overlay = true;
+
+                    _this8.axios["delete"]('/api/topic/' + _this8.$route.params.slug).then(function (response) {
+                      if (response.data.complete) {
+                        _this8.sweet.title = "Éxito";
+                        _this8.sweet.icon = "success";
+                      } else {
+                        _this8.sweet.title = "Error";
+                        _this8.sweet.icon = "error";
+                      }
+
+                      _this8.$swal({
+                        title: _this8.sweet.title,
+                        icon: _this8.sweet.icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          _this8.overlay = false;
+
+                          _this8.$router.push({
+                            name: "topics"
+                          });
+                        } else _this8.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this8.sweet.title = "Error";
+                      _this8.sweet.icon = "error";
+
+                      _this8.$swal({
+                        title: _this8.sweet.title,
+                        icon: _this8.sweet.icon,
+                        text: error
+                      });
+
+                      _this8.overlay = false;
                     });
                   }
                 });
@@ -839,8 +880,8 @@ var UploadAdapter = /*#__PURE__*/function () {
           data.append('image', uploadedFile);
           data.append('_method', "put");
           var url = window.location.href;
-          var id = url.substring(url.lastIndexOf("/") + 1);
-          axios.post('/api/topic/upload/' + id, data, {
+          var slug = url.substring(url.lastIndexOf("/") + 1);
+          axios.post('/api/topic/upload/' + slug, data, {
             headers: {
               'Content-Type': 'multipart/form-data;'
             }
@@ -1199,6 +1240,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea {\n  color: #FFFFFF;\n}\n.theme--light.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea::-moz-placeholder {\n  color: rgba(255, 255, 255, 0.5);\n}\n.theme--light.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea:-ms-input-placeholder {\n  color: rgba(255, 255, 255, 0.5);\n}\n.theme--light.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea::placeholder {\n  color: rgba(255, 255, 255, 0.5);\n}\n\n.theme--dark.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea {\n  color: rgba(0, 0, 0, 0.87);\n}\n.theme--dark.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea::-moz-placeholder {\n  color: rgba(0, 0, 0, 0.38);\n}\n.theme--dark.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea:-ms-input-placeholder {\n  color: rgba(0, 0, 0, 0.38);\n}\n.theme--dark.v-textarea.v-text-field--solo-inverted.v-input--is-focused textarea::placeholder {\n  color: rgba(0, 0, 0, 0.38);\n}\n\n.v-textarea textarea {\n  align-self: stretch;\n  flex: 1 1 auto;\n  line-height: 1.75rem;\n  max-width: 100%;\n  min-height: 32px;\n  outline: none;\n  padding: 0;\n  width: 100%;\n}\n.v-textarea .v-text-field__prefix,\n.v-textarea .v-text-field__suffix {\n  padding-top: 2px;\n  align-self: start;\n}\n.v-textarea.v-text-field--box .v-text-field__prefix,\n.v-textarea.v-text-field--box textarea, .v-textarea.v-text-field--enclosed .v-text-field__prefix,\n.v-textarea.v-text-field--enclosed textarea {\n  margin-top: 24px;\n}\n.v-textarea.v-text-field--box.v-text-field--single-line:not(.v-input--dense) .v-text-field__prefix,\n.v-textarea.v-text-field--box.v-text-field--single-line:not(.v-input--dense) .v-text-field__suffix,\n.v-textarea.v-text-field--box.v-text-field--single-line:not(.v-input--dense) textarea, .v-textarea.v-text-field--box.v-text-field--outlined:not(.v-input--dense) .v-text-field__prefix,\n.v-textarea.v-text-field--box.v-text-field--outlined:not(.v-input--dense) .v-text-field__suffix,\n.v-textarea.v-text-field--box.v-text-field--outlined:not(.v-input--dense) textarea, .v-textarea.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense) .v-text-field__prefix,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense) .v-text-field__suffix,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense) textarea, .v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) .v-text-field__prefix,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) .v-text-field__suffix,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) textarea {\n  margin-top: 10px;\n}\n.v-textarea.v-text-field--box.v-text-field--single-line:not(.v-input--dense) .v-label, .v-textarea.v-text-field--box.v-text-field--outlined:not(.v-input--dense) .v-label, .v-textarea.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense) .v-label, .v-textarea.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) .v-label {\n  top: 18px;\n}\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-text-field__prefix,\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-text-field__suffix,\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense textarea, .v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-text-field__prefix,\n.v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-text-field__suffix,\n.v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense textarea, .v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-text-field__prefix,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-text-field__suffix,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense textarea, .v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-text-field__prefix,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-text-field__suffix,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense textarea {\n  margin-top: 6px;\n}\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-input__prepend-inner,\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-input__prepend-outer,\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-input__append-inner,\n.v-textarea.v-text-field--box.v-text-field--single-line.v-input--dense .v-input__append-outer, .v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-input__prepend-inner,\n.v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-input__prepend-outer,\n.v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-input__append-inner,\n.v-textarea.v-text-field--box.v-text-field--outlined.v-input--dense .v-input__append-outer, .v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-input__prepend-inner,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-input__prepend-outer,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-input__append-inner,\n.v-textarea.v-text-field--enclosed.v-text-field--single-line.v-input--dense .v-input__append-outer, .v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-input__prepend-inner,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-input__prepend-outer,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-input__append-inner,\n.v-textarea.v-text-field--enclosed.v-text-field--outlined.v-input--dense .v-input__append-outer {\n  align-self: flex-start;\n  margin-top: 8px;\n}\n.v-textarea.v-text-field--solo {\n  align-items: flex-start;\n}\n.v-textarea.v-text-field--solo .v-input__control textarea {\n  caret-color: auto;\n}\n.v-textarea.v-text-field--solo .v-input__prepend-inner,\n.v-textarea.v-text-field--solo .v-input__prepend-outer,\n.v-textarea.v-text-field--solo .v-input__append-inner,\n.v-textarea.v-text-field--solo .v-input__append-outer {\n  align-self: flex-start;\n  margin-top: 12px;\n}\n.v-application--is-ltr .v-textarea.v-text-field--solo .v-input__append-inner {\n  padding-left: 12px;\n}\n.v-application--is-rtl .v-textarea.v-text-field--solo .v-input__append-inner {\n  padding-right: 12px;\n}\n.v-textarea--auto-grow textarea {\n  overflow: hidden;\n}\n.v-textarea--no-resize textarea {\n  resize: none;\n}\n.v-textarea.v-text-field--enclosed .v-text-field__slot {\n  align-self: stretch;\n}\n.v-application--is-ltr .v-textarea.v-text-field--enclosed .v-text-field__slot {\n  margin-right: -12px;\n}\n.v-application--is-rtl .v-textarea.v-text-field--enclosed .v-text-field__slot {\n  margin-left: -12px;\n}\n.v-application--is-ltr .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {\n  padding-right: 12px;\n}\n.v-application--is-rtl .v-textarea.v-text-field--enclosed .v-text-field__slot textarea {\n  padding-left: 12px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-tooltip {\n  display: none;\n}\n.v-tooltip--attached {\n  display: inline;\n}\n.v-tooltip__content {\n  background: rgba(97, 97, 97, 0.9);\n  color: #FFFFFF;\n  border-radius: 4px;\n  font-size: 14px;\n  line-height: 22px;\n  display: inline-block;\n  padding: 5px 16px;\n  position: absolute;\n  text-transform: initial;\n  width: auto;\n  opacity: 0;\n  pointer-events: none;\n}\n.v-tooltip__content.menuable__content__active {\n  opacity: 0.9;\n}\n.v-tooltip__content--fixed {\n  position: fixed;\n}\n.v-tooltip__content[class*=-active] {\n  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);\n}\n.v-tooltip__content[class*=enter-active] {\n  transition-duration: 150ms;\n}\n.v-tooltip__content[class*=leave-active] {\n  transition-duration: 75ms;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1649,6 +1714,36 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!********************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VTooltip.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VWindow/VWindow.sass":
 /*!******************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VWindow/VWindow.sass ***!
@@ -1751,7 +1846,7 @@ var render = function () {
           _c(
             "v-btn",
             {
-              staticClass: "mr-4",
+              staticClass: "ml-4",
               attrs: { text: "", small: "" },
               on: {
                 click: function ($event) {
@@ -1765,6 +1860,57 @@ var render = function () {
                 _vm._v("keyboard_double_arrow_left"),
               ]),
               _vm._v("\n            Regresar\n        "),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "new_btn mr-4" },
+            [
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "bk_blue txt_white mr-4",
+                                  attrs: { fab: "", small: "", elevation: "3" },
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      _vm.showTags(),
+                                        _vm.showSubjects(),
+                                        _vm.showTopic()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("autorenew")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Recargar")])]
+              ),
             ],
             1
           ),
@@ -1913,6 +2059,35 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12" } },
                                   [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        label: "Slug (Vista previa)",
+                                        tabindex: "2",
+                                        dense: "",
+                                        "prepend-icon": "code_off",
+                                        loading: _vm.loading_slug,
+                                        disabled: "",
+                                      },
+                                      model: {
+                                        value: _vm.form_information.slug,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_information,
+                                            "slug",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "form_information.slug",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
                                     _c("v-autocomplete", {
                                       attrs: {
                                         rules: _vm.info.subjectRules,
@@ -1920,7 +2095,7 @@ var render = function () {
                                         clearable: "",
                                         "clear-icon": "cancel",
                                         label: "Curso *",
-                                        tabindex: "2",
+                                        tabindex: "3",
                                         dense: "",
                                         loading: _vm.loading_subjects,
                                         "no-data-text":
@@ -1957,7 +2132,7 @@ var render = function () {
                                         clearable: "",
                                         "clear-icon": "cancel",
                                         label: "Etiquetas (Max. 5)*",
-                                        tabindex: "3",
+                                        tabindex: "4",
                                         dense: "",
                                         loading: _vm.loading_tags,
                                         "item-text": "name",
@@ -2073,7 +2248,7 @@ var render = function () {
                                         label: "Descripción",
                                         dense: "",
                                         "prepend-icon": "subject",
-                                        tabindex: "3",
+                                        tabindex: "5",
                                       },
                                       model: {
                                         value: _vm.form_information.abstract,
@@ -2105,7 +2280,7 @@ var render = function () {
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "5",
+                                        tabindex: "6",
                                       },
                                       on: { change: _vm.preview_img },
                                       model: {
@@ -2210,7 +2385,7 @@ var render = function () {
                                     "v-btn",
                                     {
                                       staticClass:
-                                        "txt_white bk_green width_100 mt-2",
+                                        "txt_white bk_green width_100 mt-4",
                                       attrs: { type: "submit" },
                                     },
                                     [
@@ -2228,7 +2403,7 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-2",
+                                      staticClass: "width_100 mt-4",
                                       attrs: { disabled: "" },
                                     },
                                     [
@@ -2541,6 +2716,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/VTextarea.js");
 /* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
 /* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -2586,7 +2762,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_11__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_14__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemContent,VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_16__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_17__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_18__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_19__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_20__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_23__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_24__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_25__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_26__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_27__.VToolbarTitle})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_10__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_11__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_12__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_13__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_14__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_15__.VListItemContent,VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_16__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_17__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_18__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_19__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_20__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_22__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_23__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_24__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_25__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_26__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_27__.VToolbarTitle,VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_28__["default"]})
 
 
 /* hot reload */
@@ -7481,6 +7658,244 @@ const VToolbarItems = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_0__.createSimple
   }
 });
 //# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VTooltip/VTooltip.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VTooltip_VTooltip_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VTooltip/VTooltip.sass */ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+/* harmony import */ var _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixins/activatable */ "./node_modules/vuetify/lib/mixins/activatable/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/delayable */ "./node_modules/vuetify/lib/mixins/delayable/index.js");
+/* harmony import */ var _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/dependent */ "./node_modules/vuetify/lib/mixins/dependent/index.js");
+/* harmony import */ var _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/menuable */ "./node_modules/vuetify/lib/mixins/menuable/index.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+/* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+ // Mixins
+
+
+
+
+
+ // Helpers
+
+
+
+
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_colorable__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__["default"]).extend({
+  name: 'v-tooltip',
+  props: {
+    closeDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    disabled: Boolean,
+    openDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    openOnHover: {
+      type: Boolean,
+      default: true
+    },
+    openOnFocus: {
+      type: Boolean,
+      default: true
+    },
+    tag: {
+      type: String,
+      default: 'span'
+    },
+    transition: String
+  },
+  data: () => ({
+    calculatedMinWidth: 0,
+    closeDependents: false
+  }),
+  computed: {
+    calculatedLeft() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const unknown = !this.bottom && !this.left && !this.top && !this.right;
+      const activatorLeft = this.attach !== false ? activator.offsetLeft : activator.left;
+      let left = 0;
+
+      if (this.top || this.bottom || unknown) {
+        left = activatorLeft + activator.width / 2 - content.width / 2;
+      } else if (this.left || this.right) {
+        left = activatorLeft + (this.right ? activator.width : -content.width) + (this.right ? 10 : -10);
+      }
+
+      if (this.nudgeLeft) left -= parseInt(this.nudgeLeft);
+      if (this.nudgeRight) left += parseInt(this.nudgeRight);
+      return `${this.calcXOverflow(left, this.dimensions.content.width)}px`;
+    },
+
+    calculatedTop() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const activatorTop = this.attach !== false ? activator.offsetTop : activator.top;
+      let top = 0;
+
+      if (this.top || this.bottom) {
+        top = activatorTop + (this.bottom ? activator.height : -content.height) + (this.bottom ? 10 : -10);
+      } else if (this.left || this.right) {
+        top = activatorTop + activator.height / 2 - content.height / 2;
+      }
+
+      if (this.nudgeTop) top -= parseInt(this.nudgeTop);
+      if (this.nudgeBottom) top += parseInt(this.nudgeBottom);
+      if (this.attach === false) top += this.pageYOffset;
+      return `${this.calcYOverflow(top)}px`;
+    },
+
+    classes() {
+      return {
+        'v-tooltip--top': this.top,
+        'v-tooltip--right': this.right,
+        'v-tooltip--bottom': this.bottom,
+        'v-tooltip--left': this.left,
+        'v-tooltip--attached': this.attach === '' || this.attach === true || this.attach === 'attach'
+      };
+    },
+
+    computedTransition() {
+      if (this.transition) return this.transition;
+      return this.isActive ? 'scale-transition' : 'fade-transition';
+    },
+
+    offsetY() {
+      return this.top || this.bottom;
+    },
+
+    offsetX() {
+      return this.left || this.right;
+    },
+
+    styles() {
+      return {
+        left: this.calculatedLeft,
+        maxWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.maxWidth),
+        minWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.minWidth),
+        top: this.calculatedTop,
+        zIndex: this.zIndex || this.activeZIndex
+      };
+    }
+
+  },
+
+  beforeMount() {
+    this.$nextTick(() => {
+      this.value && this.callActivate();
+    });
+  },
+
+  mounted() {
+    if ((0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.getSlotType)(this, 'activator', true) === 'v-slot') {
+      (0,_util_console__WEBPACK_IMPORTED_MODULE_7__.consoleError)(`v-tooltip's activator slot must be bound, try '<template #activator="data"><v-btn v-on="data.on>'`, this);
+    }
+  },
+
+  methods: {
+    activate() {
+      // Update coordinates and dimensions of menu
+      // and its activator
+      this.updateDimensions(); // Start the transition
+
+      requestAnimationFrame(this.startTransition);
+    },
+
+    deactivate() {
+      this.runDelay('close');
+    },
+
+    genActivatorListeners() {
+      const listeners = _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__["default"].options.methods.genActivatorListeners.call(this);
+
+      if (this.openOnFocus) {
+        listeners.focus = e => {
+          this.getActivator(e);
+          this.runDelay('open');
+        };
+
+        listeners.blur = e => {
+          this.getActivator(e);
+          this.runDelay('close');
+        };
+      }
+
+      listeners.keydown = e => {
+        if (e.keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_6__.keyCodes.esc) {
+          this.getActivator(e);
+          this.runDelay('close');
+        }
+      };
+
+      return listeners;
+    },
+
+    genActivatorAttributes() {
+      return {
+        'aria-haspopup': true,
+        'aria-expanded': String(this.isActive)
+      };
+    },
+
+    genTransition() {
+      const content = this.genContent();
+      if (!this.computedTransition) return content;
+      return this.$createElement('transition', {
+        props: {
+          name: this.computedTransition
+        }
+      }, [content]);
+    },
+
+    genContent() {
+      return this.$createElement('div', this.setBackgroundColor(this.color, {
+        staticClass: 'v-tooltip__content',
+        class: {
+          [this.contentClass]: true,
+          menuable__content__active: this.isActive,
+          'v-tooltip__content--fixed': this.activatorFixed
+        },
+        style: this.styles,
+        attrs: this.getScopeIdAttrs(),
+        directives: [{
+          name: 'show',
+          value: this.isContentActive
+        }],
+        ref: 'content'
+      }), this.getContentSlot());
+    }
+
+  },
+
+  render(h) {
+    return h(this.tag, {
+      staticClass: 'v-tooltip',
+      class: this.classes
+    }, [this.showLazyContent(() => [this.genTransition()]), this.genActivator()]);
+  }
+
+}));
+//# sourceMappingURL=VTooltip.js.map
 
 /***/ }),
 

@@ -18,12 +18,12 @@ class UploadImageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $id)->first();
+                $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema al cual adjunta la imagen no existe",
@@ -36,7 +36,7 @@ class UploadImageController extends Controller
                         $img = $request->file('image');
                         $size = Image::make($img->getRealPath())->width();
                         //original
-                        $address = public_path('/img/topics') . "/" . $id;
+                        $address = public_path('/img/topics') . "/" . $data->id;
                         if (!File::isDirectory($address)) {
                             File::makeDirectory($address, 0777, true, true);
                         }
@@ -46,11 +46,11 @@ class UploadImageController extends Controller
                         $img->save($address . '/' . $new_img, 100);
                         DB::table("images")
                             ->insert([
-                                'topic_id' => $id,
+                                'topic_id' => $data->id,
                                 'image' => $new_img,
                             ]);
                         return response()->json([
-                            'url' => '/img/topics/' . $id . '/' . $new_img,
+                            'url' => '/img/topics/' . $data->id . '/' . $new_img,
                             'message' => "Se ha subido exitosamente la imagen al servidor.",
                         ]);
                     } else {

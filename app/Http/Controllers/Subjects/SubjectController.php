@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Exception;
 
 class SubjectController extends Controller
@@ -17,7 +18,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = DB::table('subjects')->get();
+        $subjects = DB::table('subjects')->orderBy('name', 'asc')->get();
         return response()->json($subjects);
     }
 
@@ -49,9 +50,11 @@ class SubjectController extends Controller
                         ]);
                     }
                 } else {
+                    $slug = Str::slug($request->input('name'));
                     if (DB::table("subjects")
                         ->insert([
                             'name' => $request->input('name'),
+                            'slug' => $slug
                         ])
                     ) {
                         return response()->json([
@@ -59,10 +62,18 @@ class SubjectController extends Controller
                             'complete' => true,
                         ]);
                     } else {
-                        return response()->json([
-                            'message' => 'Ha ocurrido un error al momento de crear el curso',
-                            'complete' => false,
-                        ]);
+                        $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                        if ($old_slug) {
+                            return response()->json([
+                                'message' => 'El slug generado ya existe, genere uno nuevo',
+                                'complete' => false,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Ha ocurrido un error al momento de crear el curso',
+                                'complete' => false,
+                            ]);
+                        }
                     }
                 }
             } else {
@@ -86,9 +97,9 @@ class SubjectController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $subject = DB::table("subjects")->where("id", $id)->first();
+        $subject = DB::table("subjects")->where("slug", $slug)->first();
         return response()->json($subject);
     }
 
@@ -99,12 +110,12 @@ class SubjectController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("subjects")->where("id", $id)->first();
+                $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El curso seleccionado no existe",
@@ -128,14 +139,24 @@ class SubjectController extends Controller
                             ]);
                         }
                     } else {
-                        if (DB::update("UPDATE subjects SET name = ? WHERE id = ?", [
+                        $slug = Str::slug($request->input('name'));
+                        if (DB::update("UPDATE subjects SET slug = ?, name = ? WHERE id = ?", [
+                            $slug,
                             $request->input('name'),
                             $data->id,
                         ])) {
-                            return response()->json([
-                                'message' => 'Curso modificado exitosamente',
-                                'complete' => true,
-                            ]);
+                            if ($data->slug != $slug) {
+                                return response()->json([
+                                    'message' => 'Curso modificado exitosamente',
+                                    'complete' => true,
+                                    'reload' => $slug,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Curso modificado exitosamente',
+                                    'complete' => true,
+                                ]);
+                            }
                         } else {
                             if (
                                 $data->name == $request->input('name')
@@ -145,10 +166,18 @@ class SubjectController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de modificar el curso',
-                                    'complete' => false,
-                                ]);
+                                $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                                if ($old_slug) {
+                                    return response()->json([
+                                        'message' => 'El slug generado ya existe, genere uno nuevo',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Ha ocurrido un error al momento de modificar el curso',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -174,23 +203,23 @@ class SubjectController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("subjects")->where("id", $id)->first();
+                $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El curso seleccionado no existe",
                         'complete' => false,
                     ]);
                 } else {
-                    $topics = DB::table("topics")->where("subject_id", $id)->get();
+                    $topics = DB::table("topics")->where("subject_id", $slug)->get();
                     if (sizeof($topics) > 0) {
                         DB::update("UPDATE topics SET subject_id = ? WHERE subject_id = ?", [
                             null,
-                            $id,
+                            $data->id,
                         ]);
                     }
                     if (DB::table("subjects")->delete($data->id)) {

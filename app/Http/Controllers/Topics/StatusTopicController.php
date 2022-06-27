@@ -17,12 +17,12 @@ class StatusTopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $id)->first();
+                $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema seleccionado no existe",

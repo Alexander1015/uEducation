@@ -1425,7 +1425,7 @@ var render = function () {
                           [
                             item.status == 0
                               ? [
-                                  _vm.user.id !== item.id
+                                  _vm.user.id !== item.slug
                                     ? [
                                         _c(
                                           "v-btn",
@@ -1435,7 +1435,7 @@ var render = function () {
                                               click: function ($event) {
                                                 $event.preventDefault()
                                                 return _vm.statusUser(
-                                                  item.id,
+                                                  item.slug,
                                                   1
                                                 )
                                               },
@@ -1459,7 +1459,7 @@ var render = function () {
                                 ]
                               : item.status == 1
                               ? [
-                                  _vm.user.id !== item.id
+                                  _vm.user.id !== item.slug
                                     ? [
                                         _c(
                                           "v-btn",
@@ -1469,7 +1469,7 @@ var render = function () {
                                               click: function ($event) {
                                                 $event.preventDefault()
                                                 return _vm.statusUser(
-                                                  item.id,
+                                                  item.slug,
                                                   0
                                                 )
                                               },
@@ -1503,7 +1503,7 @@ var render = function () {
                     fn: function (ref) {
                       var item = ref.item
                       return [
-                        _vm.user.id !== item.id
+                        _vm.user.id !== item.slug
                           ? [
                               _c(
                                 "v-tooltip",
@@ -1527,7 +1527,9 @@ var render = function () {
                                                       icon: "",
                                                       to: {
                                                         name: "editUser",
-                                                        params: { id: item.id },
+                                                        params: {
+                                                          slug: item.slug,
+                                                        },
                                                       },
                                                     },
                                                   },
@@ -1583,7 +1585,7 @@ var render = function () {
                                                       click: function ($event) {
                                                         $event.preventDefault()
                                                         return _vm.deleteUser(
-                                                          item.id
+                                                          item.slug
                                                         )
                                                       },
                                                     },

@@ -52,14 +52,14 @@
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
-                                <v-btn icon @click.prevent="statusTag(item.id, 1)">
+                                <v-btn icon @click.prevent="statusTag(item.slug, 1)">
                                     <v-icon>
                                         check_box_outline_blank
                                     </v-icon>
                                 </v-btn>
                             </template>
                             <template v-else-if="item.status == 1">
-                                <v-btn icon @click.prevent="statusTag(item.id, 0)">
+                                <v-btn icon @click.prevent="statusTag(item.slug, 0)">
                                     <v-icon>
                                         check_box
                                     </v-icon>
@@ -74,7 +74,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
-                                    :to='{ name: "editTag", params: { id: item.id } }'>
+                                    :to='{ name: "editTag", params: { slug: item.slug } }'>
                                     <v-icon>
                                         settings
                                     </v-icon>
@@ -84,7 +84,7 @@
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon class="txt_red" @click.prevent="deleteTag(item.id)" v-bind="attrs"
+                                <v-btn icon class="txt_red" @click.prevent="deleteTag(item.slug)" v-bind="attrs"
                                     v-on="on">
                                     <v-icon>
                                         delete

@@ -18,12 +18,12 @@ class BodyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $id)->first();
+                $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema seleccionado no existe",
@@ -36,18 +36,18 @@ class BodyController extends Controller
                         $data->id,
                     ])) {
                         // Eliminamos de la BD las imagenes que se eliminaron
-                        $images_db = DB::table("images")->where("topic_id", $id)->get();
+                        $images_db = DB::table("images")->where("topic_id", $data->id)->get();
                         foreach ($images_db as $db) {
-                            $data = "<img src=\"/img/topics/" . $id . "/" . $db->image . "\">";
+                            $data = "<img src=\"/img/topics/" . $data->id . "/" . $db->image . "\">";
                             if (!Str::contains($request->input('body'), $data)) {
                                 DB::table("images")->delete($db->id);
                             }
                         }
-                        $directory = public_path('/img/topics') . "/" . $id;
+                        $directory = public_path('/img/topics') . "/" . $data->id;
                         $files = array();
                         if (File::isDirectory($directory)) {
                             // Obtenemos todos los datos
-                            $images_db = DB::table("images")->where("topic_id", $id)->get();
+                            $images_db = DB::table("images")->where("topic_id", $data->id)->get();
                             $data = File::allFiles($directory);
                             if (sizeof($data) > 0) {
                                 foreach ($data as $item) {
@@ -117,8 +117,8 @@ class BodyController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

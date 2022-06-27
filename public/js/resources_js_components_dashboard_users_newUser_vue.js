@@ -1157,7 +1157,7 @@ var render = function () {
                                     "v-btn",
                                     {
                                       staticClass:
-                                        "txt_white bk_green width_100 mt-2",
+                                        "txt_white bk_green width_100 mt-4",
                                       attrs: { type: "submit" },
                                     },
                                     [
@@ -1175,7 +1175,7 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-2",
+                                      staticClass: "width_100 mt-4",
                                       attrs: { disabled: "" },
                                     },
                                     [

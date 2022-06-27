@@ -10,6 +10,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Str;
 use Exception;
 
 class UserController extends Controller
@@ -21,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->get();
+        $users = DB::table('users')->orderBy('user', 'asc')->get();
         return response()->json($users);
     }
 
@@ -79,8 +80,13 @@ class UserController extends Controller
                         //Direccion de la imagen
                         $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
                     }
+                    $slug = Str::random(20);
+                    while (DB::table("users")->where('slug', $slug)->first()) {
+                        $slug = Str::random(20);
+                    }
                     if (DB::table("users")
                         ->insert([
+                            'slug' => $slug,
                             'firstname' => $request->input('firstname'),
                             'lastname' => $request->input('lastname'),
                             'user' => $request->input('user'),
@@ -137,9 +143,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $user = DB::table("users")->where("id", $id)->first();
+        $user = DB::table("users")->where("slug", $slug)->first();
         return response()->json($user);
     }
 
@@ -150,12 +156,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("users")->where("id", $id)->first();
+                $data = DB::table("users")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -284,12 +290,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("users")->where("id", $id)->first();
+                $data = DB::table("users")->where("id", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -309,18 +315,18 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            $topics_c = DB::table("topics")->where("user_id", $id)->get();
+                            $topics_c = DB::table("topics")->where("user_id", $data->id)->get();
                             if (sizeof($topics_c) > 0) {
                                 DB::update("UPDATE topics SET user_id = ? WHERE user_id = ?", [
                                     null,
-                                    $id,
+                                    $data->id,
                                 ]);
                             }
-                            $topics_u = DB::table("topics")->where("user_update_id", $id)->get();
+                            $topics_u = DB::table("topics")->where("user_update_id", $data->id)->get();
                             if (sizeof($topics_u) > 0) {
                                 DB::update("UPDATE topics SET user_update_id = ? WHERE user_update_id = ?", [
                                     null,
-                                    $id,
+                                    $data->id,
                                 ]);
                             }
                             if (DB::table("users")->delete($data->id)) {

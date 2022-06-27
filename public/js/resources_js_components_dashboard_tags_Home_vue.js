@@ -1282,7 +1282,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusTag(item.id, 1)
+                                          return _vm.statusTag(item.slug, 1)
                                         },
                                       },
                                     },
@@ -1305,7 +1305,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusTag(item.id, 0)
+                                          return _vm.statusTag(item.slug, 0)
                                         },
                                       },
                                     },
@@ -1357,7 +1357,7 @@ var render = function () {
                                                 icon: "",
                                                 to: {
                                                   name: "editTag",
-                                                  params: { id: item.id },
+                                                  params: { slug: item.slug },
                                                 },
                                               },
                                             },
@@ -1409,7 +1409,9 @@ var render = function () {
                                               on: {
                                                 click: function ($event) {
                                                   $event.preventDefault()
-                                                  return _vm.deleteTag(item.id)
+                                                  return _vm.deleteTag(
+                                                    item.slug
+                                                  )
                                                 },
                                               },
                                             },

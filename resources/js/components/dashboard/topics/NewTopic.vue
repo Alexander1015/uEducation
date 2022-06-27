@@ -38,9 +38,14 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
+                                        <v-text-field v-model="form.slug" label="Slug (Vista previa)" tabindex="2" dense
+                                            prepend-icon="code_off" :loading="loading_slug" disabled>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
                                         <v-autocomplete v-model="form.subject" :rules="subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                            tabindex="2" dense :loading="loading_subjects"
+                                            tabindex="3" dense :loading="loading_subjects"
                                             no-data-text="No se encuentra información para mostrar"
                                             prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
                                             hide-selected required>
@@ -48,7 +53,7 @@
                                     </v-col>
                                     <v-col cols="12">
                                         <v-autocomplete v-model="form.tags" :rules="tagsRules" :items="data_tags"
-                                            clearable clear-icon="cancel" label="Etiquetas (Max. 5)*" tabindex="3" dense
+                                            clearable clear-icon="cancel" label="Etiquetas (Max. 5)*" tabindex="4" dense
                                             :loading="loading_tags" item-text="name"
                                             no-data-text="No se encuentra información para mostrar"
                                             prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
@@ -69,7 +74,7 @@
                                     <v-col cols="12">
                                         <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
                                             clear-icon="cancel" rows="2" label="Descripción" dense
-                                            prepend-icon="subject" tabindex="4">
+                                            prepend-icon="subject" tabindex="5">
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -77,7 +82,7 @@
                                             label="Haz clic(k) aquí para subir una portada" id="img"
                                             prepend-icon="photo_camera" :rules="imgRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="5">
+                                            tabindex="6">
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">
@@ -103,13 +108,13 @@
                                     form.subject != '' &&
                                     form.tags.length > 0
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-2" disabled>
+                                    <v-btn class="width_100 mt-4" disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
@@ -140,12 +145,14 @@ export default {
         form: {
             subject: "",
             name: "",
+            slug: "",
             tags: [],
             abstract: "",
             img: null,
         },
         loading_subjects: true,
         loading_tags: true,
+        loading_slug: false,
         data_subject: [],
         data_tags: [],
         subjectRules: [
@@ -171,6 +178,21 @@ export default {
             width: 300,
         }
     }),
+    watch: {
+        "form.name"() {
+            this.loading_slug = true;
+            let data = new FormData();
+            data.append('name', this.form.name);
+            this.axios.post('/api/slug', data)
+                .then(response => {
+                    this.form.slug = response.data.slug;
+                    this.loading_slug = false;
+                }).catch(error => {
+                    this.form.slug = "n/a";
+                    this.loading_slug = false;
+                })
+        },
+    },
     mounted() {
         this.showSubjects();
         this.showTags();
@@ -251,7 +273,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "editTopic", params: { id: response.data.topic } });
+                                            this.$router.push({ name: "editTopic", params: { slug: response.data.topic } });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

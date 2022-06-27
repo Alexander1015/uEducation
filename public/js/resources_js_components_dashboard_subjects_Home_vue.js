@@ -1222,7 +1222,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusSubject(item.id, 1)
+                                          return _vm.statusSubject(item.slug, 1)
                                         },
                                       },
                                     },
@@ -1245,7 +1245,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusSubject(item.id, 0)
+                                          return _vm.statusSubject(item.slug, 0)
                                         },
                                       },
                                     },
@@ -1297,7 +1297,7 @@ var render = function () {
                                                 icon: "",
                                                 to: {
                                                   name: "editSubject",
-                                                  params: { id: item.id },
+                                                  params: { slug: item.slug },
                                                 },
                                               },
                                             },
@@ -1350,7 +1350,7 @@ var render = function () {
                                                 click: function ($event) {
                                                   $event.preventDefault()
                                                   return _vm.deleteSubject(
-                                                    item.id
+                                                    item.slug
                                                   )
                                                 },
                                               },

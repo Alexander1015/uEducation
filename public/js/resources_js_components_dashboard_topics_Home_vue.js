@@ -1304,7 +1304,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusTopic(item.id, 1)
+                                          return _vm.statusTopic(item.slug, 1)
                                         },
                                       },
                                     },
@@ -1327,7 +1327,7 @@ var render = function () {
                                       on: {
                                         click: function ($event) {
                                           $event.preventDefault()
-                                          return _vm.statusTopic(item.id, 0)
+                                          return _vm.statusTopic(item.slug, 0)
                                         },
                                       },
                                     },
@@ -1379,7 +1379,7 @@ var render = function () {
                                                 icon: "",
                                                 to: {
                                                   name: "editTopic",
-                                                  params: { id: item.id },
+                                                  params: { slug: item.slug },
                                                 },
                                               },
                                             },
@@ -1432,7 +1432,7 @@ var render = function () {
                                                 click: function ($event) {
                                                   $event.preventDefault()
                                                   return _vm.deleteTopic(
-                                                    item.id
+                                                    item.slug
                                                   )
                                                 },
                                               },

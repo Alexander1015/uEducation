@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 // Auth
 use App\Http\Controllers\Auth\AuthController;
@@ -26,6 +25,8 @@ use App\Http\Controllers\Topics\BodyController;
 use App\Http\Controllers\Topics\TagsController as TopicTagsController;
 use App\Http\Controllers\Topics\SubjectsController as TopicSubjectsController;
 use App\Http\Controllers\Topics\UploadImageController;
+//SLug
+use App\Http\Controllers\Slug\SlugController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -58,3 +59,5 @@ Route::resource('topic/body', BodyController::class)->middleware('auth');
 Route::resource('getsubjects', TopicSubjectsController::class)->middleware('auth');
 Route::resource('gettags', TopicTagsController::class)->middleware('auth');
 Route::resource('topic/upload', UploadImageController::class)->middleware('auth');
+//Slug
+Route::resource('slug', SlugController::class)->middleware('auth');

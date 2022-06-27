@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique()->default("");
             $table->string('name')->unique()->default("");
             $table->boolean('status')->default(1);
         });

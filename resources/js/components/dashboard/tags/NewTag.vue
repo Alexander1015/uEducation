@@ -44,6 +44,11 @@
                                             tabindex="1" dense prepend-icon="sell" required>
                                         </v-text-field>
                                     </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form.slug" label="Slug (Vista previa)" tabindex="2" dense
+                                            prepend-icon="code_off" :loading="loading_slug" disabled>
+                                        </v-text-field>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <div>
                                             <span>Color de fondo:</span>
@@ -122,8 +127,10 @@ export default {
             icon: "error",
             title: "Error",
         },
+        loading_slug: false,
         form: {
             name: "",
+            slug: "",
             color_bk: "#E0E0E0",
             color_txt: "#676767",
         },
@@ -138,6 +145,21 @@ export default {
             v => !!v || 'El color es requerido, o deje el valor por defecto',
         ],
     }),
+    watch: {
+        "form.name"() {
+            this.loading_slug = true;
+            let data = new FormData();
+            data.append('name', this.form.name);
+            this.axios.post('/api/slug', data)
+                .then(response => {
+                    this.form.slug = response.data.slug;
+                    this.loading_slug = false;
+                }).catch(error => {
+                    this.form.slug = "n/a";
+                    this.loading_slug = false;
+                })
+        },
+    },
     methods: {
         returnTags() {
             this.$router.push({ name: "tags" });

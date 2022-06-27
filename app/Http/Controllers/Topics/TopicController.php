@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Exception;
 
 class TopicController extends Controller
@@ -21,12 +22,13 @@ class TopicController extends Controller
     {
         $topics = DB::select(
             'SELECT
-                T.id, T.name, T.img, T.abstract, T.body, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject
+                T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject
             FROM 
                 topics AS T
             LEFT JOIN subjects AS S ON T.subject_id = S.id
             LEFT JOIN users AS Uc ON T.user_id = Uc.id
-            LEFT JOIN users AS Uu ON T.user_update_id = Uu.id'
+            LEFT JOIN users AS Uu ON T.user_update_id = Uu.id
+            ORDER BY T.name ASC'
         );
         return response()->json($topics);
     }
@@ -91,10 +93,12 @@ class TopicController extends Controller
                                 //Direccion de la imagen
                                 $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
                             }
+                            $slug = Str::slug($request->input('name'));
                             if (DB::table("topics")
                                 ->insert([
                                     'subject_id' => $exist_subject->id,
                                     'name' => $request->input('name'),
+                                    'slug' => $slug,
                                     'abstract' => $request->input('abstract') ? $request->input('abstract') : "",
                                     'img' => $new_img,
                                     'user_id' => auth()->user()->id,
@@ -135,14 +139,22 @@ class TopicController extends Controller
                                 $data = DB::table("topics")->where("name", $request->input('name'))->first();
                                 return response()->json([
                                     'message' => 'Tema creado exitosamente en modo borrador',
-                                    'topic' => $data->id,
+                                    'topic' => $data->slug,
                                     'complete' => true,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de crear el tema',
-                                    'complete' => false,
-                                ]);
+                                $old_slug = DB::table("topics")->where('slug', $slug)->first();
+                                if ($old_slug) {
+                                    return response()->json([
+                                        'message' => 'El slug generado ya existe, genere uno nuevo',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Ha ocurrido un error al momento de crear el tema',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -168,13 +180,14 @@ class TopicController extends Controller
      * @param  \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $directory = public_path('/img/topics') . "/" . $id;
+        $topic = DB::table("topics")->where("slug", $slug)->first();
+        $directory = public_path('/img/topics') . "/" . $topic->id;
         $files = array();
         if (File::isDirectory($directory)) {
             // Obtenemos todos los datos
-            $images_db = DB::table("images")->where("topic_id", $id)->get();
+            $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
             $data = File::allFiles($directory);
             if (sizeof($data) > 0) {
                 foreach ($data as $item) {
@@ -216,7 +229,6 @@ class TopicController extends Controller
                 }
             }
         }
-        $topic = DB::table("topics")->where("id", $id)->first();
         return response()->json($topic);
     }
 
@@ -227,12 +239,12 @@ class TopicController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $id)->first();
+                $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema seleccionado no existe",
@@ -288,7 +300,9 @@ class TopicController extends Controller
                                 } else {
                                     $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
                                 }
-                                if (DB::update("UPDATE topics SET subject_id = ?, name = ?, abstract = ?, img = ?, user_id = ? WHERE id = ?", [
+                                $slug = Str::slug($request->input('name'));
+                                if (DB::update("UPDATE topics SET slug = ?, subject_id = ?, name = ?, abstract = ?, img = ?, user_id = ? WHERE id = ?", [
+                                    $slug,
                                     $exist_subject->id,
                                     $request->input('name'),
                                     $request->input('abstract') ? $request->input('abstract') : "",
@@ -352,10 +366,18 @@ class TopicController extends Controller
                                         });
                                         $img_o->save($address_o . '/' . $new_img, 100);
                                     }
-                                    return response()->json([
-                                        'message' => 'Tema modificado exitosamente',
-                                        'complete' => true,
-                                    ]);
+                                    if ($data->slug != $slug) {
+                                        return response()->json([
+                                            'message' => 'Tema modificado exitosamente',
+                                            'complete' => true,
+                                            'reload' => $slug,
+                                        ]);
+                                    } else {
+                                        return response()->json([
+                                            'message' => 'Tema modificado exitosamente',
+                                            'complete' => true,
+                                        ]);
+                                    }
                                 } else {
                                     if (
                                         $data->subject_id == $exist_subject->id &&
@@ -407,10 +429,18 @@ class TopicController extends Controller
                                             ]);
                                         }
                                     } else {
-                                        return response()->json([
-                                            'message' => 'Ha ocurrido un error al momento de modificar el tema',
-                                            'complete' => false,
-                                        ]);
+                                        $old_slug = DB::table("topics")->where('slug', $slug)->first();
+                                        if ($old_slug) {
+                                            return response()->json([
+                                                'message' => 'El slug generado ya existe, genere uno nuevo',
+                                                'complete' => false,
+                                            ]);
+                                        } else {
+                                            return response()->json([
+                                                'message' => 'Ha ocurrido un error al momento de modificar el tema',
+                                                'complete' => false,
+                                            ]);
+                                        }
                                     }
                                 }
                             }
@@ -438,12 +468,12 @@ class TopicController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $id)->first();
+                $data = DB::table("topics")->where("id", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema seleccionado no existe",
@@ -455,10 +485,10 @@ class TopicController extends Controller
                         DB::table("topic_tag")->where("topic_id", $topic_tag->topic_id)->delete();
                     }
                     // Eliminamos las imagenes del body
-                    $directory = public_path('/img/topics') . "/" . $id;
+                    $directory = public_path('/img/topics') . "/" . $data->id;
                     if (File::isDirectory($directory)) {
                         // Tabla Images
-                        DB::table("images")->where("topic_id", $id)->delete();
+                        DB::table("images")->where("topic_id", $data->id)->delete();
                         // Carpeta en topics
                         $data = File::allFiles($directory);
                         if (sizeof($data) > 0) {
