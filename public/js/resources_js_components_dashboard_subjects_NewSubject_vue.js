@@ -81,11 +81,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewSubject",
   data: function data() {
@@ -100,10 +95,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: "error",
         title: "Error"
       },
-      loading_slug: false,
       form: {
-        name: "",
-        slug: ""
+        name: ""
       },
       nameRules: [function (v) {
         return !!v || 'El titulo del curso es requerido';
@@ -112,22 +105,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }]
     };
   },
-  watch: {
-    "form.name": function formName() {
-      var _this = this;
-
-      this.loading_slug = true;
-      var data = new FormData();
-      data.append('name', this.form.name);
-      this.axios.post('/api/slug', data).then(function (response) {
-        _this.form.slug = response.data.slug;
-        _this.loading_slug = false;
-      })["catch"](function (error) {
-        _this.form.slug = "n/a";
-        _this.loading_slug = false;
-      });
-    }
-  },
   methods: {
     returnSubjects: function returnSubjects() {
       this.$router.push({
@@ -135,20 +112,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     registerSubject: function registerSubject() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!_this2.$refs.form.validate()) {
+                if (!_this.$refs.form.validate()) {
                   _context.next = 5;
                   break;
                 }
 
                 _context.next = 3;
-                return _this2.$swal({
+                return _this.$swal({
                   title: '¿Esta seguro de crear el curso?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -156,43 +133,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true;
+                    _this.overlay = true;
                     var data = new FormData();
-                    data.append('name', _this2.form.name);
+                    data.append('name', _this.form.name);
 
-                    _this2.axios.post('/api/subject', data).then(function (response) {
+                    _this.axios.post('/api/subject', data).then(function (response) {
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
+                        _this.sweet.title = "Éxito";
+                        _this.sweet.icon = "success";
                       } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        _this.sweet.title = "Error";
+                        _this.sweet.icon = "error";
                       }
 
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                      _this.$swal({
+                        title: _this.sweet.title,
+                        icon: _this.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this2.$router.push({
+                          _this.$router.push({
                             name: "subjects"
                           });
 
-                          _this2.overlay = false;
-                        } else _this2.overlay = false;
+                          _this.overlay = false;
+                        } else _this.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
+                      _this.sweet.title = "Error";
+                      _this.sweet.icon = "error";
 
-                      _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                      _this.$swal({
+                        title: _this.sweet.title,
+                        icon: _this.sweet.icon,
                         text: error
                       });
 
-                      _this2.overlay = false;
+                      _this.overlay = false;
                     });
                   }
                 });
@@ -202,7 +179,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 5:
-                _this2.overlay = false;
+                _this.overlay = false;
 
               case 6:
               case "end":
@@ -688,31 +665,6 @@ var render = function () {
                                               _vm.$set(_vm.form, "name", $$v)
                                             },
                                             expression: "form.name",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      { attrs: { cols: "12" } },
-                                      [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            label: "Slug (Vista previa)",
-                                            tabindex: "2",
-                                            dense: "",
-                                            "prepend-icon": "code_off",
-                                            loading: _vm.loading_slug,
-                                            disabled: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.slug,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "slug", $$v)
-                                            },
-                                            expression: "form.slug",
                                           },
                                         }),
                                       ],

@@ -5693,6 +5693,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_0__["default"];
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].config.productionTip = false;
 
 
 

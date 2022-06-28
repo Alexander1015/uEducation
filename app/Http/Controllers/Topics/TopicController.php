@@ -59,10 +59,19 @@ class TopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        return response()->json([
-                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
-                            'complete' => false,
-                        ]);
+                        $slug = Str::slug($request->input('name'));
+                        $old_slug = DB::table("topics")->where('slug', $slug)->first();
+                        if ($old_slug) {
+                            return response()->json([
+                                'message' => 'El titulo ingresado ya existe',
+                                'complete' => false,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                                'complete' => false,
+                            ]);
+                        }
                     }
                 } else {
                     if (!is_array($request->input('tags')) || sizeof($request->input('tags')) < 1) {
@@ -94,6 +103,12 @@ class TopicController extends Controller
                                 $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
                             }
                             $slug = Str::slug($request->input('name'));
+                            $new_sequence = 1;
+                            $before_sequence = DB::table("topics")->where('subject_id', $exist_subject->id)->orderBy('sequence', 'desc')->first();
+                            if ((int) $before_sequence->sequence) {
+                                // Convertimos a entero
+                                $new_sequence +=  (int) $before_sequence->sequence;
+                            }
                             if (DB::table("topics")
                                 ->insert([
                                     'subject_id' => $exist_subject->id,
@@ -104,6 +119,7 @@ class TopicController extends Controller
                                     'user_id' => auth()->user()->id,
                                     'user_update_id' => null,
                                     'body' => "",
+                                    'sequence' => $new_sequence,
                                     'status' => "0",
                                 ])
                             ) {
@@ -267,10 +283,19 @@ class TopicController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            return response()->json([
-                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
-                                'complete' => false,
-                            ]);
+                            $slug = Str::slug($request->input('name'));
+                            $old_slug = DB::table("topics")->where('slug', $slug)->first();
+                            if ($data->id != $old_slug->id) {
+                                return response()->json([
+                                    'message' => 'El titulo ingresado ya existe',
+                                    'complete' => false,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                                    'complete' => false,
+                                ]);
+                            }
                         }
                     } else {
                         if (!is_array($request->input('tags')) || sizeof($request->input('tags')) < 1) {

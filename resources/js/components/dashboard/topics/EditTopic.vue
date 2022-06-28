@@ -68,11 +68,6 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)" tabindex="2" dense
-                                            prepend-icon="code_off" :loading="loading_slug" disabled>
-                                        </v-text-field>
-                                    </v-col>
-                                    <v-col cols="12">
                                         <v-autocomplete v-model="form_information.subject" :rules="info.subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
                                             tabindex="3" dense :loading="loading_subjects"
@@ -250,7 +245,6 @@ export default {
             tags_copy: [],
             tags_size: 0,
             name: "",
-            slug: "",
             abstract: "",
             img: null,
             img_new: 0,
@@ -260,7 +254,6 @@ export default {
         },
         loading_subjects: true,
         loading_tags: true,
-        loading_slug: false,
         data_subject: [],
         data_tags: [],
         prev_img: {
@@ -293,21 +286,6 @@ export default {
         ],
         name: "",
     }),
-    watch: {
-        "form_information.name"() {
-            this.loading_slug = true;
-            let data = new FormData();
-            data.append('name', this.form_information.name);
-            this.axios.post('/api/slug', data)
-                .then(response => {
-                    this.form_information.slug = response.data.slug;
-                    this.loading_slug = false;
-                }).catch(error => {
-                    this.form_information.slug = "n/a";
-                    this.loading_slug = false;
-                })
-        },
-    },
     mounted() {
         this.showTags();
         this.showSubjects();

@@ -70,11 +70,6 @@
                                             required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
-                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)"
-                                            tabindex="2" dense prepend-icon="code_off" :loading="loading_slug" disabled>
-                                        </v-text-field>
-                                    </v-col>
                                 </v-row>
                                 <template v-if="form_information.name != subject.name">
                                     <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
@@ -183,10 +178,8 @@ export default {
             title: "Error",
         },
         items_status: ["Activo", "Desactivado"],
-        loading_slug: false,
         drag: false,
         form_information: {
-            slug: "",
             name: "",
         },
         topics: {},
@@ -206,21 +199,6 @@ export default {
         ],
         name: "",
     }),
-    watch: {
-        "form_information.name"() {
-            this.loading_slug = true;
-            let data = new FormData();
-            data.append('name', this.form_information.name);
-            this.axios.post('/api/slug', data)
-                .then(response => {
-                    this.form_information.slug = response.data.slug;
-                    this.loading_slug = false;
-                }).catch(error => {
-                    this.form_information.slug = "n/a";
-                    this.loading_slug = false;
-                })
-        },
-    },
     mounted() {
         this.showSubject();
     },

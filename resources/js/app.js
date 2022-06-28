@@ -3,6 +3,8 @@ require('./bootstrap');
 import Vue from 'vue';
 window.Vue = Vue;
 
+Vue.config.productionTip = false;
+
 import Vuetify from '../plugins/vuetify'
 import VueAxios from 'vue-axios';
 import axios from 'axios';

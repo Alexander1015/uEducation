@@ -37,11 +37,6 @@
                                                 tabindex="1" dense prepend-icon="collections_bookmark" required>
                                             </v-text-field>
                                         </v-col>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="form.slug" label="Slug (Vista previa)" tabindex="2" dense
-                                                prepend-icon="code_off" :loading="loading_slug" disabled>
-                                            </v-text-field>
-                                        </v-col>
                                     </v-row>
                                     <template v-if="form.name != ''">
                                         <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
@@ -79,31 +74,14 @@ export default {
             icon: "error",
             title: "Error",
         },
-        loading_slug: false,
         form: {
             name: "",
-            slug: "",
         },
         nameRules: [
             v => !!v || 'El titulo del curso es requerido',
             v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
         ],
     }),
-    watch: {
-        "form.name"() {
-            this.loading_slug = true;
-            let data = new FormData();
-            data.append('name', this.form.name);
-            this.axios.post('/api/slug', data)
-                .then(response => {
-                    this.form.slug = response.data.slug;
-                    this.loading_slug = false;
-                }).catch(error => {
-                    this.form.slug = "n/a";
-                    this.loading_slug = false;
-                })
-        },
-    },
     methods: {
         returnSubjects() {
             this.$router.push({ name: "subjects" });

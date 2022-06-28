@@ -192,11 +192,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -211,10 +206,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "Error"
       },
       items_status: ["Activo", "Desactivado"],
-      loading_slug: false,
       drag: false,
       form_information: {
-        slug: "",
         name: ""
       },
       topics: {},
@@ -236,22 +229,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       name: ""
     };
   },
-  watch: {
-    "form_information.name": function form_informationName() {
-      var _this = this;
-
-      this.loading_slug = true;
-      var data = new FormData();
-      data.append('name', this.form_information.name);
-      this.axios.post('/api/slug', data).then(function (response) {
-        _this.form_information.slug = response.data.slug;
-        _this.loading_slug = false;
-      })["catch"](function (error) {
-        _this.form_information.slug = "n/a";
-        _this.loading_slug = false;
-      });
-    }
-  },
   mounted: function mounted() {
     this.showSubject();
   },
@@ -272,49 +249,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     showSubject: function showSubject() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.overlay = true;
+                _this.overlay = true;
 
-                if (!_this2.$route.params.slug) {
+                if (!_this.$route.params.slug) {
                   _context.next = 9;
                   break;
                 }
 
                 _context.next = 4;
-                return _this2.axios.get('/api/subject/' + _this2.$route.params.slug).then(function (response) {
-                  _this2.subject = response.data;
+                return _this.axios.get('/api/subject/' + _this.$route.params.slug).then(function (response) {
+                  _this.subject = response.data;
 
-                  if (!_this2.subject.name) {
-                    _this2.overlay = false;
+                  if (!_this.subject.name) {
+                    _this.overlay = false;
 
-                    _this2.$router.push({
+                    _this.$router.push({
                       name: "subjects"
                     });
                   } else {
-                    _this2.form_information.name = _this2.subject.name;
-                    if (_this2.subject.status == 0) _this2.form_status.status = "Desactivado";else if (_this2.subject.status == 1) _this2.form_status.status = "Activo";
-                    _this2.overlay = false;
+                    _this.form_information.name = _this.subject.name;
+                    if (_this.subject.status == 0) _this.form_status.status = "Desactivado";else if (_this.subject.status == 1) _this.form_status.status = "Activo";
+                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this2.overlay = false;
+                  _this.overlay = false;
                 });
 
               case 4:
-                _this2.overlay = true;
+                _this.overlay = true;
                 _context.next = 7;
-                return _this2.axios.get('/api/subject/gettopics/' + _this2.$route.params.slug).then(function (response) {
-                  _this2.topics = _this2.topics_copy = response.data;
-                  _this2.overlay = false;
+                return _this.axios.get('/api/subject/gettopics/' + _this.$route.params.slug).then(function (response) {
+                  _this.topics = _this.topics_copy = response.data;
+                  _this.overlay = false;
                 })["catch"](function (error) {
                   console.log(error);
-                  _this2.overlay = false;
+                  _this.overlay = false;
                 });
 
               case 7:
@@ -322,9 +299,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 9:
-                _this2.overlay = false;
+                _this.overlay = false;
 
-                _this2.$router.push({
+                _this.$router.push({
                   name: "subjects"
                 });
 
@@ -337,21 +314,105 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editSubject: function editSubject() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this3.$refs.form_information.validate()) {
+                if (!_this2.$refs.form_information.validate()) {
                   _context2.next = 5;
                   break;
                 }
 
                 _context2.next = 3;
-                return _this3.$swal({
+                return _this2.$swal({
                   title: '¿Esta seguro de modificar la información del curso?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this2.overlay = true;
+                    var data = new FormData();
+                    data.append('name', _this2.form_information.name);
+                    data.append('_method', "put");
+
+                    _this2.axios.post('/api/subject/' + _this2.$route.params.slug, data).then(function (response) {
+                      if (response.data.complete) {
+                        _this2.sweet.title = "Éxito";
+                        _this2.sweet.icon = "success";
+                      } else {
+                        _this2.sweet.title = "Error";
+                        _this2.sweet.icon = "error";
+                      }
+
+                      _this2.$swal({
+                        title: _this2.sweet.title,
+                        icon: _this2.sweet.icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          if (response.data.reload) {
+                            _this2.$router.push({
+                              name: "editSubject",
+                              params: {
+                                slug: response.data.reload
+                              }
+                            });
+                          } else _this2.showSubject();
+                        }
+
+                        _this2.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this2.sweet.title = "Error";
+                      _this2.sweet.icon = "error";
+
+                      _this2.$swal({
+                        title: _this2.sweet.title,
+                        icon: _this2.sweet.icon,
+                        text: error
+                      });
+
+                      _this2.overlay = false;
+                    });
+                  }
+                });
+
+              case 3:
+                _context2.next = 6;
+                break;
+
+              case 5:
+                _this2.overlay = false;
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    saveListTopics: function saveListTopics() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!_this3.$refs.form_information.validate()) {
+                  _context3.next = 5;
+                  break;
+                }
+
+                _context3.next = 3;
+                return _this3.$swal({
+                  title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -360,10 +421,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this3.overlay = true;
                     var data = new FormData();
-                    data.append('name', _this3.form_information.name);
+
+                    var _iterator = _createForOfIteratorHelper(_this3.topics),
+                        _step;
+
+                    try {
+                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                        var item = _step.value;
+                        data.append('topics[]', item.id);
+                      }
+                    } catch (err) {
+                      _iterator.e(err);
+                    } finally {
+                      _iterator.f();
+                    }
+
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/subject/' + _this3.$route.params.slug, data).then(function (response) {
+                    _this3.axios.post('/api/subject/gettopics/' + _this3.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this3.sweet.title = "Éxito";
                         _this3.sweet.icon = "success";
@@ -378,14 +453,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          if (response.data.reload) {
-                            _this3.$router.push({
-                              name: "editSubject",
-                              params: {
-                                slug: response.data.reload
-                              }
-                            });
-                          } else _this3.showSubject();
+                          _this3.showSubject();
                         }
 
                         _this3.overlay = false;
@@ -406,7 +474,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 3:
-                _context2.next = 6;
+                _context3.next = 6;
                 break;
 
               case 5:
@@ -414,28 +482,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
-    saveListTopics: function saveListTopics() {
+    statusSubject: function statusSubject() {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                if (!_this4.$refs.form_information.validate()) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                _context3.next = 3;
+                _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                  title: '¿Esta seguro de cambiar el estado del curso?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -444,24 +507,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this4.overlay = true;
                     var data = new FormData();
-
-                    var _iterator = _createForOfIteratorHelper(_this4.topics),
-                        _step;
-
-                    try {
-                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                        var item = _step.value;
-                        data.append('topics[]', item.id);
-                      }
-                    } catch (err) {
-                      _iterator.e(err);
-                    } finally {
-                      _iterator.f();
-                    }
-
+                    var type = 3;
+                    if (_this4.form_status.status == "Activo") type = 1;else if (_this4.form_status.status == "Desactivado") type = 0;
+                    data.append('status', type);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/subject/gettopics/' + _this4.$route.params.slug, data).then(function (response) {
+                    _this4.axios.post('/api/subject/status/' + _this4.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this4.sweet.title = "Éxito";
                         _this4.sweet.icon = "success";
@@ -476,7 +527,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this4.showSubject();
+                          _this4.getTopics();
                         }
 
                         _this4.overlay = false;
@@ -496,32 +547,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
-                _context3.next = 6;
-                break;
-
-              case 5:
-                _this4.overlay = false;
-
-              case 6:
+              case 2:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
-    statusSubject: function statusSubject() {
+    deleteSubject: function deleteSubject() {
       var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return _this5.$swal({
-                  title: '¿Esta seguro de cambiar el estado del curso?',
+                  title: '¿Esta seguro de eliminar el curso?',
+                  text: "Esta acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -529,13 +574,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (result) {
                   if (result.isConfirmed) {
                     _this5.overlay = true;
-                    var data = new FormData();
-                    var type = 3;
-                    if (_this5.form_status.status == "Activo") type = 1;else if (_this5.form_status.status == "Desactivado") type = 0;
-                    data.append('status', type);
-                    data.append('_method', "put");
 
-                    _this5.axios.post('/api/subject/status/' + _this5.$route.params.slug, data).then(function (response) {
+                    _this5.axios["delete"]('/api/subject/' + _this5.$route.params.slug).then(function (response) {
                       if (response.data.complete) {
                         _this5.sweet.title = "Éxito";
                         _this5.sweet.icon = "success";
@@ -550,10 +590,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this5.getTopics();
-                        }
+                          _this5.overlay = false;
 
-                        _this5.overlay = false;
+                          _this5.$router.push({
+                            name: "subjects"
+                          });
+                        } else _this5.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this5.sweet.title = "Error";
@@ -566,71 +608,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
 
                       _this5.overlay = false;
-                    });
-                  }
-                });
-
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    deleteSubject: function deleteSubject() {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return _this6.$swal({
-                  title: '¿Esta seguro de eliminar el curso?',
-                  text: "Esta acción no se puede revertir",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this6.overlay = true;
-
-                    _this6.axios["delete"]('/api/subject/' + _this6.$route.params.slug).then(function (response) {
-                      if (response.data.complete) {
-                        _this6.sweet.title = "Éxito";
-                        _this6.sweet.icon = "success";
-                      } else {
-                        _this6.sweet.title = "Error";
-                        _this6.sweet.icon = "error";
-                      }
-
-                      _this6.$swal({
-                        title: _this6.sweet.title,
-                        icon: _this6.sweet.icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this6.overlay = false;
-
-                          _this6.$router.push({
-                            name: "subjects"
-                          });
-                        } else _this6.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this6.sweet.title = "Error";
-                      _this6.sweet.icon = "error";
-
-                      _this6.$swal({
-                        title: _this6.sweet.title,
-                        icon: _this6.sweet.icon,
-                        text: error
-                      });
-
-                      _this6.overlay = false;
                     });
                   }
                 });
@@ -5343,35 +5320,6 @@ var render = function () {
                                           )
                                         },
                                         expression: "form_information.name",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Slug (Vista previa)",
-                                        tabindex: "2",
-                                        dense: "",
-                                        "prepend-icon": "code_off",
-                                        loading: _vm.loading_slug,
-                                        disabled: "",
-                                      },
-                                      model: {
-                                        value: _vm.form_information.slug,
-                                        callback: function ($$v) {
-                                          _vm.$set(
-                                            _vm.form_information,
-                                            "slug",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "form_information.slug",
                                       },
                                     }),
                                   ],

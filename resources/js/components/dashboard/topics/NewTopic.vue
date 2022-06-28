@@ -38,11 +38,6 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="form.slug" label="Slug (Vista previa)" tabindex="2" dense
-                                            prepend-icon="code_off" :loading="loading_slug" disabled>
-                                        </v-text-field>
-                                    </v-col>
-                                    <v-col cols="12">
                                         <v-autocomplete v-model="form.subject" :rules="subjectRules"
                                             :items="data_subject" clearable clear-icon="cancel" label="Curso *"
                                             tabindex="3" dense :loading="loading_subjects"
@@ -145,14 +140,12 @@ export default {
         form: {
             subject: "",
             name: "",
-            slug: "",
             tags: [],
             abstract: "",
             img: null,
         },
         loading_subjects: true,
         loading_tags: true,
-        loading_slug: false,
         data_subject: [],
         data_tags: [],
         subjectRules: [
@@ -178,21 +171,6 @@ export default {
             width: 300,
         }
     }),
-    watch: {
-        "form.name"() {
-            this.loading_slug = true;
-            let data = new FormData();
-            data.append('name', this.form.name);
-            this.axios.post('/api/slug', data)
-                .then(response => {
-                    this.form.slug = response.data.slug;
-                    this.loading_slug = false;
-                }).catch(error => {
-                    this.form.slug = "n/a";
-                    this.loading_slug = false;
-                })
-        },
-    },
     mounted() {
         this.showSubjects();
         this.showTags();

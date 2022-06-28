@@ -69,11 +69,6 @@
                                             label="Título *" tabindex="1" dense prepend-icon="sell" required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
-                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)" tabindex="2" dense
-                                            prepend-icon="code_off" :loading="loading_slug" disabled>
-                                        </v-text-field>
-                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <div>
                                             <span>Color de fondo:</span>
@@ -195,9 +190,7 @@ export default {
             title: "Error",
         },
         items_status: ["Activo", "Desactivado"],
-        loading_slug: false,
         form_information: {
-            slug: "",
             name: "",
             color_bk: "#E0E0E0",
             color_txt: "#676767",
@@ -223,21 +216,6 @@ export default {
         ],
         name: "",
     }),
-    watch: {
-        "form_information.name"() {
-            this.loading_slug = true;
-            let data = new FormData();
-            data.append('name', this.form_information.name);
-            this.axios.post('/api/slug', data)
-                .then(response => {
-                    this.form_information.slug = response.data.slug;
-                    this.loading_slug = false;
-                }).catch(error => {
-                    this.form_information.slug = "n/a";
-                    this.loading_slug = false;
-                })
-        },
-    },
     mounted() {
         this.showTag()
     },

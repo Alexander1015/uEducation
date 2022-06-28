@@ -283,11 +283,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -314,7 +309,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         tags_copy: [],
         tags_size: 0,
         name: "",
-        slug: "",
         "abstract": "",
         img: null,
         img_new: 0
@@ -324,7 +318,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       loading_subjects: true,
       loading_tags: true,
-      loading_slug: false,
       data_subject: [],
       data_tags: [],
       prev_img: {
@@ -359,22 +352,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       name: ""
     };
   },
-  watch: {
-    "form_information.name": function form_informationName() {
-      var _this = this;
-
-      this.loading_slug = true;
-      var data = new FormData();
-      data.append('name', this.form_information.name);
-      this.axios.post('/api/slug', data).then(function (response) {
-        _this.form_information.slug = response.data.slug;
-        _this.loading_slug = false;
-      })["catch"](function (error) {
-        _this.form_information.slug = "n/a";
-        _this.loading_slug = false;
-      });
-    }
-  },
   mounted: function mounted() {
     this.showTags();
     this.showSubjects();
@@ -393,21 +370,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       editor.ui.getEditableElement().parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
     },
     showTags: function showTags() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.loading_tags = true;
+                _this.loading_tags = true;
                 _context.next = 3;
-                return _this2.axios.get('/api/gettags').then(function (response) {
-                  _this2.data_tags = response.data;
-                  _this2.loading_tags = false;
+                return _this.axios.get('/api/gettags').then(function (response) {
+                  _this.data_tags = response.data;
+                  _this.loading_tags = false;
                 })["catch"](function (error) {
-                  _this2.data_subject = [];
-                  _this2.loading_tags = false;
+                  _this.data_subject = [];
+                  _this.loading_tags = false;
                 });
 
               case 3:
@@ -419,7 +396,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     showSubjects: function showSubjects() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -427,12 +404,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this3.axios.get('/api/getsubjects').then(function (response) {
-                  _this3.data_subject = response.data;
-                  _this3.loading_subjects = false;
+                return _this2.axios.get('/api/getsubjects').then(function (response) {
+                  _this2.data_subject = response.data;
+                  _this2.loading_subjects = false;
                 })["catch"](function (error) {
-                  _this3.data_subject = [];
-                  _this3.loading_subjects = false;
+                  _this2.data_subject = [];
+                  _this2.loading_subjects = false;
                 });
 
               case 2:
@@ -449,71 +426,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     showTopic: function showTopic() {
-      var _this4 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this4.overlay = true;
+                _this3.overlay = true;
 
-                if (!_this4.$route.params.slug) {
+                if (!_this3.$route.params.slug) {
                   _context3.next = 6;
                   break;
                 }
 
                 _context3.next = 4;
-                return _this4.axios.get('/api/topic/' + _this4.$route.params.slug).then(function (response) {
-                  _this4.topic = response.data;
+                return _this3.axios.get('/api/topic/' + _this3.$route.params.slug).then(function (response) {
+                  _this3.topic = response.data;
 
-                  if (!_this4.topic.name) {
-                    _this4.overlay = false;
+                  if (!_this3.topic.name) {
+                    _this3.overlay = false;
 
-                    _this4.$router.push({
+                    _this3.$router.push({
                       name: "topics"
                     });
                   } else {
-                    _this4.form_information.name = _this4.topic.name;
-                    _this4.form_information["abstract"] = _this4.topic["abstract"];
+                    _this3.form_information.name = _this3.topic.name;
+                    _this3.form_information["abstract"] = _this3.topic["abstract"];
 
-                    if (_this4.topic.img) {
-                      _this4.prev_img.url_img = "/img/topics/" + _this4.topic.img;
-                      _this4.prev_img.lazy_img = "/img/lazy_topics/" + _this4.topic.img;
+                    if (_this3.topic.img) {
+                      _this3.prev_img.url_img = "/img/topics/" + _this3.topic.img;
+                      _this3.prev_img.lazy_img = "/img/lazy_topics/" + _this3.topic.img;
                     }
 
-                    _this4.form_information.img = null;
-                    _this4.form_information.img_new = 0;
-                    _this4.editorData = _this4.topic.body;
-                    if (_this4.topic.status == 0) _this4.form_status.status = "Borrador";else if (_this4.topic.status == 1) _this4.form_status.status = "Activo";
+                    _this3.form_information.img = null;
+                    _this3.form_information.img_new = 0;
+                    _this3.editorData = _this3.topic.body;
+                    if (_this3.topic.status == 0) _this3.form_status.status = "Borrador";else if (_this3.topic.status == 1) _this3.form_status.status = "Activo";
 
-                    _this4.axios.get('/api/getsubjects/' + _this4.topic.subject_id).then(function (response_sub) {
-                      _this4.form_information.subject = response_sub.data.name;
-                      _this4.form_information.copy_subject = response_sub.data.name;
-                      _this4.overlay = false;
+                    _this3.axios.get('/api/getsubjects/' + _this3.topic.subject_id).then(function (response_sub) {
+                      _this3.form_information.subject = response_sub.data.name;
+                      _this3.form_information.copy_subject = response_sub.data.name;
+                      _this3.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
-                      _this4.form_information.subject = "";
-                      _this4.form_information.copy_subject = "";
-                      _this4.overlay = false;
+                      _this3.form_information.subject = "";
+                      _this3.form_information.copy_subject = "";
+                      _this3.overlay = false;
                     });
 
-                    _this4.axios.get('/api/gettags/' + _this4.topic.id).then(function (response_sub) {
-                      _this4.form_information.tags = response_sub.data;
-                      _this4.form_information.tags_copy = response_sub.data;
-                      _this4.form_information.tags_size = response_sub.data.length;
-                      _this4.overlay = false;
+                    _this3.axios.get('/api/gettags/' + _this3.topic.id).then(function (response_sub) {
+                      _this3.form_information.tags = response_sub.data;
+                      _this3.form_information.tags_copy = response_sub.data;
+                      _this3.form_information.tags_size = response_sub.data.length;
+                      _this3.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
-                      _this4.form_information.tags = [];
-                      _this4.form_information.tags_copy = [];
-                      _this4.form_information.tags_size = 0;
-                      _this4.overlay = false;
+                      _this3.form_information.tags = [];
+                      _this3.form_information.tags_copy = [];
+                      _this3.form_information.tags_size = 0;
+                      _this3.overlay = false;
                     });
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this4.overlay = false;
+                  _this3.overlay = false;
                 });
 
               case 4:
@@ -521,9 +498,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 6:
-                _this4.overlay = false;
+                _this3.overlay = false;
 
-                _this4.$router.push({
+                _this3.$router.push({
                   name: "topics"
                 });
 
@@ -536,20 +513,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editTopic: function editTopic() {
-      var _this5 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!_this5.$refs.form_information.validate()) {
+                if (!_this4.$refs.form_information.validate()) {
                   _context4.next = 5;
                   break;
                 }
 
                 _context4.next = 3;
-                return _this5.$swal({
+                return _this4.$swal({
                   title: '¿Esta seguro de modificar el tema?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -557,12 +534,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this5.overlay = true;
+                    _this4.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this5.form_information.subject);
+                    data.append('subject', _this4.form_information.subject);
 
-                    if (_this5.form_information.tags.length > 0) {
-                      var _iterator = _createForOfIteratorHelper(_this5.form_information.tags),
+                    if (_this4.form_information.tags.length > 0) {
+                      var _iterator = _createForOfIteratorHelper(_this4.form_information.tags),
                           _step;
 
                       try {
@@ -577,18 +554,97 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     }
 
-                    data.append('name', _this5.form_information.name);
-                    data.append('abstract', _this5.form_information["abstract"]);
-                    _this5.form_information.img = document.querySelector('#img').files[0];
+                    data.append('name', _this4.form_information.name);
+                    data.append('abstract', _this4.form_information["abstract"]);
+                    _this4.form_information.img = document.querySelector('#img').files[0];
 
-                    if (_this5.form_information.img) {
-                      data.append('img', _this5.form_information.img);
+                    if (_this4.form_information.img) {
+                      data.append('img', _this4.form_information.img);
                     }
 
-                    data.append('img_new', _this5.form_information.img_new);
+                    data.append('img_new', _this4.form_information.img_new);
                     data.append('_method', "put");
 
-                    _this5.axios.post('/api/topic/' + _this5.$route.params.slug, data).then(function (response) {
+                    _this4.axios.post('/api/topic/' + _this4.$route.params.slug, data).then(function (response) {
+                      if (response.data.complete) {
+                        _this4.sweet.title = "Éxito";
+                        _this4.sweet.icon = "success";
+                      } else {
+                        _this4.sweet.title = "Error";
+                        _this4.sweet.icon = "error";
+                      }
+
+                      _this4.$swal({
+                        title: _this4.sweet.title,
+                        icon: _this4.sweet.icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          if (response.data.reload) {
+                            _this4.$router.push({
+                              name: "editTopic",
+                              params: {
+                                slug: response.data.reload
+                              }
+                            });
+                          } else _this4.showTopic();
+                        }
+
+                        _this4.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this4.sweet.title = "Error";
+                      _this4.sweet.icon = "error";
+
+                      _this4.$swal({
+                        title: _this4.sweet.title,
+                        icon: _this4.sweet.icon,
+                        text: error
+                      });
+
+                      _this4.overlay = false;
+                    });
+                  }
+                });
+
+              case 3:
+                _context4.next = 6;
+                break;
+
+              case 5:
+                _this4.overlay = false;
+
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    saveBody: function saveBody() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return _this5.$swal({
+                  title: '¿Esta seguro de guardar el contenido?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this5.overlay = true;
+                    var data = new FormData();
+                    data.append('body', _this5.editorData);
+                    data.append('_method', "put");
+
+                    _this5.axios.post('/api/topic/body/' + _this5.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this5.sweet.title = "Éxito";
                         _this5.sweet.icon = "success";
@@ -597,20 +653,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this5.sweet.icon = "error";
                       }
 
+                      console.log(response.data.message);
+
                       _this5.$swal({
                         title: _this5.sweet.title,
                         icon: _this5.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          if (response.data.reload) {
-                            _this5.$router.push({
-                              name: "editTopic",
-                              params: {
-                                slug: response.data.reload
-                              }
-                            });
-                          } else _this5.showTopic();
+                          _this5.showTopic();
                         }
 
                         _this5.overlay = false;
@@ -630,32 +681,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
-                _context4.next = 6;
-                break;
-
-              case 5:
-                _this5.overlay = false;
-
-              case 6:
+              case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
-    saveBody: function saveBody() {
+    statusTopic: function statusTopic() {
       var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return _this6.$swal({
-                  title: '¿Esta seguro de guardar el contenido?',
+                  title: '¿Esta seguro de cambiar el estado del tema?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -664,10 +708,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this6.overlay = true;
                     var data = new FormData();
-                    data.append('body', _this6.editorData);
+                    var type = 3;
+                    if (_this6.form_status.status == "Activo") type = 1;else if (_this6.form_status.status == "Borrador") type = 0;
+                    data.append('status', type);
                     data.append('_method', "put");
 
-                    _this6.axios.post('/api/topic/body/' + _this6.$route.params.slug, data).then(function (response) {
+                    _this6.axios.post('/api/topic/status/' + _this6.$route.params.slug, data).then(function (response) {
                       if (response.data.complete) {
                         _this6.sweet.title = "Éxito";
                         _this6.sweet.icon = "success";
@@ -675,8 +721,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this6.sweet.title = "Error";
                         _this6.sweet.icon = "error";
                       }
-
-                      console.log(response.data.message);
 
                       _this6.$swal({
                         title: _this6.sweet.title,
@@ -706,23 +750,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }))();
     },
-    statusTopic: function statusTopic() {
+    deleteTopic: function deleteTopic() {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return _this7.$swal({
-                  title: '¿Esta seguro de cambiar el estado del tema?',
+                  title: '¿Esta seguro de eliminar el tema?',
+                  text: "Esta acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -730,13 +775,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (result) {
                   if (result.isConfirmed) {
                     _this7.overlay = true;
-                    var data = new FormData();
-                    var type = 3;
-                    if (_this7.form_status.status == "Activo") type = 1;else if (_this7.form_status.status == "Borrador") type = 0;
-                    data.append('status', type);
-                    data.append('_method', "put");
 
-                    _this7.axios.post('/api/topic/status/' + _this7.$route.params.slug, data).then(function (response) {
+                    _this7.axios["delete"]('/api/topic/' + _this7.$route.params.slug).then(function (response) {
                       if (response.data.complete) {
                         _this7.sweet.title = "Éxito";
                         _this7.sweet.icon = "success";
@@ -751,10 +791,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this7.showTopic();
-                        }
+                          _this7.overlay = false;
 
-                        _this7.overlay = false;
+                          _this7.$router.push({
+                            name: "topics"
+                          });
+                        } else _this7.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this7.sweet.title = "Error";
@@ -767,71 +809,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
 
                       _this7.overlay = false;
-                    });
-                  }
-                });
-
-              case 2:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    deleteTopic: function deleteTopic() {
-      var _this8 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return _this8.$swal({
-                  title: '¿Esta seguro de eliminar el tema?',
-                  text: "Esta acción no se puede revertir",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this8.overlay = true;
-
-                    _this8.axios["delete"]('/api/topic/' + _this8.$route.params.slug).then(function (response) {
-                      if (response.data.complete) {
-                        _this8.sweet.title = "Éxito";
-                        _this8.sweet.icon = "success";
-                      } else {
-                        _this8.sweet.title = "Error";
-                        _this8.sweet.icon = "error";
-                      }
-
-                      _this8.$swal({
-                        title: _this8.sweet.title,
-                        icon: _this8.sweet.icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this8.overlay = false;
-
-                          _this8.$router.push({
-                            name: "topics"
-                          });
-                        } else _this8.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this8.sweet.title = "Error";
-                      _this8.sweet.icon = "error";
-
-                      _this8.$swal({
-                        title: _this8.sweet.title,
-                        icon: _this8.sweet.icon,
-                        text: error
-                      });
-
-                      _this8.overlay = false;
                     });
                   }
                 });
@@ -2049,35 +2026,6 @@ var render = function () {
                                           )
                                         },
                                         expression: "form_information.name",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Slug (Vista previa)",
-                                        tabindex: "2",
-                                        dense: "",
-                                        "prepend-icon": "code_off",
-                                        loading: _vm.loading_slug,
-                                        disabled: "",
-                                      },
-                                      model: {
-                                        value: _vm.form_information.slug,
-                                        callback: function ($$v) {
-                                          _vm.$set(
-                                            _vm.form_information,
-                                            "slug",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "form_information.slug",
                                       },
                                     }),
                                   ],

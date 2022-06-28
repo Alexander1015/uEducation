@@ -150,11 +150,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -172,14 +167,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         subject: "",
         name: "",
-        slug: "",
         tags: [],
         "abstract": "",
         img: null
       },
       loading_subjects: true,
       loading_tags: true,
-      loading_slug: false,
       data_subject: [],
       data_tags: [],
       subjectRules: [function (v) {
@@ -207,22 +200,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     };
   },
-  watch: {
-    "form.name": function formName() {
-      var _this = this;
-
-      this.loading_slug = true;
-      var data = new FormData();
-      data.append('name', this.form.name);
-      this.axios.post('/api/slug', data).then(function (response) {
-        _this.form.slug = response.data.slug;
-        _this.loading_slug = false;
-      })["catch"](function (error) {
-        _this.form.slug = "n/a";
-        _this.loading_slug = false;
-      });
-    }
-  },
   mounted: function mounted() {
     this.showSubjects();
     this.showTags();
@@ -236,21 +213,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (index >= 0) this.form.tags.splice(index, 1);
     },
     showSubjects: function showSubjects() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.loading_subjects = true;
+                _this.loading_subjects = true;
                 _context.next = 3;
-                return _this2.axios.get('/api/getsubjects').then(function (response) {
-                  _this2.data_subject = response.data;
-                  _this2.loading_subjects = false;
+                return _this.axios.get('/api/getsubjects').then(function (response) {
+                  _this.data_subject = response.data;
+                  _this.loading_subjects = false;
                 })["catch"](function (error) {
-                  _this2.data_subject = [];
-                  _this2.loading_subjects = false;
+                  _this.data_subject = [];
+                  _this.loading_subjects = false;
                 });
 
               case 3:
@@ -262,21 +239,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     showTags: function showTags() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.loading_tags = true;
+                _this2.loading_tags = true;
                 _context2.next = 3;
-                return _this3.axios.get('/api/gettags').then(function (response) {
-                  _this3.data_tags = response.data;
-                  _this3.loading_tags = false;
+                return _this2.axios.get('/api/gettags').then(function (response) {
+                  _this2.data_tags = response.data;
+                  _this2.loading_tags = false;
                 })["catch"](function (error) {
-                  _this3.data_subject = [];
-                  _this3.loading_tags = false;
+                  _this2.data_subject = [];
+                  _this2.loading_tags = false;
                 });
 
               case 3:
@@ -293,20 +270,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     registerTopic: function registerTopic() {
-      var _this4 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!_this4.$refs.form.validate()) {
+                if (!_this3.$refs.form.validate()) {
                   _context3.next = 5;
                   break;
                 }
 
                 _context3.next = 3;
-                return _this4.$swal({
+                return _this3.$swal({
                   title: '¿Esta seguro de crear el tema?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -314,12 +291,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this4.overlay = true;
+                    _this3.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this4.form.subject);
+                    data.append('subject', _this3.form.subject);
 
-                    if (_this4.form.tags.length > 0) {
-                      var _iterator = _createForOfIteratorHelper(_this4.form.tags),
+                    if (_this3.form.tags.length > 0) {
+                      var _iterator = _createForOfIteratorHelper(_this3.form.tags),
                           _step;
 
                       try {
@@ -334,50 +311,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     }
 
-                    data.append('name', _this4.form.name);
-                    data.append('abstract', _this4.form["abstract"]);
-                    _this4.form.img = document.querySelector('#img').files[0];
+                    data.append('name', _this3.form.name);
+                    data.append('abstract', _this3.form["abstract"]);
+                    _this3.form.img = document.querySelector('#img').files[0];
 
-                    if (_this4.form.img) {
-                      data.append('img', _this4.form.img);
+                    if (_this3.form.img) {
+                      data.append('img', _this3.form.img);
                     }
 
-                    _this4.axios.post('/api/topic', data).then(function (response) {
+                    _this3.axios.post('/api/topic', data).then(function (response) {
                       if (response.data.complete) {
-                        _this4.sweet.title = "Éxito";
-                        _this4.sweet.icon = "success";
+                        _this3.sweet.title = "Éxito";
+                        _this3.sweet.icon = "success";
                       } else {
-                        _this4.sweet.title = "Error";
-                        _this4.sweet.icon = "error";
+                        _this3.sweet.title = "Error";
+                        _this3.sweet.icon = "error";
                       }
 
-                      _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this4.$router.push({
+                          _this3.$router.push({
                             name: "editTopic",
                             params: {
                               slug: response.data.topic
                             }
                           });
 
-                          _this4.overlay = false;
-                        } else _this4.overlay = false;
+                          _this3.overlay = false;
+                        } else _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this4.sweet.title = "Error";
-                      _this4.sweet.icon = "error";
+                      _this3.sweet.title = "Error";
+                      _this3.sweet.icon = "error";
 
-                      _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
+                      _this3.$swal({
+                        title: _this3.sweet.title,
+                        icon: _this3.sweet.icon,
                         text: error
                       });
 
-                      _this4.overlay = false;
+                      _this3.overlay = false;
                     });
                   }
                 });
@@ -387,7 +364,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 5:
-                _this4.overlay = false;
+                _this3.overlay = false;
 
               case 6:
               case "end":
@@ -1232,31 +1209,6 @@ var render = function () {
                                           _vm.$set(_vm.form, "name", $$v)
                                         },
                                         expression: "form.name",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Slug (Vista previa)",
-                                        tabindex: "2",
-                                        dense: "",
-                                        "prepend-icon": "code_off",
-                                        loading: _vm.loading_slug,
-                                        disabled: "",
-                                      },
-                                      model: {
-                                        value: _vm.form.slug,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.form, "slug", $$v)
-                                        },
-                                        expression: "form.slug",
                                       },
                                     }),
                                   ],

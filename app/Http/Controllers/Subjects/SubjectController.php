@@ -44,10 +44,19 @@ class SubjectController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        return response()->json([
-                            'message' => 'El dato proporcionado no sigue el formato solicitado',
-                            'complete' => false,
-                        ]);
+                        $slug = Str::slug($request->input('name'));
+                        $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                        if ($old_slug) {
+                            return response()->json([
+                                'message' => 'El titulo ingresado ya existe',
+                                'complete' => false,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'El dato proporcionado no sigue el formato solicitado',
+                                'complete' => false,
+                            ]);
+                        }
                     }
                 } else {
                     $slug = Str::slug($request->input('name'));
@@ -133,10 +142,19 @@ class SubjectController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            return response()->json([
-                                'message' => 'El dato proporcionado no sigue el formato solicitado',
-                                'complete' => false,
-                            ]);
+                            $slug = Str::slug($request->input('name'));
+                            $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                            if ($data->id != $old_slug->id) {
+                                return response()->json([
+                                    'message' => 'El titulo ingresado ya existe',
+                                    'complete' => false,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'El dato proporcionado no sigue el formato solicitado',
+                                    'complete' => false,
+                                ]);
+                            }
                         }
                     } else {
                         $slug = Str::slug($request->input('name'));
