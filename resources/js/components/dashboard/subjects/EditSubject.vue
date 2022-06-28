@@ -40,6 +40,14 @@
                         </v-icon>
                         Información
                     </v-tab>
+                    <template v-if="topics.length > 0">
+                        <v-tab>
+                            <v-icon left>
+                                fact_check
+                            </v-icon>
+                            Orden de temas
+                        </v-tab>
+                    </template>
                     <v-tab>
                         <v-icon left>
                             local_library
@@ -63,8 +71,8 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)" tabindex="2" dense
-                                            prepend-icon="code_off" :loading="loading_slug" disabled>
+                                        <v-text-field v-model="form_information.slug" label="Slug (Vista previa)"
+                                            tabindex="2" dense prepend-icon="code_off" :loading="loading_slug" disabled>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
@@ -84,6 +92,38 @@
                             </v-form>
                         </div>
                     </v-tab-item>
+                    <template v-if="topics.length > 0">
+                        <v-tab-item>
+                            <div class="px-4 py-4">
+                                <v-card-subtitle class="text-center">
+                                    Lista de los temas atribuidos a esta materia, ordenelos para su vista por parte de
+                                    los lectores.
+                                </v-card-subtitle>
+                                <draggable class="list-group" tag="ul" v-model="topics" v-bind="dragOptions"
+                                    @start="drag = true" @end="drag = false">
+                                    <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+                                        <li id="topic_drag" class="bk_brown txt_white my-1 mr-5 pa-2"
+                                            v-for="item in topics" :key="item.key">
+                                            {{ item.key }} - {{ item.name }}
+                                            <v-icon class="topic_drag_icon txt_white">view_list</v-icon>
+                                        </li>
+                                    </transition-group>
+                                </draggable>
+                                <template v-if="topics != topics_copy">
+                                    <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveListTopics">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="width_100 mt-2" disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                            </div>
+                        </v-tab-item>
+                    </template>
                     <v-tab-item>
                         <div class="px-4 py-4">
                             <div>
@@ -106,7 +146,6 @@
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
-
                                     </template>
                                 </v-form>
                             </div>
@@ -130,8 +169,13 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+
 export default {
     name: "EditSubject",
+    components: {
+        draggable
+    },
     data: () => ({
         overlay: false,
         sweet: {
@@ -140,10 +184,13 @@ export default {
         },
         items_status: ["Activo", "Desactivado"],
         loading_slug: false,
+        drag: false,
         form_information: {
             slug: "",
             name: "",
         },
+        topics: {},
+        topics_copy: {},
         form_status: {
             status: "",
         },
@@ -175,7 +222,17 @@ export default {
         },
     },
     mounted() {
-        this.showSubject()
+        this.showSubject();
+    },
+    computed: {
+        dragOptions() {
+            return {
+                animation: 200,
+                group: "description",
+                disabled: false,
+                ghostClass: "ghost"
+            };
+        }
     },
     methods: {
         returnSubjects() {
@@ -197,6 +254,15 @@ export default {
                             else if (this.subject.status == 1) this.form_status.status = "Activo";
                             this.overlay = false;
                         }
+                    }).catch((error) => {
+                        console.log(error);
+                        this.overlay = false;
+                    });
+                this.overlay = true;
+                await this.axios.get('/api/subject/gettopics/' + this.$route.params.slug)
+                    .then(response => {
+                        this.topics = this.topics_copy = response.data;
+                        this.overlay = false;
                     }).catch((error) => {
                         console.log(error);
                         this.overlay = false;
@@ -262,6 +328,60 @@ export default {
                 this.overlay = false;
             }
         },
+        async saveListTopics() {
+            if (this.$refs.form_information.validate()) {
+                await this.$swal({
+                    title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            for (let item of this.topics) {
+                                data.append('topics[]', item.id);
+                            }
+                            data.append('_method', "put");
+                            this.axios.post('/api/subject/gettopics/' + this.$route.params.slug, data)
+                                .then(response => {
+                                    if (response.data.complete) {
+                                        this.sweet.title = "Éxito"
+                                        this.sweet.icon = "success";
+                                    }
+                                    else {
+                                        this.sweet.title = "Error"
+                                        this.sweet.icon = "error";
+                                    }
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        this.overlay = false;
+                                    });
+                                }).catch(error => {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: error,
+                                    });
+                                    this.overlay = false;
+                                })
+                        }
+                    });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
         async statusSubject() {
             await this.$swal({
                 title: '¿Esta seguro de cambiar el estado del curso?',
@@ -295,7 +415,7 @@ export default {
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.showSubject();
+                                        this.getTopics();
                                     }
                                     this.overlay = false;
                                 });

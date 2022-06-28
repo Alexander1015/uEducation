@@ -71,3 +71,14 @@ $tags: #676767;
 #body #container #ckeditor {
   border: 1px solid #C4C4C4;
 }
+#body #container #topic_drag {
+  border-radius: 0.5rem;
+  cursor: move;
+}
+#body #container .topic_drag_icon {
+  float: right;
+}
+#body #container .ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}

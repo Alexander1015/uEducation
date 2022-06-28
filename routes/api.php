@@ -15,6 +15,7 @@ use App\Http\Controllers\Users\StatusUserController;
 // Subjects
 use App\Http\Controllers\Subjects\SubjectController;
 use App\Http\Controllers\Subjects\StatusSubjectController;
+use App\Http\Controllers\Subjects\TopicsController as GetTopicsController;
 // Tags
 use App\Http\Controllers\Tags\TagController;
 use App\Http\Controllers\Tags\StatusTagController;
@@ -49,6 +50,7 @@ Route::resource('user/status', StatusUserController::class)->middleware('auth');
 // Subjects
 Route::resource('subject', SubjectController::class)->middleware('auth');
 Route::resource('subject/status', StatusSubjectController::class)->middleware('auth');
+Route::resource('subject/gettopics', GetTopicsController::class)->middleware('auth');
 // Tags
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('tag/status', StatusTagController::class)->middleware('auth');

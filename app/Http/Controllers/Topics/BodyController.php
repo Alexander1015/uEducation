@@ -30,11 +30,22 @@ class BodyController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    if (DB::update("UPDATE topics SET body = ?, user_update_id = ? WHERE id = ?", [
-                        $request->input('body') ? $request->input('body') : "",
-                        $auth_user->id,
-                        $data->id,
-                    ])) {
+                    $query = null;
+                    if (!$data->user_id) {
+                        $query = DB::update("UPDATE topics SET body = ?, user_id = ?, user_update_id = ? WHERE id = ?", [
+                            $request->input('body') ? $request->input('body') : "",
+                            $auth_user->id,
+                            null,
+                            $data->id,
+                        ]);
+                    } else {
+                        $query = DB::update("UPDATE topics SET body = ?, user_update_id = ? WHERE id = ?", [
+                            $request->input('body') ? $request->input('body') : "",
+                            $auth_user->id,
+                            $data->id,
+                        ]);
+                    }
+                    if ($query) {
                         // Eliminamos de la BD las imagenes que se eliminaron
                         $images_db = DB::table("images")->where("topic_id", $data->id)->get();
                         foreach ($images_db as $db) {

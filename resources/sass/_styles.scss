@@ -72,5 +72,16 @@ $tags: #676767;
         #ckeditor {
             border: 1px solid #C4C4C4;
         }
+        #topic_drag {
+            border-radius: .5rem;
+            cursor: move;
+        }
+        .topic_drag_icon {
+            float: right;
+        }
+        .ghost {
+            opacity: 0.5;
+            background: #c8ebfb;
+        }
     }
 }
