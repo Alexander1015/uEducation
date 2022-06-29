@@ -442,11 +442,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.axios.get('/api/gettags').then(function (response) {
                   _this.data_tags = response.data;
                   _this.loading_tags = false;
-                  _this.overlay = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
                   _this.loading_tags = false;
-                  _this.overlay = false;
                 });
 
               case 5:
@@ -456,11 +454,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.axios.get('/api/getsubjects').then(function (response) {
                   _this.data_subject = response.data;
                   _this.loading_subjects = false;
-                  _this.overlay = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
                   _this.loading_subjects = false;
-                  _this.overlay = false;
                 });
 
               case 8:
@@ -493,12 +489,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.axios.get('/api/getsubjects/' + _this.topic.subject_id).then(function (response_sub) {
                       _this.form_information.subject = response_sub.data.name;
                       _this.form_information.copy_subject = response_sub.data.name;
-                      _this.overlay = false;
                     })["catch"](function (error) {
                       console.log(error);
                       _this.form_information.subject = "";
                       _this.form_information.copy_subject = "";
-                      _this.overlay = false;
                     });
 
                     _this.axios.get('/api/gettags/' + _this.topic.id).then(function (response_sub) {

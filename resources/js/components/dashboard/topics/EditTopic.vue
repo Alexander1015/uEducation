@@ -355,12 +355,10 @@ export default {
                     .then(response => {
                         this.data_tags = response.data;
                         this.loading_tags = false;
-                        this.overlay = false;
                     })
                     .catch(error => {
                         this.data_subject = [];
                         this.loading_tags = false;
-                        this.overlay = false;
                     });
                 //Cursos
                 this.overlay = true;
@@ -368,12 +366,10 @@ export default {
                     .then(response => {
                         this.data_subject = response.data;
                         this.loading_subjects = false;
-                        this.overlay = false;
                     })
                     .catch(error => {
                         this.data_subject = [];
                         this.loading_subjects = false;
-                        this.overlay = false;
                     });
                 //Tema
                 this.overlay = true;
@@ -400,12 +396,10 @@ export default {
                                 .then(response_sub => {
                                     this.form_information.subject = response_sub.data.name;
                                     this.form_information.copy_subject = response_sub.data.name;
-                                    this.overlay = false;
                                 }).catch((error) => {
                                     console.log(error);
                                     this.form_information.subject = "";
                                     this.form_information.copy_subject = "";
-                                    this.overlay = false;
                                 });
                             this.axios.get('/api/gettags/' + this.topic.id)
                                 .then(response_sub => {

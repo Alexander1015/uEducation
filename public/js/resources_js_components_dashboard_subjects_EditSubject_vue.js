@@ -268,19 +268,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.subject = response.data;
 
                   if (!_this.subject.name) {
-                    _this.overlay = false;
-
                     _this.$router.push({
                       name: "subjects"
                     });
                   } else {
                     _this.form_information.name = _this.subject.name;
                     if (_this.subject.status == 0) _this.form_status.status = "Desactivado";else if (_this.subject.status == 1) _this.form_status.status = "Activo";
-                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
                 });
 
               case 4:

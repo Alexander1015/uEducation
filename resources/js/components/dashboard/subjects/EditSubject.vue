@@ -223,18 +223,15 @@ export default {
                     .then(response => {
                         this.subject = response.data;
                         if (!this.subject.name) {
-                            this.overlay = false;
                             this.$router.push({ name: "subjects" });
                         }
                         else {
                             this.form_information.name = this.subject.name;
                             if (this.subject.status == 0) this.form_status.status = "Desactivado";
                             else if (this.subject.status == 1) this.form_status.status = "Activo";
-                            this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
                     });
                 this.overlay = true;
                 await this.axios.get('/api/subject/gettopics/' + this.$route.params.slug)
