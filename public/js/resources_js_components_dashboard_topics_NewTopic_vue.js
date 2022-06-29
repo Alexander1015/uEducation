@@ -150,6 +150,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -205,6 +237,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.showTags();
   },
   methods: {
+    gotoSubject: function gotoSubject() {
+      this.$router.push({
+        name: "newSubject",
+        params: {
+          backnew: true
+        }
+      });
+    },
+    gotoTag: function gotoTag() {
+      this.$router.push({
+        name: "newTag",
+        params: {
+          backnew: true
+        }
+      });
+    },
     limitTags: function limitTags() {
       if (this.form.tags.length > 5) this.form.tags.pop();
     },
@@ -664,6 +712,29 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".theme--light.v-textarea.v-text-field-
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-tooltip {\n  display: none;\n}\n.v-tooltip--attached {\n  display: inline;\n}\n.v-tooltip__content {\n  background: rgba(97, 97, 97, 0.9);\n  color: #FFFFFF;\n  border-radius: 4px;\n  font-size: 14px;\n  line-height: 22px;\n  display: inline-block;\n  padding: 5px 16px;\n  position: absolute;\n  text-transform: initial;\n  width: auto;\n  opacity: 0;\n  pointer-events: none;\n}\n.v-tooltip__content.menuable__content__active {\n  opacity: 0.9;\n}\n.v-tooltip__content--fixed {\n  position: fixed;\n}\n.v-tooltip__content[class*=-active] {\n  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);\n}\n.v-tooltip__content[class*=enter-active] {\n  transition-duration: 150ms;\n}\n.v-tooltip__content[class*=leave-active] {\n  transition-duration: 75ms;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass":
 /*!******************************************************************************!*\
   !*** ./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass ***!
@@ -1012,6 +1083,35 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass":
+/*!********************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VTooltip/VTooltip.sass ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VTooltip.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VTooltip_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/components/dashboard/topics/NewTopic.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/dashboard/topics/NewTopic.vue?vue&type=script&lang=js& ***!
@@ -1219,31 +1319,113 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12" } },
                                   [
-                                    _c("v-autocomplete", {
-                                      attrs: {
-                                        rules: _vm.subjectRules,
-                                        items: _vm.data_subject,
-                                        clearable: "",
-                                        "clear-icon": "cancel",
-                                        label: "Curso *",
-                                        tabindex: "3",
-                                        dense: "",
-                                        loading: _vm.loading_subjects,
-                                        "no-data-text":
-                                          "No se encuentra información para mostrar",
-                                        "prepend-icon": "collections_bookmark",
-                                        "append-icon": "arrow_drop_down",
-                                        "hide-selected": "",
-                                        required: "",
-                                      },
-                                      model: {
-                                        value: _vm.form.subject,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.form, "subject", $$v)
-                                        },
-                                        expression: "form.subject",
-                                      },
-                                    }),
+                                    _c(
+                                      "v-row",
+                                      [
+                                        _c(
+                                          "v-col",
+                                          [
+                                            _c("v-autocomplete", {
+                                              attrs: {
+                                                rules: _vm.subjectRules,
+                                                items: _vm.data_subject,
+                                                clearable: "",
+                                                "clear-icon": "cancel",
+                                                label: "Curso *",
+                                                tabindex: "3",
+                                                dense: "",
+                                                loading: _vm.loading_subjects,
+                                                "no-data-text":
+                                                  "No se encuentra información para mostrar",
+                                                "prepend-icon":
+                                                  "collections_bookmark",
+                                                "append-icon":
+                                                  "arrow_drop_down",
+                                                "hide-selected": "",
+                                                required: "",
+                                              },
+                                              model: {
+                                                value: _vm.form.subject,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "subject",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.subject",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          { attrs: { cols: "1" } },
+                                          [
+                                            _c(
+                                              "v-tooltip",
+                                              {
+                                                attrs: { bottom: "" },
+                                                scopedSlots: _vm._u([
+                                                  {
+                                                    key: "activator",
+                                                    fn: function (ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: "",
+                                                                },
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      $event.preventDefault()
+                                                                      return _vm.gotoSubject()
+                                                                    },
+                                                                },
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "post_add"
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                          1
+                                                        ),
+                                                      ]
+                                                    },
+                                                  },
+                                                ]),
+                                              },
+                                              [
+                                                _vm._v(" "),
+                                                _c("span", [
+                                                  _vm._v("Agregar cursos"),
+                                                ]),
+                                              ]
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ],
+                                      1
+                                    ),
                                   ],
                                   1
                                 ),
@@ -1252,107 +1434,201 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12" } },
                                   [
-                                    _c("v-autocomplete", {
-                                      attrs: {
-                                        rules: _vm.tagsRules,
-                                        items: _vm.data_tags,
-                                        clearable: "",
-                                        "clear-icon": "cancel",
-                                        label: "Etiquetas (Max. 5)*",
-                                        tabindex: "4",
-                                        dense: "",
-                                        loading: _vm.loading_tags,
-                                        "item-text": "name",
-                                        "no-data-text":
-                                          "No se encuentra información para mostrar",
-                                        "prepend-icon": "local_offer",
-                                        "append-icon": "arrow_drop_down",
-                                        chips: "",
-                                        "small-chips": "",
-                                        multiple: "",
-                                        "hide-selected": "",
-                                        required: "",
-                                      },
-                                      on: { change: _vm.limitTags },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "selection",
-                                          fn: function (data) {
-                                            return [
-                                              _c(
-                                                "v-chip",
-                                                _vm._b(
+                                    _c(
+                                      "v-row",
+                                      [
+                                        _c(
+                                          "v-col",
+                                          [
+                                            _c("v-autocomplete", {
+                                              attrs: {
+                                                rules: _vm.tagsRules,
+                                                items: _vm.data_tags,
+                                                clearable: "",
+                                                "clear-icon": "cancel",
+                                                label: "Etiquetas (Max. 5)*",
+                                                tabindex: "4",
+                                                dense: "",
+                                                loading: _vm.loading_tags,
+                                                "item-text": "name",
+                                                "no-data-text":
+                                                  "No se encuentra información para mostrar",
+                                                "prepend-icon": "local_offer",
+                                                "append-icon":
+                                                  "arrow_drop_down",
+                                                chips: "",
+                                                "small-chips": "",
+                                                multiple: "",
+                                                "hide-selected": "",
+                                                required: "",
+                                              },
+                                              on: { change: _vm.limitTags },
+                                              scopedSlots: _vm._u([
+                                                {
+                                                  key: "selection",
+                                                  fn: function (data) {
+                                                    return [
+                                                      _c(
+                                                        "v-chip",
+                                                        _vm._b(
+                                                          {
+                                                            staticClass: "my-1",
+                                                            style:
+                                                              "color:" +
+                                                              data.item
+                                                                .text_color +
+                                                              ";",
+                                                            attrs: {
+                                                              label: "",
+                                                              color:
+                                                                data.item
+                                                                  .background_color,
+                                                              close: "",
+                                                              "input-value":
+                                                                data.selected,
+                                                              "close-icon":
+                                                                "close",
+                                                            },
+                                                            on: {
+                                                              click:
+                                                                data.select,
+                                                              "click:close":
+                                                                function (
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.remove(
+                                                                    data.item
+                                                                  )
+                                                                },
+                                                            },
+                                                          },
+                                                          "v-chip",
+                                                          data.attrs,
+                                                          false
+                                                        ),
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: "",
+                                                              },
+                                                            },
+                                                            [_vm._v("label")]
+                                                          ),
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                data.item.name
+                                                              ) +
+                                                              "\n                                                    "
+                                                          ),
+                                                        ],
+                                                        1
+                                                      ),
+                                                    ]
+                                                  },
+                                                },
+                                                {
+                                                  key: "item",
+                                                  fn: function (data) {
+                                                    return [
+                                                      _c(
+                                                        "v-list-item-content",
+                                                        {
+                                                          domProps: {
+                                                            textContent: _vm._s(
+                                                              data.item.name
+                                                            ),
+                                                          },
+                                                        }
+                                                      ),
+                                                    ]
+                                                  },
+                                                },
+                                              ]),
+                                              model: {
+                                                value: _vm.form.tags,
+                                                callback: function ($$v) {
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "tags",
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "form.tags",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-col",
+                                          { attrs: { cols: "1" } },
+                                          [
+                                            _c(
+                                              "v-tooltip",
+                                              {
+                                                attrs: { bottom: "" },
+                                                scopedSlots: _vm._u([
                                                   {
-                                                    staticClass: "my-1",
-                                                    style:
-                                                      "color:" +
-                                                      data.item.text_color +
-                                                      ";",
-                                                    attrs: {
-                                                      label: "",
-                                                      color:
-                                                        data.item
-                                                          .background_color,
-                                                      close: "",
-                                                      "input-value":
-                                                        data.selected,
-                                                      "close-icon": "close",
-                                                    },
-                                                    on: {
-                                                      click: data.select,
-                                                      "click:close": function (
-                                                        $event
-                                                      ) {
-                                                        return _vm.remove(
-                                                          data.item
-                                                        )
-                                                      },
+                                                    key: "activator",
+                                                    fn: function (ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: "",
+                                                                },
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      $event.preventDefault()
+                                                                      return _vm.gotoTag()
+                                                                    },
+                                                                },
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "bookmark_add"
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                          1
+                                                        ),
+                                                      ]
                                                     },
                                                   },
-                                                  "v-chip",
-                                                  data.attrs,
-                                                  false
-                                                ),
-                                                [
-                                                  _c(
-                                                    "v-icon",
-                                                    { attrs: { left: "" } },
-                                                    [_vm._v("label")]
-                                                  ),
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(data.item.name) +
-                                                      "\n                                            "
-                                                  ),
-                                                ],
-                                                1
-                                              ),
-                                            ]
-                                          },
-                                        },
-                                        {
-                                          key: "item",
-                                          fn: function (data) {
-                                            return [
-                                              _c("v-list-item-content", {
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    data.item.name
-                                                  ),
-                                                },
-                                              }),
-                                            ]
-                                          },
-                                        },
-                                      ]),
-                                      model: {
-                                        value: _vm.form.tags,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.form, "tags", $$v)
-                                        },
-                                        expression: "form.tags",
-                                      },
-                                    }),
+                                                ]),
+                                              },
+                                              [
+                                                _vm._v(" "),
+                                                _c("span", [
+                                                  _vm._v("Agregar etiquetas"),
+                                                ]),
+                                              ]
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ],
+                                      1
+                                    ),
                                   ],
                                   1
                                 ),
@@ -1583,6 +1859,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
 /* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 /* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/VTextarea.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -1621,7 +1898,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemContent,VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_15__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_16__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_17__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_20__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardTitle,VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_8__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_9__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__["default"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_14__.VListItemContent,VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_15__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_16__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_17__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_18__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_19__["default"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_20__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_21__["default"]})
 
 
 /* hot reload */
@@ -5313,6 +5591,243 @@ const baseMixins = (0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_VTe
   }
 }));
 //# sourceMappingURL=VTextarea.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VTooltip/VTooltip.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VTooltip_VTooltip_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VTooltip/VTooltip.sass */ "./node_modules/vuetify/src/components/VTooltip/VTooltip.sass");
+/* harmony import */ var _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../mixins/activatable */ "./node_modules/vuetify/lib/mixins/activatable/index.js");
+/* harmony import */ var _mixins_colorable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/colorable */ "./node_modules/vuetify/lib/mixins/colorable/index.js");
+/* harmony import */ var _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../mixins/delayable */ "./node_modules/vuetify/lib/mixins/delayable/index.js");
+/* harmony import */ var _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../mixins/dependent */ "./node_modules/vuetify/lib/mixins/dependent/index.js");
+/* harmony import */ var _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../mixins/menuable */ "./node_modules/vuetify/lib/mixins/menuable/index.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+/* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+ // Mixins
+
+
+
+
+
+ // Helpers
+
+
+
+
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_1__["default"])(_mixins_colorable__WEBPACK_IMPORTED_MODULE_2__["default"], _mixins_delayable__WEBPACK_IMPORTED_MODULE_3__["default"], _mixins_dependent__WEBPACK_IMPORTED_MODULE_4__["default"], _mixins_menuable__WEBPACK_IMPORTED_MODULE_5__["default"]).extend({
+  name: 'v-tooltip',
+  props: {
+    closeDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    disabled: Boolean,
+    openDelay: {
+      type: [Number, String],
+      default: 0
+    },
+    openOnHover: {
+      type: Boolean,
+      default: true
+    },
+    openOnFocus: {
+      type: Boolean,
+      default: true
+    },
+    tag: {
+      type: String,
+      default: 'span'
+    },
+    transition: String
+  },
+  data: () => ({
+    calculatedMinWidth: 0,
+    closeDependents: false
+  }),
+  computed: {
+    calculatedLeft() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const unknown = !this.bottom && !this.left && !this.top && !this.right;
+      const activatorLeft = this.attach !== false ? activator.offsetLeft : activator.left;
+      let left = 0;
+
+      if (this.top || this.bottom || unknown) {
+        left = activatorLeft + activator.width / 2 - content.width / 2;
+      } else if (this.left || this.right) {
+        left = activatorLeft + (this.right ? activator.width : -content.width) + (this.right ? 10 : -10);
+      }
+
+      if (this.nudgeLeft) left -= parseInt(this.nudgeLeft);
+      if (this.nudgeRight) left += parseInt(this.nudgeRight);
+      return `${this.calcXOverflow(left, this.dimensions.content.width)}px`;
+    },
+
+    calculatedTop() {
+      const {
+        activator,
+        content
+      } = this.dimensions;
+      const activatorTop = this.attach !== false ? activator.offsetTop : activator.top;
+      let top = 0;
+
+      if (this.top || this.bottom) {
+        top = activatorTop + (this.bottom ? activator.height : -content.height) + (this.bottom ? 10 : -10);
+      } else if (this.left || this.right) {
+        top = activatorTop + activator.height / 2 - content.height / 2;
+      }
+
+      if (this.nudgeTop) top -= parseInt(this.nudgeTop);
+      if (this.nudgeBottom) top += parseInt(this.nudgeBottom);
+      if (this.attach === false) top += this.pageYOffset;
+      return `${this.calcYOverflow(top)}px`;
+    },
+
+    classes() {
+      return {
+        'v-tooltip--top': this.top,
+        'v-tooltip--right': this.right,
+        'v-tooltip--bottom': this.bottom,
+        'v-tooltip--left': this.left,
+        'v-tooltip--attached': this.attach === '' || this.attach === true || this.attach === 'attach'
+      };
+    },
+
+    computedTransition() {
+      if (this.transition) return this.transition;
+      return this.isActive ? 'scale-transition' : 'fade-transition';
+    },
+
+    offsetY() {
+      return this.top || this.bottom;
+    },
+
+    offsetX() {
+      return this.left || this.right;
+    },
+
+    styles() {
+      return {
+        left: this.calculatedLeft,
+        maxWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.maxWidth),
+        minWidth: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.convertToUnit)(this.minWidth),
+        top: this.calculatedTop,
+        zIndex: this.zIndex || this.activeZIndex
+      };
+    }
+
+  },
+
+  beforeMount() {
+    this.$nextTick(() => {
+      this.value && this.callActivate();
+    });
+  },
+
+  mounted() {
+    if ((0,_util_helpers__WEBPACK_IMPORTED_MODULE_6__.getSlotType)(this, 'activator', true) === 'v-slot') {
+      (0,_util_console__WEBPACK_IMPORTED_MODULE_7__.consoleError)(`v-tooltip's activator slot must be bound, try '<template #activator="data"><v-btn v-on="data.on>'`, this);
+    }
+  },
+
+  methods: {
+    activate() {
+      // Update coordinates and dimensions of menu
+      // and its activator
+      this.updateDimensions(); // Start the transition
+
+      requestAnimationFrame(this.startTransition);
+    },
+
+    deactivate() {
+      this.runDelay('close');
+    },
+
+    genActivatorListeners() {
+      const listeners = _mixins_activatable__WEBPACK_IMPORTED_MODULE_8__["default"].options.methods.genActivatorListeners.call(this);
+
+      if (this.openOnFocus) {
+        listeners.focus = e => {
+          this.getActivator(e);
+          this.runDelay('open');
+        };
+
+        listeners.blur = e => {
+          this.getActivator(e);
+          this.runDelay('close');
+        };
+      }
+
+      listeners.keydown = e => {
+        if (e.keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_6__.keyCodes.esc) {
+          this.getActivator(e);
+          this.runDelay('close');
+        }
+      };
+
+      return listeners;
+    },
+
+    genActivatorAttributes() {
+      return {
+        'aria-haspopup': true,
+        'aria-expanded': String(this.isActive)
+      };
+    },
+
+    genTransition() {
+      const content = this.genContent();
+      if (!this.computedTransition) return content;
+      return this.$createElement('transition', {
+        props: {
+          name: this.computedTransition
+        }
+      }, [content]);
+    },
+
+    genContent() {
+      return this.$createElement('div', this.setBackgroundColor(this.color, {
+        staticClass: 'v-tooltip__content',
+        class: {
+          [this.contentClass]: true,
+          menuable__content__active: this.isActive,
+          'v-tooltip__content--fixed': this.activatorFixed
+        },
+        style: this.styles,
+        attrs: this.getScopeIdAttrs(),
+        directives: [{
+          name: 'show',
+          value: this.isContentActive
+        }],
+        ref: 'content'
+      }), this.getContentSlot());
+    }
+
+  },
+
+  render(h) {
+    return h(this.tag, {
+      staticClass: 'v-tooltip',
+      class: this.classes
+    }, [this.showLazyContent(() => [this.genTransition()]), this.genActivator()]);
+  }
+
+}));
+//# sourceMappingURL=VTooltip.js.map
 
 /***/ }),
 

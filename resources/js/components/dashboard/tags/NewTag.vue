@@ -140,7 +140,9 @@ export default {
     }),
     methods: {
         returnTags() {
-            this.$router.push({ name: "tags" });
+            if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
+            else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
+            else this.$router.push({ name: "tags" });
         },
         async registerTags() {
             if (this.$refs.form.validate()) {
@@ -174,7 +176,9 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "tags" });
+                                            if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
+                                            else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
+                                            else this.$router.push({ name: "tags" });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

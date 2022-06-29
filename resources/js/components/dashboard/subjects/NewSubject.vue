@@ -84,7 +84,9 @@ export default {
     }),
     methods: {
         returnSubjects() {
-            this.$router.push({ name: "subjects" });
+            if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
+            else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
+            else this.$router.push({ name: "subjects" });
         },
         async registerSubject() {
             if (this.$refs.form.validate()) {
@@ -116,7 +118,9 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "subjects" });
+                                            if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
+                                            else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
+                                            else this.$router.push({ name: "subjects" });
                                             this.overlay = false;
                                         }
                                         else this.overlay = false;

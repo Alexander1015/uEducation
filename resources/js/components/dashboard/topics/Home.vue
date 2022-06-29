@@ -48,6 +48,12 @@
                             </template>
                         </v-img>
                     </template>
+                    <template v-slot:item.created_at="{ item }">
+                        {{ item.created_at ? item.created_at.substring(0, 9) : "" }}
+                    </template>
+                    <template v-slot:item.updated_at="{ item }">
+                        {{ item.updated_at ? item.updated_at.substring(0, 9) : "" }}
+                    </template>
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">

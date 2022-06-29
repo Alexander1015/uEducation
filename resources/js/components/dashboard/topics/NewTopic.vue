@@ -38,33 +38,65 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-autocomplete v-model="form.subject" :rules="subjectRules"
-                                            :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                            tabindex="3" dense :loading="loading_subjects"
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
-                                            hide-selected required>
-                                        </v-autocomplete>
+                                        <v-row>
+                                            <v-col>
+                                                <v-autocomplete v-model="form.subject" :rules="subjectRules"
+                                                    :items="data_subject" clearable clear-icon="cancel" label="Curso *"
+                                                    tabindex="3" dense :loading="loading_subjects"
+                                                    no-data-text="No se encuentra información para mostrar"
+                                                    prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
+                                                    hide-selected required>
+                                                </v-autocomplete>
+                                            </v-col>
+                                            <v-col cols="1">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on" icon
+                                                            @click.prevent="gotoSubject()">
+                                                            <v-icon>post_add</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Agregar cursos</span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-autocomplete v-model="form.tags" :rules="tagsRules" :items="data_tags"
-                                            clearable clear-icon="cancel" label="Etiquetas (Max. 5)*" tabindex="4" dense
-                                            :loading="loading_tags" item-text="name"
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
-                                            multiple @change="limitTags" hide-selected required>
-                                            <template v-slot:selection="data">
-                                                <v-chip label class="my-1" :color="data.item.background_color"
-                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs"
-                                                    close @click="data.select" @click:close="remove(data.item)"
-                                                    :input-value="data.selected" close-icon="close">
-                                                    <v-icon left>label</v-icon> {{ data.item.name }}
-                                                </v-chip>
-                                            </template>
-                                            <template v-slot:item="data">
-                                                <v-list-item-content v-text="data.item.name"></v-list-item-content>
-                                            </template>
-                                        </v-autocomplete>
+                                        <v-row>
+                                            <v-col>
+                                                <v-autocomplete v-model="form.tags" :rules="tagsRules"
+                                                    :items="data_tags" clearable clear-icon="cancel"
+                                                    label="Etiquetas (Max. 5)*" tabindex="4" dense
+                                                    :loading="loading_tags" item-text="name"
+                                                    no-data-text="No se encuentra información para mostrar"
+                                                    prepend-icon="local_offer" append-icon="arrow_drop_down" chips
+                                                    small-chips multiple @change="limitTags" hide-selected required>
+                                                    <template v-slot:selection="data">
+                                                        <v-chip label class="my-1" :color="data.item.background_color"
+                                                            :style='"color:" + data.item.text_color + ";"'
+                                                            v-bind="data.attrs" close @click="data.select"
+                                                            @click:close="remove(data.item)"
+                                                            :input-value="data.selected" close-icon="close">
+                                                            <v-icon left>label</v-icon> {{ data.item.name }}
+                                                        </v-chip>
+                                                    </template>
+                                                    <template v-slot:item="data">
+                                                        <v-list-item-content v-text="data.item.name">
+                                                        </v-list-item-content>
+                                                    </template>
+                                                </v-autocomplete>
+                                            </v-col>
+                                            <v-col cols="1">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on" icon @click.prevent="gotoTag()">
+                                                            <v-icon>bookmark_add</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Agregar etiquetas</span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-textarea counter v-model="form.abstract" :rules="abstractRules" clearable
@@ -176,6 +208,12 @@ export default {
         this.showTags();
     },
     methods: {
+        gotoSubject() {
+            this.$router.push({ name: "newSubject", params: { backnew: true } });
+        },
+        gotoTag() {
+            this.$router.push({ name: "newTag", params: { backnew: true } });
+        },
         limitTags() {
             if (this.form.tags.length > 5) this.form.tags.pop();
         },

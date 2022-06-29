@@ -120,6 +120,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTopic",
   data: function data() {
@@ -1292,6 +1298,40 @@ var render = function () {
                             true
                           ),
                         }),
+                      ]
+                    },
+                  },
+                  {
+                    key: "item.created_at",
+                    fn: function (ref) {
+                      var item = ref.item
+                      return [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(
+                              item.created_at
+                                ? item.created_at.substring(0, 9)
+                                : ""
+                            ) +
+                            "\n                "
+                        ),
+                      ]
+                    },
+                  },
+                  {
+                    key: "item.updated_at",
+                    fn: function (ref) {
+                      var item = ref.item
+                      return [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(
+                              item.updated_at
+                                ? item.updated_at.substring(0, 9)
+                                : ""
+                            ) +
+                            "\n                "
+                        ),
                       ]
                     },
                   },

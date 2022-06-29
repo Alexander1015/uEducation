@@ -107,7 +107,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     returnSubjects: function returnSubjects() {
-      this.$router.push({
+      if (this.$route.params.backnew) this.$router.push({
+        name: "newTopic"
+      });else if (this.$route.params.backedit) this.$router.push({
+        name: "editTopic",
+        params: {
+          slug: this.$route.params.backedit
+        }
+      });else this.$router.push({
         name: "subjects"
       });
     },
@@ -152,10 +159,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this.$router.push({
+                          if (_this.$route.params.backnew) _this.$router.push({
+                            name: "newTopic"
+                          });else if (_this.$route.params.backedit) _this.$router.push({
+                            name: "editTopic",
+                            params: {
+                              slug: _this.$route.params.backedit
+                            }
+                          });else _this.$router.push({
                             name: "subjects"
                           });
-
                           _this.overlay = false;
                         } else _this.overlay = false;
                       });

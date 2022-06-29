@@ -13,7 +13,7 @@
             <div class="new_btn mr-4">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showTags(), showSubjects(), showTopic()" elevation="3"
+                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showTopic()" elevation="3"
                             class="bk_blue txt_white mr-4">
                             <v-icon>autorenew</v-icon>
                         </v-btn>
@@ -68,33 +68,66 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-autocomplete v-model="form_information.subject" :rules="info.subjectRules"
-                                            :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                            tabindex="3" dense :loading="loading_subjects"
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
-                                            hide-selected required>
-                                        </v-autocomplete>
+                                        <v-row>
+                                            <v-col>
+                                                <v-autocomplete v-model="form_information.subject"
+                                                    :rules="info.subjectRules" :items="data_subject" clearable
+                                                    clear-icon="cancel" label="Curso *" tabindex="3" dense
+                                                    :loading="loading_subjects"
+                                                    no-data-text="No se encuentra información para mostrar"
+                                                    prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
+                                                    hide-selected required>
+                                                </v-autocomplete>
+                                            </v-col>
+                                            <v-col cols="1">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on" icon
+                                                            @click.prevent="gotoSubject()">
+                                                            <v-icon>post_add</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Agregar cursos</span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-autocomplete v-model="form_information.tags" :rules="info.tagsRules"
-                                            :items="data_tags" clearable clear-icon="cancel" label="Etiquetas (Max. 5)*"
-                                            tabindex="4" dense :loading="loading_tags" item-text="name"
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="local_offer" append-icon="arrow_drop_down" chips small-chips
-                                            multiple @change="limitTags" hide-selected required>
-                                            <template v-slot:selection="data">
-                                                <v-chip label class="my-1" :color="data.item.background_color"
-                                                    :style='"color:" + data.item.text_color + ";"' v-bind="data.attrs"
-                                                    close @click="data.select" @click:close="remove(data.item)"
-                                                    :input-value="data.selected" close-icon="close">
-                                                    <v-icon left>label</v-icon> {{ data.item.name }}
-                                                </v-chip>
-                                            </template>
-                                            <template v-slot:item="data">
-                                                <v-list-item-content v-text="data.item.name"></v-list-item-content>
-                                            </template>
-                                        </v-autocomplete>
+                                        <v-row>
+                                            <v-col>
+                                                <v-autocomplete v-model="form_information.tags" :rules="info.tagsRules"
+                                                    :items="data_tags" clearable clear-icon="cancel"
+                                                    label="Etiquetas (Max. 5)*" tabindex="4" dense
+                                                    :loading="loading_tags" item-text="name"
+                                                    no-data-text="No se encuentra información para mostrar"
+                                                    prepend-icon="local_offer" append-icon="arrow_drop_down" chips
+                                                    small-chips multiple @change="limitTags" hide-selected required>
+                                                    <template v-slot:selection="data">
+                                                        <v-chip label class="my-1" :color="data.item.background_color"
+                                                            :style='"color:" + data.item.text_color + ";"'
+                                                            v-bind="data.attrs" close @click="data.select"
+                                                            @click:close="remove(data.item)"
+                                                            :input-value="data.selected" close-icon="close">
+                                                            <v-icon left>label</v-icon> {{ data.item.name }}
+                                                        </v-chip>
+                                                    </template>
+                                                    <template v-slot:item="data">
+                                                        <v-list-item-content v-text="data.item.name">
+                                                        </v-list-item-content>
+                                                    </template>
+                                                </v-autocomplete>
+                                            </v-col>
+                                            <v-col cols="1">
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on" icon @click.prevent="gotoTag()">
+                                                            <v-icon>bookmark_add</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Agregar etiquetas</span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-textarea v-model="form_information.abstract" counter
@@ -287,11 +320,15 @@ export default {
         name: "",
     }),
     mounted() {
-        this.showTags();
-        this.showSubjects();
         this.showTopic();
     },
     methods: {
+        gotoSubject() {
+            this.$router.push({ name: "newSubject", params: { backedit: this.$route.params.slug } });
+        },
+        gotoTag() {
+            this.$router.push({ name: "newTag", params: { backedit: this.$route.params.slug } });
+        },
         limitTags() {
             if (this.form_information.tags.length > 5) this.form_information.tags.pop();
         },
@@ -306,35 +343,40 @@ export default {
                 editor.ui.getEditableElement()
             );
         },
-        async showTags() {
-            this.loading_tags = true;
-            await this.axios.get('/api/gettags')
-                .then(response => {
-                    this.data_tags = response.data;
-                    this.loading_tags = false;
-                })
-                .catch(error => {
-                    this.data_subject = [];
-                    this.loading_tags = false;
-                });
-        },
-        async showSubjects() {
-            await this.axios.get('/api/getsubjects')
-                .then(response => {
-                    this.data_subject = response.data;
-                    this.loading_subjects = false;
-                })
-                .catch(error => {
-                    this.data_subject = [];
-                    this.loading_subjects = false;
-                });
-        },
         returnTopics() {
             this.$router.push({ name: "topics" });
         },
         async showTopic() {
             this.overlay = true;
             if (this.$route.params.slug) {
+                this.loading_tags = true;
+                //Etiquetas
+                await this.axios.get('/api/gettags')
+                    .then(response => {
+                        this.data_tags = response.data;
+                        this.loading_tags = false;
+                        this.overlay = false;
+                    })
+                    .catch(error => {
+                        this.data_subject = [];
+                        this.loading_tags = false;
+                        this.overlay = false;
+                    });
+                //Cursos
+                this.overlay = true;
+                await this.axios.get('/api/getsubjects')
+                    .then(response => {
+                        this.data_subject = response.data;
+                        this.loading_subjects = false;
+                        this.overlay = false;
+                    })
+                    .catch(error => {
+                        this.data_subject = [];
+                        this.loading_subjects = false;
+                        this.overlay = false;
+                    });
+                //Tema
+                this.overlay = true;
                 await this.axios.get('/api/topic/' + this.$route.params.slug)
                     .then(response => {
                         this.topic = response.data;
