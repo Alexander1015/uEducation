@@ -148,8 +148,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'user',
         align: 'center'
       }, {
+        text: 'Creado el',
+        value: 'created_at',
+        align: 'center'
+      }, {
         text: 'Actualizado por',
         value: 'user_update',
+        align: 'center'
+      }, {
+        text: 'Actualizado el',
+        value: 'updated_at',
         align: 'center'
       }, {
         text: 'Estado',

@@ -22,7 +22,7 @@ class TopicController extends Controller
     {
         $topics = DB::select(
             'SELECT
-                T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject
+                T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject, T.created_at, T.updated_at
             FROM 
                 topics AS T
             LEFT JOIN subjects AS S ON T.subject_id = S.id
@@ -105,7 +105,7 @@ class TopicController extends Controller
                             $slug = Str::slug($request->input('name'));
                             $new_sequence = 1;
                             $before_sequence = DB::table("topics")->where('subject_id', $exist_subject->id)->orderBy('sequence', 'desc')->first();
-                            if ((int) $before_sequence->sequence) {
+                            if ($before_sequence && (int) $before_sequence->sequence) {
                                 // Convertimos a entero
                                 $new_sequence +=  (int) $before_sequence->sequence;
                             }
@@ -120,6 +120,7 @@ class TopicController extends Controller
                                     'user_update_id' => null,
                                     'body' => "",
                                     'sequence' => $new_sequence,
+                                    'created_at' => now(),
                                     'status' => "0",
                                 ])
                             ) {
@@ -183,8 +184,8 @@ class TopicController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

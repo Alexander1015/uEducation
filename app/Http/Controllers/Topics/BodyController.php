@@ -32,16 +32,19 @@ class BodyController extends Controller
                 } else {
                     $query = null;
                     if (!$data->user_id) {
-                        $query = DB::update("UPDATE topics SET body = ?, user_id = ?, user_update_id = ? WHERE id = ?", [
+                        $query = DB::update("UPDATE topics SET body = ?, user_id = ?, user_update_id = ?, created_at = ?, updated_at = ? WHERE id = ?", [
                             $request->input('body') ? $request->input('body') : "",
                             $auth_user->id,
+                            null,
+                            now(),
                             null,
                             $data->id,
                         ]);
                     } else {
-                        $query = DB::update("UPDATE topics SET body = ?, user_update_id = ? WHERE id = ?", [
+                        $query = DB::update("UPDATE topics SET body = ?, user_update_id = ?, updated_at = ? WHERE id = ?", [
                             $request->input('body') ? $request->input('body') : "",
                             $auth_user->id,
+                            now(),
                             $data->id,
                         ]);
                     }

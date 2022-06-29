@@ -38,8 +38,8 @@
                     multi-sort :search="search" fixed-header align="center">
                     <template v-slot:item.image="{ item }">
                         <v-img class="mx-auto" :src='"/img/topics/" + (item.image ? item.image : "blank.png")'
-                            :lazy-src='"/img/lazy_topics/" + (item.image ? item.image : "blank.png")' 
-                            max-height="40" max-width="60" contain>
+                            :lazy-src='"/img/lazy_topics/" + (item.image ? item.image : "blank.png")' max-height="40"
+                            max-width="60" contain>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -114,7 +114,9 @@ export default {
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Curso', value: 'subject', align: 'center' },
             { text: 'Creado por', value: 'user', align: 'center' },
+            { text: 'Creado el', value: 'created_at', align: 'center' },
             { text: 'Actualizado por', value: 'user_update', align: 'center' },
+            { text: 'Actualizado el', value: 'updated_at', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
