@@ -1384,7 +1384,7 @@ var render = function () {
                               true
                             ),
                           },
-                          [_vm._v(" "), _c("span", [_vm._v("Ver curso")])]
+                          [_vm._v(" "), _c("span", [_vm._v("Ver etiqueta")])]
                         ),
                         _vm._v(" "),
                         _c(

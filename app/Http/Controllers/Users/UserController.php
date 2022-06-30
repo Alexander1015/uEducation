@@ -80,7 +80,7 @@ class UserController extends Controller
                         //Direccion de la imagen
                         $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
                     }
-                    $slug = Str::random(20);
+                    $slug = Str::slug(Str::random(20));
                     while (DB::table("users")->where('slug', $slug)->first()) {
                         $slug = Str::random(20);
                     }

@@ -516,7 +516,6 @@ export default {
                                     this.sweet.title = "Error"
                                     this.sweet.icon = "error";
                                 }
-                                console.log(response.data.message);
                                 this.$swal({
                                     title: this.sweet.title,
                                     icon: this.sweet.icon,
@@ -679,7 +678,7 @@ export class UploadAdapter {
                     })
                         .then(response => {
                             if (response.data.url) {
-                                alert(response.data.message);
+                                console.log(response.data.message);
                                 resolve({
                                     default: response.data.url
                                 });

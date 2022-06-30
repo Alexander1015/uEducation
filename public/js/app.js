@@ -5547,7 +5547,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       {
         type: 1,
         title: "Iniciar Sesión",
-        icon: "rocket_launch",
+        icon: "account_box",
         to: {
           name: "auth"
         },

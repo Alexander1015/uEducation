@@ -673,8 +673,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this3.sweet.icon = "error";
                       }
 
-                      console.log(response.data.message);
-
                       _this3.$swal({
                         title: _this3.sweet.title,
                         icon: _this3.sweet.icon,
@@ -884,7 +882,7 @@ var UploadAdapter = /*#__PURE__*/function () {
             }
           }).then(function (response) {
             if (response.data.url) {
-              alert(response.data.message);
+              console.log(response.data.message);
               resolve({
                 "default": response.data.url
               });

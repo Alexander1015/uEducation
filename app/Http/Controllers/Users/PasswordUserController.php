@@ -25,7 +25,7 @@ class PasswordUserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("users")->where("id", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",

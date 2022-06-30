@@ -80,7 +80,7 @@
                                     </v-icon>
                                 </v-btn>
                             </template>
-                            <span>Ver curso</span>
+                            <span>Ver etiqueta</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">

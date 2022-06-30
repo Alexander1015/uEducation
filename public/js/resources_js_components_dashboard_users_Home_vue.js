@@ -1425,7 +1425,7 @@ var render = function () {
                           [
                             item.status == 0
                               ? [
-                                  _vm.user.id !== item.slug
+                                  _vm.user.slug !== item.slug
                                     ? [
                                         _c(
                                           "v-btn",
@@ -1459,7 +1459,7 @@ var render = function () {
                                 ]
                               : item.status == 1
                               ? [
-                                  _vm.user.id !== item.slug
+                                  _vm.user.slug !== item.slug
                                     ? [
                                         _c(
                                           "v-btn",
@@ -1503,7 +1503,7 @@ var render = function () {
                     fn: function (ref) {
                       var item = ref.item
                       return [
-                        _vm.user.id !== item.slug
+                        _vm.user.slug !== item.slug
                           ? [
                               _c(
                                 "v-tooltip",

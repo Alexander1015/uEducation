@@ -141,7 +141,7 @@ export default {
             // Public
             { type: 0, title: "Inicio", icon: "token", to: "/", visible: true },
             // Login
-            { type: 1, title: "Iniciar Sesión", icon: "rocket_launch", to: { name: "auth" }, visible: true },
+            { type: 1, title: "Iniciar Sesión", icon: "account_box", to: { name: "auth" }, visible: true },
             // Dashboard
             { type: 2, header: true, visible: false },
             { type: 2, title: "Cursos", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -19,7 +20,7 @@ return new class extends Migration
         });
         DB::table("users")
             ->insert([
-                "slug" => "5MMxVy8PQ9J6Q7EKhxA8",
+                "slug" => Str::slug(Str::random(20)),
                 "firstname" => "Soporte",
                 "lastname" => "uEducation",
                 "email" => "soporte@ueducation.com",
@@ -30,7 +31,7 @@ return new class extends Migration
             ]);
         DB::table("users")
             ->insert([
-                "slug" => "hg3VNiueV5Lz6XdronTb",
+                "slug" => Str::slug(Str::random(20)),
                 "firstname" => "Edgard Alexander",
                 "lastname" => "Barrera Flamenco",
                 "email" => "alexanderbarrera105@gmail.com",
