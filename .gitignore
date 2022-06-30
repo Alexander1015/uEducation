@@ -12,3 +12,11 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/public/img/users/*
+!/public/img/users/blank.png
+/public/img/lazy_users/*
+!/public/img/lazy_users/blank.png
+/public/img/topics/*
+!/public/img/topics/blank.png
+/public/img/lazy_topics/*
+!/public/img/lazy_topics/blank.png
