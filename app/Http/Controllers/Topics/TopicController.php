@@ -356,7 +356,7 @@ class TopicController extends Controller
                                             ]);
                                         }
                                     }
-                                    // Verificamos si no se ha eliminado el img que ya tenia el usuario
+                                    // Verificamos si no se ha eliminado el img que ya tenia el tema
                                     if (!$request->file('img')) {
                                         if ($request->input('img_new') && $data->img) {
                                             File::delete(public_path('/img/topics') . '/' . $data->img);

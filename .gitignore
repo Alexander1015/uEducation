@@ -20,3 +20,7 @@ yarn-error.log
 !/public/img/topics/blank.png
 /public/img/lazy_topics/*
 !/public/img/lazy_topics/blank.png
+/public/img/subjects/*
+!/public/img/subjects/blank.png
+/public/img/lazy_subjects/*
+!/public/img/lazy_subjects/blank.png

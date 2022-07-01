@@ -36,9 +36,9 @@
                 }" :loading="loading_table" loading-text="Obteniendo información"
                     no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados"
                     multi-sort :search="search" fixed-header align="center">
-                    <template v-slot:item.image="{ item }">
-                        <v-img class="mx-auto" :src='"/img/topics/" + (item.image ? item.image : "blank.png")'
-                            :lazy-src='"/img/lazy_topics/" + (item.image ? item.image : "blank.png")' max-height="40"
+                    <template v-slot:item.img="{ item }">
+                        <v-img class="mx-auto" :src='"/img/topics/" + (item.img ? item.img : "blank.png")'
+                            :lazy-src='"/img/lazy_topics/" + (item.img ? item.img : "blank.png")' max-height="40"
                             max-width="60" contain>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
@@ -49,10 +49,10 @@
                         </v-img>
                     </template>
                     <template v-slot:item.created_at="{ item }">
-                        {{ item.created_at ? item.created_at.substring(0, 9) : "" }}
+                        {{ item.created_at ? item.created_at.substring(0, 10) : "" }}
                     </template>
                     <template v-slot:item.updated_at="{ item }">
-                        {{ item.updated_at ? item.updated_at.substring(0, 9) : "" }}
+                        {{ item.updated_at ? item.updated_at.substring(0, 10) : "" }}
                     </template>
                     <template v-slot:item.status="{ item }">
                         <div>
@@ -116,7 +116,7 @@ export default {
         },
         loading_table: true,
         headers: [
-            { text: 'Portada', value: 'image', align: 'center', sortable: false },
+            { text: 'Portada', value: 'img', align: 'center', sortable: false },
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Curso', value: 'subject', align: 'center' },
             { text: 'Creado por', value: 'user', align: 'center' },

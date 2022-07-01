@@ -21,7 +21,7 @@
                     <span>Recargar</span>
                 </v-tooltip>
             </div>
-            <v-card class="mt-4 mx-auto" elevation="2" max-width="700">
+            <v-card class="mt-4 mx-auto" elevation="2" max-width="1100">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
                         <template v-if="subject.name">
@@ -70,8 +70,37 @@
                                             required>
                                         </v-text-field>
                                     </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-file-input v-model="form_information.img" @change="preview_img"
+                                            label="Haz clic(k) aquí para subir una portada" id="img"
+                                            prepend-icon="photo_camera" :rules="info.imgRules"
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
+                                            tabindex="6">
+                                        </v-file-input>
+                                        <template v-if="prev_img.url_img != '/img/subjects/blank.png'">
+                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                Borrar imagen
+                                            </v-btn>
+                                        </template>
+                                    </v-col>
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                            :max-width="prev_img.width" contain>
+                                            <template v-slot:placeholder>
+                                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                                    </v-progress-circular>
+                                                </v-row>
+                                            </template>
+                                        </v-img>
+                                    </v-col>
                                 </v-row>
-                                <template v-if="form_information.name != subject.name">
+                                <template v-if="
+                                    form_information.name != subject.name &&
+                                    form_information.img != null ||
+                                    form_information.img_new != 0
+                                ">
                                     <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
@@ -181,6 +210,14 @@ export default {
         drag: false,
         form_information: {
             name: "",
+            img: null,
+            img_new: 0,
+        },
+        prev_img: {
+            url_img: "/img/subjects/blank.png",
+            lazy_img: "/img/lazy_subjects/blank.png",
+            height: 200,
+            width: 300,
         },
         topics: {},
         topics_copy: {},
@@ -192,6 +229,9 @@ export default {
             nameRules: [
                 v => !!v || 'El titulo del curso es requerido',
                 v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
+            ],
+            imgRules: [
+                v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
             ],
         },
         statusRules: [
@@ -455,6 +495,17 @@ export default {
                     }
                 });
         },
+        preview_img() {
+            this.form_information.img_new = 1;
+            this.prev_img.url_img = URL.createObjectURL(this.form_information.img);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form_information.img);
+        },
+        clean_img() {
+            this.prev_img.url_img = "/img/subjects/blank.png";
+            this.prev_img.lazy_img = "/img/lazy_subjects/blank.png";
+            this.form_information.img = null;
+            this.form_information.img_new = 1;
+        }
     },
 }
 </script>

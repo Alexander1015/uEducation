@@ -36,6 +36,18 @@
                 }" :loading="loading_table" loading-text="Obteniendo información"
                     no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados"
                     multi-sort :search="search" fixed-header align="center">
+                    <template v-slot:item.img="{ item }">
+                        <v-img class="mx-auto" :src='"/img/subjects/" + (item.img ? item.img : "blank.png")'
+                            :lazy-src='"/img/lazy_subjects/" + (item.img ? item.img : "blank.png")' max-height="40"
+                            max-width="60" contain>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                    </v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
+                    </template>
                     <template v-slot:item.status="{ item }">
                         <div>
                             <template v-if="item.status == 0">
@@ -98,6 +110,7 @@ export default {
         },
         loading_table: true,
         headers: [
+            { text: 'Portada', value: 'img', align: 'center', sortable: false },
             { text: 'Titulo', value: 'name', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },

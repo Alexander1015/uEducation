@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mx-4 my-4">
-            <v-card class="mt-4 rounded mx-auto" elevation="2" max-width="700">
+            <v-card class="mt-4 rounded mx-auto" elevation="2" max-width="1100">
                 <v-row dense class="pl-1">
                     <v-col cols="3" class="bk_blue rounded-l d-none d-md-flex">
                         <v-img class="img_login" :src='banner.img' :lazy-src='banner.lazy'>
@@ -36,6 +36,31 @@
                                             <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
                                                 tabindex="1" dense prepend-icon="collections_bookmark" required>
                                             </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-file-input v-model="form.img" @change="preview_img"
+                                                label="Haz clic(k) aquí para subir una portada" id="img"
+                                                prepend-icon="photo_camera" :rules="imgRules"
+                                                accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
+                                                show-size tabindex="6">
+                                            </v-file-input>
+                                            <template v-if="prev_img.url_img != '/img/subjects/blank.png'">
+                                                <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                    Borrar imagen
+                                                </v-btn>
+                                            </template>
+                                        </v-col>
+                                        <v-col cols="12" sm="12" md="6">
+                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                                :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
+                                                :max-width="prev_img.width" contain>
+                                                <template v-slot:placeholder>
+                                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                                        </v-progress-circular>
+                                                    </v-row>
+                                                </template>
+                                            </v-img>
                                         </v-col>
                                     </v-row>
                                     <template v-if="form.name != ''">
@@ -76,11 +101,21 @@ export default {
         },
         form: {
             name: "",
+            img: null,
         },
         nameRules: [
             v => !!v || 'El titulo del curso es requerido',
             v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
         ],
+        imgRules: [
+            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+        ],
+        prev_img: {
+            url_img: "/img/subjects/blank.png",
+            lazy_img: "/img/lazy_subjects/blank.png",
+            height: 200,
+            width: 300,
+        }
     }),
     methods: {
         returnSubjects() {
@@ -102,6 +137,10 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('name', this.form.name);
+                            this.form.img = document.querySelector('#img').files[0];
+                            if (this.form.img) {
+                                data.append('img', this.form.img);
+                            }
                             this.axios.post('/api/subject', data)
                                 .then(response => {
                                     if (response.data.complete) {
@@ -142,6 +181,15 @@ export default {
                 this.overlay = false;
             }
         },
+        preview_img() {
+            this.prev_img.url_img = URL.createObjectURL(this.form.img);
+            this.prev_img.lazy_img = URL.createObjectURL(this.form.img);
+        },
+        clean_img() {
+            this.prev_img.url_img = "/img/subjects/blank.png";
+            this.prev_img.lazy_img = "/img/lazy_subjects/blank.png";
+            this.form.img = null;
+        }
     },
 }
 </script>

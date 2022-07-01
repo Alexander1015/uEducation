@@ -138,7 +138,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading_table: true,
       headers: [{
         text: 'Portada',
-        value: 'image',
+        value: 'img',
         align: 'center',
         sortable: false
       }, {
@@ -1247,7 +1247,7 @@ var render = function () {
                 },
                 scopedSlots: _vm._u([
                   {
-                    key: "item.image",
+                    key: "item.img",
                     fn: function (ref) {
                       var item = ref.item
                       return [
@@ -1256,10 +1256,10 @@ var render = function () {
                           attrs: {
                             src:
                               "/img/topics/" +
-                              (item.image ? item.image : "blank.png"),
+                              (item.img ? item.img : "blank.png"),
                             "lazy-src":
                               "/img/lazy_topics/" +
-                              (item.image ? item.image : "blank.png"),
+                              (item.img ? item.img : "blank.png"),
                             "max-height": "40",
                             "max-width": "60",
                             contain: "",
@@ -1310,7 +1310,7 @@ var render = function () {
                           "\n                    " +
                             _vm._s(
                               item.created_at
-                                ? item.created_at.substring(0, 9)
+                                ? item.created_at.substring(0, 10)
                                 : ""
                             ) +
                             "\n                "
@@ -1327,7 +1327,7 @@ var render = function () {
                           "\n                    " +
                             _vm._s(
                               item.updated_at
-                                ? item.updated_at.substring(0, 9)
+                                ? item.updated_at.substring(0, 10)
                                 : ""
                             ) +
                             "\n                "
