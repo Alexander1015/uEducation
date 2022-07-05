@@ -94,6 +94,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getSubject();
   },
   methods: {
+    gotoTopic: function gotoTopic(item) {
+      window.location.href = "/content/" + this.$route.params.subject + "/" + item;
+    },
     getSubject: function getSubject() {
       var _this = this;
 
@@ -368,6 +371,12 @@ var render = function () {
                           params: { topic: item.slug },
                         },
                       },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.gotoTopic(item.slug)
+                        },
+                      },
                     },
                     [
                       _c(
@@ -416,10 +425,7 @@ var render = function () {
       _vm._v(" "),
       _c(
         "v-container",
-        {
-          staticClass: "ml-16 my-1",
-          attrs: { id: "data_container", fluid: "" },
-        },
+        { staticClass: "my-1", attrs: { id: "data_container", fluid: "" } },
         [_c("router-view")],
         1
       ),

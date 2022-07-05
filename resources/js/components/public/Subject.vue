@@ -36,7 +36,7 @@
             <v-divider></v-divider>
             <v-list nav dense>
                 <template v-for="item in topics">
-                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }'>
+                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }' @click.prevent="gotoTopic(item.slug)">
                         <v-list-item-icon>
                             <v-avatar size="25" class="caption bk_tags txt_white">
                                 {{ item.key }}
@@ -50,7 +50,7 @@
             </v-list>
         </v-navigation-drawer>
         <!-- Contenido -->
-        <v-container id="data_container" fluid class="ml-16 my-1">
+        <v-container id="data_container" fluid class="my-1">
             <router-view></router-view>
         </v-container>
     </v-main>
@@ -72,6 +72,9 @@ export default {
         this.getSubject();
     },
     methods: {
+        gotoTopic(item) {
+            window.location.href = "/content/" + this.$route.params.subject + "/" + item;
+        },
         async getSubject() {
             this.overlay = true;
             if (this.$route.params.subject) {

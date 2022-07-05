@@ -6,6 +6,7 @@ $green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
 $tags: #676767;
+$tags_bk: #E0E0E0;
 $scroll_bk: #f4f4f4;
 $scroll_color: #c4c4c4;
 */
@@ -33,6 +34,9 @@ body::-webkit-scrollbar-thumb {
     }
     .bk_tags {
         background: $tags !important;
+    }
+    .bk_tags_bk {
+        background: $tags_bk !important;
     }
     .txt_white {
         color: $white !important;
@@ -98,6 +102,7 @@ body::-webkit-scrollbar-thumb {
         }
         #nav_subject {
             position: fixed;
+            z-index: 3;
             margin-top: 3rem;
             padding-bottom: 5.4rem;
             // Personalizamos el scroll
@@ -107,6 +112,12 @@ body::-webkit-scrollbar-thumb {
             ::-webkit-scrollbar-thumb {
                 background: rgba($color: $tags, $alpha: 0.5);
                 border-radius: 0.5rem;
+            }
+        }
+        #data_container {
+            width: 100vw;
+            #data_abstract {
+                border-radius: 0.25rem;
             }
         }
     }

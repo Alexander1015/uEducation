@@ -204,8 +204,7 @@ export default {
         }
     }),
     mounted() {
-        this.showSubjects();
-        this.showTags();
+        this.showData();
     },
     methods: {
         gotoSubject() {
@@ -221,29 +220,27 @@ export default {
             const index = this.form.tags.indexOf(item.name)
             if (index >= 0) this.form.tags.splice(index, 1)
         },
-        async showSubjects() {
-            this.loading_subjects = true;
-            await this.axios.get('/api/getsubjects')
-                .then(response => {
-                    this.data_subject = response.data;
-                    this.loading_subjects = false;
-                })
-                .catch(error => {
-                    this.data_subject = [];
-                    this.loading_subjects = false;
-                });
-        },
-        async showTags() {
-            this.loading_tags = true;
-            await this.axios.get('/api/gettags')
-                .then(response => {
-                    this.data_tags = response.data;
-                    this.loading_tags = false;
-                })
-                .catch(error => {
-                    this.data_subject = [];
-                    this.loading_tags = false;
-                });
+        async showData() {
+            await this.axios.get('/api/getts')
+                    .then(response => {
+                        const items = response.data;
+                        if (items.subjects) {
+                            this.data_subject = items.subjects;
+                        }
+                        else this.data_subject = [];
+                        if (items.tags) {
+                            this.data_tags = items.tags;
+                        }
+                        else this.data_tags = [];
+                        this.loading_tags = false;
+                        this.loading_subjects = false;
+                    })
+                    .catch(error => {
+                        this.data_subject = [];
+                        this.data_tags = [];
+                        this.loading_tags = false;
+                        this.loading_subjects = false;
+                    });
         },
         returnTopics() {
             this.$router.push({ name: "topics" });

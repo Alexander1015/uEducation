@@ -233,8 +233,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    this.showSubjects();
-    this.showTags();
+    this.showData();
   },
   methods: {
     gotoSubject: function gotoSubject() {
@@ -260,7 +259,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var index = this.form.tags.indexOf(item.name);
       if (index >= 0) this.form.tags.splice(index, 1);
     },
-    showSubjects: function showSubjects() {
+    showData: function showData() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -268,48 +267,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.loading_subjects = true;
-                _context.next = 3;
-                return _this.axios.get('/api/getsubjects').then(function (response) {
-                  _this.data_subject = response.data;
+                _context.next = 2;
+                return _this.axios.get('/api/getts').then(function (response) {
+                  var items = response.data;
+
+                  if (items.subjects) {
+                    _this.data_subject = items.subjects;
+                  } else _this.data_subject = [];
+
+                  if (items.tags) {
+                    _this.data_tags = items.tags;
+                  } else _this.data_tags = [];
+
+                  _this.loading_tags = false;
                   _this.loading_subjects = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
+                  _this.data_tags = [];
+                  _this.loading_tags = false;
                   _this.loading_subjects = false;
                 });
 
-              case 3:
+              case 2:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
-      }))();
-    },
-    showTags: function showTags() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this2.loading_tags = true;
-                _context2.next = 3;
-                return _this2.axios.get('/api/gettags').then(function (response) {
-                  _this2.data_tags = response.data;
-                  _this2.loading_tags = false;
-                })["catch"](function (error) {
-                  _this2.data_subject = [];
-                  _this2.loading_tags = false;
-                });
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
       }))();
     },
     returnTopics: function returnTopics() {
@@ -318,20 +302,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     registerTopic: function registerTopic() {
-      var _this3 = this;
+      var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this3.$refs.form.validate()) {
-                  _context3.next = 5;
+                if (!_this2.$refs.form.validate()) {
+                  _context2.next = 5;
                   break;
                 }
 
-                _context3.next = 3;
-                return _this3.$swal({
+                _context2.next = 3;
+                return _this2.$swal({
                   title: '¿Esta seguro de crear el tema?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -339,12 +323,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this3.overlay = true;
+                    _this2.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this3.form.subject);
+                    data.append('subject', _this2.form.subject);
 
-                    if (_this3.form.tags.length > 0) {
-                      var _iterator = _createForOfIteratorHelper(_this3.form.tags),
+                    if (_this2.form.tags.length > 0) {
+                      var _iterator = _createForOfIteratorHelper(_this2.form.tags),
                           _step;
 
                       try {
@@ -359,67 +343,67 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     }
 
-                    data.append('name', _this3.form.name);
-                    data.append('abstract', _this3.form["abstract"]);
-                    _this3.form.img = document.querySelector('#img').files[0];
+                    data.append('name', _this2.form.name);
+                    data.append('abstract', _this2.form["abstract"]);
+                    _this2.form.img = document.querySelector('#img').files[0];
 
-                    if (_this3.form.img) {
-                      data.append('img', _this3.form.img);
+                    if (_this2.form.img) {
+                      data.append('img', _this2.form.img);
                     }
 
-                    _this3.axios.post('/api/topic', data).then(function (response) {
+                    _this2.axios.post('/api/topic', data).then(function (response) {
                       if (response.data.complete) {
-                        _this3.sweet.title = "Éxito";
-                        _this3.sweet.icon = "success";
+                        _this2.sweet.title = "Éxito";
+                        _this2.sweet.icon = "success";
                       } else {
-                        _this3.sweet.title = "Error";
-                        _this3.sweet.icon = "error";
+                        _this2.sweet.title = "Error";
+                        _this2.sweet.icon = "error";
                       }
 
-                      _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                      _this2.$swal({
+                        title: _this2.sweet.title,
+                        icon: _this2.sweet.icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this3.$router.push({
+                          _this2.$router.push({
                             name: "editTopic",
                             params: {
                               slug: response.data.topic
                             }
                           });
 
-                          _this3.overlay = false;
-                        } else _this3.overlay = false;
+                          _this2.overlay = false;
+                        } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this3.sweet.title = "Error";
-                      _this3.sweet.icon = "error";
+                      _this2.sweet.title = "Error";
+                      _this2.sweet.icon = "error";
 
-                      _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                      _this2.$swal({
+                        title: _this2.sweet.title,
+                        icon: _this2.sweet.icon,
                         text: error
                       });
 
-                      _this3.overlay = false;
+                      _this2.overlay = false;
                     });
                   }
                 });
 
               case 3:
-                _context3.next = 6;
+                _context2.next = 6;
                 break;
 
               case 5:
-                _this3.overlay = false;
+                _this2.overlay = false;
 
               case 6:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     preview_img: function preview_img() {
