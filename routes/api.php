@@ -23,9 +23,11 @@ use App\Http\Controllers\Tags\StatusTagController;
 use App\Http\Controllers\Topics\TopicController;
 use App\Http\Controllers\Topics\StatusTopicController;
 use App\Http\Controllers\Topics\BodyController;
-use App\Http\Controllers\Topics\TagsController as TopicTagsController;
-use App\Http\Controllers\Topics\SubjectsController as TopicSubjectsController;
+use App\Http\Controllers\Topics\GetTagsSubjectsController;
 use App\Http\Controllers\Topics\UploadImageController;
+//Public
+use App\Http\Controllers\Public\GetDataController as PublicDataController;
+use App\Http\Controllers\Public\GetTopicController as PublicTopicController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -34,6 +36,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->get('/authenticated', function () {
     return true;
 });
+
+//Public
+Route::resource("getdata", PublicDataController::class);
+Route::resource("gettopic", PublicTopicController::class);
 
 // Auth
 Route::resource("auth", AuthController::class);
@@ -56,6 +62,5 @@ Route::resource('tag/status', StatusTagController::class)->middleware('auth');
 Route::resource('topic', TopicController::class)->middleware('auth');
 Route::resource('topic/status', StatusTopicController::class)->middleware('auth');
 Route::resource('topic/body', BodyController::class)->middleware('auth');
-Route::resource('getsubjects', TopicSubjectsController::class)->middleware('auth');
-Route::resource('gettags', TopicTagsController::class)->middleware('auth');
+Route::resource('getts', GetTagsSubjectsController::class)->middleware('auth');
 Route::resource('topic/upload', UploadImageController::class)->middleware('auth');

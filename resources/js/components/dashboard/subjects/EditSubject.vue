@@ -54,11 +54,11 @@
                         </v-icon>
                         Otros
                     </v-tab>
-                    <!-- Información del curso -->
+                    <!-- Información de la materia -->
                     <v-tab-item>
                         <div class="px-4 py-4">
                             <v-card-subtitle class="text-center">
-                                Información almacenada del curso seleccionado
+                                Información almacenada de la materia seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
                             <v-form ref="form_information" @submit.prevent="editSubject" lazy-validation>
@@ -84,7 +84,7 @@
                                         </template>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                        <v-img class="mt-0 mx-auto" :src="prev_img.url_img"
                                             :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                             :max-width="prev_img.width" contain>
                                             <template v-slot:placeholder>
@@ -152,7 +152,7 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado del curso en el sistema (Si esta desactivado no podra ser
+                                    Cambie el estado de la materia en el sistema (Si esta desactivado no podra ser
                                     visualizado por parte del lector)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
@@ -176,12 +176,12 @@
                             <v-divider class="mt-8 mb-4"></v-divider>
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Elimine el curso seleccionado de la base de datos, esta opcion no se puede
+                                    Elimine la materia seleccionado de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
                                 <v-btn class="txt_white bk_red width_100" @click.prevent="deleteSubject">
                                     <v-icon left>delete</v-icon>
-                                    Eliminar curso
+                                    Eliminar materia
                                 </v-btn>
                             </div>
                         </div>
@@ -227,8 +227,8 @@ export default {
         subject: {},
         info: {
             nameRules: [
-                v => !!v || 'El titulo del curso es requerido',
-                v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
+                v => !!v || 'El titulo de la materia es requerido',
+                v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
             ],
             imgRules: [
                 v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
@@ -261,26 +261,29 @@ export default {
             if (this.$route.params.slug) {
                 await this.axios.get('/api/subject/' + this.$route.params.slug)
                     .then(response => {
-                        this.subject = response.data;
-                        if (!this.subject.name) {
+                        const item = response.data;
+                        if (!item.subject) {
+                            this.overlay = false;
                             this.$router.push({ name: "subjects" });
                         }
                         else {
+                            // Subject
+                            this.subject = item.subject;
                             this.form_information.name = this.subject.name;
+                            if (this.subject.img) {
+                                this.prev_img.url_img = "/img/subjects/" + this.subject.img;
+                                this.prev_img.lazy_img = "/img/lazy_subjects/" + this.subject.img;
+                            }
+                            this.form_information.img = null;
+                            this.form_information.img_new = 0;
                             if (this.subject.status == 0) this.form_status.status = "Desactivado";
                             else if (this.subject.status == 1) this.form_status.status = "Activo";
+                            // Topics
+                            this.topics = this.topics_copy = item.topics;
+                            this.overlay = false
                         }
                     }).catch((error) => {
                         console.log(error);
-                    });
-                this.overlay = true;
-                await this.axios.get('/api/subject/gettopics/' + this.$route.params.slug)
-                    .then(response => {
-                        this.topics = this.topics_copy = response.data;
-                        this.overlay = false;
-                    }).catch((error) => {
-                        console.log(error);
-                        this.overlay = false;
                     });
             }
             else {
@@ -291,7 +294,7 @@ export default {
         async editSubject() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar la información del curso?',
+                    title: '¿Esta seguro de modificar la información de la materia?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -302,6 +305,10 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('name', this.form_information.name);
+                            if (this.form_information.img) {
+                                data.append('img', this.form_information.img);
+                            }
+                            data.append('img_new', this.form_information.img_new);
                             data.append('_method', "put");
                             this.axios.post('/api/subject/' + this.$route.params.slug, data)
                                 .then(response => {
@@ -399,7 +406,7 @@ export default {
         },
         async statusSubject() {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del curso?',
+                title: '¿Esta seguro de cambiar el estado de la materia?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -450,7 +457,7 @@ export default {
         },
         async deleteSubject() {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el curso?',
+                title: '¿Esta seguro de eliminar la materia?',
                 text: "Esta acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,

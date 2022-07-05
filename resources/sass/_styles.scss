@@ -6,7 +6,17 @@ $green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
 $tags: #676767;
+$scroll_bk: #f4f4f4;
+$scroll_color: #c4c4c4;
 */
+
+body::-webkit-scrollbar {
+    background: $scroll_bk;
+    width: 0.5rem;
+}
+body::-webkit-scrollbar-thumb {
+    background: $scroll_color;
+}
 
 #body {
     .bk_blue {
@@ -20,6 +30,9 @@ $tags: #676767;
     }
     .bk_green {
         background: $green !important;
+    }
+    .bk_tags {
+        background: $tags !important;
     }
     .txt_white {
         color: $white !important;
@@ -67,13 +80,13 @@ $tags: #676767;
         .show_color {
             height: 10px;
             width: 10px;
-            border: .1px solid $black;
+            border: 0.1px solid $black;
         }
         #ckeditor {
             border: 1px solid #C4C4C4;
         }
         #topic_drag {
-            border-radius: .5rem;
+            border-radius: 0.5rem;
             cursor: move;
         }
         .topic_drag_icon {
@@ -82,6 +95,19 @@ $tags: #676767;
         .ghost {
             opacity: 0.5;
             background: #c8ebfb;
+        }
+        #nav_subject {
+            position: fixed;
+            margin-top: 3rem;
+            padding-bottom: 5.4rem;
+            // Personalizamos el scroll
+            ::-webkit-scrollbar {
+                width: 0.2rem;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: rgba($color: $tags, $alpha: 0.5);
+                border-radius: 0.5rem;
+            }
         }
     }
 }

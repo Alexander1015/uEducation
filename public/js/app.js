@@ -5559,7 +5559,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         visible: false
       }, {
         type: 2,
-        title: "Cursos",
+        title: "Materias",
         icon: "collections_bookmark",
         to: {
           name: "subjects"
@@ -5782,6 +5782,15 @@ var Public = function Public() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_public_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Home.vue */ "./resources/js/components/public/Home.vue"));
 };
 
+var PublicSubject = function PublicSubject() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_public_Subject_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Subject.vue */ "./resources/js/components/public/Subject.vue"));
+};
+
+var PublicTopic = function PublicTopic() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_public_Topic_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Topic.vue */ "./resources/js/components/public/Topic.vue"));
+}; // Auth
+
+
 var Auth = function Auth() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Home.vue */ "./resources/js/components/auth/Home.vue"));
 }; // Users
@@ -5847,6 +5856,15 @@ var routes = [{
   name: 'public',
   path: '/',
   component: Public
+}, {
+  name: 'publicSubject',
+  path: '/content/:subject',
+  component: PublicSubject,
+  children: [{
+    name: 'publicTopic',
+    path: ':topic',
+    component: PublicTopic
+  }]
 }, {
   name: 'auth',
   path: '/auth',
@@ -30862,7 +30880,7 @@ var render = function () {
           _c(
             "v-container",
             {
-              staticClass: "mt-9 mb-11 px-0",
+              staticClass: "mt-9 mb-8 px-0",
               attrs: { id: "container", fluid: "" },
             },
             [_c("router-view")],
@@ -30871,7 +30889,7 @@ var render = function () {
           _vm._v(" "),
           _c(
             "v-footer",
-            { attrs: { padless: "", absolute: "" } },
+            { attrs: { padless: "", fixed: "" } },
             [
               _c(
                 "v-card",
@@ -58143,7 +58161,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

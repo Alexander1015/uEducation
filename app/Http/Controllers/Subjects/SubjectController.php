@@ -109,7 +109,7 @@ class SubjectController extends Controller
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Ha ocurrido un error al momento de crear el curso',
+                                'message' => 'Ha ocurrido un error al momento de crear la materia',
                                 'complete' => false,
                             ]);
                         }
@@ -139,7 +139,31 @@ class SubjectController extends Controller
     public function show($slug)
     {
         $subject = DB::table("subjects")->where("slug", $slug)->first();
-        return response()->json($subject);
+        if ($subject) {
+            $topics = DB::select(
+                'SELECT
+                    id, name
+                FROM 
+                    topics
+                WHERE
+                    subject_id = ?
+                ORDER BY sequence ASC',
+                [
+                    $subject->id
+                ]
+            );
+            $size = 1;
+            foreach ($topics as $data) {
+                $data->key = $size;
+                $size++;
+            }
+            return response()->json([
+                'subject' => $subject,
+                'topics' => $topics,
+            ]);
+        } else {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -157,7 +181,7 @@ class SubjectController extends Controller
                 $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La materia seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
@@ -248,7 +272,7 @@ class SubjectController extends Controller
                                 $data->name == $request->input('name')
                             ) {
                                 return response()->json([
-                                    'message' => 'La información proporcionada no modifica el curso, asi que no se ha actualizado',
+                                    'message' => 'La información proporcionada no modifica la materia, asi que no se ha actualizado',
                                     'complete' => false,
                                 ]);
                             } else {
@@ -260,7 +284,7 @@ class SubjectController extends Controller
                                     ]);
                                 } else {
                                     return response()->json([
-                                        'message' => 'Ha ocurrido un error al momento de modificar el curso',
+                                        'message' => 'Ha ocurrido un error al momento de modificar la materia',
                                         'complete' => false,
                                     ]);
                                 }
@@ -297,7 +321,7 @@ class SubjectController extends Controller
                 $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La materia seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
@@ -319,7 +343,7 @@ class SubjectController extends Controller
                         ]);
                     } else {
                         return response()->json([
-                            'message' => 'Ha ocurrido un error al momento de eliminar el curso',
+                            'message' => 'Ha ocurrido un error al momento de eliminar la materia',
                             'complete' => true,
                         ]);
                     }

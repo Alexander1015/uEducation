@@ -2,6 +2,9 @@ import axios from 'axios'
 
 // Public
 const Public = () => import ('./components/public/Home.vue')
+const PublicSubject = () => import ('./components/public/Subject.vue')
+const PublicTopic = () => import ('./components/public/Topic.vue')
+// Auth
 const Auth = () => import ('./components/auth/Home.vue')
 // Users
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
@@ -27,6 +30,18 @@ export const routes = [
         name: 'public',
         path: '/',
         component: Public
+    },
+    {
+        name: 'publicSubject',
+        path: '/content/:subject',
+        component: PublicSubject,
+        children: [
+            {
+                name: 'publicTopic',
+                path: ':topic',
+                component: PublicTopic,
+            }
+        ],
     },
     {
         name: 'auth',

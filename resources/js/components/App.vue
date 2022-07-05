@@ -103,11 +103,11 @@
                 </v-list>
             </v-navigation-drawer>
             <!-- Contenido -->
-            <v-container id="container" fluid class="mt-9 mb-11 px-0">
+            <v-container id="container" fluid class="mt-9 mb-8 px-0">
                 <router-view></router-view>
             </v-container>
             <!-- Footer -->
-            <v-footer padless absolute>
+            <v-footer padless fixed>
                 <v-card class="flex bk_brown" flat tile>
                     <v-card-text class="py-2 text-center txt_white">
                         <strong>uEducation</strong>
@@ -144,7 +144,7 @@ export default {
             { type: 1, title: "Iniciar Sesión", icon: "account_box", to: { name: "auth" }, visible: true },
             // Dashboard
             { type: 2, header: true, visible: false },
-            { type: 2, title: "Cursos", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
+            { type: 2, title: "Materias", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
             { type: 2, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
             { type: 2, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
             { type: 2, header: true, visible: false },

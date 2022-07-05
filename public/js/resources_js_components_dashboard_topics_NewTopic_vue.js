@@ -1714,7 +1714,7 @@ var render = function () {
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-img", {
-                                      staticClass: "mt-4 mx-auto",
+                                      staticClass: "mt-0 mx-auto",
                                       attrs: {
                                         src: _vm.prev_img.url_img,
                                         "lazy-src": _vm.prev_img.lazy_img,

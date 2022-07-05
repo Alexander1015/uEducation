@@ -255,9 +255,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       subject: {},
       info: {
         nameRules: [function (v) {
-          return !!v || 'El titulo del curso es requerido';
+          return !!v || 'El titulo de la materia es requerido';
         }, function (v) {
-          return v && v.length <= 100 || 'El titulo del curso debe tener menos de 100 carácteres';
+          return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
         }],
         imgRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
@@ -299,49 +299,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.overlay = true;
 
                 if (!_this.$route.params.slug) {
-                  _context.next = 9;
+                  _context.next = 6;
                   break;
                 }
 
                 _context.next = 4;
                 return _this.axios.get('/api/subject/' + _this.$route.params.slug).then(function (response) {
-                  _this.subject = response.data;
+                  var item = response.data;
 
-                  if (!_this.subject.name) {
+                  if (!item.subject) {
+                    _this.overlay = false;
+
                     _this.$router.push({
                       name: "subjects"
                     });
                   } else {
+                    // Subject
+                    _this.subject = item.subject;
                     _this.form_information.name = _this.subject.name;
-                    if (_this.subject.status == 0) _this.form_status.status = "Desactivado";else if (_this.subject.status == 1) _this.form_status.status = "Activo";
+
+                    if (_this.subject.img) {
+                      _this.prev_img.url_img = "/img/subjects/" + _this.subject.img;
+                      _this.prev_img.lazy_img = "/img/lazy_subjects/" + _this.subject.img;
+                    }
+
+                    _this.form_information.img = null;
+                    _this.form_information.img_new = 0;
+                    if (_this.subject.status == 0) _this.form_status.status = "Desactivado";else if (_this.subject.status == 1) _this.form_status.status = "Activo"; // Topics
+
+                    _this.topics = _this.topics_copy = item.topics;
+                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
                 });
 
               case 4:
-                _this.overlay = true;
-                _context.next = 7;
-                return _this.axios.get('/api/subject/gettopics/' + _this.$route.params.slug).then(function (response) {
-                  _this.topics = _this.topics_copy = response.data;
-                  _this.overlay = false;
-                })["catch"](function (error) {
-                  console.log(error);
-                  _this.overlay = false;
-                });
-
-              case 7:
-                _context.next = 11;
+                _context.next = 8;
                 break;
 
-              case 9:
+              case 6:
                 _this.overlay = false;
 
                 _this.$router.push({
                   name: "subjects"
                 });
 
-              case 11:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -364,7 +368,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de modificar la información del curso?',
+                  title: '¿Esta seguro de modificar la información de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -374,6 +378,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this2.overlay = true;
                     var data = new FormData();
                     data.append('name', _this2.form_information.name);
+
+                    if (_this2.form_information.img) {
+                      data.append('img', _this2.form_information.img);
+                    }
+
+                    data.append('img_new', _this2.form_information.img_new);
                     data.append('_method', "put");
 
                     _this2.axios.post('/api/subject/' + _this2.$route.params.slug, data).then(function (response) {
@@ -534,7 +544,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de cambiar el estado del curso?',
+                  title: '¿Esta seguro de cambiar el estado de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -601,7 +611,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.next = 2;
                 return _this5.$swal({
-                  title: '¿Esta seguro de eliminar el curso?',
+                  title: '¿Esta seguro de eliminar la materia?',
                   text: "Esta acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
@@ -5371,7 +5381,7 @@ var render = function () {
                       [
                         _c("v-card-subtitle", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Información almacenada del curso seleccionado\n                        "
+                            "\n                            Información almacenada de la materia seleccionado\n                        "
                           ),
                         ]),
                         _vm._v(" "),
@@ -5484,7 +5494,7 @@ var render = function () {
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-img", {
-                                      staticClass: "mt-4 mx-auto",
+                                      staticClass: "mt-0 mx-auto",
                                       attrs: {
                                         src: _vm.prev_img.url_img,
                                         "lazy-src": _vm.prev_img.lazy_img,
@@ -5731,7 +5741,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Cambie el estado del curso en el sistema (Si esta desactivado no podra ser\n                                visualizado por parte del lector)\n                            "
+                                  "\n                                Cambie el estado de la materia en el sistema (Si esta desactivado no podra ser\n                                visualizado por parte del lector)\n                            "
                                 ),
                               ]
                             ),
@@ -5832,7 +5842,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Elimine el curso seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
+                                  "\n                                Elimine la materia seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
                                 ),
                               ]
                             ),
@@ -5856,7 +5866,7 @@ var render = function () {
                                   _vm._v("delete"),
                                 ]),
                                 _vm._v(
-                                  "\n                                Eliminar curso\n                            "
+                                  "\n                                Eliminar materia\n                            "
                                 ),
                               ],
                               1

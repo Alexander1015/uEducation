@@ -1308,11 +1308,7 @@ var render = function () {
                       return [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(
-                              item.created_at
-                                ? item.created_at.substring(0, 10)
-                                : ""
-                            ) +
+                            _vm._s(item.created_at ? item.created_at : "") +
                             "\n                "
                         ),
                       ]
@@ -1325,11 +1321,7 @@ var render = function () {
                       return [
                         _vm._v(
                           "\n                    " +
-                            _vm._s(
-                              item.updated_at
-                                ? item.updated_at.substring(0, 10)
-                                : ""
-                            ) +
+                            _vm._s(item.updated_at ? item.updated_at : "") +
                             "\n                "
                         ),
                       ]

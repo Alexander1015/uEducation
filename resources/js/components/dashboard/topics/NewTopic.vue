@@ -118,7 +118,7 @@
                                         </template>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                        <v-img class="mt-0 mx-auto" :src="prev_img.url_img"
                                             :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                             :max-width="prev_img.width" contain>
                                             <template v-slot:placeholder>

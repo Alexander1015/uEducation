@@ -432,47 +432,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.overlay = true;
 
                 if (!_this.$route.params.slug) {
-                  _context.next = 13;
+                  _context.next = 10;
                   break;
                 }
 
-                _this.loading_tags = true; //Etiquetas
+                _this.loading_tags = true;
+                _this.loading_subjects = true; //Etiquetas
 
-                _context.next = 5;
-                return _this.axios.get('/api/gettags').then(function (response) {
-                  _this.data_tags = response.data;
+                _context.next = 6;
+                return _this.axios.get('/api/getts').then(function (response) {
+                  var items = response.data;
+
+                  if (items.subjects) {
+                    _this.data_subject = items.subjects;
+                  } else _this.data_subject = [];
+
+                  if (items.tags) {
+                    _this.data_tags = items.tags;
+                  } else _this.data_tags = [];
+
                   _this.loading_tags = false;
+                  _this.loading_subjects = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
+                  _this.data_tags = [];
                   _this.loading_tags = false;
+                  _this.loading_subjects = false;
                 });
 
-              case 5:
-                //Cursos
-                _this.overlay = true;
+              case 6:
                 _context.next = 8;
-                return _this.axios.get('/api/getsubjects').then(function (response) {
-                  _this.data_subject = response.data;
-                  _this.loading_subjects = false;
-                })["catch"](function (error) {
-                  _this.data_subject = [];
-                  _this.loading_subjects = false;
-                });
-
-              case 8:
-                //Tema
-                _this.overlay = true;
-                _context.next = 11;
                 return _this.axios.get('/api/topic/' + _this.$route.params.slug).then(function (response) {
-                  _this.topic = response.data;
+                  var items = response.data;
 
-                  if (!_this.topic.name) {
+                  if (!items.topic) {
                     _this.overlay = false;
 
                     _this.$router.push({
                       name: "topics"
                     });
                   } else {
+                    // Topic
+                    _this.topic = items.topic;
                     _this.form_information.name = _this.topic.name;
                     _this.form_information["abstract"] = _this.topic["abstract"];
 
@@ -484,47 +485,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form_information.img = null;
                     _this.form_information.img_new = 0;
                     _this.editorData = _this.topic.body;
-                    if (_this.topic.status == 0) _this.form_status.status = "Borrador";else if (_this.topic.status == 1) _this.form_status.status = "Activo";
+                    if (_this.topic.status == 0) _this.form_status.status = "Borrador";else if (_this.topic.status == 1) _this.form_status.status = "Activo"; // Subject
 
-                    _this.axios.get('/api/getsubjects/' + _this.topic.subject_id).then(function (response_sub) {
-                      _this.form_information.subject = response_sub.data.name;
-                      _this.form_information.copy_subject = response_sub.data.name;
-                    })["catch"](function (error) {
-                      console.log(error);
+                    if (items.subject) {
+                      _this.form_information.subject = items.subject.name;
+                      _this.form_information.copy_subject = items.subject.name;
+                    } else {
                       _this.form_information.subject = "";
                       _this.form_information.copy_subject = "";
-                    });
+                    } // Tags
 
-                    _this.axios.get('/api/gettags/' + _this.topic.id).then(function (response_sub) {
-                      _this.form_information.tags = response_sub.data;
-                      _this.form_information.tags_copy = response_sub.data;
-                      _this.form_information.tags_size = response_sub.data.length;
-                      _this.overlay = false;
-                    })["catch"](function (error) {
-                      console.log(error);
+
+                    if (items.tags) {
+                      _this.form_information.tags = items.tags;
+                      _this.form_information.tags_copy = items.tags;
+                      _this.form_information.tags_size = items.tags.length;
+                    } else {
                       _this.form_information.tags = [];
                       _this.form_information.tags_copy = [];
                       _this.form_information.tags_size = 0;
-                      _this.overlay = false;
-                    });
+                    }
+
+                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
                   _this.overlay = false;
                 });
 
-              case 11:
-                _context.next = 15;
+              case 8:
+                _context.next = 12;
                 break;
 
-              case 13:
+              case 10:
                 _this.overlay = false;
 
                 _this.$router.push({
                   name: "topics"
                 });
 
-              case 15:
+              case 12:
               case "end":
                 return _context.stop();
             }
@@ -2459,7 +2459,7 @@ var render = function () {
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-img", {
-                                      staticClass: "mt-4 mx-auto",
+                                      staticClass: "mt-0 mx-auto",
                                       attrs: {
                                         src: _vm.prev_img.url_img,
                                         "lazy-src": _vm.prev_img.lazy_img,

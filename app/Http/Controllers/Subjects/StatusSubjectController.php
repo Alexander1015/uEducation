@@ -25,7 +25,7 @@ class StatusSubjectController extends Controller
                 $data = DB::table("subjects")->where("id", $slug)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La materia seleccionada no existe",
                         'complete' => false,
                     ]);
                 } else {
@@ -43,15 +43,15 @@ class StatusSubjectController extends Controller
                             $data->id,
                         ])) {
                             $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha desactivado el curso exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha activado el curso exitosamente";
+                            if ($request->input('status') == 0) $message = "Se ha desactivado la materia exitosamente";
+                            else if ($request->input('status') == 1) $message = "Se ha activado la materia exitosamente";
                             return response()->json([
                                 'message' => $message,
                                 'complete' => true,
                             ]);
                         } else {
                             return response()->json([
-                                'message' => 'Ha ocurrido un error al momento de cambiar el estado del curso',
+                                'message' => 'Ha ocurrido un error al momento de cambiar el estado de la materia',
                                 'complete' => false,
                             ]);
                         }

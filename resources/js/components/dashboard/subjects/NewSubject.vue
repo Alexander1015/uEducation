@@ -24,9 +24,9 @@
                                 Regresar
                             </v-btn>
                             <v-card-title class="text-h5">
-                                <p class="mx-auto">NUEVO CURSO</p>
+                                <p class="mx-auto">NUEVO MATERIA</p>
                             </v-card-title>
-                            <v-card-subtitle class="text-center">Cree un curso nuevo</v-card-subtitle>
+                            <v-card-subtitle class="text-center">Cree una materia nueva</v-card-subtitle>
                             <div class="px-2 pb-2">
                                 <!-- Formulario -->
                                 <v-form ref="form" @submit.prevent="registerSubject" lazy-validation>
@@ -51,7 +51,7 @@
                                             </template>
                                         </v-col>
                                         <v-col cols="12" sm="12" md="6">
-                                            <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                            <v-img class="mt-0 mx-auto" :src="prev_img.url_img"
                                                 :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                                 :max-width="prev_img.width" contain>
                                                 <template v-slot:placeholder>
@@ -104,8 +104,8 @@ export default {
             img: null,
         },
         nameRules: [
-            v => !!v || 'El titulo del curso es requerido',
-            v => (v && v.length <= 100) || 'El titulo del curso debe tener menos de 100 carácteres',
+            v => !!v || 'El titulo de la materia es requerido',
+            v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
         ],
         imgRules: [
             v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
@@ -126,7 +126,7 @@ export default {
         async registerSubject() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear el curso?',
+                    title: '¿Esta seguro de crear la materia?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

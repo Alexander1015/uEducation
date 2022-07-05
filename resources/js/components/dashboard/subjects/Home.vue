@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="ma-2">
-            <p class="text-h6 my-4 ml-2">CURSOS</p>
+            <p class="text-h6 my-4 ml-2">MATERIAS</p>
             <div class="new_btn mr-4 mt-4">
                 <v-btn class="txt_white bk_green mr-4" large :to='{ name: "newSubject" }'>
                     <v-icon left>post_add</v-icon>
@@ -79,7 +79,7 @@
                                     </v-icon>
                                 </v-btn>
                             </template>
-                            <span>Ver curso</span>
+                            <span>Ver materia</span>
                         </v-tooltip>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -137,7 +137,7 @@ export default {
         },
         async deleteSubject(item) {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el curso?',
+                title: '¿Esta seguro de eliminar la materia?',
                 text: "Esta acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
@@ -181,7 +181,7 @@ export default {
         },
         async statusSubject(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del curso?',
+                title: '¿Esta seguro de cambiar el estado de la materia?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

@@ -194,7 +194,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return _this2.$swal({
-                  title: '¿Esta seguro de eliminar el curso?',
+                  title: '¿Esta seguro de eliminar la materia?',
                   text: "Esta acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
@@ -257,7 +257,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de cambiar el estado del curso?',
+                  title: '¿Esta seguro de cambiar el estado de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1110,7 +1110,7 @@ var render = function () {
         "div",
         { staticClass: "ma-2" },
         [
-          _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("CURSOS")]),
+          _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("MATERIAS")]),
           _vm._v(" "),
           _c(
             "div",
@@ -1396,7 +1396,7 @@ var render = function () {
                               true
                             ),
                           },
-                          [_vm._v(" "), _c("span", [_vm._v("Ver curso")])]
+                          [_vm._v(" "), _c("span", [_vm._v("Ver materia")])]
                         ),
                         _vm._v(" "),
                         _c(

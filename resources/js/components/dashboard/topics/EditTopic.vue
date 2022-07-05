@@ -149,7 +149,7 @@
                                         </template>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-img class="mt-4 mx-auto" :src="prev_img.url_img"
+                                        <v-img class="mt-0 mx-auto" :src="prev_img.url_img"
                                             :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                             :max-width="prev_img.width" contain>
                                             <template v-slot:placeholder>
@@ -350,37 +350,39 @@ export default {
             this.overlay = true;
             if (this.$route.params.slug) {
                 this.loading_tags = true;
+                this.loading_subjects = true;
                 //Etiquetas
-                await this.axios.get('/api/gettags')
+                await this.axios.get('/api/getts')
                     .then(response => {
-                        this.data_tags = response.data;
+                        const items = response.data;
+                        if (items.subjects) {
+                            this.data_subject = items.subjects;
+                        }
+                        else this.data_subject = [];
+                        if (items.tags) {
+                            this.data_tags = items.tags;
+                        }
+                        else this.data_tags = [];
                         this.loading_tags = false;
-                    })
-                    .catch(error => {
-                        this.data_subject = [];
-                        this.loading_tags = false;
-                    });
-                //Cursos
-                this.overlay = true;
-                await this.axios.get('/api/getsubjects')
-                    .then(response => {
-                        this.data_subject = response.data;
                         this.loading_subjects = false;
                     })
                     .catch(error => {
                         this.data_subject = [];
+                        this.data_tags = [];
+                        this.loading_tags = false;
                         this.loading_subjects = false;
                     });
                 //Tema
-                this.overlay = true;
                 await this.axios.get('/api/topic/' + this.$route.params.slug)
                     .then(response => {
-                        this.topic = response.data;
-                        if (!this.topic.name) {
+                        const items = response.data
+                        if (!items.topic) {
                             this.overlay = false;
                             this.$router.push({ name: "topics" });
                         }
                         else {
+                            // Topic
+                            this.topic = items.topic;
                             this.form_information.name = this.topic.name;
                             this.form_information.abstract = this.topic.abstract;
                             if (this.topic.img) {
@@ -392,28 +394,27 @@ export default {
                             this.editorData = this.topic.body;
                             if (this.topic.status == 0) this.form_status.status = "Borrador";
                             else if (this.topic.status == 1) this.form_status.status = "Activo";
-                            this.axios.get('/api/getsubjects/' + this.topic.subject_id)
-                                .then(response_sub => {
-                                    this.form_information.subject = response_sub.data.name;
-                                    this.form_information.copy_subject = response_sub.data.name;
-                                }).catch((error) => {
-                                    console.log(error);
-                                    this.form_information.subject = "";
-                                    this.form_information.copy_subject = "";
-                                });
-                            this.axios.get('/api/gettags/' + this.topic.id)
-                                .then(response_sub => {
-                                    this.form_information.tags = response_sub.data;
-                                    this.form_information.tags_copy = response_sub.data;
-                                    this.form_information.tags_size = response_sub.data.length;
-                                    this.overlay = false;
-                                }).catch((error) => {
-                                    console.log(error);
-                                    this.form_information.tags = [];
-                                    this.form_information.tags_copy = [];
-                                    this.form_information.tags_size = 0;
-                                    this.overlay = false;
-                                });
+                            // Subject
+                            if (items.subject) {
+                                this.form_information.subject = items.subject.name;
+                                this.form_information.copy_subject = items.subject.name;
+                            }
+                            else {
+                                this.form_information.subject = "";
+                                this.form_information.copy_subject = "";
+                            }
+                            // Tags
+                            if (items.tags) {
+                                this.form_information.tags = items.tags;
+                                this.form_information.tags_copy = items.tags;
+                                this.form_information.tags_size = items.tags.length;
+                            }
+                            else {
+                                this.form_information.tags = [];
+                                this.form_information.tags_copy = [];
+                                this.form_information.tags_size = 0;
+                            }
+                            this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);

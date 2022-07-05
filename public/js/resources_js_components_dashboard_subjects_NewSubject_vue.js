@@ -125,9 +125,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         img: null
       },
       nameRules: [function (v) {
-        return !!v || 'El titulo del curso es requerido';
+        return !!v || 'El titulo de la materia es requerido';
       }, function (v) {
-        return v && v.length <= 100 || 'El titulo del curso debe tener menos de 100 carácteres';
+        return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
       }],
       imgRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
@@ -168,7 +168,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear el curso?',
+                  title: '¿Esta seguro de crear la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -773,12 +773,12 @@ var render = function () {
                         _vm._v(" "),
                         _c("v-card-title", { staticClass: "text-h5" }, [
                           _c("p", { staticClass: "mx-auto" }, [
-                            _vm._v("NUEVO CURSO"),
+                            _vm._v("NUEVO MATERIA"),
                           ]),
                         ]),
                         _vm._v(" "),
                         _c("v-card-subtitle", { staticClass: "text-center" }, [
-                          _vm._v("Cree un curso nuevo"),
+                          _vm._v("Cree una materia nueva"),
                         ]),
                         _vm._v(" "),
                         _c(
@@ -902,7 +902,7 @@ var render = function () {
                                       },
                                       [
                                         _c("v-img", {
-                                          staticClass: "mt-4 mx-auto",
+                                          staticClass: "mt-0 mx-auto",
                                           attrs: {
                                             src: _vm.prev_img.url_img,
                                             "lazy-src": _vm.prev_img.lazy_img,

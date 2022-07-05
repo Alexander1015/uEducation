@@ -6,7 +6,18 @@ $green: #009664;
 $primary: #091E32;
 $secondary: #685B4D;
 $tags: #676767;
+$scroll_bk: #f4f4f4;
+$scroll_color: #c4c4c4;
 */
+body::-webkit-scrollbar {
+  background: #f4f4f4;
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+}
+
 #body .bk_blue {
   background: #091E32 !important;
 }
@@ -18,6 +29,9 @@ $tags: #676767;
 }
 #body .bk_green {
   background: #009664 !important;
+}
+#body .bk_tags {
+  background: #676767 !important;
 }
 #body .txt_white {
   color: #ffffff !important;
@@ -81,4 +95,16 @@ $tags: #676767;
 #body #container .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+}
+#body #container #nav_subject {
+  position: fixed;
+  margin-top: 3rem;
+  padding-bottom: 5.4rem;
+}
+#body #container #nav_subject ::-webkit-scrollbar {
+  width: 0.2rem;
+}
+#body #container #nav_subject ::-webkit-scrollbar-thumb {
+  background: rgba(103, 103, 103, 0.5);
+  border-radius: 0.5rem;
 }

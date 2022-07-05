@@ -11,38 +11,6 @@ use Exception;
 class TopicsController extends Controller
 {
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show($slug)
-    {
-        if ($subject = DB::table("subjects")->where("slug", $slug)->first()) {
-            $topics = DB::select(
-                'SELECT
-                    id, name
-                FROM 
-                    topics
-                WHERE
-                    subject_id = ?
-                ORDER BY sequence ASC',
-                [
-                    $subject->id
-                ]
-            );
-            $size = 1;
-            foreach ($topics as $data) {
-                $data->key = $size;
-                $size++;
-            }
-            return response()->json($topics);
-        } else {
-            return response()->json([]);
-        }
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -57,7 +25,7 @@ class TopicsController extends Controller
                 $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
-                        'message' => "El curso seleccionado no existe",
+                        'message' => "La materia seleccionado no existe",
                         'complete' => false,
                     ]);
                 } else {

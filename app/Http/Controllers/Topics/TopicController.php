@@ -199,7 +199,20 @@ class TopicController extends Controller
      */
     public function show($slug)
     {
+        // Topic
         $topic = DB::table("topics")->where("slug", $slug)->first();
+        // Subject
+        $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
+        // Tags
+        $tags_ids = DB::table("topic_tag")->where("topic_id", $topic->id)->get();
+        $tags = array();
+        if (sizeof($tags_ids) > 0) {
+            foreach ($tags_ids as $tag) {
+                $data = DB::table("tags")->where("id", $tag->tag_id)->first();
+                array_push($tags, $data->name);
+            }
+        }
+        // Liberar imagenes sin usar
         $directory = public_path('/img/topics') . "/" . $topic->id;
         $files = array();
         if (File::isDirectory($directory)) {
@@ -236,7 +249,11 @@ class TopicController extends Controller
                 }
             }
         }
-        return response()->json($topic);
+        return response()->json([
+            'topic' => $topic,
+            'subject' => $subject,
+            'tags' => $tags,
+        ]);
     }
 
     /**
