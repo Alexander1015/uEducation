@@ -25,12 +25,12 @@
                         <template v-slot:default="props">
                             <v-row v-if='searchBy == "Materias"'>
                                 <v-col v-for="item in props.items" :key="item.slug" class="mx-auto" cols="12" sm="6"
-                                    lg="4">
-                                    <v-card :to='{ name: "publicSubject", params: { subject: item.slug } }'>
+                                    md="4" lg="3">
+                                    <v-card :to='{ name: "publicTopic", params: { subject: item.slug, topic: item.first } }'>
                                         <v-img class="mx-auto"
                                             :src='"/img/subjects/" + (item.img ? item.img : "blank.png")'
                                             :lazy-src='"/img/lazy_subjects/" + (item.img ? item.img : "blank.png")'
-                                            height="250">
+                                            height="175">
                                             <template v-slot:placeholder>
                                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -52,27 +52,27 @@
                 <!-- Cargando -->
                 <template v-else>
                     <v-row>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs" type="date-picker"></v-skeleton-loader>
                         </v-col>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs" type="list-item-avatar-three-line, image, article">
                             </v-skeleton-loader>
                         </v-col>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs"
                                 type="list-item-avatar, divider, list-item-three-line, card-heading, image, actions">
                             </v-skeleton-loader>
                         </v-col>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs" type="card-avatar, article, actions"></v-skeleton-loader>
                         </v-col>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs"
                                 type="table-heading, list-item-two-line, image, table-tfoot">
                             </v-skeleton-loader>
                         </v-col>
-                        <v-col cols="12" sm="6" lg="4">
+                        <v-col cols="12" sm="6" md="4" lg="3">
                             <v-skeleton-loader v-bind="attrs" type="date-picker"></v-skeleton-loader>
                         </v-col>
                     </v-row>

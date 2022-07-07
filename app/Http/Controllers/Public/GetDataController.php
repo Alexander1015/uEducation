@@ -28,6 +28,16 @@ class GetDataController extends Controller
             }
             if ($search == 0) {
                 $data = DB::table('subjects')->where('status', 1)->orderBy('name', 'asc')->get();
+                $total = sizeof($data) - 1;
+                while($total >= 0) {
+                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $data[$total]->id)->orderBy('sequence', 'asc')->first();
+                    if ($topic) {
+                        $data[$total]->first = $topic->slug;
+                    } else {
+                        unset($data[$total]);
+                    }
+                    $total--;
+                }
             } else {
                 $data = DB::table('topics')->where('status', 1)->orderBy('name', 'asc')->get();
             }
@@ -38,8 +48,8 @@ class GetDataController extends Controller
             ]);
         } catch (Exception $ex) {
             return response()->json([
-                // 'message' => $ex->getMessage(),
-                'message' => "Ha ocurrido un error en la aplicación",
+                'message' => $ex->getMessage(),
+                // 'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

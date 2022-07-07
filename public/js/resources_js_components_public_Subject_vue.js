@@ -93,10 +93,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.getSubject();
   },
+  computed: {
+    address: function address() {
+      return this.$route.params.topic;
+    }
+  },
+  watch: {
+    address: function address() {
+      this.getSubject();
+    }
+  },
   methods: {
-    gotoTopic: function gotoTopic(item) {
-      window.location.href = "/content/" + this.$route.params.subject + "/" + item;
-    },
     getSubject: function getSubject() {
       var _this = this;
 
@@ -129,6 +136,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _this.subject.img = "/img/subjects/blank.png";
                       _this.subject.lazy_img = "/img/lazy_subjects/blank.png";
                     }
+
+                    _this.overlay = false;
                   }
 
                   if (!_this.$route.params.topic && item.topics.length > 0) {
@@ -141,8 +150,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else if (item.topics.length <= 0) {
                     _this.$router.push('/');
                   }
-
-                  _this.overlay = false;
                 })["catch"](function (error) {
                   console.log(error);
                   _this.overlay = false;
@@ -166,9 +173,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
-    },
-    returnPublic: function returnPublic() {
-      this.$router.push("/");
     }
   }
 });
@@ -325,18 +329,10 @@ var render = function () {
             [
               _c(
                 "v-list-item",
-                { attrs: { link: "" } },
+                { attrs: { link: "", to: "/" } },
                 [
                   _c(
                     "v-list-item-icon",
-                    {
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.returnPublic.apply(null, arguments)
-                        },
-                      },
-                    },
                     [_c("v-icon", [_vm._v("keyboard_double_arrow_left")])],
                     1
                   ),
@@ -369,12 +365,6 @@ var render = function () {
                         to: {
                           name: "publicTopic",
                           params: { topic: item.slug },
-                        },
-                      },
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.gotoTopic(item.slug)
                         },
                       },
                     },

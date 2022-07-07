@@ -24,8 +24,8 @@
             </v-list>
             <v-divider></v-divider>
             <v-list nav dense>
-                <v-list-item link>
-                    <v-list-item-icon @click.prevent="returnPublic">
+                <v-list-item link to="/">
+                    <v-list-item-icon>
                         <v-icon>keyboard_double_arrow_left</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="body-2 font-weight-bold">
@@ -36,7 +36,7 @@
             <v-divider></v-divider>
             <v-list nav dense>
                 <template v-for="item in topics">
-                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }' @click.prevent="gotoTopic(item.slug)">
+                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }'>
                         <v-list-item-icon>
                             <v-avatar size="25" class="caption bk_tags txt_white">
                                 {{ item.key }}
@@ -71,10 +71,17 @@ export default {
     mounted() {
         this.getSubject();
     },
+    computed: {
+        address() {
+            return this.$route.params.topic;
+        }
+    },
+    watch: {
+        address() {
+            this.getSubject();
+        }
+    },
     methods: {
-        gotoTopic(item) {
-            window.location.href = "/content/" + this.$route.params.subject + "/" + item;
-        },
         async getSubject() {
             this.overlay = true;
             if (this.$route.params.subject) {
@@ -95,6 +102,7 @@ export default {
                                 this.subject.img = "/img/subjects/blank.png";
                                 this.subject.lazy_img = "/img/lazy_subjects/blank.png";
                             }
+                            this.overlay = false;
                         }
                         if (!this.$route.params.topic && item.topics.length > 0) {
                             this.$router.push({ name: "publicTopic", params: { topic: item.topics[0].slug } });
@@ -102,7 +110,6 @@ export default {
                         else if (item.topics.length <= 0) {
                             this.$router.push('/');
                         }
-                        this.overlay = false;
                     }).catch((error) => {
                         console.log(error);
                         this.overlay = false;
@@ -113,9 +120,6 @@ export default {
                 this.overlay = false;
                 this.$router.push("/");
             }
-        },
-        returnPublic() {
-            this.$router.push("/");
         },
     },
 }

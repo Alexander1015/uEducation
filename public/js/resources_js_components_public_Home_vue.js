@@ -909,7 +909,8 @@ var render = function () {
                                             attrs: {
                                               cols: "12",
                                               sm: "6",
-                                              lg: "4",
+                                              md: "4",
+                                              lg: "3",
                                             },
                                           },
                                           [
@@ -918,9 +919,10 @@ var render = function () {
                                               {
                                                 attrs: {
                                                   to: {
-                                                    name: "publicSubject",
+                                                    name: "publicTopic",
                                                     params: {
                                                       subject: item.slug,
+                                                      topic: item.first,
                                                     },
                                                   },
                                                 },
@@ -939,7 +941,7 @@ var render = function () {
                                                       (item.img
                                                         ? item.img
                                                         : "blank.png"),
-                                                    height: "250",
+                                                    height: "175",
                                                   },
                                                   scopedSlots: _vm._u(
                                                     [
@@ -1023,7 +1025,7 @@ var render = function () {
                         ],
                         null,
                         false,
-                        2891005224
+                        1775154603
                       ),
                     }),
                   ]
@@ -1033,7 +1035,7 @@ var render = function () {
                       [
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
@@ -1050,7 +1052,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
@@ -1071,7 +1073,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
@@ -1092,7 +1094,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
@@ -1113,7 +1115,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
@@ -1134,7 +1136,7 @@ var render = function () {
                         _vm._v(" "),
                         _c(
                           "v-col",
-                          { attrs: { cols: "12", sm: "6", lg: "4" } },
+                          { attrs: { cols: "12", sm: "6", md: "4", lg: "3" } },
                           [
                             _c(
                               "v-skeleton-loader",
