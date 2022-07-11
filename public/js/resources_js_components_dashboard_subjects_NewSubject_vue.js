@@ -106,6 +106,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewSubject",
   data: function data() {
@@ -116,10 +120,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-new_subject.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         name: "",
         img: null
@@ -141,7 +141,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
     returnSubjects: function returnSubjects() {
+      this.overlay = true;
       if (this.$route.params.backnew) this.$router.push({
         name: "newTopic"
       });else if (this.$route.params.backedit) this.$router.push({
@@ -185,17 +189,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     _this.axios.post('/api/subject', data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this.sweet.title = "Éxito";
-                        _this.sweet.icon = "success";
-                      } else {
-                        _this.sweet.title = "Error";
-                        _this.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -209,20 +213,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           });else _this.$router.push({
                             name: "subjects"
                           });
-                          _this.overlay = false;
                         } else _this.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this.sweet.title = "Error";
-                      _this.sweet.icon = "error";
-
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this.overlay = false;
                       });
-
-                      _this.overlay = false;
                     });
                   }
                 });
@@ -682,331 +683,335 @@ var render = function () {
       ),
       _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "mx-4 my-4" },
+        "v-card",
+        {
+          staticClass: "mt-2 rounded mx-auto",
+          attrs: { elevation: "2", "max-width": "1100" },
+        },
         [
           _c(
-            "v-card",
-            {
-              staticClass: "mt-4 rounded mx-auto",
-              attrs: { elevation: "2", "max-width": "1100" },
-            },
+            "v-row",
+            { staticClass: "pl-1", attrs: { dense: "" } },
             [
               _c(
-                "v-row",
-                { staticClass: "pl-1", attrs: { dense: "" } },
+                "v-col",
+                {
+                  staticClass: "bk_blue rounded-l d-none d-md-flex",
+                  attrs: { cols: "3" },
+                },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "bk_blue rounded-l d-none d-md-flex",
-                      attrs: { cols: "3" },
-                    },
-                    [
-                      _c("v-img", {
-                        staticClass: "img_login",
-                        attrs: {
-                          src: _vm.banner.img,
-                          "lazy-src": _vm.banner.lazy,
-                        },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "placeholder",
-                            fn: function () {
-                              return [
-                                _c(
-                                  "v-row",
-                                  {
-                                    staticClass: "fill-height ma-0",
-                                    attrs: {
-                                      align: "center",
-                                      justify: "center",
-                                    },
+                  _c("v-img", {
+                    staticClass: "img_login",
+                    attrs: { src: _vm.banner.img, "lazy-src": _vm.banner.lazy },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "placeholder",
+                        fn: function () {
+                          return [
+                            _c(
+                              "v-row",
+                              {
+                                staticClass: "fill-height ma-0",
+                                attrs: { align: "center", justify: "center" },
+                              },
+                              [
+                                _c("v-progress-circular", {
+                                  attrs: {
+                                    indeterminate: "",
+                                    color: "grey lighten-5",
                                   },
+                                }),
+                              ],
+                              1
+                            ),
+                          ]
+                        },
+                        proxy: true,
+                      },
+                    ]),
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-col", [
+                _c(
+                  "div",
+                  { staticClass: "pb-4 mx-4" },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "mr-4",
+                        attrs: { text: "", small: "" },
+                        on: {
+                          click: function ($event) {
+                            $event.stopPropagation()
+                            return _vm.returnSubjects()
+                          },
+                        },
+                      },
+                      [
+                        _c("v-icon", { attrs: { left: "" } }, [
+                          _vm._v("keyboard_double_arrow_left"),
+                        ]),
+                        _vm._v(
+                          "\n                        Regresar\n                    "
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-card-title", { staticClass: "text-h5" }, [
+                      _c("p", { staticClass: "mx-auto" }, [
+                        _vm._v("NUEVO MATERIA"),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                      _vm._v("Cree una materia nueva"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "px-2 pb-2" },
+                      [
+                        _c(
+                          "v-form",
+                          {
+                            ref: "form",
+                            attrs: { "lazy-validation": "" },
+                            on: {
+                              submit: function ($event) {
+                                $event.preventDefault()
+                                return _vm.registerSubject()
+                              },
+                            },
+                          },
+                          [
+                            _c(
+                              "small",
+                              { staticClass: "font-italic txt_red" },
+                              [_vm._v("Obligatorio *")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              { staticClass: "mt-2" },
+                              [
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
                                   [
-                                    _c("v-progress-circular", {
+                                    _c("v-text-field", {
                                       attrs: {
-                                        indeterminate: "",
-                                        color: "grey lighten-5",
+                                        rules: _vm.nameRules,
+                                        label: "Titulo *",
+                                        tabindex: "1",
+                                        dense: "",
+                                        "prepend-icon": "collections_bookmark",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.name,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "name", $$v)
+                                        },
+                                        expression: "form.name",
                                       },
                                     }),
                                   ],
                                   1
                                 ),
-                              ]
-                            },
-                            proxy: true,
-                          },
-                        ]),
-                      }),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-col", [
-                    _c(
-                      "div",
-                      { staticClass: "pb-4 mx-4" },
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            staticClass: "mr-4",
-                            attrs: { text: "", small: "" },
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.returnSubjects.apply(null, arguments)
-                              },
-                            },
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v("keyboard_double_arrow_left"),
-                            ]),
-                            _vm._v(
-                              "\n                            Regresar\n                        "
-                            ),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-card-title", { staticClass: "text-h5" }, [
-                          _c("p", { staticClass: "mx-auto" }, [
-                            _vm._v("NUEVO MATERIA"),
-                          ]),
-                        ]),
-                        _vm._v(" "),
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
-                          _vm._v("Cree una materia nueva"),
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "px-2 pb-2" },
-                          [
-                            _c(
-                              "v-form",
-                              {
-                                ref: "form",
-                                attrs: { "lazy-validation": "" },
-                                on: {
-                                  submit: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.registerSubject.apply(
-                                      null,
-                                      arguments
-                                    )
-                                  },
-                                },
-                              },
-                              [
+                                _vm._v(" "),
                                 _c(
-                                  "small",
-                                  { staticClass: "font-italic txt_red" },
-                                  [_vm._v("Obligatorio *")]
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
+                                  [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "bk_brown txt_white width_100 mb-2",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.stopPropagation()
+                                            return _vm.handleFileImport()
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("file_upload"),
+                                        ]),
+                                        _vm._v(
+                                          "\n                                        Subir imagen\n                                    "
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-file-input", {
+                                      ref: "uploader",
+                                      staticClass: "d-none",
+                                      attrs: {
+                                        label:
+                                          "Haz clic(k) aquí para subir una portada",
+                                        id: "img",
+                                        "prepend-icon": "photo_camera",
+                                        rules: _vm.imgRules,
+                                        accept:
+                                          "image/jpeg, image/jpg, image/png, image/gif, image/svg",
+                                        "show-size": "",
+                                      },
+                                      on: {
+                                        change: function ($event) {
+                                          return _vm.preview_img()
+                                        },
+                                      },
+                                      model: {
+                                        value: _vm.form.img,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "img", $$v)
+                                        },
+                                        expression: "form.img",
+                                      },
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.prev_img.url_img !=
+                                    "/img/subjects/blank.png"
+                                      ? [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass:
+                                                "bk_brown txt_white width_100",
+                                              on: {
+                                                click: function ($event) {
+                                                  $event.stopPropagation()
+                                                  return _vm.clean_img()
+                                                },
+                                              },
+                                            },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("delete")]
+                                              ),
+                                              _vm._v(
+                                                "\n                                            Borrar imagen\n                                        "
+                                              ),
+                                            ],
+                                            1
+                                          ),
+                                        ]
+                                      : _vm._e(),
+                                  ],
+                                  2
                                 ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-row",
-                                  { staticClass: "mt-2" },
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
-                                    _c(
-                                      "v-col",
-                                      { attrs: { cols: "12" } },
-                                      [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            rules: _vm.nameRules,
-                                            label: "Titulo *",
-                                            tabindex: "1",
-                                            dense: "",
-                                            "prepend-icon":
-                                              "collections_bookmark",
-                                            required: "",
-                                          },
-                                          model: {
-                                            value: _vm.form.name,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "name", $$v)
-                                            },
-                                            expression: "form.name",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
-                                        },
+                                    _c("v-img", {
+                                      staticClass: "mt-0 mx-auto",
+                                      attrs: {
+                                        src: _vm.prev_img.url_img,
+                                        "lazy-src": _vm.prev_img.lazy_img,
+                                        "max-height": _vm.prev_img.height,
+                                        "max-width": _vm.prev_img.width,
+                                        contain: "",
                                       },
-                                      [
-                                        _c("v-file-input", {
-                                          attrs: {
-                                            label:
-                                              "Haz clic(k) aquí para subir una portada",
-                                            id: "img",
-                                            "prepend-icon": "photo_camera",
-                                            rules: _vm.imgRules,
-                                            accept:
-                                              "image/jpeg, image/jpg, image/png, image/gif, image/svg",
-                                            "show-size": "",
-                                            tabindex: "6",
-                                          },
-                                          on: { change: _vm.preview_img },
-                                          model: {
-                                            value: _vm.form.img,
-                                            callback: function ($$v) {
-                                              _vm.$set(_vm.form, "img", $$v)
-                                            },
-                                            expression: "form.img",
-                                          },
-                                        }),
-                                        _vm._v(" "),
-                                        _vm.prev_img.url_img !=
-                                        "/img/subjects/blank.png"
-                                          ? [
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "placeholder",
+                                          fn: function () {
+                                            return [
                                               _c(
-                                                "v-btn",
+                                                "v-row",
                                                 {
                                                   staticClass:
-                                                    "bk_brown txt_white width_100",
-                                                  on: { click: _vm.clean_img },
+                                                    "fill-height ma-0",
+                                                  attrs: {
+                                                    align: "center",
+                                                    justify: "center",
+                                                  },
                                                 },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                                Borrar imagen\n                                            "
-                                                  ),
-                                                ]
+                                                  _c("v-progress-circular", {
+                                                    attrs: {
+                                                      indeterminate: "",
+                                                      color: "grey lighten-5",
+                                                    },
+                                                  }),
+                                                ],
+                                                1
                                               ),
                                             ]
-                                          : _vm._e(),
-                                      ],
-                                      2
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      {
-                                        attrs: {
-                                          cols: "12",
-                                          sm: "12",
-                                          md: "6",
-                                        },
-                                      },
-                                      [
-                                        _c("v-img", {
-                                          staticClass: "mt-0 mx-auto",
-                                          attrs: {
-                                            src: _vm.prev_img.url_img,
-                                            "lazy-src": _vm.prev_img.lazy_img,
-                                            "max-height": _vm.prev_img.height,
-                                            "max-width": _vm.prev_img.width,
-                                            contain: "",
                                           },
-                                          scopedSlots: _vm._u([
-                                            {
-                                              key: "placeholder",
-                                              fn: function () {
-                                                return [
-                                                  _c(
-                                                    "v-row",
-                                                    {
-                                                      staticClass:
-                                                        "fill-height ma-0",
-                                                      attrs: {
-                                                        align: "center",
-                                                        justify: "center",
-                                                      },
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-progress-circular",
-                                                        {
-                                                          attrs: {
-                                                            indeterminate: "",
-                                                            color:
-                                                              "grey lighten-5",
-                                                          },
-                                                        }
-                                                      ),
-                                                    ],
-                                                    1
-                                                  ),
-                                                ]
-                                              },
-                                              proxy: true,
-                                            },
-                                          ]),
-                                        }),
-                                      ],
-                                      1
-                                    ),
+                                          proxy: true,
+                                        },
+                                      ]),
+                                    }),
                                   ],
                                   1
                                 ),
-                                _vm._v(" "),
-                                _vm.form.name != ""
-                                  ? [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass:
-                                            "txt_white bk_green width_100 mt-2",
-                                          attrs: { type: "submit" },
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("save")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                        Guardar\n                                    "
-                                          ),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  : [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "width_100 mt-2",
-                                          attrs: { disabled: "" },
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("save")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                        Guardar\n                                    "
-                                          ),
-                                        ],
-                                        1
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _vm.form.name != ""
+                              ? [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass:
+                                        "txt_white bk_green width_100 mt-2",
+                                      attrs: { type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
                                       ),
                                     ],
-                              ],
-                              2
-                            ),
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "width_100 mt-2",
+                                      attrs: { disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
-                          1
+                          2
                         ),
                       ],
                       1
                     ),
-                  ]),
-                ],
-                1
-              ),
+                  ],
+                  1
+                ),
+              ]),
             ],
             1
           ),

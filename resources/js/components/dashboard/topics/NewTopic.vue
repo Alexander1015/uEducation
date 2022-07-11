@@ -19,7 +19,7 @@
                 </v-col>
                 <v-col>
                     <div class="pb-4 mx-4">
-                        <v-btn class="mr-4" text small @click.prevent="returnTopics">
+                        <v-btn class="mr-4" text small @click.stop="returnTopics()">
                             <v-icon left>keyboard_double_arrow_left</v-icon>
                             Regresar
                         </v-btn>
@@ -29,12 +29,13 @@
                         <v-card-subtitle class="text-center">Cree un tema nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
-                            <v-form ref="form" @submit.prevent="registerTopic" lazy-validation>
+                            <v-form ref="form" @submit.prevent="registerTopic()" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form.name" :rules="nameRules" label="Titulo *"
-                                            tabindex="1" dense prepend-icon="library_books" required>
+                                            tabindex="1" dense prepend-icon="library_books" clearable
+                                            clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
@@ -52,7 +53,7 @@
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn v-bind="attrs" v-on="on" icon
-                                                            @click.prevent="gotoSubject()">
+                                                            @click.stop="gotoSubject()">
                                                             <v-icon>post_add</v-icon>
                                                         </v-btn>
                                                     </template>
@@ -89,7 +90,7 @@
                                             <v-col cols="1">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn v-bind="attrs" v-on="on" icon @click.prevent="gotoTag()">
+                                                        <v-btn v-bind="attrs" v-on="on" icon @click.stop="gotoTag()">
                                                             <v-icon>bookmark_add</v-icon>
                                                         </v-btn>
                                                     </template>
@@ -105,14 +106,19 @@
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-file-input v-model="form.img" @change="preview_img"
-                                            label="Haz clic(k) aquí para subir una portada" id="img"
+                                        <v-btn class="bk_brown txt_white width_100 mb-2"
+                                            @click.stop="handleFileImport()">
+                                            <v-icon left>file_upload</v-icon>
+                                            Subir imagen
+                                        </v-btn>
+                                        <v-file-input ref="uploader" v-model="form.img" @change="preview_img()"
+                                            label="Haz clic(k) aquí para subir una portada" id="img" class="d-none"
                                             prepend-icon="photo_camera" :rules="imgRules"
-                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="6">
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                <v-icon left>delete</v-icon>
                                                 Borrar imagen
                                             </v-btn>
                                         </template>
@@ -165,10 +171,6 @@ export default {
             lazy: "/img/lazy/banner-new_topic.jpg",
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
         form: {
             subject: "",
             name: "",
@@ -207,10 +209,19 @@ export default {
         this.showData();
     },
     methods: {
+        handleFileImport() {
+            this.$refs.uploader.$refs.input.click()
+        },
+        returnTopics() {
+            this.overlay = true;
+            this.$router.push({ name: "topics" });
+        },
         gotoSubject() {
+            this.overlay = true;
             this.$router.push({ name: "newSubject", params: { backnew: true } });
         },
         gotoTag() {
+            this.overlay = true;
             this.$router.push({ name: "newTag", params: { backnew: true } });
         },
         limitTags() {
@@ -222,28 +233,25 @@ export default {
         },
         async showData() {
             await this.axios.get('/api/getts')
-                    .then(response => {
-                        const items = response.data;
-                        if (items.subjects) {
-                            this.data_subject = items.subjects;
-                        }
-                        else this.data_subject = [];
-                        if (items.tags) {
-                            this.data_tags = items.tags;
-                        }
-                        else this.data_tags = [];
-                        this.loading_tags = false;
-                        this.loading_subjects = false;
-                    })
-                    .catch(error => {
-                        this.data_subject = [];
-                        this.data_tags = [];
-                        this.loading_tags = false;
-                        this.loading_subjects = false;
-                    });
-        },
-        returnTopics() {
-            this.$router.push({ name: "topics" });
+                .then(response => {
+                    const items = response.data;
+                    if (items.subjects) {
+                        this.data_subject = items.subjects;
+                    }
+                    else this.data_subject = [];
+                    if (items.tags) {
+                        this.data_tags = items.tags;
+                    }
+                    else this.data_tags = [];
+                    this.loading_tags = false;
+                    this.loading_subjects = false;
+                })
+                .catch(error => {
+                    this.data_subject = [];
+                    this.data_tags = [];
+                    this.loading_tags = false;
+                    this.loading_subjects = false;
+                });
         },
         async registerTopic() {
             if (this.$refs.form.validate()) {
@@ -272,34 +280,31 @@ export default {
                             }
                             this.axios.post('/api/topic', data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             this.$router.push({ name: "editTopic", params: { slug: response.data.topic } });
-                                            this.overlay = false;
                                         }
                                         else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });

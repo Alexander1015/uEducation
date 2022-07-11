@@ -6,26 +6,25 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="ml-4" text small @click.prevent="returnTopics">
+            <v-btn class="ml-4" text small @click.stop="returnTopics()">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="new_btn mr-4">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showTopic()" elevation="3"
-                            class="bk_blue txt_white mr-4">
-                            <v-icon>autorenew</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Recargar</span>
-                </v-tooltip>
-            </div>
-            <v-card class="mt-4 mx-auto" elevation="2" max-width="1250">
+            <v-card class="mt-2 mx-auto" elevation="2" max-width="1250">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
                         <template v-if="topic.name">
-                            {{ topic.name.toUpperCase() }}
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn class="mt-n1" v-bind="attrs" v-on="on" small icon @click.stop="showTopic()">
+                                        <v-icon>autorenew</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Actualizar</span>
+                            </v-tooltip>
+                            <span>
+                                {{ topic.name.toUpperCase() }}
+                            </span>
                         </template>
                         <template v-else>
                             <v-icon>remove</v-icon>
@@ -59,12 +58,13 @@
                                 Información almacenada del tema seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_information" @submit.prevent="editTopic" lazy-validation>
+                            <v-form ref="form_information" @submit.prevent="editTopic()" lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
-                                            label="Titulo *" tabindex="1" dense prepend-icon="library_books" required>
+                                            label="Titulo *" tabindex="1" clearable clear-icon="cancel" dense
+                                            prepend-icon="library_books" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
@@ -83,7 +83,7 @@
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn v-bind="attrs" v-on="on" icon
-                                                            @click.prevent="gotoSubject()">
+                                                            @click.stop="gotoSubject()">
                                                             <v-icon>post_add</v-icon>
                                                         </v-btn>
                                                     </template>
@@ -120,7 +120,7 @@
                                             <v-col cols="1">
                                                 <v-tooltip bottom>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn v-bind="attrs" v-on="on" icon @click.prevent="gotoTag()">
+                                                        <v-btn v-bind="attrs" v-on="on" icon @click.stop="gotoTag()">
                                                             <v-icon>bookmark_add</v-icon>
                                                         </v-btn>
                                                     </template>
@@ -136,14 +136,20 @@
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-file-input v-model="form_information.img" @change="preview_img"
+                                        <v-btn class="bk_brown txt_white width_100 mb-2"
+                                            @click.stop="handleFileImport()">
+                                            <v-icon left>file_upload</v-icon>
+                                            Subir imagen
+                                        </v-btn>
+                                        <v-file-input ref="uploader" v-model="form_information.img"
+                                            @change="preview_img()" class="d-none"
                                             label="Haz clic(k) aquí para subir una portada" id="img"
                                             prepend-icon="photo_camera" :rules="info.imgRules"
-                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="6">
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                                <v-icon left>delete</v-icon>
                                                 Borrar imagen
                                             </v-btn>
                                         </template>
@@ -215,10 +221,11 @@
                                     Cambie el estado del tema en el sistema (Si esta en borrador el tema no podra ser
                                     visualizado por el lector)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" @submit.prevent="statusTopic" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusTopic()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <template v-if="form_status.status != (topic.status == 1 ? 'Activo' : 'Borrador')">
+                                    <template
+                                        v-if="form_status.status != (topic.status == 1 ? 'Habilitado' : 'Borrador')">
                                         <v-btn class="txt_white bk_green width_100" type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
@@ -238,9 +245,9 @@
                                     Elimine el curso seleccionado de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
-                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTopic">
+                                <v-btn class="txt_white bk_red width_100" @click.stop="deleteTopic()">
                                     <v-icon left>delete</v-icon>
-                                    Eliminar curso
+                                    Eliminar tema
                                 </v-btn>
                             </div>
                         </div>
@@ -266,11 +273,7 @@ export default {
             placeholder: 'Escribe aqui el contenido...',
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
-        items_status: ["Activo", "Borrador"],
+        items_status: ["Habilitado", "Borrador"],
         form_information: {
             subject: "",
             copy_subject: "",
@@ -322,12 +325,31 @@ export default {
     mounted() {
         this.showTopic();
     },
+    computed: {
+        address() {
+            return this.$route.params.slug;
+        }
+    },
+    watch: {
+        address() {
+            this.showTopic();
+        }
+    },
     methods: {
+        handleFileImport() {
+            this.$refs.uploader.$refs.input.click()
+        },
+        returnTopics() {
+            this.overlay = true;
+            this.$router.push({ name: "topics" });
+        },
         gotoSubject() {
-            this.$router.push({ name: "newSubject", params: { backedit: this.$route.params.slug } });
+            this.overlay = true;
+            this.$router.push({ name: "newSubject", params: { backedit: this.address } });
         },
         gotoTag() {
-            this.$router.push({ name: "newTag", params: { backedit: this.$route.params.slug } });
+            this.overlay = true;
+            this.$router.push({ name: "newTag", params: { backedit: this.address } });
         },
         limitTags() {
             if (this.form_information.tags.length > 5) this.form_information.tags.pop();
@@ -343,12 +365,9 @@ export default {
                 editor.ui.getEditableElement()
             );
         },
-        returnTopics() {
-            this.$router.push({ name: "topics" });
-        },
         async showTopic() {
             this.overlay = true;
-            if (this.$route.params.slug) {
+            if (this.address) {
                 this.loading_tags = true;
                 this.loading_subjects = true;
                 //Etiquetas
@@ -373,7 +392,7 @@ export default {
                         this.loading_subjects = false;
                     });
                 //Tema
-                await this.axios.get('/api/topic/' + this.$route.params.slug)
+                await this.axios.get('/api/topic/' + this.address)
                     .then(response => {
                         const items = response.data
                         if (!items.topic) {
@@ -393,7 +412,7 @@ export default {
                             this.form_information.img_new = 0;
                             this.editorData = this.topic.body;
                             if (this.topic.status == 0) this.form_status.status = "Borrador";
-                            else if (this.topic.status == 1) this.form_status.status = "Activo";
+                            else if (this.topic.status == 1) this.form_status.status = "Habilitado";
                             // Subject
                             if (items.subject) {
                                 this.form_information.subject = items.subject.name;
@@ -453,38 +472,39 @@ export default {
                             }
                             data.append('img_new', this.form_information.img_new);
                             data.append('_method', "put");
-                            this.axios.post('/api/topic/' + this.$route.params.slug, data)
+                            this.axios.post('/api/topic/' + this.address, data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             if (response.data.reload) {
                                                 this.$router.push({ name: "editTopic", params: { slug: response.data.reload } });
                                             }
-                                            else this.showTopic();
+                                            else {
+                                                this.showTopic();
+                                                this.overlay = false;
+                                            }
                                         }
-                                        this.overlay = false;
+                                        else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });
@@ -507,19 +527,17 @@ export default {
                         let data = new FormData();
                         data.append('body', this.editorData);
                         data.append('_method', "put");
-                        this.axios.post('/api/topic/body/' + this.$route.params.slug, data)
+                        this.axios.post('/api/topic/body/' + this.address, data)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
@@ -528,14 +546,14 @@ export default {
                                     this.overlay = false;
                                 });
                             }).catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
                                 });
-                                this.overlay = false;
                             })
                     }
                 });
@@ -553,23 +571,21 @@ export default {
                         this.overlay = true;
                         let data = new FormData();
                         let type = 3;
-                        if (this.form_status.status == "Activo") type = 1;
+                        if (this.form_status.status == "Habilitado") type = 1;
                         else if (this.form_status.status == "Borrador") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        this.axios.post('/api/topic/status/' + this.$route.params.slug, data)
+                        this.axios.post('/api/topic/status/' + this.address, data)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
@@ -579,14 +595,14 @@ export default {
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
                                 });
-                                this.overlay = false;
                             });
                     }
                 });
@@ -603,37 +619,34 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/topic/' + this.$route.params.slug)
+                        this.axios.delete('/api/topic/' + this.address)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.overlay = false;
                                         this.$router.push({ name: "topics" });
                                     }
                                     else this.overlay = false;
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
                                 });
-                                this.overlay = false;
                             });
                     }
                 });

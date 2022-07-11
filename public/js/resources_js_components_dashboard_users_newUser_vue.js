@@ -144,6 +144,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewUser",
   data: function data() {
@@ -154,10 +163,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-new_user.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         firstname: "",
         lastname: "",
@@ -213,7 +218,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
     returnUsers: function returnUsers() {
+      this.overlay = true;
       this.$router.push({
         name: "users"
       });
@@ -259,38 +268,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         'Content-Type': 'multipart/form-data'
                       }
                     }).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this.sweet.title = "Éxito";
-                        _this.sweet.icon = "success";
-                      } else {
-                        _this.sweet.title = "Error";
-                        _this.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
                           _this.$router.push({
                             name: "users"
                           });
-
-                          _this.overlay = false;
                         } else _this.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this.sweet.title = "Error";
-                      _this.sweet.icon = "error";
-
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this.overlay = false;
                       });
-
-                      _this.overlay = false;
                     });
                   }
                 });
@@ -809,12 +814,12 @@ var render = function () {
                     _c(
                       "v-btn",
                       {
-                        staticClass: "mr-4",
+                        staticClass: "mr-4 mt-2",
                         attrs: { text: "", small: "" },
                         on: {
                           click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.returnUsers.apply(null, arguments)
+                            $event.stopPropagation()
+                            return _vm.returnUsers()
                           },
                         },
                       },
@@ -847,14 +852,11 @@ var render = function () {
                           "v-form",
                           {
                             ref: "form",
-                            attrs: {
-                              enctype: "multipart/form-data",
-                              "lazy-validation": "",
-                            },
+                            attrs: { enctype: "multipart/form-data" },
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.registerUser.apply(null, arguments)
+                                return _vm.registerUser()
                               },
                             },
                           },
@@ -880,6 +882,8 @@ var render = function () {
                                         tabindex: "1",
                                         dense: "",
                                         "prepend-icon": "contacts",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -905,6 +909,8 @@ var render = function () {
                                         tabindex: "2",
                                         dense: "",
                                         "prepend-icon": "contacts",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -930,6 +936,8 @@ var render = function () {
                                         tabindex: "3",
                                         dense: "",
                                         "prepend-icon": "email",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -955,6 +963,8 @@ var render = function () {
                                         "prepend-icon": "person",
                                         rules: _vm.userRules,
                                         label: "Usuario *",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -986,6 +996,8 @@ var render = function () {
                                         type: _vm.form.show1
                                           ? "text"
                                           : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       on: {
@@ -1022,6 +1034,8 @@ var render = function () {
                                         type: _vm.form.show2
                                           ? "text"
                                           : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       on: {
@@ -1050,7 +1064,32 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "bk_brown txt_white width_100 mb-2",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.stopPropagation()
+                                            return _vm.handleFileImport()
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("file_upload"),
+                                        ]),
+                                        _vm._v(
+                                          "\n                                        Subir avatar\n                                    "
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("v-file-input", {
+                                      ref: "uploader",
+                                      staticClass: "d-none",
                                       attrs: {
                                         label:
                                           "Haz clic(k) aquí para subir una imagen",
@@ -1060,10 +1099,13 @@ var render = function () {
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "7",
                                         dense: "",
                                       },
-                                      on: { change: _vm.preview_img },
+                                      on: {
+                                        change: function ($event) {
+                                          return _vm.preview_img()
+                                        },
+                                      },
                                       model: {
                                         value: _vm.form.avatar,
                                         callback: function ($$v) {
@@ -1081,13 +1123,24 @@ var render = function () {
                                             {
                                               staticClass:
                                                 "bk_brown txt_white width_100",
-                                              on: { click: _vm.clean_img },
+                                              on: {
+                                                click: function ($event) {
+                                                  $event.stopPropagation()
+                                                  return _vm.clean_img()
+                                                },
+                                              },
                                             },
                                             [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("delete")]
+                                              ),
                                               _vm._v(
                                                 "\n                                            Borrar avatar\n                                        "
                                               ),
-                                            ]
+                                            ],
+                                            1
                                           ),
                                         ]
                                       : _vm._e(),

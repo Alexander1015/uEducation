@@ -126,15 +126,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTopic",
   data: function data() {
     return {
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       loading_table: true,
       headers: [{
         text: 'Portada',
@@ -183,6 +192,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.allTopics();
   },
   methods: {
+    gotoEdit: function gotoEdit(item) {
+      this.overlay = true;
+      this.$router.push({
+        name: "editTopic",
+        params: {
+          slug: item
+        }
+      });
+    },
+    gotoNew: function gotoNew() {
+      this.overlay = true;
+      this.$router.push({
+        name: "newTopic"
+      });
+    },
     allTopics: function allTopics() {
       var _this = this;
 
@@ -191,18 +215,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.overlay = true;
                 _this.loading_table = true;
                 _this.data = [];
-                _context.next = 4;
+                _context.next = 5;
                 return _this.axios.get('/api/topic').then(function (response) {
                   _this.data = response.data;
                   _this.loading_table = false;
+                  _this.overlay = false;
                 })["catch"](function (error) {
                   _this.data = [];
                   _this.loading_table = false;
+                  _this.overlay = false;
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -231,36 +258,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this2.overlay = true;
 
                     _this2.axios["delete"]('/api/topic/' + item).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
-                      } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
+                      }).then(function () {
+                        _this2.allTopics();
+
+                        _this2.overlay = false;
                       });
-
-                      _this2.allTopics();
-
-                      _this2.overlay = false;
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
-
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this2.overlay = false;
+
+                        _this2.allTopics();
                       });
-
-                      _this2.allTopics();
-
-                      _this2.overlay = false;
                     });
                   }
                 });
@@ -283,7 +308,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de cambiar el estado del tema?',
+                  title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el tema seleccionado?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -296,34 +321,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('_method', "put");
 
                     _this3.axios.post('/api/topic/status/' + item, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this3.sweet.title = "Éxito";
-                        _this3.sweet.icon = "success";
-                      } else {
-                        _this3.sweet.title = "Error";
-                        _this3.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
+                      }).then(function () {
+                        _this3.overlay = false;
+
+                        _this3.allTopics();
                       });
-
-                      _this3.allTopics();
-
-                      _this3.overlay = false;
                     })["catch"](function (error) {
-                      _this3.sweet.title = "Error";
-                      _this3.sweet.icon = "error";
-
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
-                        text: error
-                      });
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this3.overlay = false;
 
-                      _this3.overlay = false;
+                        _this3.allTopics();
+                      });
                     });
                   }
                 });
@@ -1132,27 +1157,12 @@ var render = function () {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "ma-2" },
+        { staticClass: "mx-2 mt-1 mb-4 mx-auto px-5 py-3" },
         [
-          _c("p", { staticClass: "text-h6 my-4 ml-2" }, [_vm._v("TEMAS")]),
-          _vm._v(" "),
           _c(
             "div",
-            { staticClass: "new_btn mr-4 mt-4" },
+            { staticClass: "mb-4" },
             [
-              _c(
-                "v-btn",
-                {
-                  staticClass: "txt_white bk_green mr-4",
-                  attrs: { large: "", to: { name: "newTopic" } },
-                },
-                [
-                  _c("v-icon", { attrs: { left: "" } }, [_vm._v("note_add")]),
-                  _vm._v("\n                Nuevo\n            "),
-                ],
-                1
-              ),
-              _vm._v(" "),
               _c(
                 "v-tooltip",
                 {
@@ -1169,11 +1179,11 @@ var render = function () {
                             _vm._g(
                               _vm._b(
                                 {
-                                  staticClass: "bk_blue txt_white mr-4",
-                                  attrs: { fab: "", small: "", elevation: "3" },
+                                  staticClass: "mt-n1",
+                                  attrs: { icon: "" },
                                   on: {
                                     click: function ($event) {
-                                      $event.preventDefault()
+                                      $event.stopPropagation()
                                       return _vm.allTopics()
                                     },
                                   },
@@ -1194,322 +1204,422 @@ var render = function () {
                 },
                 [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
               ),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-h6" }, [_vm._v("TEMAS")]),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "ml-4 mt-n2 bk_green txt_white",
+                                  on: {
+                                    click: function ($event) {
+                                      $event.stopPropagation()
+                                      return _vm.gotoNew()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("add_box")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Nuevo")])]
+              ),
             ],
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-card",
-            {
-              staticClass: "mx-auto mt-4 px-5 py-3",
-              attrs: { elevation: "0" },
+          _c("div", { staticClass: "mb-8" }, [
+            _c("p", [
+              _vm._v("Listado de los temas existentes en la aplicación"),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("v-text-field", {
+            staticClass: "ml-2 mb-1",
+            attrs: {
+              "prepend-icon": "search",
+              label: "Buscar",
+              clearable: "",
+              "clear-icon": "cancel",
+              dense: "",
             },
-            [
-              _c("v-text-field", {
-                staticClass: "mb-1",
-                attrs: {
-                  "prepend-icon": "search",
-                  label: "Buscar",
-                  tabindex: "1",
-                  clearable: "",
-                  "clear-icon": "cancel",
-                  dense: "",
-                },
-                model: {
-                  value: _vm.search,
-                  callback: function ($$v) {
-                    _vm.search = $$v
-                  },
-                  expression: "search",
-                },
-              }),
-              _vm._v(" "),
-              _c("v-data-table", {
-                attrs: {
-                  headers: _vm.headers,
-                  items: _vm.data,
-                  "items-per-page": 10,
-                  "footer-props": {
-                    showFirstLastPage: true,
-                    firstIcon: "first_page",
-                    lastIcon: "last_page",
-                    prevIcon: "chevron_left",
-                    nextIcon: "chevron_right",
-                  },
-                  loading: _vm.loading_table,
-                  "loading-text": "Obteniendo información",
-                  "no-data-text": "No se ha obtenido información",
-                  "no-results-text": "No se obtuvieron resultados",
-                  "multi-sort": "",
-                  search: _vm.search,
-                  "fixed-header": "",
-                  align: "center",
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "item.img",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _c("v-img", {
-                          staticClass: "mx-auto",
-                          attrs: {
-                            src:
-                              "/img/topics/" +
-                              (item.img ? item.img : "blank.png"),
-                            "lazy-src":
-                              "/img/lazy_topics/" +
-                              (item.img ? item.img : "blank.png"),
-                            "max-height": "40",
-                            "max-width": "60",
-                            contain: "",
+            model: {
+              value: _vm.search,
+              callback: function ($$v) {
+                _vm.search = $$v
+              },
+              expression: "search",
+            },
+          }),
+          _vm._v(" "),
+          _c("v-data-table", {
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.data,
+              "items-per-page": 10,
+              "footer-props": {
+                showFirstLastPage: true,
+                firstIcon: "first_page",
+                lastIcon: "last_page",
+                prevIcon: "chevron_left",
+                nextIcon: "chevron_right",
+              },
+              loading: _vm.loading_table,
+              "loading-text": "Obteniendo información",
+              "no-data-text": "No se ha obtenido información",
+              "no-results-text": "No se obtuvieron resultados",
+              "multi-sort": "",
+              search: _vm.search,
+              "fixed-header": "",
+              align: "center",
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "item.img",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c("v-img", {
+                      staticClass: "mx-auto",
+                      attrs: {
+                        src:
+                          "/img/topics/" + (item.img ? item.img : "blank.png"),
+                        "lazy-src":
+                          "/img/lazy_topics/" +
+                          (item.img ? item.img : "blank.png"),
+                        "max-height": "40",
+                        "max-width": "60",
+                        contain: "",
+                      },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "placeholder",
+                            fn: function () {
+                              return [
+                                _c(
+                                  "v-row",
+                                  {
+                                    staticClass: "fill-height ma-0",
+                                    attrs: {
+                                      align: "center",
+                                      justify: "center",
+                                    },
+                                  },
+                                  [
+                                    _c("v-progress-circular", {
+                                      attrs: {
+                                        indeterminate: "",
+                                        color: "grey lighten-5",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                              ]
+                            },
+                            proxy: true,
                           },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "placeholder",
-                                fn: function () {
-                                  return [
-                                    _c(
-                                      "v-row",
+                        ],
+                        null,
+                        true
+                      ),
+                    }),
+                  ]
+                },
+              },
+              {
+                key: "item.created_at",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.created_at ? item.created_at : "") +
+                        "\n            "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.updated_at",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(item.updated_at ? item.updated_at : "") +
+                        "\n            "
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.status",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "div",
+                      [
+                        item.status == 0
+                          ? [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u(
+                                    [
                                       {
-                                        staticClass: "fill-height ma-0",
-                                        attrs: {
-                                          align: "center",
-                                          justify: "center",
+                                        key: "activator",
+                                        fn: function (ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    attrs: { icon: "" },
+                                                    on: {
+                                                      click: function ($event) {
+                                                        $event.stopPropagation()
+                                                        return _vm.statusTopic(
+                                                          item.slug,
+                                                          1
+                                                        )
+                                                      },
+                                                    },
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(
+                                                    "\n                                        check_box_outline_blank\n                                    "
+                                                  ),
+                                                ]),
+                                              ],
+                                              1
+                                            ),
+                                          ]
                                         },
                                       },
-                                      [
-                                        _c("v-progress-circular", {
-                                          attrs: {
-                                            indeterminate: "",
-                                            color: "grey lighten-5",
-                                          },
-                                        }),
-                                      ],
-                                      1
-                                    ),
-                                  ]
+                                    ],
+                                    null,
+                                    true
+                                  ),
                                 },
-                                proxy: true,
-                              },
-                            ],
-                            null,
-                            true
-                          ),
-                        }),
-                      ]
-                    },
-                  },
-                  {
-                    key: "item.created_at",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.created_at ? item.created_at : "") +
-                            "\n                "
-                        ),
-                      ]
-                    },
-                  },
-                  {
-                    key: "item.updated_at",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(item.updated_at ? item.updated_at : "") +
-                            "\n                "
-                        ),
-                      ]
-                    },
-                  },
-                  {
-                    key: "item.status",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _c(
-                          "div",
+                                [_vm._v(" "), _c("span", [_vm._v("Habilitar")])]
+                              ),
+                            ]
+                          : item.status == 1
+                          ? [
+                              _c(
+                                "v-tooltip",
+                                {
+                                  attrs: { bottom: "" },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function (ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    attrs: { icon: "" },
+                                                    on: {
+                                                      click: function ($event) {
+                                                        $event.stopPropagation()
+                                                        return _vm.statusTopic(
+                                                          item.slug,
+                                                          0
+                                                        )
+                                                      },
+                                                    },
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c("v-icon", [
+                                                  _vm._v(
+                                                    "\n                                        check_box\n                                    "
+                                                  ),
+                                                ]),
+                                              ],
+                                              1
+                                            ),
+                                          ]
+                                        },
+                                      },
+                                    ],
+                                    null,
+                                    true
+                                  ),
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Deshabilitar")]),
+                                ]
+                              ),
+                            ]
+                          : [_c("v-icon", [_vm._v("indeterminate_check_box")])],
+                      ],
+                      2
+                    ),
+                  ]
+                },
+              },
+              {
+                key: "item.actions",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
                           [
-                            item.status == 0
-                              ? [
+                            {
+                              key: "activator",
+                              fn: function (ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
                                   _c(
                                     "v-btn",
-                                    {
-                                      attrs: { icon: "" },
-                                      on: {
-                                        click: function ($event) {
-                                          $event.preventDefault()
-                                          return _vm.statusTopic(item.slug, 1)
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass: "txt_blue",
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.gotoEdit(item.slug)
+                                            },
+                                          },
                                         },
-                                      },
-                                    },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
                                     [
                                       _c("v-icon", [
                                         _vm._v(
-                                          "\n                                    check_box_outline_blank\n                                "
+                                          "\n                                settings\n                            "
                                         ),
                                       ]),
                                     ],
                                     1
                                   ),
                                 ]
-                              : item.status == 1
-                              ? [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { icon: "" },
-                                      on: {
-                                        click: function ($event) {
-                                          $event.preventDefault()
-                                          return _vm.statusTopic(item.slug, 0)
-                                        },
-                                      },
-                                    },
-                                    [
-                                      _c("v-icon", [
-                                        _vm._v(
-                                          "\n                                    check_box\n                                "
-                                        ),
-                                      ]),
-                                    ],
-                                    1
-                                  ),
-                                ]
-                              : [
-                                  _c("v-icon", [
-                                    _vm._v("indeterminate_check_box"),
-                                  ]),
-                                ],
+                              },
+                            },
                           ],
-                          2
+                          null,
+                          true
                         ),
-                      ]
-                    },
-                  },
-                  {
-                    key: "item.actions",
-                    fn: function (ref) {
-                      var item = ref.item
-                      return [
-                        _c(
-                          "v-tooltip",
-                          {
-                            attrs: { bottom: "" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "activator",
-                                  fn: function (ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            {
-                                              staticClass: "txt_blue",
-                                              attrs: {
-                                                icon: "",
-                                                to: {
-                                                  name: "editTopic",
-                                                  params: { slug: item.slug },
-                                                },
-                                              },
+                      },
+                      [_vm._v(" "), _c("span", [_vm._v("Ver tema")])]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function (ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass: "txt_red",
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function ($event) {
+                                              $event.preventDefault()
+                                              return _vm.deleteTopic(item.slug)
                                             },
-                                            "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v(
-                                              "\n                                    settings\n                                "
-                                            ),
-                                          ]),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  },
-                                },
-                              ],
-                              null,
-                              true
-                            ),
-                          },
-                          [_vm._v(" "), _c("span", [_vm._v("Ver tema")])]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          {
-                            attrs: { bottom: "" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "activator",
-                                  fn: function (ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
+                                          },
+                                        },
                                         "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            {
-                                              staticClass: "txt_red",
-                                              attrs: { icon: "" },
-                                              on: {
-                                                click: function ($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.deleteTopic(
-                                                    item.slug
-                                                  )
-                                                },
-                                              },
-                                            },
-                                            "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v(
-                                              "\n                                    delete\n                                "
-                                            ),
-                                          ]),
-                                        ],
-                                        1
+                                        attrs,
+                                        false
                                       ),
-                                    ]
-                                  },
-                                },
-                              ],
-                              null,
-                              true
-                            ),
-                          },
-                          [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
+                                      on
+                                    ),
+                                    [
+                                      _c("v-icon", [
+                                        _vm._v(
+                                          "\n                                delete\n                            "
+                                        ),
+                                      ]),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              },
+                            },
+                          ],
+                          null,
+                          true
                         ),
-                      ]
-                    },
-                  },
-                ]),
-              }),
-            ],
-            1
-          ),
+                      },
+                      [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
+                    ),
+                  ]
+                },
+              },
+            ]),
+          }),
         ],
         1
       ),
@@ -1540,16 +1650,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -1580,8 +1689,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__["default"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_5__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_6__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_7__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_13__["default"]})
 
 
 /* hot reload */

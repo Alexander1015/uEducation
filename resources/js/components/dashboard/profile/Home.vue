@@ -41,36 +41,41 @@
                             Su información almacenada en el sistema
                         </v-card-subtitle>
                         <!-- Formulario de ingreso -->
-                        <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser"
+                        <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser()"
                             lazy-validation>
                             <small class="font-italic txt_red">Obligatorio *</small>
                             <v-row class="mt-2">
                                 <v-col cols="12" sm="12" md="6">
                                     <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres *"
-                                        tabindex="1" dense prepend-icon="contacts" required>
+                                        tabindex="1" dense prepend-icon="contacts" clearable clear-icon="cancel"
+                                        required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="6">
                                     <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos *"
-                                        tabindex="2" dense prepend-icon="contacts" required>
+                                        tabindex="2" dense prepend-icon="contacts" clearable clear-icon="cancel"
+                                        required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="6">
                                     <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico *"
-                                        tabindex="3" dense prepend-icon="email" required>
+                                        tabindex="3" dense prepend-icon="email" clearable clear-icon="cancel" required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="6">
-                                    <v-text-field v-model="form.user" tabindex="4" :rules="userRules" label="Usuario *"
-                                        dense prepend-icon="person" required>
+                                    <v-text-field v-model="form.user" tabindex="4" :rules="userRules" clearable
+                                        clear-icon="cancel" label="Usuario *" dense prepend-icon="person" required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="6">
-                                    <v-file-input v-model="form.avatar" @change="preview_img"
-                                        label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                    <v-btn class="bk_brown txt_white width_100 mb-2" @click.stop="handleFileImport()">
+                                        <v-icon left>file_upload</v-icon>
+                                        Subir avatar
+                                    </v-btn>
+                                    <v-file-input ref="uploader" v-model="form.avatar" @change="preview_img"
+                                        label="Haz clic(k) aquí para subir una imagen" id="avatar" class="d-none"
                                         prepend-icon="photo_camera" :rules="avatarRules"
-                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                        tabindex="5" dense>
+                                        accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size dense>
                                     </v-file-input>
                                     <template v-if="prev_img.url_img != '/img/users/blank.png'">
                                         <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
@@ -117,7 +122,7 @@
                             Cambie su contraseña
                         </v-card-subtitle>
                         <!-- Formulario de ingreso -->
-                        <v-form ref="form_password" @submit.prevent="editPassword" lazy-validation>
+                        <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
                             <small class="font-italic txt_red">Obligatorio *</small>
                             <v-row class="mt-2">
                                 <v-col cols="12">
@@ -138,22 +143,22 @@
                                     </v-text-field>
                                 </v-col>
                             </v-row>
+                            <template v-if="
+                                form_password.password != '' &&
+                                form_password.password_confirmation != ''
+                            ">
+                                <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-btn class="width_100 mt-4" disabled>
+                                    <v-icon left>save</v-icon>
+                                    Guardar
+                                </v-btn>
+                            </template>
                         </v-form>
-                        <template v-if="
-                            form_password.password != '' &&
-                            form_password.password_confirmation != ''
-                        ">
-                            <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
-                        </template>
-                        <template v-else>
-                            <v-btn class="width_100 mt-4" disabled>
-                                <v-icon left>save</v-icon>
-                                Guardar
-                            </v-btn>
-                        </template>
                     </div>
                 </v-tab-item>
             </v-tabs>
@@ -170,10 +175,6 @@ export default {
             lazy: "/img/lazy/banner-new_user.jpg",
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
         form: {
             id: "",
             firstname: "",
@@ -238,7 +239,6 @@ export default {
                     this.overlay = false;
                 }).catch((error) => {
                     console.log(error);
-                    this.overlay = false;
                     this.axios.post('/api/logout')
                         .then(response => {
                             window.location.href = "/auth"
@@ -277,34 +277,31 @@ export default {
                                 },
                             })
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             window.location.href = "/dashboard/profile"
-                                            this.overlay = false;
                                         }
                                         else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });
@@ -327,38 +324,32 @@ export default {
                             this.overlay = true;
                             //Mostramos los datos asi por la imagen
                             let data = new FormData();
-                            data.append('password', this.foform_passwordrm.password);
+                            data.append('password', this.form_password.password);
                             data.append('password_confirmation', this.form_password.password_confirmation);
                             this.axios.post('/api/profile/password', data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
-                                        if (response.data.complete) {
-                                            window.location.href = "/dashboard/profile"
-                                            this.overlay = false;
-                                        }
-                                        else this.overlay = false;
+                                        this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });

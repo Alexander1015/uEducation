@@ -316,6 +316,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -330,11 +337,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         placeholder: 'Escribe aqui el contenido...'
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
-      items_status: ["Activo", "Borrador"],
+      items_status: ["Habilitado", "Borrador"],
       form_information: {
         subject: "",
         copy_subject: "",
@@ -388,20 +391,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.showTopic();
   },
+  computed: {
+    address: function address() {
+      return this.$route.params.slug;
+    }
+  },
+  watch: {
+    address: function address() {
+      this.showTopic();
+    }
+  },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
+    returnTopics: function returnTopics() {
+      this.overlay = true;
+      this.$router.push({
+        name: "topics"
+      });
+    },
     gotoSubject: function gotoSubject() {
+      this.overlay = true;
       this.$router.push({
         name: "newSubject",
         params: {
-          backedit: this.$route.params.slug
+          backedit: this.address
         }
       });
     },
     gotoTag: function gotoTag() {
+      this.overlay = true;
       this.$router.push({
         name: "newTag",
         params: {
-          backedit: this.$route.params.slug
+          backedit: this.address
         }
       });
     },
@@ -416,11 +440,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // Insert the toolbar before the editable area.
       editor.ui.getEditableElement().parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
     },
-    returnTopics: function returnTopics() {
-      this.$router.push({
-        name: "topics"
-      });
-    },
     showTopic: function showTopic() {
       var _this = this;
 
@@ -431,7 +450,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.overlay = true;
 
-                if (!_this.$route.params.slug) {
+                if (!_this.address) {
                   _context.next = 10;
                   break;
                 }
@@ -462,7 +481,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 _context.next = 8;
-                return _this.axios.get('/api/topic/' + _this.$route.params.slug).then(function (response) {
+                return _this.axios.get('/api/topic/' + _this.address).then(function (response) {
                   var items = response.data;
 
                   if (!items.topic) {
@@ -485,7 +504,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form_information.img = null;
                     _this.form_information.img_new = 0;
                     _this.editorData = _this.topic.body;
-                    if (_this.topic.status == 0) _this.form_status.status = "Borrador";else if (_this.topic.status == 1) _this.form_status.status = "Activo"; // Subject
+                    if (_this.topic.status == 0) _this.form_status.status = "Borrador";else if (_this.topic.status == 1) _this.form_status.status = "Habilitado"; // Subject
 
                     if (items.subject) {
                       _this.form_information.subject = items.subject.name;
@@ -585,18 +604,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('img_new', _this2.form_information.img_new);
                     data.append('_method', "put");
 
-                    _this2.axios.post('/api/topic/' + _this2.$route.params.slug, data).then(function (response) {
+                    _this2.axios.post('/api/topic/' + _this2.address, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
-                      } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -607,22 +626,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                 slug: response.data.reload
                               }
                             });
-                          } else _this2.showTopic();
-                        }
+                          } else {
+                            _this2.showTopic();
 
-                        _this2.overlay = false;
+                            _this2.overlay = false;
+                          }
+                        } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
-
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        _this2.overlay = false;
+                        console.log(error);
                       });
-
-                      _this2.overlay = false;
                     });
                   }
                 });
@@ -664,18 +683,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('body', _this3.editorData);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/topic/body/' + _this3.$route.params.slug, data).then(function (response) {
+                    _this3.axios.post('/api/topic/body/' + _this3.address, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this3.sweet.title = "Éxito";
-                        _this3.sweet.icon = "success";
-                      } else {
-                        _this3.sweet.title = "Error";
-                        _this3.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -685,16 +704,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this3.sweet.title = "Error";
-                      _this3.sweet.icon = "error";
-
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        _this3.overlay = false;
+                        console.log(error);
                       });
-
-                      _this3.overlay = false;
                     });
                   }
                 });
@@ -727,22 +744,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this4.overlay = true;
                     var data = new FormData();
                     var type = 3;
-                    if (_this4.form_status.status == "Activo") type = 1;else if (_this4.form_status.status == "Borrador") type = 0;
+                    if (_this4.form_status.status == "Habilitado") type = 1;else if (_this4.form_status.status == "Borrador") type = 0;
                     data.append('status', type);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/topic/status/' + _this4.$route.params.slug, data).then(function (response) {
+                    _this4.axios.post('/api/topic/status/' + _this4.address, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this4.sweet.title = "Éxito";
-                        _this4.sweet.icon = "success";
-                      } else {
-                        _this4.sweet.title = "Error";
-                        _this4.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -752,16 +769,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         _this4.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this4.sweet.title = "Error";
-                      _this4.sweet.icon = "error";
-
                       _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        _this4.overlay = false;
+                        console.log(error);
                       });
-
-                      _this4.overlay = false;
                     });
                   }
                 });
@@ -794,39 +809,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this5.overlay = true;
 
-                    _this5.axios["delete"]('/api/topic/' + _this5.$route.params.slug).then(function (response) {
+                    _this5.axios["delete"]('/api/topic/' + _this5.address).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this5.sweet.title = "Éxito";
-                        _this5.sweet.icon = "success";
-                      } else {
-                        _this5.sweet.title = "Error";
-                        _this5.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this5.$swal({
-                        title: _this5.sweet.title,
-                        icon: _this5.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this5.overlay = false;
-
                           _this5.$router.push({
                             name: "topics"
                           });
                         } else _this5.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this5.sweet.title = "Error";
-                      _this5.sweet.icon = "error";
-
                       _this5.$swal({
-                        title: _this5.sweet.title,
-                        icon: _this5.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        _this5.overlay = false;
+                        console.log(error);
                       });
-
-                      _this5.overlay = false;
                     });
                   }
                 });
@@ -1845,8 +1856,8 @@ var render = function () {
               attrs: { text: "", small: "" },
               on: {
                 click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.returnTopics.apply(null, arguments)
+                  $event.stopPropagation()
+                  return _vm.returnTopics()
                 },
               },
             },
@@ -1860,58 +1871,9 @@ var render = function () {
           ),
           _vm._v(" "),
           _c(
-            "div",
-            { staticClass: "new_btn mr-4" },
-            [
-              _c(
-                "v-tooltip",
-                {
-                  attrs: { bottom: "" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "activator",
-                      fn: function (ref) {
-                        var on = ref.on
-                        var attrs = ref.attrs
-                        return [
-                          _c(
-                            "v-btn",
-                            _vm._g(
-                              _vm._b(
-                                {
-                                  staticClass: "bk_blue txt_white mr-4",
-                                  attrs: { fab: "", small: "", elevation: "3" },
-                                  on: {
-                                    click: function ($event) {
-                                      $event.preventDefault()
-                                      return _vm.showTopic()
-                                    },
-                                  },
-                                },
-                                "v-btn",
-                                attrs,
-                                false
-                              ),
-                              on
-                            ),
-                            [_c("v-icon", [_vm._v("autorenew")])],
-                            1
-                          ),
-                        ]
-                      },
-                    },
-                  ]),
-                },
-                [_vm._v(" "), _c("span", [_vm._v("Recargar")])]
-              ),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
             "v-card",
             {
-              staticClass: "mt-4 mx-auto",
+              staticClass: "mt-2 mx-auto",
               attrs: { elevation: "2", "max-width": "1250" },
             },
             [
@@ -1924,11 +1886,67 @@ var render = function () {
                     [
                       _vm.topic.name
                         ? [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(_vm.topic.name.toUpperCase()) +
-                                "\n                    "
+                            _c(
+                              "v-tooltip",
+                              {
+                                attrs: { bottom: "" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function (ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "v-btn",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  staticClass: "mt-n1",
+                                                  attrs: {
+                                                    small: "",
+                                                    icon: "",
+                                                  },
+                                                  on: {
+                                                    click: function ($event) {
+                                                      $event.stopPropagation()
+                                                      return _vm.showTopic()
+                                                    },
+                                                  },
+                                                },
+                                                "v-btn",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("autorenew"),
+                                              ]),
+                                            ],
+                                            1
+                                          ),
+                                        ]
+                                      },
+                                    },
+                                  ],
+                                  null,
+                                  false,
+                                  2593734509
+                                ),
+                              },
+                              [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
                             ),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.topic.name.toUpperCase()) +
+                                  "\n                        "
+                              ),
+                            ]),
                           ]
                         : [_c("v-icon", [_vm._v("remove")])],
                     ],
@@ -2004,7 +2022,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.editTopic.apply(null, arguments)
+                                return _vm.editTopic()
                               },
                             },
                           },
@@ -2028,6 +2046,8 @@ var render = function () {
                                         rules: _vm.info.nameRules,
                                         label: "Titulo *",
                                         tabindex: "1",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         dense: "",
                                         "prepend-icon": "library_books",
                                         required: "",
@@ -2123,7 +2143,7 @@ var render = function () {
                                                                     function (
                                                                       $event
                                                                     ) {
-                                                                      $event.preventDefault()
+                                                                      $event.stopPropagation()
                                                                       return _vm.gotoSubject()
                                                                     },
                                                                 },
@@ -2328,7 +2348,7 @@ var render = function () {
                                                                     function (
                                                                       $event
                                                                     ) {
-                                                                      $event.preventDefault()
+                                                                      $event.stopPropagation()
                                                                       return _vm.gotoTag()
                                                                     },
                                                                 },
@@ -2406,7 +2426,32 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "bk_brown txt_white width_100 mb-2",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.stopPropagation()
+                                            return _vm.handleFileImport()
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("file_upload"),
+                                        ]),
+                                        _vm._v(
+                                          "\n                                        Subir imagen\n                                    "
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("v-file-input", {
+                                      ref: "uploader",
+                                      staticClass: "d-none",
                                       attrs: {
                                         label:
                                           "Haz clic(k) aquí para subir una portada",
@@ -2416,9 +2461,12 @@ var render = function () {
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "6",
                                       },
-                                      on: { change: _vm.preview_img },
+                                      on: {
+                                        change: function ($event) {
+                                          return _vm.preview_img()
+                                        },
+                                      },
                                       model: {
                                         value: _vm.form_information.img,
                                         callback: function ($$v) {
@@ -2443,10 +2491,16 @@ var render = function () {
                                               on: { click: _vm.clean_img },
                                             },
                                             [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("delete")]
+                                              ),
                                               _vm._v(
                                                 "\n                                            Borrar imagen\n                                        "
                                               ),
-                                            ]
+                                            ],
+                                            1
                                           ),
                                         ]
                                       : _vm._e(),
@@ -2669,10 +2723,7 @@ var render = function () {
                                 on: {
                                   submit: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.statusTopic.apply(
-                                      null,
-                                      arguments
-                                    )
+                                    return _vm.statusTopic()
                                   },
                                 },
                               },
@@ -2696,7 +2747,9 @@ var render = function () {
                                 }),
                                 _vm._v(" "),
                                 _vm.form_status.status !=
-                                (_vm.topic.status == 1 ? "Activo" : "Borrador")
+                                (_vm.topic.status == 1
+                                  ? "Habilitado"
+                                  : "Borrador")
                                   ? [
                                       _c(
                                         "v-btn",
@@ -2766,11 +2819,8 @@ var render = function () {
                                 staticClass: "txt_white bk_red width_100",
                                 on: {
                                   click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.deleteTopic.apply(
-                                      null,
-                                      arguments
-                                    )
+                                    $event.stopPropagation()
+                                    return _vm.deleteTopic()
                                   },
                                 },
                               },
@@ -2779,7 +2829,7 @@ var render = function () {
                                   _vm._v("delete"),
                                 ]),
                                 _vm._v(
-                                  "\n                                Eliminar curso\n                            "
+                                  "\n                                Eliminar tema\n                            "
                                 ),
                               ],
                               1

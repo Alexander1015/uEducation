@@ -43,8 +43,8 @@ class StatusTagController extends Controller
                             $data->id,
                         ])) {
                             $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha desactivado la etiqueta exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha activado la etiqueta exitosamente";
+                            if ($request->input('status') == 0) $message = "Se ha deshabilitado la etiqueta exitosamente";
+                            else if ($request->input('status') == 1) $message = "Se ha habilitado la etiqueta exitosamente";
                             return response()->json([
                                 'message' => $message,
                                 'complete' => true,
@@ -59,7 +59,7 @@ class StatusTagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

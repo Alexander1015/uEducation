@@ -6,26 +6,25 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="ml-4" text small @click.prevent="returnTags">
+            <v-btn class="ml-4" text small @click.stop="returnTags()">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="new_btn mr-4">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="showTag()" elevation="3"
-                            class="bk_blue txt_white mr-4">
-                            <v-icon>autorenew</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Recargar</span>
-                </v-tooltip>
-            </div>
-            <v-card class="mt-4 mx-auto" elevation="2" max-width="1100">
+            <v-card class="mt-2 mx-auto" elevation="2" max-width="1100">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
                         <template v-if="tag.name">
-                            {{ tag.name.toUpperCase() }}
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn class="mt-n1" v-bind="attrs" v-on="on" small icon @click.stop="showTag()">
+                                        <v-icon>autorenew</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Actualizar</span>
+                            </v-tooltip>
+                            <span>
+                                {{ tag.name.toUpperCase() }}
+                            </span>
                         </template>
                         <template v-else>
                             <v-icon>remove</v-icon>
@@ -61,12 +60,13 @@
                                 </v-chip>
                             </div>
                             <!-- Formulario de ingreso -->
-                            <v-form ref="form_information" @submit.prevent="editTags" lazy-validation>
+                            <v-form ref="form_information" @submit.prevent="editTags()" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.name" :rules="info.nameRules"
-                                            label="Título *" tabindex="1" dense prepend-icon="sell" required>
+                                            label="Título *" tabindex="1" clearable clear-icon="cancel" dense
+                                            prepend-icon="sell" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -90,7 +90,7 @@
                                             </v-tooltip>
                                         </div>
                                         <v-color-picker v-model="form_information.color_bk" class="mx-auto my-2"
-                                            hide-mode-switch mode="hexa" :rules="colorbkRules">
+                                            hide-mode-switch mode="hexa" :rules="info.colorbkRules">
                                         </v-color-picker>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -114,7 +114,7 @@
                                             </v-tooltip>
                                         </div>
                                         <v-color-picker v-model="form_information.color_txt" class="mx-auto my-2"
-                                            hide-mode-switch mode="hexa" :rules="colortxtRules">
+                                            hide-mode-switch mode="hexa" :rules="info.colortxtRules">
                                         </v-color-picker>
                                     </v-col>
                                 </v-row>
@@ -141,13 +141,13 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado de la etiqueta en el sistema (Si esta desactivado los temas que
+                                    Cambie el estado de la etiqueta en el sistema (Si esta deshabilitado los temas que
                                     tengan la etiqueta no podran ser visualizados)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusTag" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <template v-if="form_status.status != (tag.status == 1 ? 'Activo' : 'Desactivado')">
+                                    <template v-if="form_status.status != (tag.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green width_100" type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
@@ -169,7 +169,7 @@
                                 </v-card-subtitle>
                                 <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTag">
                                     <v-icon left>delete</v-icon>
-                                    Eliminar curso
+                                    Eliminar etiqueta
                                 </v-btn>
                             </div>
                         </div>
@@ -185,11 +185,7 @@ export default {
     name: "EditTags",
     data: () => ({
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
-        items_status: ["Activo", "Desactivado"],
+        items_status: ["Habilitado", "Deshabilitado"],
         form_information: {
             name: "",
             color_bk: "#E0E0E0",
@@ -219,14 +215,24 @@ export default {
     mounted() {
         this.showTag()
     },
+    computed: {
+        address() {
+            return this.$route.params.slug;
+        }
+    },
+    watch: {
+        address() {
+            this.showTag();
+        }
+    },
     methods: {
         returnTags() {
             this.$router.push({ name: "tags" });
         },
         async showTag() {
             this.overlay = true;
-            if (this.$route.params.slug) {
-                await this.axios.get('/api/tag/' + this.$route.params.slug)
+            if (this.address) {
+                await this.axios.get('/api/tag/' + this.address)
                     .then(response => {
                         this.tag = response.data;
                         if (!this.tag.name) {
@@ -237,8 +243,8 @@ export default {
                             this.form_information.name = this.tag.name;
                             this.form_information.color_bk = this.tag.background_color;
                             this.form_information.color_txt = this.tag.text_color;
-                            if (this.tag.status == 0) this.form_status.status = "Desactivado";
-                            else if (this.tag.status == 1) this.form_status.status = "Activo";
+                            if (this.tag.status == 0) this.form_status.status = "Deshabilitado";
+                            else if (this.tag.status == 1) this.form_status.status = "Habilitado";
                             this.overlay = false;
                         }
                     }).catch((error) => {
@@ -269,38 +275,39 @@ export default {
                             data.append('background_color', this.form_information.color_bk);
                             data.append('text_color', this.form_information.color_txt);
                             data.append('_method', "put");
-                            this.axios.post('/api/tag/' + this.$route.params.slug, data)
+                            this.axios.post('/api/tag/' + this.address, data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             if (response.data.reload) {
                                                 this.$router.push({ name: "editTag", params: { slug: response.data.reload } });
                                             }
-                                            else this.showTag();
+                                            else {
+                                                this.showTag();
+                                                this.overlay = false;
+                                            }
                                         }
-                                        this.overlay = false;
+                                        else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });
@@ -322,23 +329,21 @@ export default {
                         this.overlay = true;
                         let data = new FormData();
                         let type = 3;
-                        if (this.form_status.status == "Activo") type = 1;
-                        else if (this.form_status.status == "Desactivado") type = 0;
+                        if (this.form_status.status == "Habilitado") type = 1;
+                        else if (this.form_status.status == "Deshabilitado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        thshowTagis.axios.post('/api/tag/status/' + this.$route.params.slug, data)
+                        this.axios.post('/api/tag/status/' + this.address, data)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
@@ -348,14 +353,14 @@ export default {
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
                                 });
-                                this.overlay = false;
                             });
                     }
                 });
@@ -372,37 +377,34 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/tag/' + this.$route.params.slug)
+                        this.axios.delete('/api/tag/' + this.address)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.overlay = false;
                                         this.$router.push({ name: "tags" });
                                     }
                                     else this.overlay = false;
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
                                 });
-                                this.overlay = false;
                             });
                     }
                 });

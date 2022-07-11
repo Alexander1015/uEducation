@@ -18,8 +18,12 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = DB::table('tags')->orderBy('name', 'asc')->get();
-        return response()->json($tags);
+        try {
+            $tags = DB::table('tags')->orderBy('name', 'asc')->get();
+            return response()->json($tags);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -91,7 +95,7 @@ class TagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -112,8 +116,12 @@ class TagController extends Controller
      */
     public function show($slug)
     {
-        $tag = DB::table("tags")->where("slug", $slug)->first();
-        return response()->json($tag);
+        try {
+            $tag = DB::table("tags")->where("slug", $slug)->first();
+            return response()->json($tag);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -212,7 +220,7 @@ class TagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -261,14 +269,14 @@ class TagController extends Controller
                 }
             } catch (Exception $ex) {
                 return response()->json([
-                    'message' => $ex->getMessage(),
-                    // 'message' => "Ha ocurrido un error en la aplicación",
+                    // 'message' => $ex->getMessage(),
+                    'message' => "Ha ocurrido un error en la aplicación",
                     'complete' => false,
                 ]);
             }
         } else {
             return response()->json([
-                'message' => 'El usuario actual esta desactivado',
+                'message' => 'El usuario actual esta deshabilitado',
                 'complete' => false,
             ]);
         }

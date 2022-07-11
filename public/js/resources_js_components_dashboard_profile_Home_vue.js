@@ -182,6 +182,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
@@ -191,10 +196,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-new_user.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         id: "",
         firstname: "",
@@ -274,7 +275,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.overlay = false;
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
 
                   _this.axios.post('/api/logout').then(function (response) {
                     window.location.href = "/auth";
@@ -333,35 +333,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         'Content-Type': 'multipart/form-data'
                       }
                     }).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
-                      } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
                           window.location.href = "/dashboard/profile";
-                          _this2.overlay = false;
                         } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
-
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        _this2.overlay = false;
+                        console.log(error);
                       });
-
-                      _this2.overlay = false;
                     });
                   }
                 });
@@ -406,39 +403,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this3.overlay = true; //Mostramos los datos asi por la imagen
 
                     var data = new FormData();
-                    data.append('password', _this3.foform_passwordrm.password);
+                    data.append('password', _this3.form_password.password);
                     data.append('password_confirmation', _this3.form_password.password_confirmation);
 
                     _this3.axios.post('/api/profile/password', data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this3.sweet.title = "Éxito";
-                        _this3.sweet.icon = "success";
-                      } else {
-                        _this3.sweet.title = "Error";
-                        _this3.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
-                        if (response.data.complete) {
-                          window.location.href = "/dashboard/profile";
-                          _this3.overlay = false;
-                        } else _this3.overlay = false;
+                        _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this3.sweet.title = "Error";
-                      _this3.sweet.icon = "error";
-
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this3.overlay = false;
                       });
-
-                      _this3.overlay = false;
                     });
                   }
                 });
@@ -1150,7 +1142,7 @@ var render = function () {
                         on: {
                           submit: function ($event) {
                             $event.preventDefault()
-                            return _vm.editUser.apply(null, arguments)
+                            return _vm.editUser()
                           },
                         },
                       },
@@ -1174,6 +1166,8 @@ var render = function () {
                                     tabindex: "1",
                                     dense: "",
                                     "prepend-icon": "contacts",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   model: {
@@ -1199,6 +1193,8 @@ var render = function () {
                                     tabindex: "2",
                                     dense: "",
                                     "prepend-icon": "contacts",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   model: {
@@ -1224,6 +1220,8 @@ var render = function () {
                                     tabindex: "3",
                                     dense: "",
                                     "prepend-icon": "email",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   model: {
@@ -1246,6 +1244,8 @@ var render = function () {
                                   attrs: {
                                     tabindex: "4",
                                     rules: _vm.userRules,
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     label: "Usuario *",
                                     dense: "",
                                     "prepend-icon": "person",
@@ -1267,7 +1267,32 @@ var render = function () {
                               "v-col",
                               { attrs: { cols: "12", sm: "12", md: "6" } },
                               [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass:
+                                      "bk_brown txt_white width_100 mb-2",
+                                    on: {
+                                      click: function ($event) {
+                                        $event.stopPropagation()
+                                        return _vm.handleFileImport()
+                                      },
+                                    },
+                                  },
+                                  [
+                                    _c("v-icon", { attrs: { left: "" } }, [
+                                      _vm._v("file_upload"),
+                                    ]),
+                                    _vm._v(
+                                      "\n                                    Subir avatar\n                                "
+                                    ),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
                                 _c("v-file-input", {
+                                  ref: "uploader",
+                                  staticClass: "d-none",
                                   attrs: {
                                     label:
                                       "Haz clic(k) aquí para subir una imagen",
@@ -1277,7 +1302,6 @@ var render = function () {
                                     accept:
                                       "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                     "show-size": "",
-                                    tabindex: "5",
                                     dense: "",
                                   },
                                   on: { change: _vm.preview_img },
@@ -1430,7 +1454,7 @@ var render = function () {
                         on: {
                           submit: function ($event) {
                             $event.preventDefault()
-                            return _vm.editPassword.apply(null, arguments)
+                            return _vm.editPassword()
                           },
                         },
                       },
@@ -1531,50 +1555,51 @@ var render = function () {
                           ],
                           1
                         ),
+                        _vm._v(" "),
+                        _vm.form_password.password != "" &&
+                        _vm.form_password.password_confirmation != ""
+                          ? [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass:
+                                    "txt_white bk_green width_100 mt-4",
+                                  attrs: { type: "submit" },
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("save"),
+                                  ]),
+                                  _vm._v(
+                                    "\n                                Guardar\n                            "
+                                  ),
+                                ],
+                                1
+                              ),
+                            ]
+                          : [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "width_100 mt-4",
+                                  attrs: { disabled: "" },
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("save"),
+                                  ]),
+                                  _vm._v(
+                                    "\n                                Guardar\n                            "
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
                       ],
-                      1
+                      2
                     ),
-                    _vm._v(" "),
-                    _vm.form_password.password != "" &&
-                    _vm.form_password.password_confirmation != ""
-                      ? [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "txt_white bk_green width_100 mt-4",
-                              attrs: { type: "submit" },
-                            },
-                            [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v("save"),
-                              ]),
-                              _vm._v(
-                                "\n                            Guardar\n                        "
-                              ),
-                            ],
-                            1
-                          ),
-                        ]
-                      : [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "width_100 mt-4",
-                              attrs: { disabled: "" },
-                            },
-                            [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v("save"),
-                              ]),
-                              _vm._v(
-                                "\n                            Guardar\n                        "
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
                   ],
-                  2
+                  1
                 ),
               ]),
             ],

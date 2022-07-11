@@ -5,129 +5,142 @@
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <!-- Contenido -->
-        <div class="ma-2">
-            <p class="text-h6 my-4 ml-2">USUARIOS</p>
-            <div class="new_btn mr-4 mt-4">
-                <v-btn class="txt_white bk_green mr-4" large :to='{ name: "newUser" }'>
-                    <v-icon left>person_add</v-icon>
-                    Nuevo
-                </v-btn>
+        <div class="mx-2 mt-1 mb-4 mx-auto px-5 py-3">
+            <div class="mb-4">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="allUsers()" elevation="3"
-                            class="bk_blue txt_white mr-4">
+                        <v-btn class="mt-n1" v-bind="attrs" v-on="on" icon @click.stop="allUsers()">
                             <v-icon>autorenew</v-icon>
                         </v-btn>
                     </template>
                     <span>Actualizar</span>
                 </v-tooltip>
-            </div>
-            <!-- Tabla -->
-            <v-card class="mx-auto mt-4 px-5 py-3" elevation="0">
-                <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" clearable
-                    clear-icon="cancel" dense>
-                </v-text-field>
-                <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
-                    showFirstLastPage: true,
-                    firstIcon: 'first_page',
-                    lastIcon: 'last_page',
-                    prevIcon: 'chevron_left',
-                    nextIcon: 'chevron_right'
-                }" :loading="loading_table" loading-text="Obteniendo información"
-                    no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados"
-                    multi-sort :search="search" fixed-header align="center">
-                    <!-- Avatar -->
-                    <template v-slot:item.avatar="{ item }">
-                        <template v-if="item.avatar">
-                            <v-list-item-avatar class="mx-auto">
-                                <v-img :src='"/img/users/" + item.avatar' max-height='38' max-width="38"
-                                    :lazy-src='"/img/lazy_users/" + item.avatar'>
-                                    <template v-slot:placeholder>
-                                        <v-row class="fill-height ma-0" align="center" justify="center">
-                                            <v-progress-circular indeterminate color="grey lighten-5">
-                                            </v-progress-circular>
-                                        </v-row>
-                                    </template>
-                                </v-img>
-                            </v-list-item-avatar>
-                        </template>
-                        <template v-else>
-                            <v-list-item-avatar class="mx-auto">
-                                <v-img src="/img/users/blank.png" max-height="38" max-width="38"
-                                    lazy-src="/img/lazy_users/blank.png">
-                                    <template v-slot:placeholder>
-                                        <v-row class="fill-height ma-0" align="center" justify="center">
-                                            <v-progress-circular indeterminate color="grey lighten-5">
-                                            </v-progress-circular>
-                                        </v-row>
-                                    </template>
-                                </v-img>
-                            </v-list-item-avatar>
-                        </template>
+                <span class="text-h6">USUARIOS</span>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on" @click.stop="gotoNew()">
+                            <v-icon>add_box</v-icon>
+                        </v-btn>
                     </template>
-                    <!-- Estado -->
-                    <template v-slot:item.status="{ item }">
-                        <div>
-                            <template v-if="item.status == 0">
-                                <template v-if="user.slug !== item.slug">
-                                    <v-btn icon @click.prevent="statusUser(item.slug, 1)">
-                                        <v-icon>
-                                            check_box_outline_blank
-                                        </v-icon>
-                                    </v-btn>
+                    <span>Nuevo</span>
+                </v-tooltip>
+            </div>
+            <div class="mb-8">
+                <p>Listado de los usuarios existentes en la aplicación</p>
+            </div>
+            <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" clearable
+                clear-icon="cancel" dense>
+            </v-text-field>
+            <!-- Tabla -->
+            <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
+                showFirstLastPage: true,
+                firstIcon: 'first_page',
+                lastIcon: 'last_page',
+                prevIcon: 'chevron_left',
+                nextIcon: 'chevron_right'
+            }" :loading="loading_table" loading-text="Obteniendo información"
+                no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados" multi-sort
+                :search="search" fixed-header align="center">
+                <!-- Avatar -->
+                <template v-slot:item.avatar="{ item }">
+                    <template v-if="item.avatar">
+                        <v-list-item-avatar class="mx-auto">
+                            <v-img :src='"/img/users/" + item.avatar' max-height='38' max-width="38"
+                                :lazy-src='"/img/lazy_users/" + item.avatar'>
+                                <template v-slot:placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                        </v-progress-circular>
+                                    </v-row>
                                 </template>
-                                <template v-else>
-                                    <v-icon>check_box_outline_blank</v-icon>
+                            </v-img>
+                        </v-list-item-avatar>
+                    </template>
+                    <template v-else>
+                        <v-list-item-avatar class="mx-auto">
+                            <v-img src="/img/users/blank.png" max-height="38" max-width="38"
+                                lazy-src="/img/lazy_users/blank.png">
+                                <template v-slot:placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                        </v-progress-circular>
+                                    </v-row>
                                 </template>
-                            </template>
-                            <template v-else-if="item.status == 1">
-                                <template v-if="user.slug !== item.slug">
-                                    <v-btn icon @click.prevent="statusUser(item.slug, 0)">
-                                        <v-icon>
-                                            check_box
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <template v-else>
-                                    <v-icon>check_box</v-icon>
-                                </template>
+                            </v-img>
+                        </v-list-item-avatar>
+                    </template>
+                </template>
+                <!-- Estado -->
+                <template v-slot:item.status="{ item }">
+                    <div>
+                        <template v-if="item.status == 0">
+                            <template v-if="user.slug !== item.slug">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 1)">
+                                            <v-icon>
+                                                check_box_outline_blank
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Habilitar</span>
+                                </v-tooltip>
                             </template>
                             <template v-else>
-                                <v-icon>indeterminate_check_box</v-icon>
+                                <v-icon>check_box_outline_blank</v-icon>
                             </template>
-                        </div>
-                    </template>
-                    <template v-slot:item.actions="{ item }">
-                        <template v-if="user.slug !== item.slug">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
-                                        :to='{ name: "editUser", params: { slug: item.slug } }'>
-                                        <v-icon>
-                                            settings
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Ver usuario</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon class="txt_red" @click.prevent="deleteUser(item.slug)" v-bind="attrs"
-                                        v-on="on">
-                                        <v-icon>
-                                            delete
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Eliminar</span>
-                            </v-tooltip>
+                        </template>
+                        <template v-else-if="item.status == 1">
+                            <template v-if="user.slug !== item.slug">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 0)">
+                                            <v-icon>
+                                                check_box
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Deshabilitar</span>
+                                </v-tooltip>
+                            </template>
+                            <template v-else>
+                                <v-icon>check_box</v-icon>
+                            </template>
                         </template>
                         <template v-else>
-                            <v-icon>remove</v-icon>
+                            <v-icon>indeterminate_check_box</v-icon>
                         </template>
+                    </div>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                    <template v-if="user.slug !== item.slug">
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon class="txt_blue" v-bind="attrs" v-on="on" @click.stop="gotoEdit(item.slug)">
+                                    <v-icon>
+                                        settings
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Ver usuario</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon class="txt_red" @click.stop="deleteUser(item.slug)" v-bind="attrs"
+                                    v-on="on">
+                                    <v-icon>
+                                        delete
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Eliminar</span>
+                        </v-tooltip>
                     </template>
-                </v-data-table>
-            </v-card>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
+                </template>
+            </v-data-table>
         </div>
     </v-main>
 </template>
@@ -137,11 +150,7 @@ export default {
     name: "HomeUser",
     data: () => ({
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
-        loading_table: true,
+        loading_table: false,
         headers: [
             { text: 'Avatar', value: 'avatar', align: 'center', sortable: false },
             { text: 'Nombres', value: 'firstname', align: 'center' },
@@ -159,29 +168,44 @@ export default {
         },
     }),
     mounted() {
-        this.login();
         this.allUsers();
     },
     methods: {
+        gotoEdit(item) {
+            this.overlay = true;
+            this.$router.push({ name: "editUser", params: { slug: item } });
+        },
+        gotoNew() {
+            this.overlay = true;
+            this.$router.push({ name: "newUser" });
+        },
         async allUsers() {
+            this.overlay = true;
             this.loading_table = true;
             this.data = [];
-            await this.axios.get('/api/user')
-                .then(response => {
-                    this.data = response.data;
-                    this.loading_table = false;
-                })
-                .catch(error => {
-                    this.data = [];
-                    this.loading_table = false;
-                })
-        },
-        async login() {
             await this.axios.get('/api/auth')
                 .then(response => {
                     this.user = response.data;
                 }).catch((error) => {
                     console.log(error);
+                    this.axios.post('/api/logout')
+                        .then(response => {
+                            window.location.href = "/auth"
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                });
+            await this.axios.get('/api/user')
+                .then(response => {
+                    this.data = response.data;
+                    this.loading_table = false;
+                    this.overlay = false;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.data = [];
+                    this.loading_table = false;
+                    this.overlay = false;
                 });
         },
         async deleteUser(item) {
@@ -198,41 +222,38 @@ export default {
                         this.overlay = true;
                         this.axios.delete('/api/user/' + item)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
+                                }).then(() => {
+                                    this.overlay = false;
+                                    this.allUsers();
                                 });
-                                this.login();
-                                this.allUsers();
-                                this.overlay = false;
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
+                                    this.allUsers();
                                 });
-                                this.login();
-                                this.allUsers();
-                                this.overlay = false;
                             });
                     }
                 });
         },
         async statusUser(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del usuario?',
+                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el usuario seleccionado?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -246,34 +267,31 @@ export default {
                         data.append('_method', "put");
                         this.axios.post('/api/user/status/' + item, data)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
+                                }).then(() => {
+                                    this.overlay = false;
+                                    this.allUsers();
                                 });
-                                this.login();
-                                this.allUsers();
-                                this.overlay = false;
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
+                                    this.allUsers();
                                 });
-                                this.login();
-                                this.allUsers();
-                                this.overlay = false;
                             });
                     }
                 });

@@ -24,6 +24,9 @@ const NewTopic = () => import ('./components/dashboard/topics/NewTopic.vue')
 const EditTopic = () => import ('./components/dashboard/topics/EditTopic.vue')
 // Profile
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
+// Error 404
+const Error = () => import ('./components/error/404.vue')
+
 
 export const routes = [
     {
@@ -39,9 +42,9 @@ export const routes = [
             {
                 name: 'publicTopic',
                 path: ':topic',
-                component: PublicTopic,
+                component: PublicTopic
             }
-        ],
+        ]
     },
     {
         name: 'auth',
@@ -59,8 +62,7 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    },
-    {
+    }, {
         name: 'newUser',
         path: '/dashboard/users/new',
         component: NewUser,
@@ -194,8 +196,9 @@ export const routes = [
         }
     },
     // Error 404
-    /* {
+    {
+        name: 'error',
         path: '*',
-        component: "",
-    } */
+        component: Error,
+    }
 ]

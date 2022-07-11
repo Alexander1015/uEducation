@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Exception;
 
 class AuthController extends Controller
@@ -18,8 +19,13 @@ class AuthController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        return response()->json($user);
+        try {
+            $user = auth()->user();
+            return response()->json($user);
+        } catch (Exception $ex) {
+            Session::flush();
+            Auth::logout();
+        }
     }
 
     /**

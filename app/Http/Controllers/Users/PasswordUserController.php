@@ -65,7 +65,7 @@ class PasswordUserController extends Controller
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de modificar la contraseña usuario',
+                                    'message' => 'Ha ocurrido un error al momento de modificar la contraseña del usuario',
                                     'complete' => false,
                                 ]);
                             }
@@ -74,7 +74,7 @@ class PasswordUserController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

@@ -6,31 +6,30 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="ml-4" text small @click.prevent="returnUsers">
+            <v-btn class="ml-4" text small @click.stop="returnUsers()">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
-            <div class="new_btn mr-4">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs" v-on="on" fab small @click.prevent="login(), showUser()" elevation="3"
-                            class="bk_blue txt_white mr-4">
-                            <v-icon>autorenew</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Recargar</span>
-                </v-tooltip>
-            </div>
             <v-card class="mt-2 mx-auto" elevation="2" max-width="1100">
                 <v-toolbar flat class="bk_blue" dark>
                     <v-toolbar-title>
                         <template v-if="user.firstname || user.lastname">
-                            <template v-if="user.firstname">
-                                {{ user.firstname.toUpperCase() }}
-                            </template>
-                            <template v-if="user.lastname">
-                                {{ user.lastname.toUpperCase() }}
-                            </template>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn class="mt-n1" v-bind="attrs" v-on="on" small icon @click.stop="showUser()">
+                                        <v-icon>autorenew</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Actualizar</span>
+                            </v-tooltip>
+                            <span>
+                                <template v-if="user.firstname">
+                                    {{ user.firstname.toUpperCase() }}
+                                </template>
+                                <template v-if="user.lastname">
+                                    {{ user.lastname.toUpperCase() }}
+                                </template>
+                            </span>
                         </template>
                         <template v-else>
                             <v-icon>remove</v-icon>
@@ -64,47 +63,55 @@
                                 Información almacenada del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser"
+                            <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser()"
                                 lazy-validation>
                                 <small class="font-italic txt_red mb-2">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.firstname" :rules="info.firstnameRules"
-                                            label="Nombres *" tabindex="1" dense prepend-icon="contacts" required>
+                                            label="Nombres *" tabindex="1" dense prepend-icon="contacts" clearable
+                                            clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.lastname" :rules="info.lastnameRules"
-                                            label="Apellidos *" tabindex="2" dense prepend-icon="contacts" required>
+                                            label="Apellidos *" tabindex="2" dense prepend-icon="contacts" clearable
+                                            clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.email" :rules="info.emailRules"
                                             label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
-                                            required>
+                                            clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form_information.user" tabindex="4"
                                             :rules="info.userRules" label="Usuario *" dense prepend-icon="person"
-                                            required>
+                                            clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-file-input v-model="form_information.avatar" @change="preview_img"
+                                        <v-btn class="bk_brown txt_white width_100 mb-2"
+                                            @click.stop="handleFileImport()">
+                                            <v-icon left>file_upload</v-icon>
+                                            Subir avatar
+                                        </v-btn>
+                                        <v-file-input ref="uploader" v-model="form_information.avatar"
+                                            @change="preview_img()" class="d-none"
                                             label="Haz clic(k) aquí para subir una imagen" id="avatar"
                                             prepend-icon="photo_camera" :rules="info.avatarRules"
-                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="5">
+                                            accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
-                                                Reiniciar avatar
+                                            <v-btn class="bk_brown txt_white width_100 my-2" @click.stop="clean_img()">
+                                                <v-icon left>delete</v-icon>
+                                                Borrar avatar
                                             </v-btn>
                                         </template>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-img class="mt-0 mx-auto" :src="prev_img.url_img"
+                                        <v-img class="mt-n2 mx-auto" :src="prev_img.url_img"
                                             :lazy-src='prev_img.lazy_img' :max-height="prev_img.height"
                                             :max-width="prev_img.width" contain>
                                             <template v-slot:placeholder>
@@ -144,7 +151,7 @@
                                 Cambie la contraseña del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
-                            <v-form ref="form_password" @submit.prevent="editPassword" lazy-validation>
+                            <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12">
@@ -152,7 +159,8 @@
                                             label="Contraseña *" tabindex="1" dense prepend-icon="lock"
                                             :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
                                             :type="form_password.show1 ? 'text' : 'password'"
-                                            @click:append="form_password.show1 = !form_password.show1" required>
+                                            @click:append="form_password.show1 = !form_password.show1" clearable
+                                            clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
@@ -161,7 +169,8 @@
                                             tabindex="2" dense prepend-icon="lock"
                                             :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
                                             :type="form_password.show2 ? 'text' : 'password'"
-                                            @click:append="form_password.show2 = !form_password.show2" required>
+                                            @click:append="form_password.show2 = !form_password.show2" clearable
+                                            clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
@@ -187,15 +196,15 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado del usuario en el sistema (Si esta desactivado no tendra
+                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
                                     permitido ingresar al apartado de administradores o manipular la información de
                                     la base de datos)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" @submit.prevent="statusUser" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
-                                        v-if="form_status.status != (user.status == 1 ? 'Activo' : 'Desactivado')">
+                                        v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green width_100" type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
@@ -215,7 +224,7 @@
                                     Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
-                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteUser">
+                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteUser()">
                                     <v-icon left>delete</v-icon>
                                     Eliminar usuario
                                 </v-btn>
@@ -233,11 +242,7 @@ export default {
     name: "EditUser",
     data: () => ({
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
-        items_status: ["Activo", "Desactivado"],
+        items_status: ["Habilitado", "Deshabilitado"],
         form_information: {
             firstname: "",
             lastname: "",
@@ -302,30 +307,36 @@ export default {
         ],
     }),
     mounted() {
-        this.login();
         this.showUser();
     },
     methods: {
-        returnUsers() {
-            this.$router.push({ name: "users" });
+        handleFileImport() {
+            this.$refs.uploader.$refs.input.click()
         },
-        async login() {
-            await this.axios.get('/api/auth')
-                .then(response => {
-                    this.login_user = response.data;
-                }).catch((error) => {
-                    console.log(error);
-                });
+        returnUsers() {
+            this.overlay = true;
+            this.$router.push({ name: "users" });
         },
         async showUser() {
             this.overlay = true;
             if (this.$route.params.slug && this.login_user.slug != this.$route.params.slug) {
+                await this.axios.get('/api/auth')
+                    .then(response => {
+                        this.login_user = response.data;
+                    }).catch((error) => {
+                        console.log(error);
+                        this.axios.post('/api/logout')
+                            .then(response => {
+                                window.location.href = "/auth"
+                            }).catch((error) => {
+                                console.log(error);
+                            });
+                    });
                 await this.axios.get('/api/user/' + this.$route.params.slug)
                     .then(response => {
                         this.user = response.data;
                         if (!this.user.user) {
-                            this.overlay = false;
-                            this.$router.push({ name: "users" });
+                            this.$router.push({ name: "error" });
                         }
                         else {
                             this.form_information.firstname = this.user.firstname;
@@ -340,18 +351,17 @@ export default {
                             this.form_information.avatar_new = 0;
                             this.form_password.password = "";
                             this.form_password.password_confirmation = "";
-                            if (this.user.status == 0) this.form_status.status = "Desactivado";
-                            else if (this.user.status == 1) this.form_status.status = "Activo";
+                            if (this.user.status == 0) this.form_status.status = "Deshabilitado";
+                            else if (this.user.status == 1) this.form_status.status = "Habilitado";
                             this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
+                        this.$router.push({ name: "error" });
                     });
             }
             else {
-                this.overlay = false;
-                this.$router.push({ name: "users" });
+                this.$router.push({ name: "error" });
             }
         },
         async editUser() {
@@ -383,34 +393,31 @@ export default {
                                 },
                             })
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.login();
                                             this.showUser();
                                         }
                                         this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });
@@ -437,34 +444,31 @@ export default {
                             data.append('_method', "put");
                             this.axios.post('/api/user/password/' + this.$route.params.slug, data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.login();
                                             this.showUser();
                                         }
                                         this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });
@@ -486,41 +490,38 @@ export default {
                         this.overlay = true;
                         let data = new FormData();
                         let type = 3;
-                        if (this.form_status.status == "Activo") type = 1;
-                        else if (this.form_status.status == "Desactivado") type = 0;
+                        if (this.form_status.status == "Habilitado") type = 1;
+                        else if (this.form_status.status == "Deshabilitado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
                         this.axios.post('/api/user/status/' + this.$route.params.slug, data)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.login();
                                         this.showUser();
                                     }
                                     this.overlay = false;
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
                                 });
-                                this.overlay = false;
                             });
                     }
                 });
@@ -539,35 +540,32 @@ export default {
                         this.overlay = true;
                         this.axios.delete('/api/user/' + this.$route.params.slug)
                             .then(response => {
+                                let title = "Error";
+                                let icon = "error";
                                 if (response.data.complete) {
-                                    this.sweet.title = "Éxito"
-                                    this.sweet.icon = "success";
-                                }
-                                else {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
+                                    title = "Éxito"
+                                    icon = "success";
                                 }
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
+                                    title: title,
+                                    icon: icon,
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.overlay = false;
                                         this.$router.push({ name: "users" });
                                     }
                                     else this.overlay = false;
                                 });
                             })
                             .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
                                 this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: error,
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
                                 });
-                                this.overlay = false;
                             });
                     }
                 });

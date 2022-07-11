@@ -43,8 +43,8 @@ class StatusUserController extends Controller
                             $data->id,
                         ])) {
                             $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha desactivado el usuario exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha activado el usuario exitosamente";
+                            if ($request->input('status') == 0) $message = "Se ha deshabilitado al usuario exitosamente";
+                            else if ($request->input('status') == 1) $message = "Se ha habilitado al usuario exitosamente";
                             return response()->json([
                                 'message' => $message,
                                 'complete' => true,
@@ -66,7 +66,7 @@ class StatusUserController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

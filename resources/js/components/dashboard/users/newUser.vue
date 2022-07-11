@@ -18,7 +18,7 @@
                 </v-col>
                 <v-col>
                     <div class="pb-4 mx-4">
-                        <v-btn class="mr-4" text small @click.prevent="returnUsers">
+                        <v-btn class="mr-4 mt-2" text small @click.stop="returnUsers()">
                             <v-icon left>keyboard_double_arrow_left</v-icon>
                             Regresar
                         </v-btn>
@@ -28,29 +28,30 @@
                         <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
-                            <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser"
-                                lazy-validation>
+                            <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser()">
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.firstname" :rules="firstnameRules" label="Nombres *"
-                                            tabindex="1" dense prepend-icon="contacts" required>
+                                            tabindex="1" dense prepend-icon="contacts" clearable clear-icon="cancel"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.lastname" :rules="lastnameRules" label="Apellidos *"
-                                            tabindex="2" dense prepend-icon="contacts" required>
+                                            tabindex="2" dense prepend-icon="contacts" clearable clear-icon="cancel"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.email" :rules="emailRules"
                                             label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
-                                            required>
+                                            clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-text-field v-model="form.user" tabindex="4" dense prepend-icon="person"
-                                            :rules="userRules" label="Usuario *" required>
+                                            :rules="userRules" label="Usuario *" clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -58,7 +59,8 @@
                                             label="Contraseña *" tabindex="5" dense prepend-icon="lock"
                                             :append-icon="form.show1 ? 'visibility' : 'visibility_off'"
                                             :type="form.show1 ? 'text' : 'password'"
-                                            @click:append="form.show1 = !form.show1" required>
+                                            @click:append="form.show1 = !form.show1" clearable clear-icon="cancel"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
@@ -66,18 +68,25 @@
                                             label="Repita la contraseña *" dense tabindex="6" prepend-icon="lock"
                                             :append-icon="form.show2 ? 'visibility' : 'visibility_off'"
                                             :type="form.show2 ? 'text' : 'password'"
-                                            @click:append="form.show2 = !form.show2" required>
+                                            @click:append="form.show2 = !form.show2" clearable clear-icon="cancel"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-file-input v-model="form.avatar" @change="preview_img"
-                                            label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                        <v-btn class="bk_brown txt_white width_100 mb-2"
+                                            @click.stop="handleFileImport()">
+                                            <v-icon left>file_upload</v-icon>
+                                            Subir avatar
+                                        </v-btn>
+                                        <v-file-input ref="uploader" v-model="form.avatar" @change="preview_img()"
+                                            class="d-none" label="Haz clic(k) aquí para subir una imagen" id="avatar"
                                             prepend-icon="photo_camera" :rules="avatarRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
-                                            tabindex="7" dense>
+                                            dense>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                            <v-btn class="bk_brown txt_white width_100" @click.stop="clean_img()">
+                                                <v-icon left>delete</v-icon>
                                                 Borrar avatar
                                             </v-btn>
                                         </template>
@@ -133,10 +142,6 @@ export default {
             lazy: "/img/lazy/banner-new_user.jpg",
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
         form: {
             firstname: "",
             lastname: "",
@@ -184,7 +189,11 @@ export default {
         }
     }),
     methods: {
+        handleFileImport() {
+            this.$refs.uploader.$refs.input.click()
+        },
         returnUsers() {
+            this.overlay = true;
             this.$router.push({ name: "users" });
         },
         async registerUser() {
@@ -216,34 +225,31 @@ export default {
                                 },
                             })
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             this.$router.push({ name: "users" });
-                                            this.overlay = false;
                                         }
                                         else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });

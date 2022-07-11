@@ -22,8 +22,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->orderBy('user', 'asc')->get();
-        return response()->json($users);
+        try {
+            $users = DB::table('users')->orderBy('user', 'asc')->get();
+            return response()->json($users);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -124,7 +128,7 @@ class UserController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -145,8 +149,12 @@ class UserController extends Controller
      */
     public function show($slug)
     {
-        $user = DB::table("users")->where("slug", $slug)->first();
-        return response()->json($user);
+        try {
+            $user = DB::table("users")->where("slug", $slug)->first();
+            return response()->json($user);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -271,7 +279,7 @@ class UserController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -295,7 +303,7 @@ class UserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("users")->where("id", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -349,7 +357,7 @@ class UserController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

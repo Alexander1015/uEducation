@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use DateTime;
+use DateTimeZone;
 use Exception;
 
 class BodyController extends Controller
@@ -31,12 +33,15 @@ class BodyController extends Controller
                     ]);
                 } else {
                     $query = null;
+                    $zone = new DateTimeZone('America/El_Salvador');
+                            $now = new DateTime();
+                            $now->setTimezone($zone);
                     if (!$data->user_id) {
                         $query = DB::update("UPDATE topics SET body = ?, user_id = ?, user_update_id = ?, created_at = ?, updated_at = ? WHERE id = ?", [
                             $request->input('body') ? $request->input('body') : "",
                             $auth_user->id,
                             null,
-                            now(),
+                            $now->format("Y-m-d h:i:s"),
                             null,
                             $data->id,
                         ]);
@@ -44,7 +49,7 @@ class BodyController extends Controller
                         $query = DB::update("UPDATE topics SET body = ?, user_update_id = ?, updated_at = ? WHERE id = ?", [
                             $request->input('body') ? $request->input('body') : "",
                             $auth_user->id,
-                            now(),
+                            $now->format("Y-m-d h:i:s"),
                             $data->id,
                         ]);
                     }
@@ -115,14 +120,14 @@ class BodyController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

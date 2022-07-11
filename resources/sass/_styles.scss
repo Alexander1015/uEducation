@@ -71,7 +71,7 @@ body::-webkit-scrollbar-thumb {
     }
     #container {
         width: 100vw;
-        .new_btn {
+        /* .new_btn {
             position: absolute;
             top: 0;
             right: 0;
@@ -80,7 +80,7 @@ body::-webkit-scrollbar-thumb {
             position: absolute;
             top: 0;
             left: 0;
-        }
+        } */
         .show_color {
             height: 10px;
             width: 10px;
@@ -88,6 +88,9 @@ body::-webkit-scrollbar-thumb {
         }
         #ckeditor {
             border: 1px solid #C4C4C4;
+        }
+        .ck-content {
+            min-height: 300px;
         }
         #topic_drag {
             border-radius: 0.5rem;

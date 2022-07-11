@@ -249,16 +249,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
     return {
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
-      items_status: ["Activo", "Desactivado"],
+      items_status: ["Habilitado", "Deshabilitado"],
       form_information: {
         firstname: "",
         lastname: "",
@@ -331,16 +336,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    this.login();
     this.showUser();
   },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
     returnUsers: function returnUsers() {
+      this.overlay = true;
       this.$router.push({
         name: "users"
       });
     },
-    login: function login() {
+    showUser: function showUser() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -348,14 +356,71 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.overlay = true;
+
+                if (!(_this.$route.params.slug && _this.login_user.slug != _this.$route.params.slug)) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 4;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.login_user = response.data;
                 })["catch"](function (error) {
                   console.log(error);
+
+                  _this.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
+                  });
                 });
 
-              case 2:
+              case 4:
+                _context.next = 6;
+                return _this.axios.get('/api/user/' + _this.$route.params.slug).then(function (response) {
+                  _this.user = response.data;
+
+                  if (!_this.user.user) {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  } else {
+                    _this.form_information.firstname = _this.user.firstname;
+                    _this.form_information.lastname = _this.user.lastname;
+                    _this.form_information.user = _this.user.user;
+                    _this.form_information.email = _this.user.email;
+
+                    if (_this.user.avatar) {
+                      _this.prev_img.url_img = "/img/users/" + _this.user.avatar;
+                      _this.prev_img.lazy_img = "/img/lazy_users/" + _this.user.avatar;
+                    }
+
+                    _this.form_information.avatar = null;
+                    _this.form_information.avatar_new = 0;
+                    _this.form_password.password = "";
+                    _this.form_password.password_confirmation = "";
+                    if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
+                    _this.overlay = false;
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+
+                  _this.$router.push({
+                    name: "error"
+                  });
+                });
+
+              case 6:
+                _context.next = 9;
+                break;
+
+              case 8:
+                _this.$router.push({
+                  name: "error"
+                });
+
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -363,7 +428,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    showUser: function showUser() {
+    editUser: function editUser() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -371,58 +436,80 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.overlay = true;
-
-                if (!(_this2.$route.params.slug && _this2.login_user.slug != _this2.$route.params.slug)) {
-                  _context2.next = 6;
+                if (!_this2.$refs.form_information.validate()) {
+                  _context2.next = 5;
                   break;
                 }
 
-                _context2.next = 4;
-                return _this2.axios.get('/api/user/' + _this2.$route.params.slug).then(function (response) {
-                  _this2.user = response.data;
+                _context2.next = 3;
+                return _this2.$swal({
+                  title: '¿Esta seguro de modificar la información del usuario?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this2.overlay = true;
+                    var data = new FormData();
+                    data.append('firstname', _this2.form_information.firstname);
+                    data.append('lastname', _this2.form_information.lastname);
+                    data.append('user', _this2.form_information.user);
+                    data.append('email', _this2.form_information.email);
+                    _this2.form_information.avatar = document.querySelector('#avatar').files[0];
 
-                  if (!_this2.user.user) {
-                    _this2.overlay = false;
-
-                    _this2.$router.push({
-                      name: "users"
-                    });
-                  } else {
-                    _this2.form_information.firstname = _this2.user.firstname;
-                    _this2.form_information.lastname = _this2.user.lastname;
-                    _this2.form_information.user = _this2.user.user;
-                    _this2.form_information.email = _this2.user.email;
-
-                    if (_this2.user.avatar) {
-                      _this2.prev_img.url_img = "/img/users/" + _this2.user.avatar;
-                      _this2.prev_img.lazy_img = "/img/lazy_users/" + _this2.user.avatar;
+                    if (_this2.form_information.avatar) {
+                      data.append('avatar', _this2.form_information.avatar);
                     }
 
-                    _this2.form_information.avatar = null;
-                    _this2.form_information.avatar_new = 0;
-                    _this2.form_password.password = "";
-                    _this2.form_password.password_confirmation = "";
-                    if (_this2.user.status == 0) _this2.form_status.status = "Desactivado";else if (_this2.user.status == 1) _this2.form_status.status = "Activo";
-                    _this2.overlay = false;
+                    data.append('avatar_new', _this2.form_information.avatar_new);
+                    data.append('_method', "put");
+
+                    _this2.axios.post('/api/user/' + _this2.$route.params.slug, data, {
+                      headers: {
+                        'Content-Type': 'multipart/form-data'
+                      }
+                    }).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
+                      if (response.data.complete) {
+                        title = "Éxito";
+                        icon = "success";
+                      }
+
+                      _this2.$swal({
+                        title: title,
+                        icon: icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          _this2.showUser();
+                        }
+
+                        _this2.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this2.$swal({
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this2.overlay = false;
+                      });
+                    });
                   }
-                })["catch"](function (error) {
-                  console.log(error);
-                  _this2.overlay = false;
                 });
 
-              case 4:
-                _context2.next = 8;
+              case 3:
+                _context2.next = 6;
                 break;
 
-              case 6:
+              case 5:
                 _this2.overlay = false;
 
-                _this2.$router.push({
-                  name: "users"
-                });
-
-              case 8:
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -430,7 +517,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    editUser: function editUser() {
+    editPassword: function editPassword() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -438,14 +525,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!_this3.$refs.form_information.validate()) {
+                if (!_this3.$refs.form_password.validate()) {
                   _context3.next = 5;
                   break;
                 }
 
                 _context3.next = 3;
                 return _this3.$swal({
-                  title: '¿Esta seguro de modificar la información del usuario?',
+                  title: '¿Esta seguro de cambiar la contraseña?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -454,56 +541,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this3.overlay = true;
                     var data = new FormData();
-                    data.append('firstname', _this3.form_information.firstname);
-                    data.append('lastname', _this3.form_information.lastname);
-                    data.append('user', _this3.form_information.user);
-                    data.append('email', _this3.form_information.email);
-                    _this3.form_information.avatar = document.querySelector('#avatar').files[0];
-
-                    if (_this3.form_information.avatar) {
-                      data.append('avatar', _this3.form_information.avatar);
-                    }
-
-                    data.append('avatar_new', _this3.form_information.avatar_new);
+                    data.append('password', _this3.form_password.password);
+                    data.append('password_confirmation', _this3.form_password.password_confirmation);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/user/' + _this3.$route.params.slug, data, {
-                      headers: {
-                        'Content-Type': 'multipart/form-data'
-                      }
-                    }).then(function (response) {
+                    _this3.axios.post('/api/user/password/' + _this3.$route.params.slug, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this3.sweet.title = "Éxito";
-                        _this3.sweet.icon = "success";
-                      } else {
-                        _this3.sweet.title = "Error";
-                        _this3.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this3.login();
-
                           _this3.showUser();
                         }
 
                         _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this3.sweet.title = "Error";
-                      _this3.sweet.icon = "error";
-
                       _this3.$swal({
-                        title: _this3.sweet.title,
-                        icon: _this3.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this3.overlay = false;
                       });
-
-                      _this3.overlay = false;
                     });
                   }
                 });
@@ -523,7 +593,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    editPassword: function editPassword() {
+    statusUser: function statusUser() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -531,14 +601,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!_this4.$refs.form_password.validate()) {
-                  _context4.next = 5;
-                  break;
-                }
-
-                _context4.next = 3;
+                _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de cambiar la contraseña?',
+                  title: '¿Esta seguro de cambiar el estado del usuario?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -547,55 +612,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this4.overlay = true;
                     var data = new FormData();
-                    data.append('password', _this4.form_password.password);
-                    data.append('password_confirmation', _this4.form_password.password_confirmation);
+                    var type = 3;
+                    if (_this4.form_status.status == "Habilitado") type = 1;else if (_this4.form_status.status == "Deshabilitado") type = 0;
+                    data.append('status', type);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/user/password/' + _this4.$route.params.slug, data).then(function (response) {
+                    _this4.axios.post('/api/user/status/' + _this4.$route.params.slug, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this4.sweet.title = "Éxito";
-                        _this4.sweet.icon = "success";
-                      } else {
-                        _this4.sweet.title = "Error";
-                        _this4.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this4.login();
-
                           _this4.showUser();
                         }
 
                         _this4.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this4.sweet.title = "Error";
-                      _this4.sweet.icon = "error";
-
                       _this4.$swal({
-                        title: _this4.sweet.title,
-                        icon: _this4.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this4.overlay = false;
                       });
-
-                      _this4.overlay = false;
                     });
                   }
                 });
 
-              case 3:
-                _context4.next = 6;
-                break;
-
-              case 5:
-                _this4.overlay = false;
-
-              case 6:
+              case 2:
               case "end":
                 return _context4.stop();
             }
@@ -603,7 +658,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    statusUser: function statusUser() {
+    deleteUser: function deleteUser() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
@@ -613,7 +668,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.next = 2;
                 return _this5.$swal({
-                  title: '¿Esta seguro de cambiar el estado del usuario?',
+                  title: '¿Esta seguro de eliminar el usuario?',
+                  text: "Esta acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -621,45 +677,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (result) {
                   if (result.isConfirmed) {
                     _this5.overlay = true;
-                    var data = new FormData();
-                    var type = 3;
-                    if (_this5.form_status.status == "Activo") type = 1;else if (_this5.form_status.status == "Desactivado") type = 0;
-                    data.append('status', type);
-                    data.append('_method', "put");
 
-                    _this5.axios.post('/api/user/status/' + _this5.$route.params.slug, data).then(function (response) {
+                    _this5.axios["delete"]('/api/user/' + _this5.$route.params.slug).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this5.sweet.title = "Éxito";
-                        _this5.sweet.icon = "success";
-                      } else {
-                        _this5.sweet.title = "Error";
-                        _this5.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this5.$swal({
-                        title: _this5.sweet.title,
-                        icon: _this5.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this5.login();
-
-                          _this5.showUser();
-                        }
-
-                        _this5.overlay = false;
+                          _this5.$router.push({
+                            name: "users"
+                          });
+                        } else _this5.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this5.sweet.title = "Error";
-                      _this5.sweet.icon = "error";
-
                       _this5.$swal({
-                        title: _this5.sweet.title,
-                        icon: _this5.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this5.overlay = false;
                       });
-
-                      _this5.overlay = false;
                     });
                   }
                 });
@@ -670,71 +717,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
-      }))();
-    },
-    deleteUser: function deleteUser() {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return _this6.$swal({
-                  title: '¿Esta seguro de eliminar el usuario?',
-                  text: "Esta acción no se puede revertir",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this6.overlay = true;
-
-                    _this6.axios["delete"]('/api/user/' + _this6.$route.params.slug).then(function (response) {
-                      if (response.data.complete) {
-                        _this6.sweet.title = "Éxito";
-                        _this6.sweet.icon = "success";
-                      } else {
-                        _this6.sweet.title = "Error";
-                        _this6.sweet.icon = "error";
-                      }
-
-                      _this6.$swal({
-                        title: _this6.sweet.title,
-                        icon: _this6.sweet.icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this6.overlay = false;
-
-                          _this6.$router.push({
-                            name: "users"
-                          });
-                        } else _this6.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this6.sweet.title = "Error";
-                      _this6.sweet.icon = "error";
-
-                      _this6.$swal({
-                        title: _this6.sweet.title,
-                        icon: _this6.sweet.icon,
-                        text: error
-                      });
-
-                      _this6.overlay = false;
-                    });
-                  }
-                });
-
-              case 2:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
       }))();
     },
     preview_img: function preview_img() {
@@ -1553,8 +1535,8 @@ var render = function () {
               attrs: { text: "", small: "" },
               on: {
                 click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.returnUsers.apply(null, arguments)
+                  $event.stopPropagation()
+                  return _vm.returnUsers()
                 },
               },
             },
@@ -1563,55 +1545,6 @@ var render = function () {
                 _vm._v("keyboard_double_arrow_left"),
               ]),
               _vm._v("\n            Regresar\n        "),
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "new_btn mr-4" },
-            [
-              _c(
-                "v-tooltip",
-                {
-                  attrs: { bottom: "" },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "activator",
-                      fn: function (ref) {
-                        var on = ref.on
-                        var attrs = ref.attrs
-                        return [
-                          _c(
-                            "v-btn",
-                            _vm._g(
-                              _vm._b(
-                                {
-                                  staticClass: "bk_blue txt_white mr-4",
-                                  attrs: { fab: "", small: "", elevation: "3" },
-                                  on: {
-                                    click: function ($event) {
-                                      $event.preventDefault()
-                                      _vm.login(), _vm.showUser()
-                                    },
-                                  },
-                                },
-                                "v-btn",
-                                attrs,
-                                false
-                              ),
-                              on
-                            ),
-                            [_c("v-icon", [_vm._v("autorenew")])],
-                            1
-                          ),
-                        ]
-                      },
-                    },
-                  ]),
-                },
-                [_vm._v(" "), _c("span", [_vm._v("Recargar")])]
-              ),
             ],
             1
           ),
@@ -1632,25 +1565,89 @@ var render = function () {
                     [
                       _vm.user.firstname || _vm.user.lastname
                         ? [
-                            _vm.user.firstname
-                              ? [
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(_vm.user.firstname.toUpperCase()) +
-                                      "\n                        "
-                                  ),
-                                ]
-                              : _vm._e(),
+                            _c(
+                              "v-tooltip",
+                              {
+                                attrs: { bottom: "" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "activator",
+                                      fn: function (ref) {
+                                        var on = ref.on
+                                        var attrs = ref.attrs
+                                        return [
+                                          _c(
+                                            "v-btn",
+                                            _vm._g(
+                                              _vm._b(
+                                                {
+                                                  staticClass: "mt-n1",
+                                                  attrs: {
+                                                    small: "",
+                                                    icon: "",
+                                                  },
+                                                  on: {
+                                                    click: function ($event) {
+                                                      $event.stopPropagation()
+                                                      return _vm.showUser()
+                                                    },
+                                                  },
+                                                },
+                                                "v-btn",
+                                                attrs,
+                                                false
+                                              ),
+                                              on
+                                            ),
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("autorenew"),
+                                              ]),
+                                            ],
+                                            1
+                                          ),
+                                        ]
+                                      },
+                                    },
+                                  ],
+                                  null,
+                                  false,
+                                  2290303805
+                                ),
+                              },
+                              [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
+                            ),
                             _vm._v(" "),
-                            _vm.user.lastname
-                              ? [
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(_vm.user.lastname.toUpperCase()) +
-                                      "\n                        "
-                                  ),
-                                ]
-                              : _vm._e(),
+                            _c(
+                              "span",
+                              [
+                                _vm.user.firstname
+                                  ? [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm.user.firstname.toUpperCase()
+                                          ) +
+                                          "\n                            "
+                                      ),
+                                    ]
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.user.lastname
+                                  ? [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm.user.lastname.toUpperCase()
+                                          ) +
+                                          "\n                            "
+                                      ),
+                                    ]
+                                  : _vm._e(),
+                              ],
+                              2
+                            ),
                           ]
                         : [_c("v-icon", [_vm._v("remove")])],
                     ],
@@ -1729,7 +1726,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.editUser.apply(null, arguments)
+                                return _vm.editUser()
                               },
                             },
                           },
@@ -1755,6 +1752,8 @@ var render = function () {
                                         tabindex: "1",
                                         dense: "",
                                         "prepend-icon": "contacts",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -1785,6 +1784,8 @@ var render = function () {
                                         tabindex: "2",
                                         dense: "",
                                         "prepend-icon": "contacts",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -1814,6 +1815,8 @@ var render = function () {
                                         tabindex: "3",
                                         dense: "",
                                         "prepend-icon": "email",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -1843,6 +1846,8 @@ var render = function () {
                                         label: "Usuario *",
                                         dense: "",
                                         "prepend-icon": "person",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -1865,7 +1870,32 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "bk_brown txt_white width_100 mb-2",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.stopPropagation()
+                                            return _vm.handleFileImport()
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("file_upload"),
+                                        ]),
+                                        _vm._v(
+                                          "\n                                        Subir avatar\n                                    "
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("v-file-input", {
+                                      ref: "uploader",
+                                      staticClass: "d-none",
                                       attrs: {
                                         label:
                                           "Haz clic(k) aquí para subir una imagen",
@@ -1875,9 +1905,12 @@ var render = function () {
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "5",
                                       },
-                                      on: { change: _vm.preview_img },
+                                      on: {
+                                        change: function ($event) {
+                                          return _vm.preview_img()
+                                        },
+                                      },
                                       model: {
                                         value: _vm.form_information.avatar,
                                         callback: function ($$v) {
@@ -1898,14 +1931,25 @@ var render = function () {
                                             "v-btn",
                                             {
                                               staticClass:
-                                                "bk_brown txt_white width_100",
-                                              on: { click: _vm.clean_img },
+                                                "bk_brown txt_white width_100 my-2",
+                                              on: {
+                                                click: function ($event) {
+                                                  $event.stopPropagation()
+                                                  return _vm.clean_img()
+                                                },
+                                              },
                                             },
                                             [
-                                              _vm._v(
-                                                "\n                                            Reiniciar avatar\n                                        "
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("delete")]
                                               ),
-                                            ]
+                                              _vm._v(
+                                                "\n                                            Borrar avatar\n                                        "
+                                              ),
+                                            ],
+                                            1
                                           ),
                                         ]
                                       : _vm._e(),
@@ -1918,7 +1962,7 @@ var render = function () {
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c("v-img", {
-                                      staticClass: "mt-0 mx-auto",
+                                      staticClass: "mt-n2 mx-auto",
                                       attrs: {
                                         src: _vm.prev_img.url_img,
                                         "lazy-src": _vm.prev_img.lazy_img,
@@ -2036,7 +2080,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.editPassword.apply(null, arguments)
+                                return _vm.editPassword()
                               },
                             },
                           },
@@ -2068,6 +2112,8 @@ var render = function () {
                                         type: _vm.form_password.show1
                                           ? "text"
                                           : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       on: {
@@ -2109,6 +2155,8 @@ var render = function () {
                                         type: _vm.form_password.show2
                                           ? "text"
                                           : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       on: {
@@ -2199,7 +2247,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Cambie el estado del usuario en el sistema (Si esta desactivado no tendra\n                                permitido ingresar al apartado de administradores o manipular la información de\n                                la base de datos)\n                            "
+                                  "\n                                Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra\n                                permitido ingresar al apartado de administradores o manipular la información de\n                                la base de datos)\n                            "
                                 ),
                               ]
                             ),
@@ -2212,7 +2260,7 @@ var render = function () {
                                 on: {
                                   submit: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.statusUser.apply(null, arguments)
+                                    return _vm.statusUser()
                                   },
                                 },
                               },
@@ -2237,8 +2285,8 @@ var render = function () {
                                 _vm._v(" "),
                                 _vm.form_status.status !=
                                 (_vm.user.status == 1
-                                  ? "Activo"
-                                  : "Desactivado")
+                                  ? "Habilitado"
+                                  : "Deshabilitado")
                                   ? [
                                       _c(
                                         "v-btn",
@@ -2309,7 +2357,7 @@ var render = function () {
                                 on: {
                                   click: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.deleteUser.apply(null, arguments)
+                                    return _vm.deleteUser()
                                   },
                                 },
                               },

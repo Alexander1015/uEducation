@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Topics;
 
 use App\Http\Controllers\Controller;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
@@ -20,8 +22,9 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $topics = DB::select(
-            'SELECT
+        try {
+            $topics = DB::select(
+                'SELECT
                 T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject, T.created_at, T.updated_at
             FROM 
                 topics AS T
@@ -29,8 +32,11 @@ class TopicController extends Controller
             LEFT JOIN users AS Uc ON T.user_id = Uc.id
             LEFT JOIN users AS Uu ON T.user_update_id = Uu.id
             ORDER BY T.name ASC'
-        );
-        return response()->json($topics);
+            );
+            return response()->json($topics);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -109,6 +115,9 @@ class TopicController extends Controller
                                 // Convertimos a entero
                                 $new_sequence +=  (int) $before_sequence->sequence;
                             }
+                            $zone = new DateTimeZone('America/El_Salvador');
+                            $now = new DateTime();
+                            $now->setTimezone($zone);
                             if (DB::table("topics")
                                 ->insert([
                                     'subject_id' => $exist_subject->id,
@@ -120,7 +129,7 @@ class TopicController extends Controller
                                     'user_update_id' => null,
                                     'body' => "",
                                     'sequence' => $new_sequence,
-                                    'created_at' => now(),
+                                    'created_at' => $now->format("Y-m-d h:i:s"),
                                     'status' => "0",
                                 ])
                             ) {
@@ -178,7 +187,7 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -199,61 +208,69 @@ class TopicController extends Controller
      */
     public function show($slug)
     {
-        // Topic
-        $topic = DB::table("topics")->where("slug", $slug)->first();
-        // Subject
-        $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
-        // Tags
-        $tags_ids = DB::table("topic_tag")->where("topic_id", $topic->id)->get();
-        $tags = array();
-        if (sizeof($tags_ids) > 0) {
-            foreach ($tags_ids as $tag) {
-                $data = DB::table("tags")->where("id", $tag->tag_id)->first();
-                array_push($tags, $data->name);
-            }
-        }
-        // Liberar imagenes sin usar
-        $directory = public_path('/img/topics') . "/" . $topic->id;
-        $files = array();
-        if (File::isDirectory($directory)) {
-            // Obtenemos todos los datos
-            $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
-            $filedir = File::allFiles($directory);
-            for ($a = 0; $a < sizeof($filedir); $a++) {
-                array_push($files, $filedir[$a]->getRelativePathname());
-            }
-            //Eliminamos registros si no existen en la carpeta
-            for ($x = 0; $x < sizeof($images_db); $x++) {
-                $exist = false;
-                for ($y = 0; $y < sizeof($files); $y++) {
-                    if ($images_db[$x]->image === $files[$y]) {
-                        $exist = true;
-                        break;
-                    }
-                }
-                if (!$exist) {
-                    DB::table("images")->delete($images_db[$x]->id);
+        try {
+            // Topic
+            $topic = DB::table("topics")->where("slug", $slug)->first();
+            // Subject
+            $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
+            // Tags
+            $tags_ids = DB::table("topic_tag")->where("topic_id", $topic->id)->get();
+            $tags = array();
+            if (sizeof($tags_ids) > 0) {
+                foreach ($tags_ids as $tag) {
+                    $data = DB::table("tags")->where("id", $tag->tag_id)->first();
+                    array_push($tags, $data->name);
                 }
             }
-            //Eliminamos archivos si no existen en la bd
-            for ($y = 0; $y < sizeof($files); $y++) {
-                $exist = false;
+            // Liberar imagenes sin usar
+            $directory = public_path('/img/topics') . "/" . $topic->id;
+            $files = array();
+            if (File::isDirectory($directory)) {
+                // Obtenemos todos los datos
+                $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
+                $filedir = File::allFiles($directory);
+                for ($a = 0; $a < sizeof($filedir); $a++) {
+                    array_push($files, $filedir[$a]->getRelativePathname());
+                }
+                //Eliminamos registros si no existen en la carpeta
                 for ($x = 0; $x < sizeof($images_db); $x++) {
-                    if ($images_db[$x]->image == $files[$y]) {
-                        $exist = true;
-                        break;
+                    $exist = false;
+                    for ($y = 0; $y < sizeof($files); $y++) {
+                        if ($images_db[$x]->image === $files[$y]) {
+                            $exist = true;
+                            break;
+                        }
+                    }
+                    if (!$exist) {
+                        DB::table("images")->delete($images_db[$x]->id);
                     }
                 }
-                if (!$exist) {
-                    File::delete($directory . '/' . $files[$y]);
+                //Eliminamos archivos si no existen en la bd
+                for ($y = 0; $y < sizeof($files); $y++) {
+                    $exist = false;
+                    for ($x = 0; $x < sizeof($images_db); $x++) {
+                        if ($images_db[$x]->image == $files[$y]) {
+                            $exist = true;
+                            break;
+                        }
+                    }
+                    if (!$exist) {
+                        File::delete($directory . '/' . $files[$y]);
+                    }
                 }
             }
+            return response()->json([
+                'topic' => $topic,
+                'subject' => $subject,
+                'tags' => $tags,
+            ]);
+        } catch (Exception $ex) {
+            return response()->json([
+                'topic' => [],
+                'subject' => [],
+                'tags' => [],
+            ]);
         }
-        return response()->json([
-            'topic' => $topic,
-            'subject' => $subject,
-            'tags' => $tags,
-        ]);
     }
 
     /**
@@ -482,14 +499,14 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -506,7 +523,7 @@ class TopicController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("topics")->where("id", $slug)->first();
+                $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El tema seleccionado no existe",
@@ -549,7 +566,7 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

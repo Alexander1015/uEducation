@@ -18,7 +18,7 @@
                 </v-col>
                 <v-col>
                     <div class="pb-4 mx-4">
-                        <v-btn class="mr-4" text small @click.prevent="returnTags">
+                        <v-btn class="mr-4" text small @click.stop="returnTags()">
                             <v-icon left>keyboard_double_arrow_left</v-icon>
                             Regresar
                         </v-btn>
@@ -36,28 +36,27 @@
                                 </v-chip>
                             </div>
                             <!-- Formulario de ingreso -->
-                            <v-form ref="form" @submit.prevent="registerTags" lazy-validation>
+                            <v-form ref="form" @submit.prevent="registerTags()" lazy-validation>
                                 <small class="font-italic txt_red">Obligatorio *</small>
                                 <v-row class="mt-2">
                                     <v-col cols="12">
                                         <v-text-field v-model="form.name" :rules="nameRules" label="Título *"
-                                            tabindex="1" dense prepend-icon="sell" required>
+                                            tabindex="1" clearable clear-icon="cancel" dense prepend-icon="sell"
+                                            required>
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <div>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form.color_bk = '#E0E0E0'">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Restablecer color</span>
+                                            </v-tooltip>
                                             <span>Color de fondo:</span>
-                                            <template v-if="form.color_bk != '#E0E0E0'">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
-                                                            @click.prevent="form.color_bk = '#E0E0E0'">
-                                                            <v-icon>restart_alt</v-icon>
-                                                        </v-btn>
-                                                    </template>
-                                                    <span>Restablecer color</span>
-                                                </v-tooltip>
-                                            </template>
                                         </div>
                                         <v-color-picker v-model="form.color_bk" class="mx-auto my-2" hide-mode-switch
                                             mode="hexa" :rules="colorbkRules">
@@ -65,18 +64,16 @@
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <div>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
+                                                        @click.prevent="form.color_txt = '#676767'">
+                                                        <v-icon>restart_alt</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Restablecer color</span>
+                                            </v-tooltip>
                                             <span>Color del texto:</span>
-                                            <template v-if="form.color_txt != '#676767'">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_blue mt-n1"
-                                                            @click.prevent="form.color_txt = '#676767'">
-                                                            <v-icon>restart_alt</v-icon>
-                                                        </v-btn>
-                                                    </template>
-                                                    <span>Restablecer color</span>
-                                                </v-tooltip>
-                                            </template>
                                         </div>
                                         <v-color-picker v-model="form.color_txt" class="mx-auto my-2" hide-mode-switch
                                             mode="hexa" :rules="colortxtRules">
@@ -118,10 +115,6 @@ export default {
             lazy: "/img/lazy/banner-new_tag.jpg",
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
         form: {
             name: "",
             color_bk: "#E0E0E0",
@@ -140,6 +133,7 @@ export default {
     }),
     methods: {
         returnTags() {
+            this.overlay = true;
             if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
             else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
             else this.$router.push({ name: "tags" });
@@ -162,36 +156,33 @@ export default {
                             data.append('text_color', this.form.color_txt);
                             this.axios.post('/api/tag', data)
                                 .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.sweet.title = "Éxito"
-                                        this.sweet.icon = "success";
-                                    }
-                                    else {
-                                        this.sweet.title = "Error"
-                                        this.sweet.icon = "error";
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
+                                        title: title,
+                                        icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
                                             if (this.$route.params.backnew) this.$router.push({ name: "newTopic" });
                                             else if (this.$route.params.backedit) this.$router.push({ name: "editTopic", params: { slug: this.$route.params.backedit } });
                                             else this.$router.push({ name: "tags" });
-                                            this.overlay = false;
                                         }
                                         else this.overlay = false;
                                     });
                                 }).catch(error => {
-                                    this.sweet.title = "Error"
-                                    this.sweet.icon = "error";
                                     this.$swal({
-                                        title: this.sweet.title,
-                                        icon: this.sweet.icon,
-                                        text: error,
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
                                     });
-                                    this.overlay = false;
                                 })
                         }
                     });

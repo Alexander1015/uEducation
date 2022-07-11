@@ -22,7 +22,7 @@ class StatusSubjectController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $data = DB::table("subjects")->where("id", $slug)->first();
+                $data = DB::table("subjects")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "La materia seleccionada no existe",
@@ -43,8 +43,8 @@ class StatusSubjectController extends Controller
                             $data->id,
                         ])) {
                             $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha desactivado la materia exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha activado la materia exitosamente";
+                            if ($request->input('status') == 0) $message = "Se ha deshabilitado la materia exitosamente";
+                            else if ($request->input('status') == 1) $message = "Se ha habilitado la materia exitosamente";
                             return response()->json([
                                 'message' => $message,
                                 'complete' => true,
@@ -59,7 +59,7 @@ class StatusSubjectController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }

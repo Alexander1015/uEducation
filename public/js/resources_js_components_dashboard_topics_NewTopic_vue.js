@@ -182,6 +182,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -192,10 +198,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-new_topic.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         subject: "",
         name: "",
@@ -236,7 +238,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.showData();
   },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
+    returnTopics: function returnTopics() {
+      this.overlay = true;
+      this.$router.push({
+        name: "topics"
+      });
+    },
     gotoSubject: function gotoSubject() {
+      this.overlay = true;
       this.$router.push({
         name: "newSubject",
         params: {
@@ -245,6 +257,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     gotoTag: function gotoTag() {
+      this.overlay = true;
       this.$router.push({
         name: "newTag",
         params: {
@@ -295,11 +308,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
-    },
-    returnTopics: function returnTopics() {
-      this.$router.push({
-        name: "topics"
-      });
     },
     registerTopic: function registerTopic() {
       var _this2 = this;
@@ -352,17 +360,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     _this2.axios.post('/api/topic', data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this2.sweet.title = "Éxito";
-                        _this2.sweet.icon = "success";
-                      } else {
-                        _this2.sweet.title = "Error";
-                        _this2.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -372,21 +380,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                               slug: response.data.topic
                             }
                           });
-
-                          _this2.overlay = false;
                         } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.sweet.title = "Error";
-                      _this2.sweet.icon = "error";
-
                       _this2.$swal({
-                        title: _this2.sweet.title,
-                        icon: _this2.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this2.overlay = false;
                       });
-
-                      _this2.overlay = false;
                     });
                   }
                 });
@@ -1221,8 +1225,8 @@ var render = function () {
                         attrs: { text: "", small: "" },
                         on: {
                           click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.returnTopics.apply(null, arguments)
+                            $event.stopPropagation()
+                            return _vm.returnTopics()
                           },
                         },
                       },
@@ -1259,7 +1263,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.registerTopic.apply(null, arguments)
+                                return _vm.registerTopic()
                               },
                             },
                           },
@@ -1285,6 +1289,8 @@ var render = function () {
                                         tabindex: "1",
                                         dense: "",
                                         "prepend-icon": "library_books",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         required: "",
                                       },
                                       model: {
@@ -1372,7 +1378,7 @@ var render = function () {
                                                                     function (
                                                                       $event
                                                                     ) {
-                                                                      $event.preventDefault()
+                                                                      $event.stopPropagation()
                                                                       return _vm.gotoSubject()
                                                                     },
                                                                 },
@@ -1575,7 +1581,7 @@ var render = function () {
                                                                     function (
                                                                       $event
                                                                     ) {
-                                                                      $event.preventDefault()
+                                                                      $event.stopPropagation()
                                                                       return _vm.gotoTag()
                                                                     },
                                                                 },
@@ -1649,7 +1655,32 @@ var render = function () {
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
+                                    _c(
+                                      "v-btn",
+                                      {
+                                        staticClass:
+                                          "bk_brown txt_white width_100 mb-2",
+                                        on: {
+                                          click: function ($event) {
+                                            $event.stopPropagation()
+                                            return _vm.handleFileImport()
+                                          },
+                                        },
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("file_upload"),
+                                        ]),
+                                        _vm._v(
+                                          "\n                                        Subir imagen\n                                    "
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _c("v-file-input", {
+                                      ref: "uploader",
+                                      staticClass: "d-none",
                                       attrs: {
                                         label:
                                           "Haz clic(k) aquí para subir una portada",
@@ -1659,9 +1690,12 @@ var render = function () {
                                         accept:
                                           "image/jpeg, image/jpg, image/png, image/gif, image/svg",
                                         "show-size": "",
-                                        tabindex: "6",
                                       },
-                                      on: { change: _vm.preview_img },
+                                      on: {
+                                        change: function ($event) {
+                                          return _vm.preview_img()
+                                        },
+                                      },
                                       model: {
                                         value: _vm.form.img,
                                         callback: function ($$v) {
@@ -1682,10 +1716,16 @@ var render = function () {
                                               on: { click: _vm.clean_img },
                                             },
                                             [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { left: "" } },
+                                                [_vm._v("delete")]
+                                              ),
                                               _vm._v(
                                                 "\n                                            Borrar imagen\n                                        "
                                               ),
-                                            ]
+                                            ],
+                                            1
                                           ),
                                         ]
                                       : _vm._e(),

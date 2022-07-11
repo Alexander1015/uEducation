@@ -126,9 +126,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTags",
   data: function data() {
@@ -139,10 +136,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-new_tag.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         name: "",
         color_bk: "#E0E0E0",
@@ -163,6 +156,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     returnTags: function returnTags() {
+      this.overlay = true;
       if (this.$route.params.backnew) this.$router.push({
         name: "newTopic"
       });else if (this.$route.params.backedit) this.$router.push({
@@ -203,17 +197,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('text_color', _this.form.color_txt);
 
                     _this.axios.post('/api/tag', data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
                       if (response.data.complete) {
-                        _this.sweet.title = "Éxito";
-                        _this.sweet.icon = "success";
-                      } else {
-                        _this.sweet.title = "Error";
-                        _this.sweet.icon = "error";
+                        title = "Éxito";
+                        icon = "success";
                       }
 
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
+                        title: title,
+                        icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
@@ -227,20 +221,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           });else _this.$router.push({
                             name: "tags"
                           });
-                          _this.overlay = false;
                         } else _this.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this.sweet.title = "Error";
-                      _this.sweet.icon = "error";
-
                       _this.$swal({
-                        title: _this.sweet.title,
-                        icon: _this.sweet.icon,
-                        text: error
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this.overlay = false;
                       });
-
-                      _this.overlay = false;
                     });
                   }
                 });
@@ -1066,8 +1057,8 @@ var render = function () {
                         attrs: { text: "", small: "" },
                         on: {
                           click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.returnTags.apply(null, arguments)
+                            $event.stopPropagation()
+                            return _vm.returnTags()
                           },
                         },
                       },
@@ -1133,7 +1124,7 @@ var render = function () {
                             on: {
                               submit: function ($event) {
                                 $event.preventDefault()
-                                return _vm.registerTags.apply(null, arguments)
+                                return _vm.registerTags()
                               },
                             },
                           },
@@ -1157,6 +1148,8 @@ var render = function () {
                                         rules: _vm.nameRules,
                                         label: "Título *",
                                         tabindex: "1",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
                                         dense: "",
                                         "prepend-icon": "sell",
                                         required: "",
@@ -1180,78 +1173,64 @@ var render = function () {
                                     _c(
                                       "div",
                                       [
-                                        _c("span", [_vm._v("Color de fondo:")]),
-                                        _vm._v(" "),
-                                        _vm.form.color_bk != "#E0E0E0"
-                                          ? [
-                                              _c(
-                                                "v-tooltip",
-                                                {
-                                                  attrs: { bottom: "" },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "activator",
-                                                        fn: function (ref) {
-                                                          var on = ref.on
-                                                          var attrs = ref.attrs
-                                                          return [
-                                                            _c(
-                                                              "v-btn",
-                                                              _vm._g(
-                                                                _vm._b(
-                                                                  {
-                                                                    staticClass:
-                                                                      "txt_blue mt-n1",
-                                                                    attrs: {
-                                                                      icon: "",
-                                                                    },
-                                                                    on: {
-                                                                      click:
-                                                                        function (
-                                                                          $event
-                                                                        ) {
-                                                                          $event.preventDefault()
-                                                                          _vm.form.color_bk =
-                                                                            "#E0E0E0"
-                                                                        },
-                                                                    },
-                                                                  },
-                                                                  "v-btn",
-                                                                  attrs,
-                                                                  false
-                                                                ),
-                                                                on
-                                                              ),
-                                                              [
-                                                                _c("v-icon", [
-                                                                  _vm._v(
-                                                                    "restart_alt"
-                                                                  ),
-                                                                ]),
-                                                              ],
-                                                              1
-                                                            ),
-                                                          ]
-                                                        },
-                                                      },
-                                                    ],
-                                                    null,
-                                                    false,
-                                                    3679161762
-                                                  ),
+                                        _c(
+                                          "v-tooltip",
+                                          {
+                                            attrs: { bottom: "" },
+                                            scopedSlots: _vm._u([
+                                              {
+                                                key: "activator",
+                                                fn: function (ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass:
+                                                              "txt_blue mt-n1",
+                                                            attrs: { icon: "" },
+                                                            on: {
+                                                              click: function (
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.form.color_bk =
+                                                                  "#E0E0E0"
+                                                              },
+                                                            },
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v("restart_alt"),
+                                                        ]),
+                                                      ],
+                                                      1
+                                                    ),
+                                                  ]
                                                 },
-                                                [
-                                                  _vm._v(" "),
-                                                  _c("span", [
-                                                    _vm._v("Restablecer color"),
-                                                  ]),
-                                                ]
-                                              ),
-                                            ]
-                                          : _vm._e(),
+                                              },
+                                            ]),
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v("Restablecer color"),
+                                            ]),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", [_vm._v("Color de fondo:")]),
                                       ],
-                                      2
+                                      1
                                     ),
                                     _vm._v(" "),
                                     _c("v-color-picker", {
@@ -1280,80 +1259,66 @@ var render = function () {
                                     _c(
                                       "div",
                                       [
+                                        _c(
+                                          "v-tooltip",
+                                          {
+                                            attrs: { bottom: "" },
+                                            scopedSlots: _vm._u([
+                                              {
+                                                key: "activator",
+                                                fn: function (ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass:
+                                                              "txt_blue mt-n1",
+                                                            attrs: { icon: "" },
+                                                            on: {
+                                                              click: function (
+                                                                $event
+                                                              ) {
+                                                                $event.preventDefault()
+                                                                _vm.form.color_txt =
+                                                                  "#676767"
+                                                              },
+                                                            },
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v("restart_alt"),
+                                                        ]),
+                                                      ],
+                                                      1
+                                                    ),
+                                                  ]
+                                                },
+                                              },
+                                            ]),
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c("span", [
+                                              _vm._v("Restablecer color"),
+                                            ]),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("span", [
                                           _vm._v("Color del texto:"),
                                         ]),
-                                        _vm._v(" "),
-                                        _vm.form.color_txt != "#676767"
-                                          ? [
-                                              _c(
-                                                "v-tooltip",
-                                                {
-                                                  attrs: { bottom: "" },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "activator",
-                                                        fn: function (ref) {
-                                                          var on = ref.on
-                                                          var attrs = ref.attrs
-                                                          return [
-                                                            _c(
-                                                              "v-btn",
-                                                              _vm._g(
-                                                                _vm._b(
-                                                                  {
-                                                                    staticClass:
-                                                                      "txt_blue mt-n1",
-                                                                    attrs: {
-                                                                      icon: "",
-                                                                    },
-                                                                    on: {
-                                                                      click:
-                                                                        function (
-                                                                          $event
-                                                                        ) {
-                                                                          $event.preventDefault()
-                                                                          _vm.form.color_txt =
-                                                                            "#676767"
-                                                                        },
-                                                                    },
-                                                                  },
-                                                                  "v-btn",
-                                                                  attrs,
-                                                                  false
-                                                                ),
-                                                                on
-                                                              ),
-                                                              [
-                                                                _c("v-icon", [
-                                                                  _vm._v(
-                                                                    "restart_alt"
-                                                                  ),
-                                                                ]),
-                                                              ],
-                                                              1
-                                                            ),
-                                                          ]
-                                                        },
-                                                      },
-                                                    ],
-                                                    null,
-                                                    false,
-                                                    4023196007
-                                                  ),
-                                                },
-                                                [
-                                                  _vm._v(" "),
-                                                  _c("span", [
-                                                    _vm._v("Restablecer color"),
-                                                  ]),
-                                                ]
-                                              ),
-                                            ]
-                                          : _vm._e(),
                                       ],
-                                      2
+                                      1
                                     ),
                                     _vm._v(" "),
                                     _c("v-color-picker", {

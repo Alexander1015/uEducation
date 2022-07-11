@@ -20,8 +20,12 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = DB::table('subjects')->orderBy('name', 'asc')->get();
-        return response()->json($subjects);
+        try {
+            $subjects = DB::table('subjects')->orderBy('name', 'asc')->get();
+            return response()->json($subjects);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
     }
 
     /**
@@ -117,7 +121,7 @@ class SubjectController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -138,31 +142,41 @@ class SubjectController extends Controller
      */
     public function show($slug)
     {
-        $subject = DB::table("subjects")->where("slug", $slug)->first();
-        if ($subject) {
-            $topics = DB::select(
-                'SELECT
+        try {
+            $subject = DB::table("subjects")->where("slug", $slug)->first();
+            if ($subject) {
+                $topics = DB::select(
+                    'SELECT
                     id, name
                 FROM 
                     topics
                 WHERE
                     subject_id = ?
                 ORDER BY sequence ASC',
-                [
-                    $subject->id
-                ]
-            );
-            $size = 1;
-            foreach ($topics as $data) {
-                $data->key = $size;
-                $size++;
+                    [
+                        $subject->id
+                    ]
+                );
+                $size = 1;
+                foreach ($topics as $data) {
+                    $data->key = $size;
+                    $size++;
+                }
+                return response()->json([
+                    'subject' => $subject,
+                    'topics' => $topics,
+                ]);
+            } else {
+                return response()->json([
+                    'subject' => [],
+                    'topics' => [],
+                ]);
             }
+        } catch (Exception $ex) {
             return response()->json([
-                'subject' => $subject,
-                'topics' => $topics,
+                'subject' => [],
+                'topics' => [],
             ]);
-        } else {
-            return response()->json([]);
         }
     }
 
@@ -294,7 +308,7 @@ class SubjectController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
@@ -325,7 +339,7 @@ class SubjectController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    $topics = DB::table("topics")->where("subject_id", $slug)->get();
+                    $topics = DB::table("topics")->where("subject_id", $data->id)->get();
                     if (sizeof($topics) > 0) {
                         DB::update("UPDATE topics SET subject_id = ? WHERE subject_id = ?", [
                             null,
@@ -350,7 +364,7 @@ class SubjectController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta desactivado',
+                    'message' => 'El usuario actual esta deshabilitado',
                     'complete' => false,
                 ]);
             }
