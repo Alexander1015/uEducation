@@ -5607,14 +5607,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push("/");
     },
     logout: function logout() {
+      var _this = this;
+
       this.axios.post('/api/logout').then(function (response) {
         window.location.href = "/auth";
       })["catch"](function (error) {
         console.log(error);
+
+        _this.$router.push({
+          name: "error"
+        });
       });
     },
     login: function login() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -5622,11 +5628,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.axios.get('/api/auth').then(function (response) {
-                  _this.user = response.data;
+                return _this2.axios.get('/api/auth').then(function (response) {
+                  _this2.user = response.data;
 
-                  if (_this.user.user) {
-                    var _iterator = _createForOfIteratorHelper(_this.links),
+                  if (_this2.user.user) {
+                    var _iterator = _createForOfIteratorHelper(_this2.links),
                         _step;
 
                     try {
@@ -5640,7 +5646,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _iterator.f();
                     }
 
-                    if (_this.user.avatar == "") _this.user.avatar = "blank.png";
+                    if (_this2.user.avatar == "") _this2.user.avatar = "blank.png";
                   }
                 })["catch"](function (error) {
                   console.log(error);
@@ -5854,7 +5860,7 @@ var Profile = function Profile() {
 
 
 var Error = function Error() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_error_404_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/error/404.vue */ "./resources/js/components/error/404.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_error_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/error/Home.vue */ "./resources/js/components/error/Home.vue"));
 };
 
 var routes = [{
@@ -58165,7 +58171,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_404_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

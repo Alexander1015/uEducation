@@ -25,7 +25,7 @@ const EditTopic = () => import ('./components/dashboard/topics/EditTopic.vue')
 // Profile
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
 // Error 404
-const Error = () => import ('./components/error/404.vue')
+const Error = () => import ('./components/error/Home.vue')
 
 
 export const routes = [

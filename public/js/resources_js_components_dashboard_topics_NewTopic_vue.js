@@ -1469,7 +1469,6 @@ var render = function () {
                                                                 .text_color +
                                                               ";",
                                                             attrs: {
-                                                              label: "",
                                                               color:
                                                                 data.item
                                                                   .background_color,
@@ -1497,24 +1496,14 @@ var render = function () {
                                                           false
                                                         ),
                                                         [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                left: "",
-                                                              },
-                                                            },
-                                                            [_vm._v("label")]
-                                                          ),
                                                           _vm._v(
-                                                            " " +
+                                                            "\n                                                        " +
                                                               _vm._s(
                                                                 data.item.name
                                                               ) +
                                                               "\n                                                    "
                                                           ),
-                                                        ],
-                                                        1
+                                                        ]
                                                       ),
                                                     ]
                                                   },

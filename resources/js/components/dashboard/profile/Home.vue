@@ -129,7 +129,7 @@
                                     <v-text-field v-model="form_password.password" type="password"
                                         :rules="passwordRules" label="Contraseña *" tabindex="1" prepend-icon="lock"
                                         dense :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
-                                        :type="form_password.show1 ? 'text' : 'password'"
+                                        :type="form_password.show1 ? 'text' : 'password'" clearable clear-icon="cancel"
                                         @click:append="form_password.show1 = !form_password.show1" required>
                                     </v-text-field>
                                 </v-col>
@@ -138,7 +138,7 @@
                                         :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2"
                                         prepend-icon="lock" dense
                                         :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
-                                        :type="form_password.show2 ? 'text' : 'password'"
+                                        :type="form_password.show2 ? 'text' : 'password'" clearable clear-icon="cancel"
                                         @click:append="form_password.show2 = !form_password.show2" required>
                                     </v-text-field>
                                 </v-col>
@@ -244,6 +244,7 @@ export default {
                             window.location.href = "/auth"
                         }).catch((error) => {
                             console.log(error);
+                            this.$router.push({ name: "error" });
                         });
 
                 });

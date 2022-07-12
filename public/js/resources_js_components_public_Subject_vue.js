@@ -77,6 +77,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PublicSubject',
   data: function data() {
@@ -86,6 +87,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         img: "",
         lazy_img: ""
       },
+      nav: false,
       topics: {},
       overlay: false
     };
@@ -104,6 +106,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    returnContent: function returnContent() {
+      this.overlay = true;
+      this.$router.push("/");
+    },
     getSubject: function getSubject() {
       var _this = this;
 
@@ -124,7 +130,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var item = response.data;
 
                   if (!item.subject.name) {
-                    _this.$router.push("/");
+                    _this.$router.push({
+                      name: "error"
+                    });
                   } else {
                     _this.subject.name = item.subject.name;
                     _this.topics = item.topics;
@@ -148,25 +156,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     });
                   } else if (item.topics.length <= 0) {
-                    _this.$router.push('/');
+                    _this.$router.push({
+                      name: "error"
+                    });
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
 
-                  _this.$router.push("/");
+                  _this.$router.push({
+                    name: "error"
+                  });
                 });
 
               case 4:
-                _context.next = 8;
+                _context.next = 7;
                 break;
 
               case 6:
-                _this.overlay = false;
+                _this.$router.push({
+                  name: "error"
+                });
 
-                _this.$router.push("/");
-
-              case 8:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -249,6 +260,13 @@ var render = function () {
             permanent: "",
             "expand-on-hover": "",
           },
+          model: {
+            value: _vm.nav,
+            callback: function ($$v) {
+              _vm.nav = $$v
+            },
+            expression: "nav",
+          },
         },
         [
           _c(
@@ -329,7 +347,15 @@ var render = function () {
             [
               _c(
                 "v-list-item",
-                { attrs: { link: "", to: "/" } },
+                {
+                  attrs: { link: "" },
+                  on: {
+                    click: function ($event) {
+                      $event.stopPropagation()
+                      return _vm.returnContent()
+                    },
+                  },
+                },
                 [
                   _c(
                     "v-list-item-icon",
@@ -365,6 +391,12 @@ var render = function () {
                         to: {
                           name: "publicTopic",
                           params: { topic: item.slug },
+                        },
+                      },
+                      on: {
+                        click: function ($event) {
+                          $event.stopPropagation()
+                          _vm.overlay = true
                         },
                       },
                     },

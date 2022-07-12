@@ -225,7 +225,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -342,6 +341,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.overlay = false;
                   }
                 })["catch"](function (error) {
+                  console.log(error);
+
                   _this.$router.push({
                     name: "error"
                   });
@@ -5651,7 +5652,7 @@ var render = function () {
                                 { staticClass: "text-center" },
                                 [
                                   _vm._v(
-                                    "\n                                Lista de los temas atribuidos a esta materia, ordenelos para su vista por parte de\n                                los lectores.\n                            "
+                                    "\n                                Lista de los temas atribuidos a esta materia, ordenelos para la vista del lector.\n                            "
                                   ),
                                 ]
                               ),

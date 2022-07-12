@@ -30,9 +30,9 @@
                             <!-- Vista previa -->
                             <div class="mb-2">
                                 <small>Vista previa:</small>
-                                <v-chip label class="ml-2" :color="form.color_bk"
+                                <v-chip class="ml-2" :color="form.color_bk"
                                     :style='"color:" + form.color_txt + ";"'>
-                                    <v-icon left>label</v-icon> {{ form.name }}
+                                    {{ form.name }}
                                 </v-chip>
                             </div>
                             <!-- Formulario de ingreso -->

@@ -27,14 +27,15 @@
                             <v-row>
                                 <v-col cols="12">
                                     <v-text-field v-model="form.user" :rules="userRules" label="Usuario"
-                                        prepend-icon="person" tabindex="1" dense required>
+                                        prepend-icon="person" tabindex="1" clearable clear-icon="cancel" dense required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
                                     <v-text-field v-model="form.password" :rules="passwordRules"
                                         :append-icon="form.show ? 'visibility' : 'visibility_off'"
                                         :type="form.show ? 'text' : 'password'" @click:append="form.show = !form.show"
-                                        label="Contraseña" prepend-icon="lock" tabindex="2" dense required>
+                                        label="Contraseña" prepend-icon="lock" tabindex="2" clearable
+                                        clear-icon="cancel" dense required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -59,10 +60,6 @@ export default {
             lazy: "/img/lazy/banner-login.jpg",
         },
         overlay: false,
-        sweet: {
-            icon: "error",
-            title: "Error",
-        },
         form: {
             user: "",
             password: "",
@@ -98,28 +95,26 @@ export default {
                     .then(response => {
                         if (response.data.complete) {
                             this.$refs.form.reset();
-                            this.overlay = false;
                             window.location.href = "/";
                         }
                         else {
-                            this.sweet.title = "Error"
-                            this.sweet.icon = "error";
                             this.$swal({
-                                title: this.sweet.title,
-                                icon: this.sweet.icon,
+                                title: "Error",
+                                icon: "error",
                                 text: response.data.message,
+                            }).then(() => {
+                                this.overlay = false;
                             });
-                            this.overlay = false;
                         }
                     }).catch((error) => {
-                        this.sweet.title = "Error"
-                        this.sweet.icon = "error";
                         this.$swal({
-                            title: this.sweet.title,
-                            icon: this.sweet.icon,
-                            text: error,
+                            title: "Error",
+                            icon: "error",
+                            text: "Ha ocurrido un error en la aplicación",
+                        }).then(() => {
+                            console.log(error);
+                            this.overlay = false;
                         });
-                        this.overlay = false;
                     });
             }
             else {

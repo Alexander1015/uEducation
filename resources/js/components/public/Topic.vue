@@ -8,7 +8,8 @@
             <template v-if="overlay == false">
                 <v-card class="mt-2 mx-auto" elevation="2" max-width="1200">
                     <!-- Imagen -->
-                    <v-img class="mx-auto" :src='topics.img' :lazy-src='topics.lazy_img' max-height="250">
+                    <v-img class="mx-auto d-none d-sm-flex" :src='topics.img' :lazy-src='topics.lazy_img'
+                        max-height="250">
                         <template v-slot:placeholder>
                             <v-row class="fill-height ma-0" align="center" justify="center">
                                 <v-progress-circular indeterminate color="grey lighten-5">
@@ -24,10 +25,14 @@
                     </v-card-title>
                     <!-- Tags -->
                     <template v-if="topics.tags.length > 0">
-                        <div class="mt-n1 mx-6">
+                        <div class="d-none d-md-flex mt-n1 mx-6">
+                            <span class="subtitle-2 font-italic">
+                                Etiqueta/s:
+                            </span>
                             <template v-for="item in topics.tags">
-                                <v-chip label :color="item.background_color" :style='"color:" + item.text_color + ";"'>
-                                    <v-icon left>label</v-icon> {{ item.name }}
+                                <v-chip class="ml-2 mr-1 mb-1" :color="item.background_color"
+                                    :style='"color:" + item.text_color + ";"'>
+                                    {{ item.name }}
                                 </v-chip>
                             </template>
                         </div>
@@ -69,14 +74,16 @@
                     </v-card-text>
                     <!-- Abstract -->
                     <template v-if="topics.abstract">
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <div id="data_abstract" class="bk_tags_bk txt_black mx-2 pa-2">
-                                <span class="body-2">
-                                    {{ topics.abstract }}
-                                </span>
-                            </div>
-                        </v-card-text>
+                        <div class="d-none d-md-flex">
+                            <v-divider></v-divider>
+                            <v-card-text>
+                                <div id="data_abstract" class="bk_tags_bk txt_black mx-2 pa-2">
+                                    <span class="body-2">
+                                        {{ topics.abstract }}
+                                    </span>
+                                </div>
+                            </v-card-text>
+                        </div>
                     </template>
                     <!-- Divider -->
                     <v-divider></v-divider>
@@ -204,9 +211,8 @@ export default {
                 await this.axios.get('/api/gettopic/' + this.address)
                     .then(response => {
                         const item = response.data;
-                        if (!item.topic) {
-                            this.overlay = false;
-                            this.$router.push({ name: "publicSubject", params: { subject: this.$route.params.subject } });
+                        if (!item.topic || item.topic.subject_slug != this.$route.params.subject) {
+                            this.$router.push({ name: "error" });
                         }
                         else {
                             this.topics.name = item.topic.name;
@@ -271,17 +277,11 @@ export default {
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
-                        this.$router.push("/");
+                        this.$router.push({ name: "error" });
                     });
             }
-            else if (this.$route.params.subject && !this.address) {
-                this.overlay = false;
-                this.$router.push({ name: "publicSubject", params: { subject: this.$route.params.subject } });
-            }
             else {
-                this.overlay = false;
-                this.$router.push("/");
+                this.$router.push({ name: "error" });
             }
         }
     },

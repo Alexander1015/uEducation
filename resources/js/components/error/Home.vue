@@ -23,6 +23,6 @@
 
 <script>
 export default {
-    name: '404',
+    name: 'Error',
 }
 </script>

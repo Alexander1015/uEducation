@@ -125,8 +125,7 @@
                         <v-tab-item>
                             <div class="px-4 py-4">
                                 <v-card-subtitle class="text-center">
-                                    Lista de los temas atribuidos a esta materia, ordenelos para su vista por parte de
-                                    los lectores.
+                                    Lista de los temas atribuidos a esta materia, ordenelos para la vista del lector.
                                 </v-card-subtitle>
                                 <draggable class="list-group" tag="ul" v-model="topics" v-bind="dragOptions"
                                     @start="drag = true" @end="drag = false">
@@ -295,6 +294,7 @@ export default {
                             this.overlay = false
                         }
                     }).catch((error) => {
+                        console.log(error);
                         this.$router.push({ name: "error" });
                     });
             }

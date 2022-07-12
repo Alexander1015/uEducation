@@ -280,6 +280,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     window.location.href = "/auth";
                   })["catch"](function (error) {
                     console.log(error);
+
+                    _this.$router.push({
+                      name: "error"
+                    });
                   });
                 });
 
@@ -1485,6 +1489,8 @@ var render = function () {
                                     type: _vm.form_password.show1
                                       ? "text"
                                       : "password",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   on: {
@@ -1527,6 +1533,8 @@ var render = function () {
                                     type: _vm.form_password.show2
                                       ? "text"
                                       : "password",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   on: {

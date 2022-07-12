@@ -4,7 +4,7 @@
         <v-overlay :value="overlay">
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
-        <v-navigation-drawer id="nav_subject" dense flat permanent expand-on-hover>
+        <v-navigation-drawer id="nav_subject" v-model="nav" dense flat permanent expand-on-hover>
             <v-list class="pa-0 mx-auto" nav dense>
                 <v-list-item>
                     <v-list-item-avatar>
@@ -24,7 +24,7 @@
             </v-list>
             <v-divider></v-divider>
             <v-list nav dense>
-                <v-list-item link to="/">
+                <v-list-item link @click.stop="returnContent()">
                     <v-list-item-icon>
                         <v-icon>keyboard_double_arrow_left</v-icon>
                     </v-list-item-icon>
@@ -36,7 +36,8 @@
             <v-divider></v-divider>
             <v-list nav dense>
                 <template v-for="item in topics">
-                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }'>
+                    <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }'
+                        @click.stop="overlay = true">
                         <v-list-item-icon>
                             <v-avatar size="25" class="caption bk_tags txt_white">
                                 {{ item.key }}
@@ -65,6 +66,7 @@ export default {
             img: "",
             lazy_img: "",
         },
+        nav: false,
         topics: {},
         overlay: false,
     }),
@@ -82,6 +84,10 @@ export default {
         }
     },
     methods: {
+        returnContent() {
+            this.overlay = true;
+            this.$router.push("/");
+        },
         async getSubject() {
             this.overlay = true;
             if (this.$route.params.subject) {
@@ -89,7 +95,7 @@ export default {
                     .then(response => {
                         let item = response.data;
                         if (!item.subject.name) {
-                            this.$router.push("/");
+                            this.$router.push({ name: "error" });
                         }
                         else {
                             this.subject.name = item.subject.name;
@@ -108,17 +114,15 @@ export default {
                             this.$router.push({ name: "publicTopic", params: { topic: item.topics[0].slug } });
                         }
                         else if (item.topics.length <= 0) {
-                            this.$router.push('/');
+                            this.$router.push({ name: "error" });
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
-                        this.$router.push("/");
+                        this.$router.push({ name: "error" });
                     });
             }
             else {
-                this.overlay = false;
-                this.$router.push("/");
+                this.$router.push({ name: "error" });
             }
         },
     },

@@ -26,24 +26,26 @@
                             <v-row v-if='searchBy == "Materias"'>
                                 <v-col v-for="item in props.items" :key="item.slug" class="mx-auto" cols="12" sm="6"
                                     md="4" lg="3">
-                                    <v-card :to='{ name: "publicTopic", params: { subject: item.slug, topic: item.first } }'>
-                                        <v-img class="mx-auto"
-                                            :src='"/img/subjects/" + (item.img ? item.img : "blank.png")'
-                                            :lazy-src='"/img/lazy_subjects/" + (item.img ? item.img : "blank.png")'
-                                            height="175">
-                                            <template v-slot:placeholder>
-                                                <v-row class="fill-height ma-0" align="center" justify="center">
-                                                    <v-progress-circular indeterminate color="grey lighten-5">
-                                                    </v-progress-circular>
-                                                </v-row>
-                                            </template>
-                                        </v-img>
-                                        <v-card-title class="bk_blue txt_white">
-                                            <span class="subtitle-2 text-uppercase font-weight-bold mx-auto">
-                                                {{ item.name }}
-                                            </span>
-                                        </v-card-title>
-                                    </v-card>
+                                    <v-hover v-slot="{ hover }">
+                                        <v-card @click.stop="gotoSubject(item.slug, item.first)" :elevation="hover ? 10 : 2">
+                                            <v-img class="mx-auto"
+                                                :src='"/img/subjects/" + (item.img ? item.img : "blank.png")'
+                                                :lazy-src='"/img/lazy_subjects/" + (item.img ? item.img : "blank.png")'
+                                                height="175">
+                                                <template v-slot:placeholder>
+                                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                                        <v-progress-circular indeterminate color="grey lighten-5">
+                                                        </v-progress-circular>
+                                                    </v-row>
+                                                </template>
+                                            </v-img>
+                                            <v-card-title class="bk_blue txt_white">
+                                                <span class="subtitle-2 text-uppercase font-weight-bold mx-auto">
+                                                    {{ item.name }}
+                                                </span>
+                                            </v-card-title>
+                                        </v-card>
+                                    </v-hover>
                                 </v-col>
                             </v-row>
                         </template>
@@ -105,6 +107,10 @@ export default {
         this.getData();
     },
     methods: {
+        gotoSubject(slug, first) {
+            this.overlay = true;
+            this.$router.push({ name: "publicTopic", params: { subject: slug, topic: first } });
+        },
         async getData() {
             this.overlay = true;
             this.loading_table = true;

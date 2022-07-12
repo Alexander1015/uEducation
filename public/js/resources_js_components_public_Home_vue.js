@@ -103,6 +103,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HomePublic',
   data: function data() {
@@ -124,6 +126,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getData();
   },
   methods: {
+    gotoSubject: function gotoSubject(slug, first) {
+      this.overlay = true;
+      this.$router.push({
+        name: "publicTopic",
+        params: {
+          subject: slug,
+          topic: first
+        }
+      });
+    },
     getData: function getData() {
       var _this = this;
 
@@ -914,104 +926,133 @@ var render = function () {
                                             },
                                           },
                                           [
-                                            _c(
-                                              "v-card",
-                                              {
-                                                attrs: {
-                                                  to: {
-                                                    name: "publicTopic",
-                                                    params: {
-                                                      subject: item.slug,
-                                                      topic: item.first,
-                                                    },
-                                                  },
-                                                },
-                                              },
-                                              [
-                                                _c("v-img", {
-                                                  staticClass: "mx-auto",
-                                                  attrs: {
-                                                    src:
-                                                      "/img/subjects/" +
-                                                      (item.img
-                                                        ? item.img
-                                                        : "blank.png"),
-                                                    "lazy-src":
-                                                      "/img/lazy_subjects/" +
-                                                      (item.img
-                                                        ? item.img
-                                                        : "blank.png"),
-                                                    height: "175",
-                                                  },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "placeholder",
-                                                        fn: function () {
-                                                          return [
+                                            _c("v-hover", {
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "default",
+                                                    fn: function (ref) {
+                                                      var hover = ref.hover
+                                                      return [
+                                                        _c(
+                                                          "v-card",
+                                                          {
+                                                            attrs: {
+                                                              elevation: hover
+                                                                ? 10
+                                                                : 2,
+                                                            },
+                                                            on: {
+                                                              click: function (
+                                                                $event
+                                                              ) {
+                                                                $event.stopPropagation()
+                                                                return _vm.gotoSubject(
+                                                                  item.slug,
+                                                                  item.first
+                                                                )
+                                                              },
+                                                            },
+                                                          },
+                                                          [
+                                                            _c("v-img", {
+                                                              staticClass:
+                                                                "mx-auto",
+                                                              attrs: {
+                                                                src:
+                                                                  "/img/subjects/" +
+                                                                  (item.img
+                                                                    ? item.img
+                                                                    : "blank.png"),
+                                                                "lazy-src":
+                                                                  "/img/lazy_subjects/" +
+                                                                  (item.img
+                                                                    ? item.img
+                                                                    : "blank.png"),
+                                                                height: "175",
+                                                              },
+                                                              scopedSlots:
+                                                                _vm._u(
+                                                                  [
+                                                                    {
+                                                                      key: "placeholder",
+                                                                      fn: function () {
+                                                                        return [
+                                                                          _c(
+                                                                            "v-row",
+                                                                            {
+                                                                              staticClass:
+                                                                                "fill-height ma-0",
+                                                                              attrs:
+                                                                                {
+                                                                                  align:
+                                                                                    "center",
+                                                                                  justify:
+                                                                                    "center",
+                                                                                },
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-progress-circular",
+                                                                                {
+                                                                                  attrs:
+                                                                                    {
+                                                                                      indeterminate:
+                                                                                        "",
+                                                                                      color:
+                                                                                        "grey lighten-5",
+                                                                                    },
+                                                                                }
+                                                                              ),
+                                                                            ],
+                                                                            1
+                                                                          ),
+                                                                        ]
+                                                                      },
+                                                                      proxy: true,
+                                                                    },
+                                                                  ],
+                                                                  null,
+                                                                  true
+                                                                ),
+                                                            }),
+                                                            _vm._v(" "),
                                                             _c(
-                                                              "v-row",
+                                                              "v-card-title",
                                                               {
                                                                 staticClass:
-                                                                  "fill-height ma-0",
-                                                                attrs: {
-                                                                  align:
-                                                                    "center",
-                                                                  justify:
-                                                                    "center",
-                                                                },
+                                                                  "bk_blue txt_white",
                                                               },
                                                               [
                                                                 _c(
-                                                                  "v-progress-circular",
+                                                                  "span",
                                                                   {
-                                                                    attrs: {
-                                                                      indeterminate:
-                                                                        "",
-                                                                      color:
-                                                                        "grey lighten-5",
-                                                                    },
-                                                                  }
+                                                                    staticClass:
+                                                                      "subtitle-2 text-uppercase font-weight-bold mx-auto",
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                                                " +
+                                                                        _vm._s(
+                                                                          item.name
+                                                                        ) +
+                                                                        "\n                                            "
+                                                                    ),
+                                                                  ]
                                                                 ),
-                                                              ],
-                                                              1
+                                                              ]
                                                             ),
-                                                          ]
-                                                        },
-                                                        proxy: true,
-                                                      },
-                                                    ],
-                                                    null,
-                                                    true
-                                                  ),
-                                                }),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-card-title",
-                                                  {
-                                                    staticClass:
-                                                      "bk_blue txt_white",
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "subtitle-2 text-uppercase font-weight-bold mx-auto",
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                            " +
-                                                            _vm._s(item.name) +
-                                                            "\n                                        "
+                                                          ],
+                                                          1
                                                         ),
                                                       ]
-                                                    ),
-                                                  ]
-                                                ),
-                                              ],
-                                              1
-                                            ),
+                                                    },
+                                                  },
+                                                ],
+                                                null,
+                                                true
+                                              ),
+                                            }),
                                           ],
                                           1
                                         )
@@ -1025,7 +1066,7 @@ var render = function () {
                         ],
                         null,
                         false,
-                        1775154603
+                        1844587709
                       ),
                     }),
                   ]
@@ -1190,14 +1231,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
 /* harmony import */ var vuetify_lib_components_VDataIterator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VDataIterator */ "./node_modules/vuetify/lib/components/VDataIterator/VDataIterator.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VSkeletonLoader__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VSkeletonLoader */ "./node_modules/vuetify/lib/components/VSkeletonLoader/VSkeletonLoader.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VHover__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VHover */ "./node_modules/vuetify/lib/components/VHover/VHover.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VSkeletonLoader__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VSkeletonLoader */ "./node_modules/vuetify/lib/components/VSkeletonLoader/VSkeletonLoader.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -1230,7 +1272,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["default"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["default"],VDataIterator: vuetify_lib_components_VDataIterator__WEBPACK_IMPORTED_MODULE_7__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_13__["default"],VSkeletonLoader: vuetify_lib_components_VSkeletonLoader__WEBPACK_IMPORTED_MODULE_14__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_4__["default"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__.VCardTitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["default"],VDataIterator: vuetify_lib_components_VDataIterator__WEBPACK_IMPORTED_MODULE_7__["default"],VHover: vuetify_lib_components_VHover__WEBPACK_IMPORTED_MODULE_8__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_10__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_11__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_13__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_14__["default"],VSkeletonLoader: vuetify_lib_components_VSkeletonLoader__WEBPACK_IMPORTED_MODULE_15__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__["default"]})
 
 
 /* hot reload */
@@ -2705,6 +2748,92 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_VDivider__WEBPACK_IMPORTED_MODULE_0__["default"]);
 //# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VHover/VHover.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VHover/VHover.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mixins_delayable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/delayable */ "./node_modules/vuetify/lib/mixins/delayable/index.js");
+/* harmony import */ var _mixins_toggleable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/toggleable */ "./node_modules/vuetify/lib/mixins/toggleable/index.js");
+/* harmony import */ var _util_mixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/mixins */ "./node_modules/vuetify/lib/util/mixins.js");
+/* harmony import */ var _util_console__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/console */ "./node_modules/vuetify/lib/util/console.js");
+// Mixins
+
+ // Utilities
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_util_mixins__WEBPACK_IMPORTED_MODULE_0__["default"])(_mixins_delayable__WEBPACK_IMPORTED_MODULE_1__["default"], _mixins_toggleable__WEBPACK_IMPORTED_MODULE_2__["default"]
+/* @vue/component */
+).extend({
+  name: 'v-hover',
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: Boolean,
+      default: undefined
+    }
+  },
+  methods: {
+    onMouseEnter() {
+      this.runDelay('open');
+    },
+
+    onMouseLeave() {
+      this.runDelay('close');
+    }
+
+  },
+
+  render() {
+    if (!this.$scopedSlots.default && this.value === undefined) {
+      (0,_util_console__WEBPACK_IMPORTED_MODULE_3__.consoleWarn)('v-hover is missing a default scopedSlot or bound value', this);
+      return null;
+    }
+
+    let element;
+    /* istanbul ignore else */
+
+    if (this.$scopedSlots.default) {
+      element = this.$scopedSlots.default({
+        hover: this.isActive
+      });
+    }
+
+    if (Array.isArray(element) && element.length === 1) {
+      element = element[0];
+    }
+
+    if (!element || Array.isArray(element) || !element.tag) {
+      (0,_util_console__WEBPACK_IMPORTED_MODULE_3__.consoleWarn)('v-hover should only contain a single element', this);
+      return element;
+    }
+
+    if (!this.disabled) {
+      element.data = element.data || {};
+
+      this._g(element.data, {
+        mouseenter: this.onMouseEnter,
+        mouseleave: this.onMouseLeave
+      });
+    }
+
+    return element;
+  }
+
+}));
+//# sourceMappingURL=VHover.js.map
 
 /***/ }),
 

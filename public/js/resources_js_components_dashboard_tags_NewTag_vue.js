@@ -1098,19 +1098,15 @@ var render = function () {
                               {
                                 staticClass: "ml-2",
                                 style: "color:" + _vm.form.color_txt + ";",
-                                attrs: { label: "", color: _vm.form.color_bk },
+                                attrs: { color: _vm.form.color_bk },
                               },
                               [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("label"),
-                                ]),
                                 _vm._v(
-                                  " " +
+                                  "\n                                " +
                                     _vm._s(_vm.form.name) +
                                     "\n                            "
                                 ),
-                              ],
-                              1
+                              ]
                             ),
                           ],
                           1

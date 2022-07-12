@@ -189,6 +189,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -269,14 +276,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.axios.get('/api/gettopic/' + _this.address).then(function (response) {
                   var item = response.data;
 
-                  if (!item.topic) {
-                    _this.overlay = false;
-
+                  if (!item.topic || item.topic.subject_slug != _this.$route.params.subject) {
                     _this.$router.push({
-                      name: "publicSubject",
-                      params: {
-                        subject: _this.$route.params.subject
-                      }
+                      name: "error"
                     });
                   } else {
                     _this.topics.name = item.topic.name;
@@ -340,9 +342,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
 
-                  _this.$router.push("/");
+                  _this.$router.push({
+                    name: "error"
+                  });
                 });
 
               case 4:
@@ -350,20 +353,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 6:
-                if (_this.$route.params.subject && !_this.address) {
-                  _this.overlay = false;
-
-                  _this.$router.push({
-                    name: "publicSubject",
-                    params: {
-                      subject: _this.$route.params.subject
-                    }
-                  });
-                } else {
-                  _this.overlay = false;
-
-                  _this.$router.push("/");
-                }
+                _this.$router.push({
+                  name: "error"
+                });
 
               case 7:
               case "end":
@@ -563,7 +555,7 @@ var render = function () {
                   },
                   [
                     _c("v-img", {
-                      staticClass: "mx-auto",
+                      staticClass: "mx-auto d-none d-sm-flex",
                       attrs: {
                         src: _vm.topics.img,
                         "lazy-src": _vm.topics.lazy_img,
@@ -626,30 +618,34 @@ var render = function () {
                       ? [
                           _c(
                             "div",
-                            { staticClass: "mt-n1 mx-6" },
+                            { staticClass: "d-none d-md-flex mt-n1 mx-6" },
                             [
+                              _c(
+                                "span",
+                                { staticClass: "subtitle-2 font-italic" },
+                                [
+                                  _vm._v(
+                                    "\n                            Etiqueta/s:\n                        "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
                               _vm._l(_vm.topics.tags, function (item) {
                                 return [
                                   _c(
                                     "v-chip",
                                     {
+                                      staticClass: "ml-2 mr-1 mb-1",
                                       style: "color:" + item.text_color + ";",
-                                      attrs: {
-                                        label: "",
-                                        color: item.background_color,
-                                      },
+                                      attrs: { color: item.background_color },
                                     },
                                     [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("label"),
-                                      ]),
                                       _vm._v(
-                                        " " +
+                                        "\n                                " +
                                           _vm._s(item.name) +
                                           "\n                            "
                                       ),
-                                    ],
-                                    1
+                                    ]
                                   ),
                                 ]
                               }),
@@ -801,26 +797,34 @@ var render = function () {
                     _vm._v(" "),
                     _vm.topics.abstract
                       ? [
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c("v-card-text", [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "bk_tags_bk txt_black mx-2 pa-2",
-                                attrs: { id: "data_abstract" },
-                              },
-                              [
-                                _c("span", { staticClass: "body-2" }, [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(_vm.topics.abstract) +
-                                      "\n                            "
-                                  ),
-                                ]),
-                              ]
-                            ),
-                          ]),
+                          _c(
+                            "div",
+                            { staticClass: "d-none d-md-flex" },
+                            [
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c("v-card-text", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "bk_tags_bk txt_black mx-2 pa-2",
+                                    attrs: { id: "data_abstract" },
+                                  },
+                                  [
+                                    _c("span", { staticClass: "body-2" }, [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(_vm.topics.abstract) +
+                                          "\n                                "
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]),
+                            ],
+                            1
+                          ),
                         ]
                       : _vm._e(),
                     _vm._v(" "),

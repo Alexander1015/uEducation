@@ -165,6 +165,7 @@ export default {
                     window.location.href = "/auth"
                 }).catch((error) => {
                     console.log(error);
+                    this.$router.push({ name: "error" });
                 });
         },
         async login() {

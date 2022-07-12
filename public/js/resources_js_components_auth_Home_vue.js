@@ -71,6 +71,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeAuth",
   data: function data() {
@@ -80,10 +81,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/lazy/banner-login.jpg"
       },
       overlay: false,
-      sweet: {
-        icon: "error",
-        title: "Error"
-      },
       form: {
         user: "",
         password: "",
@@ -149,31 +146,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (response.data.complete) {
                     _this2.$refs.form.reset();
 
-                    _this2.overlay = false;
                     window.location.href = "/";
                   } else {
-                    _this2.sweet.title = "Error";
-                    _this2.sweet.icon = "error";
-
                     _this2.$swal({
-                      title: _this2.sweet.title,
-                      icon: _this2.sweet.icon,
+                      title: "Error",
+                      icon: "error",
                       text: response.data.message
+                    }).then(function () {
+                      _this2.overlay = false;
                     });
-
-                    _this2.overlay = false;
                   }
                 })["catch"](function (error) {
-                  _this2.sweet.title = "Error";
-                  _this2.sweet.icon = "error";
-
                   _this2.$swal({
-                    title: _this2.sweet.title,
-                    icon: _this2.sweet.icon,
-                    text: error
+                    title: "Error",
+                    icon: "error",
+                    text: "Ha ocurrido un error en la aplicación"
+                  }).then(function () {
+                    console.log(error);
+                    _this2.overlay = false;
                   });
-
-                  _this2.overlay = false;
                 });
 
               case 4:
@@ -610,6 +601,8 @@ var render = function () {
                                     label: "Usuario",
                                     "prepend-icon": "person",
                                     tabindex: "1",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     dense: "",
                                     required: "",
                                   },
@@ -639,6 +632,8 @@ var render = function () {
                                     label: "Contraseña",
                                     "prepend-icon": "lock",
                                     tabindex: "2",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     dense: "",
                                     required: "",
                                   },

@@ -373,6 +373,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     window.location.href = "/auth";
                   })["catch"](function (error) {
                     console.log(error);
+
+                    _this.$router.push({
+                      name: "error"
+                    });
                   });
                 });
 

@@ -214,13 +214,22 @@ class TopicController extends Controller
             // Subject
             $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
             // Tags
-            $tags_ids = DB::table("topic_tag")->where("topic_id", $topic->id)->get();
+            $tags_ids = DB::select(
+                'SELECT
+                    Ta.name
+                FROM 
+                    topic_tag AS Tt
+                LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
+                WHERE
+                    Tt.topic_id = ?
+                ORDER BY Ta.name ASC',
+                [
+                    $topic->id
+                ]
+            );
             $tags = array();
-            if (sizeof($tags_ids) > 0) {
-                foreach ($tags_ids as $tag) {
-                    $data = DB::table("tags")->where("id", $tag->tag_id)->first();
-                    array_push($tags, $data->name);
-                }
+            for($x = 0; $x < sizeof($tags_ids); $x++) {
+                array_push($tags, $tags_ids[$x]->name);
             }
             // Liberar imagenes sin usar
             $directory = public_path('/img/topics') . "/" . $topic->id;

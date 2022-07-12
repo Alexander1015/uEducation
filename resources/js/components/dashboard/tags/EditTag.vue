@@ -54,9 +54,9 @@
                             <!-- Vista previa -->
                             <div class="mb-2">
                                 <small>Vista previa:</small>
-                                <v-chip label class="ml-2" :color="form_information.color_bk"
+                                <v-chip class="ml-2" :color="form_information.color_bk"
                                     :style='"color:" + form_information.color_txt + ";"'>
-                                    <v-icon left>label</v-icon> {{ form_information.name }}
+                                    {{ form_information.name }}
                                 </v-chip>
                             </div>
                             <!-- Formulario de ingreso -->
@@ -147,7 +147,8 @@
                                 <v-form ref="form_status" @submit.prevent="statusTag" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <template v-if="form_status.status != (tag.status == 1 ? 'Habilitado' : 'Deshabilitado')">
+                                    <template
+                                        v-if="form_status.status != (tag.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green width_100" type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
@@ -236,8 +237,7 @@ export default {
                     .then(response => {
                         this.tag = response.data;
                         if (!this.tag.name) {
-                            this.overlay = false;
-                            this.$router.push({ name: "tags" });
+                            this.$router.push({ name: "error" });
                         }
                         else {
                             this.form_information.name = this.tag.name;
@@ -249,12 +249,11 @@ export default {
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
+                        this.$router.push({ name: "error" });
                     });
             }
             else {
-                this.overlay = false;
-                this.$router.push({ name: "tags" });
+                this.$router.push({ name: "error" });
             }
         },
         async editTags() {

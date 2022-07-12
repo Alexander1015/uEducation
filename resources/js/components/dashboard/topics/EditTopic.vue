@@ -103,12 +103,12 @@
                                                     prepend-icon="local_offer" append-icon="arrow_drop_down" chips
                                                     small-chips multiple @change="limitTags" hide-selected required>
                                                     <template v-slot:selection="data">
-                                                        <v-chip label class="my-1" :color="data.item.background_color"
+                                                        <v-chip class="my-1" :color="data.item.background_color"
                                                             :style='"color:" + data.item.text_color + ";"'
                                                             v-bind="data.attrs" close @click="data.select"
                                                             @click:close="remove(data.item)"
                                                             :input-value="data.selected" close-icon="close">
-                                                            <v-icon left>label</v-icon> {{ data.item.name }}
+                                                            {{ data.item.name }}
                                                         </v-chip>
                                                     </template>
                                                     <template v-slot:item="data">
@@ -396,8 +396,7 @@ export default {
                     .then(response => {
                         const items = response.data
                         if (!items.topic) {
-                            this.overlay = false;
-                            this.$router.push({ name: "topics" });
+                            this.$router.push({ name: "error" });
                         }
                         else {
                             // Topic
@@ -437,12 +436,11 @@ export default {
                         }
                     }).catch((error) => {
                         console.log(error);
-                        this.overlay = false;
+                        this.$router.push({ name: "error" });
                     });
             }
             else {
-                this.overlay = false;
-                this.$router.push({ name: "topics" });
+                this.$router.push({ name: "error" });
             }
         },
         async editTopic() {

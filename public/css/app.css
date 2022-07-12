@@ -70,16 +70,6 @@ body::-webkit-scrollbar-thumb {
 }
 #body #container {
   width: 100vw;
-  /* .new_btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-  }
-  .return_btn {
-      position: absolute;
-      top: 0;
-      left: 0;
-  } */
 }
 #body #container .show_color {
   height: 10px;
@@ -121,4 +111,7 @@ body::-webkit-scrollbar-thumb {
 }
 #body #container #data_container #data_abstract {
   border-radius: 0.25rem;
+}
+#body #container #data_container .ck-content {
+  min-height: 10px !important;
 }

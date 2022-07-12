@@ -485,10 +485,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   var items = response.data;
 
                   if (!items.topic) {
-                    _this.overlay = false;
-
                     _this.$router.push({
-                      name: "topics"
+                      name: "error"
                     });
                   } else {
                     // Topic
@@ -529,21 +527,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 })["catch"](function (error) {
                   console.log(error);
-                  _this.overlay = false;
+
+                  _this.$router.push({
+                    name: "error"
+                  });
                 });
 
               case 8:
-                _context.next = 12;
+                _context.next = 11;
                 break;
 
               case 10:
-                _this.overlay = false;
-
                 _this.$router.push({
-                  name: "topics"
+                  name: "error"
                 });
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -2234,7 +2233,6 @@ var render = function () {
                                                                 .text_color +
                                                               ";",
                                                             attrs: {
-                                                              label: "",
                                                               color:
                                                                 data.item
                                                                   .background_color,
@@ -2262,24 +2260,14 @@ var render = function () {
                                                           false
                                                         ),
                                                         [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                left: "",
-                                                              },
-                                                            },
-                                                            [_vm._v("label")]
-                                                          ),
                                                           _vm._v(
-                                                            " " +
+                                                            "\n                                                        " +
                                                               _vm._s(
                                                                 data.item.name
                                                               ) +
                                                               "\n                                                    "
                                                           ),
-                                                        ],
-                                                        1
+                                                        ]
                                                       ),
                                                     ]
                                                   },
