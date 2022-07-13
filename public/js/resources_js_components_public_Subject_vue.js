@@ -108,7 +108,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     returnContent: function returnContent() {
       this.overlay = true;
-      this.$router.push("/");
+      this.$router.push({
+        name: "contents"
+      });
     },
     getSubject: function getSubject() {
       var _this = this;

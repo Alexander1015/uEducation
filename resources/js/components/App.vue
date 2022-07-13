@@ -140,6 +140,7 @@ export default {
         links: [
             // Public
             { type: 0, title: "Inicio", icon: "token", to: "/", visible: true },
+            { type: 0, title: "Contenido", icon: "school", to: { name: "contents" }, visible: true },
             // Login
             { type: 1, title: "Iniciar Sesión", icon: "account_box", to: { name: "auth" }, visible: true },
             // Dashboard
@@ -157,7 +158,7 @@ export default {
     }),
     methods: {
         toInit() {
-            this.$router.push("/");
+            if (this.$route.path != "/") this.$router.push("/");
         },
         logout() {
             this.axios.post('/api/logout')

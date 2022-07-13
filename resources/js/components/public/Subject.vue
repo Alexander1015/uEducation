@@ -86,7 +86,7 @@ export default {
     methods: {
         returnContent() {
             this.overlay = true;
-            this.$router.push("/");
+            this.$router.push({ name: "contents" });
         },
         async getSubject() {
             this.overlay = true;

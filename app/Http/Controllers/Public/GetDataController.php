@@ -20,29 +20,145 @@ class GetDataController extends Controller
     {
         try {
             $search = $request->input('search');
+            $search_tags = $request->input('tags');
             $validator = Validator::make($request->all(), [
                 'search' => ['bail', 'required', 'in:0,1'],
+                'tags' => ['bail', 'sometimes'],
             ]);
             if ($validator->fails()) {
                 $search = 0;
             }
-            if ($search == 0) {
-                $data = DB::table('subjects')->where('status', 1)->orderBy('name', 'asc')->get();
-                $total = sizeof($data) - 1;
+            $all_tags = [];
+            if ($search == 0) { // Por Materias
+                //Corto
+                $new_data = DB::select(
+                    'SELECT
+                        id, name
+                    FROM 
+                        subjects AS T
+                    WHERE
+                        status = ?
+                    ORDER BY name ASC',
+                    [
+                        1
+                    ]
+                );
+                $total = sizeof($new_data) - 1;
                 while ($total >= 0) {
-                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $data[$total]->id)->orderBy('sequence', 'asc')->first();
-                    if ($topic) {
-                        $data[$total]->first = $topic->slug;
-                    } else {
-                        unset($data[$total]);
+                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $new_data[$total]->id)->orderBy('sequence', 'asc')->first();
+                    if (!$topic) {
+                        unset($new_data[$total]);
                     }
                     $total--;
                 }
+                $position = 0;
+                foreach ($new_data as $item) {
+                    $item->key = $position;
+                    $position++;
+                }
+                // Largo
+                $new_data_all = DB::table('subjects')->where('status', 1)->orderBy('name', 'asc')->get();
+                $total = sizeof($new_data_all) - 1;
+                while ($total >= 0) {
+                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $new_data_all[$total]->id)->orderBy('sequence', 'asc')->first();
+                    if ($topic) {
+                        $new_data_all[$total]->first = $topic->slug;
+                    } else {
+                        unset($new_data_all[$total]);
+                    }
+                    $total--;
+                }
+            } else if ($search == 1) { // Por temas
+                // Corto
+                $data = DB::select(
+                    'SELECT
+                        T.id, T.name, S.name AS subject
+                    FROM 
+                        topics AS T
+                    LEFT JOIN subjects AS S ON T.subject_id = S.id
+                    WHERE
+                        T.status = ? AND
+                        S.status = ?
+                    ORDER BY T.name ASC',
+                    [
+                        1,
+                        1
+                    ]
+                );
+                // Completo
+                $data_all = DB::select(
+                    'SELECT
+                        T.id, T.name, T.slug, T.abstract, T.img, T.status, S.name AS subject, S.slug AS subject_slug
+                    FROM 
+                        topics AS T
+                    LEFT JOIN subjects AS S ON T.subject_id = S.id
+                    WHERE
+                        T.status = ? AND
+                        S.status = ?
+                    ORDER BY T.name ASC',
+                    [
+                        1,
+                        1
+                    ]
+                );
+                // Si se filtraron tags aqui se buscan
+                $new_data = array();
+                $new_data_all = array();
+                for ($x = sizeof($data) - 1; $x >= 0; $x--) {
+                    $tags = DB::select(
+                        'SELECT
+                            Ta.name, Ta.background_color, Ta.text_color
+                        FROM 
+                            topic_tag AS Tt
+                        LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
+                        WHERE
+                            Tt.topic_id = ? AND Ta.status = ?
+                        ORDER BY Ta.name ASC',
+                        [
+                            $data[$x]->id,
+                            1
+                        ]
+                    );
+                    $exist = 0;
+                    if ($search_tags && is_array($search_tags) && sizeof($search_tags) > 0) {
+                        foreach ($search_tags as $input_tag) {
+                            foreach ($tags as $get_tag) {
+                                if ($input_tag == $get_tag->name) $exist++;
+                            }
+                        }
+                        // Eliminamos el registro de la lista que obtuvimos que no tenga todos los tags
+                        if ($exist < sizeof($search_tags)) {
+                            unset($data[$x]);
+                            unset($data_all[$x]);
+                        } else {
+                            $data[$x]->tags = $tags;
+                            array_push($new_data, $data[$x]);
+                            array_push($new_data_all, $data_all[$x]);
+                        }
+                        // Obtenemos solo los que sirven
+                    } else {
+                        $data[$x]->tags = $tags;
+                        array_push($new_data, $data[$x]);
+                        array_push($new_data_all, $data_all[$x]);
+                    }
+                }
+                // Agregamos la key de posición
+                for ($x = 0; $x < sizeof($new_data); $x++) {
+                    $new_data[$x]->key = $x;
+                }
+                $all_tags = DB::table('tags')->where('status', 1)->get();
             } else {
-                $data = DB::table('topics')->where('status', 1)->orderBy('name', 'asc')->get();
+                $new_data = [];
+                $new_data_all = [];
+            }
+            if (sizeof($new_data) != sizeof($new_data_all)) {
+                $new_data = [];
+                $new_data_all = [];
             }
             return response()->json([
-                'data' => $data,
+                'data' => $new_data,
+                'data_all' => $new_data_all,
+                'tags' => $all_tags,
                 'search' => $search,
                 'complete' => true,
             ]);

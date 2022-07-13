@@ -123,13 +123,13 @@
                                     form_information.color_bk != tag.background_color ||
                                     form_information.color_txt != tag.text_color
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-btn class="txt_white bk_green mt-2" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-2" disabled>
+                                    <v-btn class="mt-2" block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
@@ -144,18 +144,18 @@
                                     Cambie el estado de la etiqueta en el sistema (Si esta deshabilitado los temas que
                                     tengan la etiqueta no podran ser visualizados)
                                 </v-card-subtitle>
-                                <v-form ref="form_status" @submit.prevent="statusTag" lazy-validation>
+                                <v-form ref="form_status" @submit.prevent="statusTag()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (tag.status == 1 ? 'Habilitado' : 'Deshabilitado')">
-                                        <v-btn class="txt_white bk_green width_100" type="submit">
+                                        <v-btn class="txt_white bk_green" block type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                     <template v-else>
-                                        <v-btn class="width_100" disabled>
+                                        <v-btn block disabled>
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
@@ -168,7 +168,7 @@
                                     Elimine la etiqueta seleccionada de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
-                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteTag">
+                                <v-btn class="txt_white bk_red" block @click.stop="deleteTag()">
                                     <v-icon left>delete</v-icon>
                                     Eliminar etiqueta
                                 </v-btn>

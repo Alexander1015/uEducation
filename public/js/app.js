@@ -5543,6 +5543,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: "token",
         to: "/",
         visible: true
+      }, {
+        type: 0,
+        title: "Contenido",
+        icon: "school",
+        to: {
+          name: "contents"
+        },
+        visible: true
       }, // Login
       {
         type: 1,
@@ -5604,7 +5612,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     toInit: function toInit() {
-      this.$router.push("/");
+      if (this.$route.path != "/") this.$router.push("/");
     },
     logout: function logout() {
       var _this = this;
@@ -5788,6 +5796,10 @@ var Public = function Public() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_public_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Home.vue */ "./resources/js/components/public/Home.vue"));
 };
 
+var PublicContents = function PublicContents() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_public_Contents_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Contents.vue */ "./resources/js/components/public/Contents.vue"));
+};
+
 var PublicSubject = function PublicSubject() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_public_Subject_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/public/Subject.vue */ "./resources/js/components/public/Subject.vue"));
 };
@@ -5868,8 +5880,12 @@ var routes = [{
   path: '/',
   component: Public
 }, {
+  name: 'contents',
+  path: '/contents',
+  component: PublicContents
+}, {
   name: 'publicSubject',
-  path: '/content/:subject',
+  path: '/contents/:subject',
   component: PublicSubject,
   children: [{
     name: 'publicTopic',
@@ -58171,7 +58187,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

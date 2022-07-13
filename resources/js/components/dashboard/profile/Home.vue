@@ -68,7 +68,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12" sm="12" md="6">
-                                    <v-btn class="bk_brown txt_white width_100 mb-2" @click.stop="handleFileImport()">
+                                    <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                         <v-icon left>file_upload</v-icon>
                                         Subir avatar
                                     </v-btn>
@@ -78,7 +78,7 @@
                                         accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size dense>
                                     </v-file-input>
                                     <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                        <v-btn class="bk_brown txt_white width_100" @click="clean_img">Borrar
+                                        <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">Borrar
                                             avatar
                                         </v-btn>
                                     </template>
@@ -102,13 +102,13 @@
                                 form.user != user.user ||
                                 form.avatar != null
                             ">
-                                <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                <v-btn class="txt_white bk_green mt-4" block type="submit">
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
                             </template>
                             <template v-else>
-                                <v-btn class="width_100 mt-4" disabled>
+                                <v-btn class="mt-4" block disabled>
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
@@ -147,13 +147,13 @@
                                 form_password.password != '' &&
                                 form_password.password_confirmation != ''
                             ">
-                                <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                <v-btn class="txt_white bk_green mt-4" block type="submit">
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
                             </template>
                             <template v-else>
-                                <v-btn class="width_100 mt-4" disabled>
+                                <v-btn class="mt-4" block disabled>
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>

@@ -109,7 +109,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewSubject",
   data: function data() {
@@ -833,8 +832,8 @@ var render = function () {
                                     _c(
                                       "v-btn",
                                       {
-                                        staticClass:
-                                          "bk_brown txt_white width_100 mb-2",
+                                        staticClass: "bk_brown txt_white mb-2",
+                                        attrs: { block: "" },
                                         on: {
                                           click: function ($event) {
                                             $event.stopPropagation()
@@ -886,8 +885,8 @@ var render = function () {
                                           _c(
                                             "v-btn",
                                             {
-                                              staticClass:
-                                                "bk_brown txt_white width_100",
+                                              staticClass: "bk_brown txt_white",
+                                              attrs: { block: "" },
                                               on: {
                                                 click: function ($event) {
                                                   $event.stopPropagation()
@@ -969,9 +968,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass:
-                                        "txt_white bk_green width_100 mt-2",
-                                      attrs: { type: "submit" },
+                                      staticClass: "txt_white bk_green mt-2",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -988,8 +986,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-2",
-                                      attrs: { disabled: "" },
+                                      staticClass: "mt-2",
+                                      attrs: { block: "", disabled: "" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [

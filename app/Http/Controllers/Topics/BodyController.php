@@ -34,8 +34,8 @@ class BodyController extends Controller
                 } else {
                     $query = null;
                     $zone = new DateTimeZone('America/El_Salvador');
-                            $now = new DateTime();
-                            $now->setTimezone($zone);
+                    $now = new DateTime();
+                    $now->setTimezone($zone);
                     if (!$data->user_id) {
                         $query = DB::update("UPDATE topics SET body = ?, user_id = ?, user_update_id = ?, created_at = ?, updated_at = ? WHERE id = ?", [
                             $request->input('body') ? $request->input('body') : "",
@@ -98,10 +98,21 @@ class BodyController extends Controller
                                 }
                             }
                         }
-                        return response()->json([
-                            'message' => 'Contenido guardado exitosamente',
-                            'complete' => true,
-                        ]);
+                        if (trim($request->input('body'))) {
+                            $query = DB::update("UPDATE topics SET status = ? WHERE id = ?", [
+                                0,
+                                $data->id,
+                            ]);
+                            return response()->json([
+                                'message' => 'Contenido guardado exitosamente, pero cambiado a borrador por falta de información',
+                                'complete' => true,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Contenido guardado exitosamente',
+                                'complete' => true,
+                            ]);
+                        }
                     } else {
                         if (
                             $data->body == $request->input('body')

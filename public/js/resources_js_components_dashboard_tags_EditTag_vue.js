@@ -2119,9 +2119,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass:
-                                        "txt_white bk_green width_100 mt-2",
-                                      attrs: { type: "submit" },
+                                      staticClass: "txt_white bk_green mt-2",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2138,8 +2137,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-2",
-                                      attrs: { disabled: "" },
+                                      staticClass: "mt-2",
+                                      attrs: { block: "", disabled: "" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2186,7 +2185,7 @@ var render = function () {
                                 on: {
                                   submit: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.statusTag.apply(null, arguments)
+                                    return _vm.statusTag()
                                   },
                                 },
                               },
@@ -2217,9 +2216,8 @@ var render = function () {
                                       _c(
                                         "v-btn",
                                         {
-                                          staticClass:
-                                            "txt_white bk_green width_100",
-                                          attrs: { type: "submit" },
+                                          staticClass: "txt_white bk_green",
+                                          attrs: { block: "", type: "submit" },
                                         },
                                         [
                                           _c(
@@ -2237,10 +2235,7 @@ var render = function () {
                                   : [
                                       _c(
                                         "v-btn",
-                                        {
-                                          staticClass: "width_100",
-                                          attrs: { disabled: "" },
-                                        },
+                                        { attrs: { block: "", disabled: "" } },
                                         [
                                           _c(
                                             "v-icon",
@@ -2279,11 +2274,12 @@ var render = function () {
                             _c(
                               "v-btn",
                               {
-                                staticClass: "txt_white bk_red width_100",
+                                staticClass: "txt_white bk_red",
+                                attrs: { block: "" },
                                 on: {
                                   click: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.deleteTag.apply(null, arguments)
+                                    $event.stopPropagation()
+                                    return _vm.deleteTag()
                                   },
                                 },
                               },

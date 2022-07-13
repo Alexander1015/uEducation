@@ -1274,8 +1274,8 @@ var render = function () {
                                 _c(
                                   "v-btn",
                                   {
-                                    staticClass:
-                                      "bk_brown txt_white width_100 mb-2",
+                                    staticClass: "bk_brown txt_white mb-2",
+                                    attrs: { block: "" },
                                     on: {
                                       click: function ($event) {
                                         $event.stopPropagation()
@@ -1323,9 +1323,14 @@ var render = function () {
                                       _c(
                                         "v-btn",
                                         {
-                                          staticClass:
-                                            "bk_brown txt_white width_100",
-                                          on: { click: _vm.clean_img },
+                                          staticClass: "bk_brown txt_white",
+                                          attrs: { block: "" },
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.clean_img()
+                                            },
+                                          },
                                         },
                                         [
                                           _vm._v(
@@ -1398,9 +1403,8 @@ var render = function () {
                               _c(
                                 "v-btn",
                                 {
-                                  staticClass:
-                                    "txt_white bk_green width_100 mt-4",
-                                  attrs: { type: "submit" },
+                                  staticClass: "txt_white bk_green mt-4",
+                                  attrs: { block: "", type: "submit" },
                                 },
                                 [
                                   _c("v-icon", { attrs: { left: "" } }, [
@@ -1417,8 +1421,8 @@ var render = function () {
                               _c(
                                 "v-btn",
                                 {
-                                  staticClass: "width_100 mt-4",
-                                  attrs: { disabled: "" },
+                                  staticClass: "mt-4",
+                                  attrs: { block: "", disabled: "" },
                                 },
                                 [
                                   _c("v-icon", { attrs: { left: "" } }, [
@@ -1570,9 +1574,8 @@ var render = function () {
                               _c(
                                 "v-btn",
                                 {
-                                  staticClass:
-                                    "txt_white bk_green width_100 mt-4",
-                                  attrs: { type: "submit" },
+                                  staticClass: "txt_white bk_green mt-4",
+                                  attrs: { block: "", type: "submit" },
                                 },
                                 [
                                   _c("v-icon", { attrs: { left: "" } }, [
@@ -1589,8 +1592,8 @@ var render = function () {
                               _c(
                                 "v-btn",
                                 {
-                                  staticClass: "width_100 mt-4",
-                                  attrs: { disabled: "" },
+                                  staticClass: "mt-4",
+                                  attrs: { block: "", disabled: "" },
                                 },
                                 [
                                   _c("v-icon", { attrs: { left: "" } }, [

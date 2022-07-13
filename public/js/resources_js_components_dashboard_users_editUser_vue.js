@@ -257,7 +257,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -402,8 +401,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     _this.form_information.avatar = null;
                     _this.form_information.avatar_new = 0;
-                    _this.form_password.password = "";
-                    _this.form_password.password_confirmation = "";
+
+                    if (_this.form_password.password != "" || _this.form_password.password_confirmation != "") {
+                      _this.form_password.password = "";
+                      _this.form_password.password_confirmation = "";
+
+                      _this.$refs.form_password.reset();
+                    } else {
+                      _this.form_password.password = "";
+                      _this.form_password.password_confirmation = "";
+                    }
+
                     if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
                     _this.overlay = false;
                   }
@@ -1877,8 +1885,8 @@ var render = function () {
                                     _c(
                                       "v-btn",
                                       {
-                                        staticClass:
-                                          "bk_brown txt_white width_100 mb-2",
+                                        staticClass: "bk_brown txt_white mb-2",
+                                        attrs: { block: "" },
                                         on: {
                                           click: function ($event) {
                                             $event.stopPropagation()
@@ -1935,7 +1943,8 @@ var render = function () {
                                             "v-btn",
                                             {
                                               staticClass:
-                                                "bk_brown txt_white width_100 my-2",
+                                                "bk_brown txt_white my-2",
+                                              attrs: { block: "" },
                                               on: {
                                                 click: function ($event) {
                                                   $event.stopPropagation()
@@ -2024,9 +2033,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass:
-                                        "txt_white bk_green width_100 mt-4",
-                                      attrs: { type: "submit" },
+                                      staticClass: "txt_white bk_green mt-4",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2043,8 +2051,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-4",
-                                      attrs: { disabled: "" },
+                                      staticClass: "mt-4",
+                                      attrs: { block: "", disabled: "" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2197,9 +2205,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass:
-                                        "txt_white bk_green width_100 mt-2",
-                                      attrs: { type: "submit" },
+                                      staticClass: "txt_white bk_green mt-2",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2216,8 +2223,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "width_100 mt-2",
-                                      attrs: { disabled: "" },
+                                      staticClass: "mt-2",
+                                      attrs: { block: "", disabled: "" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -2295,9 +2302,8 @@ var render = function () {
                                       _c(
                                         "v-btn",
                                         {
-                                          staticClass:
-                                            "txt_white bk_green width_100",
-                                          attrs: { type: "submit" },
+                                          staticClass: "txt_white bk_green",
+                                          attrs: { block: "", type: "submit" },
                                         },
                                         [
                                           _c(
@@ -2315,10 +2321,7 @@ var render = function () {
                                   : [
                                       _c(
                                         "v-btn",
-                                        {
-                                          staticClass: "width_100",
-                                          attrs: { disabled: "" },
-                                        },
+                                        { attrs: { block: "", disabled: "" } },
                                         [
                                           _c(
                                             "v-icon",
@@ -2357,10 +2360,11 @@ var render = function () {
                             _c(
                               "v-btn",
                               {
-                                staticClass: "txt_white bk_red width_100",
+                                staticClass: "txt_white bk_red",
+                                attrs: { block: "" },
                                 on: {
                                   click: function ($event) {
-                                    $event.preventDefault()
+                                    $event.stopPropagation()
                                     return _vm.deleteUser()
                                   },
                                 },

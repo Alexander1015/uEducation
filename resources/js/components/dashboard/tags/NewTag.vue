@@ -30,8 +30,7 @@
                             <!-- Vista previa -->
                             <div class="mb-2">
                                 <small>Vista previa:</small>
-                                <v-chip class="ml-2" :color="form.color_bk"
-                                    :style='"color:" + form.color_txt + ";"'>
+                                <v-chip class="ml-2" :color="form.color_bk" :style='"color:" + form.color_txt + ";"'>
                                     {{ form.name }}
                                 </v-chip>
                             </div>
@@ -85,13 +84,13 @@
                                     form.color_bk != '' &&
                                     form.color_txt != ''
                                 ">
-                                    <v-btn class="txt_white bk_green width_100" type="submit">
+                                    <v-btn class="txt_white bk_green" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100" disabled>
+                                    <v-btn block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>

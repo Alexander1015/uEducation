@@ -93,6 +93,14 @@ body::-webkit-scrollbar-thumb {
   opacity: 0.5;
   background: #c8ebfb;
 }
+#body #container .v-card-reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.8;
+  position: absolute;
+  width: 100%;
+}
 #body #container #nav_subject {
   position: fixed;
   z-index: 3;

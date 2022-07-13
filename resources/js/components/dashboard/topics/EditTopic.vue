@@ -136,8 +136,7 @@
                                         </v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-btn class="bk_brown txt_white width_100 mb-2"
-                                            @click.stop="handleFileImport()">
+                                        <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
                                             Subir imagen
                                         </v-btn>
@@ -148,7 +147,7 @@
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100" @click="clean_img">
+                                            <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
                                                 Borrar imagen
                                             </v-btn>
@@ -176,13 +175,13 @@
                                     form_information.img != null ||
                                     form_information.img_new != 0
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                    <v-btn class="txt_white bk_green mt-4" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-4" disabled>
+                                    <v-btn class="mt-4" block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
@@ -201,13 +200,13 @@
                                 </ckeditor>
                             </div>
                             <template v-if="editorData != topic.body">
-                                <v-btn class="txt_white bk_green width_100 mt-2" @click.prevent="saveBody()">
+                                <v-btn class="txt_white bk_green mt-2" block @click.stop="saveBody()">
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
                             </template>
                             <template v-else>
-                                <v-btn class="width_100 mt-2" disabled>
+                                <v-btn class="mt-2" block disabled>
                                     <v-icon left>save</v-icon>
                                     Guardar
                                 </v-btn>
@@ -226,13 +225,13 @@
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (topic.status == 1 ? 'Habilitado' : 'Borrador')">
-                                        <v-btn class="txt_white bk_green width_100" type="submit">
+                                        <v-btn class="txt_white bk_green" block type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                     <template v-else>
-                                        <v-btn class="width_100" disabled>
+                                        <v-btn block disabled>
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
@@ -245,7 +244,7 @@
                                     Elimine el curso seleccionado de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
-                                <v-btn class="txt_white bk_red width_100" @click.stop="deleteTopic()">
+                                <v-btn class="txt_white bk_red" block @click.stop="deleteTopic()">
                                     <v-icon left>delete</v-icon>
                                     Eliminar tema
                                 </v-btn>

@@ -92,8 +92,7 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-btn class="bk_brown txt_white width_100 mb-2"
-                                            @click.stop="handleFileImport()">
+                                        <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
                                             Subir avatar
                                         </v-btn>
@@ -104,7 +103,7 @@
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100 my-2" @click.stop="clean_img()">
+                                            <v-btn class="bk_brown txt_white my-2" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
                                                 Borrar avatar
                                             </v-btn>
@@ -131,13 +130,13 @@
                                     form_information.avatar != null ||
                                     form_information.avatar_new != 0
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-4" type="submit">
+                                    <v-btn class="txt_white bk_green mt-4" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-4" disabled>
+                                    <v-btn class="mt-4" block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
@@ -178,13 +177,13 @@
                                     form_password.password != '' &&
                                     form_password.password_confirmation != ''
                                 ">
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-btn class="txt_white bk_green mt-2" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-2" disabled>
+                                    <v-btn class="mt-2" block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
@@ -205,13 +204,13 @@
                                         label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
-                                        <v-btn class="txt_white bk_green width_100" type="submit">
+                                        <v-btn class="txt_white bk_green" block type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                     <template v-else>
-                                        <v-btn class="width_100" disabled>
+                                        <v-btn block disabled>
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
@@ -224,7 +223,7 @@
                                     Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
                                     revertir
                                 </v-card-subtitle>
-                                <v-btn class="txt_white bk_red width_100" @click.prevent="deleteUser()">
+                                <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
                                     <v-icon left>delete</v-icon>
                                     Eliminar usuario
                                 </v-btn>
@@ -350,8 +349,15 @@ export default {
                             }
                             this.form_information.avatar = null;
                             this.form_information.avatar_new = 0;
-                            this.form_password.password = "";
-                            this.form_password.password_confirmation = "";
+                            if (this.form_password.password != "" || this.form_password.password_confirmation != "") {
+                                this.form_password.password = "";
+                                this.form_password.password_confirmation = "";
+                                this.$refs.form_password.reset();
+                            }
+                            else {
+                                this.form_password.password = "";
+                                this.form_password.password_confirmation = "";
+                            }
                             if (this.user.status == 0) this.form_status.status = "Deshabilitado";
                             else if (this.user.status == 1) this.form_status.status = "Habilitado";
                             this.overlay = false;

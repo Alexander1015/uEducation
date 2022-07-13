@@ -30,7 +30,7 @@
                                 Etiqueta/s:
                             </span>
                             <template v-for="item in topics.tags">
-                                <v-chip class="ml-2 mr-1 mb-1" :color="item.background_color"
+                                <v-chip class="ml-2 mr-1 mb-1 mt-n1" :color="item.background_color"
                                     :style='"color:" + item.text_color + ";"'>
                                     {{ item.name }}
                                 </v-chip>
@@ -38,40 +38,39 @@
                         </div>
                     </template>
                     <!-- Usuario -->
-                    <v-card-text class="mt-0">
-                        <v-list-item>
-                            <v-list-item-avatar>
-                                <v-img :src="topics.user_update ? topics.user_avatar_update : topics.user_avatar"
-                                    max-height="38" max-width="38"
-                                    :lazy-src="topics.user_update ? topics.user_lazy_avatar_update : topics.user_lazy_avatar">
-                                    <template v-slot:placeholder>
-                                        <v-row class="fill-height ma-0" align="center" justify="center">
-                                            <v-progress-circular indeterminate color="grey lighten-5">
-                                            </v-progress-circular>
-                                        </v-row>
-                                    </template>
-                                </v-img>
-                            </v-list-item-avatar>
-                            <v-list-item-title>
-                                <span class="subtitle-1 font-italic font-weight-bold">
-                                    {{ topics.user_update ? topics.user_update : topics.user }}
-                                </span>
-                                <br />
-                                <span class="subtitle-2 font-italic">
-                                    Contacto:
-                                    <a
-                                        :href="'mailto:' + (topics.user_update ? topics.user_update_email : topics.user_emai)">
-                                        {{ topics.user_update ? topics.user_update_email : topics.user_email }}
-                                    </a>
-                                </span>
-                                <br />
-                                <span class="subtitle-2 font-italic">
-                                    Ultima actualización: {{ topics.user_update ? topics.updated_at : topics.created_at
-                                    }}
-                                </span>
-                            </v-list-item-title>
-                        </v-list-item>
-                    </v-card-text>
+                    <template v-if="user.name">
+                        <v-card-text class="mt-0">
+                            <v-list-item>
+                                <v-list-item-avatar>
+                                    <v-img :src="user.avatar" max-height="38" max-width="38"
+                                        :lazy-src="user.lazy_avatar">
+                                        <template v-slot:placeholder>
+                                            <v-row class="fill-height ma-0" align="center" justify="center">
+                                                <v-progress-circular indeterminate color="grey lighten-5">
+                                                </v-progress-circular>
+                                            </v-row>
+                                        </template>
+                                    </v-img>
+                                </v-list-item-avatar>
+                                <v-list-item-title>
+                                    <span class="subtitle-1 font-italic font-weight-bold">
+                                        {{ user.name }}
+                                    </span>
+                                    <br />
+                                    <span class="subtitle-2 font-italic">
+                                        Contacto:
+                                        <a :href="'mailto:' + (user.email)">
+                                            {{ user.email }}
+                                        </a>
+                                    </span>
+                                    <br />
+                                    <span class="subtitle-2 font-italic">
+                                        Ultima actualización: {{ user.date }}
+                                    </span>
+                                </v-list-item-title>
+                            </v-list-item>
+                        </v-card-text>
+                    </template>
                     <!-- Abstract -->
                     <template v-if="topics.abstract">
                         <div class="d-none d-md-flex">
@@ -167,20 +166,18 @@ export default {
             name: "",
             abstract: "",
             body: "",
-            created_at: "",
-            updated_at: "",
             img: "",
             lazy_img: "",
-            user: "",
-            user_email: "",
-            user_avatar: "",
-            user_lazy_avatar: "",
-            user_update: "",
-            user_update_email: "",
-            user_avatar_update: "",
-            user_lazy_avatar_update: "",
             subject: "",
             tags: [],
+        },
+        user: {
+            name: "",
+            email: "",
+            date: "",
+            avatar: "",
+            avatar: "",
+            lazy_avatar: "",
         },
         previousTopic: {
             slug: "",
@@ -217,14 +214,44 @@ export default {
                         else {
                             this.topics.name = item.topic.name;
                             this.topics.abstract = item.topic.abstract;
-                            this.topics.user = item.topic.user;
-                            this.topics.user_email = item.topic.user_email;
-                            this.topics.user_update = item.topic.user_update;
-                            this.topics.user_update_email = item.topic.user_update_email;
                             this.topics.subject = item.topic.subject;
-                            this.topics.created_at = item.topic.created_at;
-                            this.topics.updated_at = item.topic.updated_at;
                             this.topics.body = item.topic.body;
+                            // Users
+                            if (item.topic.user_update && item.topic.user_update_status == 1) {
+                                this.user.name = item.topic.user_update;
+                                this.user.email = item.topic.user_update_email;
+                                this.user.date = item.topic.updated_at;
+                                // Imagenes
+                                if (item.topic.user_update_avatar) {
+                                    this.user.avatar = "/img/users/" + item.topic.user_update_avatar;
+                                    this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_update_avatar;
+                                }
+                                else {
+                                    this.user.avatar = "/img/users/blank.png";
+                                    this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                                }
+                            }
+                            else if (item.topic.user && item.topic.user_status == 1) {
+                                this.user.name = item.topic.user;
+                                this.user.email = item.topic.user_email;
+                                this.user.date = item.topic.updated_at ? item.topic.updated_at : item.topic.created_at;
+                                // Imagenes
+                                if (item.topic.user_avatar) {
+                                    this.user.avatar = "/img/users/" + item.topic.user_avatar;
+                                    this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
+                                }
+                                else {
+                                    this.user.avatar = "/img/users/blank.png";
+                                    this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                                }
+                            }
+                            else {
+                                this.user.name = "";
+                                this.user.email = "";
+                                this.user.date = "";
+                                this.user.avatar = "/img/users/blank.png";
+                                this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                            }
                             // Imagen del topics
                             if (item.topic.img) {
                                 this.topics.img = "/img/topics/" + item.topic.img;
@@ -233,24 +260,6 @@ export default {
                             else {
                                 this.topics.img = "/img/topics/blank.png";
                                 this.topics.lazy_img = "/img/lazy_topics/blank.png";
-                            }
-                            // Imagenes de los usuarios
-                            if (item.topic.user_avatar) {
-                                this.topics.user_avatar = "/img/users/" + item.topic.user_avatar;
-                                this.topics.user_lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
-                            }
-                            else {
-                                this.topics.user_avatar = "/img/users/blank.png";
-                                this.topics.user_lazy_avatar = "/img/lazy_users/blank.png";
-                            }
-                            // Imagenes de los usuarios
-                            if (item.topic.user_update_avatar) {
-                                this.topics.user_avatar_update = "/img/users/" + item.topic.user_update_avatar;
-                                this.topics.user_lazy_avatar_update = "/img/lazy_users/" + item.topic.user_update_avatar;
-                            }
-                            else {
-                                this.topics.user_avatar_update = "/img/users/blank.png";
-                                this.topics.user_lazy_avatar_update = "/img/lazy_users/blank.png";
                             }
                             // Anterior
                             if (item.previous.slug) {

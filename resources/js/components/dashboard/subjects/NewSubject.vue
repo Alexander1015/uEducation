@@ -38,8 +38,7 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12" md="6">
-                                        <v-btn class="bk_brown txt_white width_100 mb-2"
-                                            @click.stop="handleFileImport()">
+                                        <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
                                             Subir imagen
                                         </v-btn>
@@ -49,7 +48,7 @@
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
                                         <template v-if="prev_img.url_img != '/img/subjects/blank.png'">
-                                            <v-btn class="bk_brown txt_white width_100" @click.stop="clean_img()">
+                                            <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
                                                 Borrar imagen
                                             </v-btn>
@@ -69,13 +68,13 @@
                                     </v-col>
                                 </v-row>
                                 <template v-if="form.name != ''">
-                                    <v-btn class="txt_white bk_green width_100 mt-2" type="submit">
+                                    <v-btn class="txt_white bk_green mt-2" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>
                                 </template>
                                 <template v-else>
-                                    <v-btn class="width_100 mt-2" disabled>
+                                    <v-btn class="mt-2" block disabled>
                                         <v-icon left>save</v-icon>
                                         Guardar
                                     </v-btn>

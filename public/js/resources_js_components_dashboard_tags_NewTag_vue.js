@@ -125,7 +125,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTags",
   data: function data() {
@@ -1346,9 +1345,8 @@ var render = function () {
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass:
-                                        "txt_white bk_green width_100",
-                                      attrs: { type: "submit" },
+                                      staticClass: "txt_white bk_green",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -1364,10 +1362,7 @@ var render = function () {
                               : [
                                   _c(
                                     "v-btn",
-                                    {
-                                      staticClass: "width_100",
-                                      attrs: { disabled: "" },
-                                    },
+                                    { attrs: { block: "", disabled: "" } },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
                                         _vm._v("save"),

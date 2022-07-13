@@ -50,7 +50,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -201,6 +202,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PublicTopic',
   data: function data() {
+    var _user;
+
     return {
       editor: (_ckeditor_ckeditor5_build_decoupled_document__WEBPACK_IMPORTED_MODULE_0___default()),
       editorDisabled: true,
@@ -218,21 +221,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: "",
         "abstract": "",
         body: "",
-        created_at: "",
-        updated_at: "",
         img: "",
         lazy_img: "",
-        user: "",
-        user_email: "",
-        user_avatar: "",
-        user_lazy_avatar: "",
-        user_update: "",
-        user_update_email: "",
-        user_avatar_update: "",
-        user_lazy_avatar_update: "",
         subject: "",
         tags: []
       },
+      user: (_user = {
+        name: "",
+        email: "",
+        date: "",
+        avatar: ""
+      }, _defineProperty(_user, "avatar", ""), _defineProperty(_user, "lazy_avatar", ""), _user),
       previousTopic: {
         slug: "",
         name: ""
@@ -283,14 +282,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this.topics.name = item.topic.name;
                     _this.topics["abstract"] = item.topic["abstract"];
-                    _this.topics.user = item.topic.user;
-                    _this.topics.user_email = item.topic.user_email;
-                    _this.topics.user_update = item.topic.user_update;
-                    _this.topics.user_update_email = item.topic.user_update_email;
                     _this.topics.subject = item.topic.subject;
-                    _this.topics.created_at = item.topic.created_at;
-                    _this.topics.updated_at = item.topic.updated_at;
-                    _this.topics.body = item.topic.body; // Imagen del topics
+                    _this.topics.body = item.topic.body; // Users
+
+                    if (item.topic.user_update && item.topic.user_update_status == 1) {
+                      _this.user.name = item.topic.user_update;
+                      _this.user.email = item.topic.user_update_email;
+                      _this.user.date = item.topic.updated_at; // Imagenes
+
+                      if (item.topic.user_update_avatar) {
+                        _this.user.avatar = "/img/users/" + item.topic.user_update_avatar;
+                        _this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_update_avatar;
+                      } else {
+                        _this.user.avatar = "/img/users/blank.png";
+                        _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                      }
+                    } else if (item.topic.user && item.topic.user_status == 1) {
+                      _this.user.name = item.topic.user;
+                      _this.user.email = item.topic.user_email;
+                      _this.user.date = item.topic.updated_at ? item.topic.updated_at : item.topic.created_at; // Imagenes
+
+                      if (item.topic.user_avatar) {
+                        _this.user.avatar = "/img/users/" + item.topic.user_avatar;
+                        _this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
+                      } else {
+                        _this.user.avatar = "/img/users/blank.png";
+                        _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                      }
+                    } else {
+                      _this.user.name = "";
+                      _this.user.email = "";
+                      _this.user.date = "";
+                      _this.user.avatar = "/img/users/blank.png";
+                      _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                    } // Imagen del topics
+
 
                     if (item.topic.img) {
                       _this.topics.img = "/img/topics/" + item.topic.img;
@@ -298,24 +324,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     } else {
                       _this.topics.img = "/img/topics/blank.png";
                       _this.topics.lazy_img = "/img/lazy_topics/blank.png";
-                    } // Imagenes de los usuarios
-
-
-                    if (item.topic.user_avatar) {
-                      _this.topics.user_avatar = "/img/users/" + item.topic.user_avatar;
-                      _this.topics.user_lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
-                    } else {
-                      _this.topics.user_avatar = "/img/users/blank.png";
-                      _this.topics.user_lazy_avatar = "/img/lazy_users/blank.png";
-                    } // Imagenes de los usuarios
-
-
-                    if (item.topic.user_update_avatar) {
-                      _this.topics.user_avatar_update = "/img/users/" + item.topic.user_update_avatar;
-                      _this.topics.user_lazy_avatar_update = "/img/lazy_users/" + item.topic.user_update_avatar;
-                    } else {
-                      _this.topics.user_avatar_update = "/img/users/blank.png";
-                      _this.topics.user_lazy_avatar_update = "/img/lazy_users/blank.png";
                     } // Anterior
 
 
@@ -635,7 +643,7 @@ var render = function () {
                                   _c(
                                     "v-chip",
                                     {
-                                      staticClass: "ml-2 mr-1 mb-1",
+                                      staticClass: "ml-2 mr-1 mb-1 mt-n1",
                                       style: "color:" + item.text_color + ";",
                                       attrs: { color: item.background_color },
                                     },
@@ -655,145 +663,134 @@ var render = function () {
                         ]
                       : _vm._e(),
                     _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      { staticClass: "mt-0" },
-                      [
-                        _c(
-                          "v-list-item",
-                          [
-                            _c(
-                              "v-list-item-avatar",
-                              [
-                                _c("v-img", {
-                                  attrs: {
-                                    src: _vm.topics.user_update
-                                      ? _vm.topics.user_avatar_update
-                                      : _vm.topics.user_avatar,
-                                    "max-height": "38",
-                                    "max-width": "38",
-                                    "lazy-src": _vm.topics.user_update
-                                      ? _vm.topics.user_lazy_avatar_update
-                                      : _vm.topics.user_lazy_avatar,
-                                  },
-                                  scopedSlots: _vm._u(
+                    _vm.user.name
+                      ? [
+                          _c(
+                            "v-card-text",
+                            { staticClass: "mt-0" },
+                            [
+                              _c(
+                                "v-list-item",
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
                                     [
-                                      {
-                                        key: "placeholder",
-                                        fn: function () {
-                                          return [
-                                            _c(
-                                              "v-row",
-                                              {
-                                                staticClass: "fill-height ma-0",
-                                                attrs: {
-                                                  align: "center",
-                                                  justify: "center",
-                                                },
+                                      _c("v-img", {
+                                        attrs: {
+                                          src: _vm.user.avatar,
+                                          "max-height": "38",
+                                          "max-width": "38",
+                                          "lazy-src": _vm.user.lazy_avatar,
+                                        },
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "placeholder",
+                                              fn: function () {
+                                                return [
+                                                  _c(
+                                                    "v-row",
+                                                    {
+                                                      staticClass:
+                                                        "fill-height ma-0",
+                                                      attrs: {
+                                                        align: "center",
+                                                        justify: "center",
+                                                      },
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-progress-circular",
+                                                        {
+                                                          attrs: {
+                                                            indeterminate: "",
+                                                            color:
+                                                              "grey lighten-5",
+                                                          },
+                                                        }
+                                                      ),
+                                                    ],
+                                                    1
+                                                  ),
+                                                ]
                                               },
-                                              [
-                                                _c("v-progress-circular", {
-                                                  attrs: {
-                                                    indeterminate: "",
-                                                    color: "grey lighten-5",
-                                                  },
-                                                }),
-                                              ],
-                                              1
+                                              proxy: true,
+                                            },
+                                          ],
+                                          null,
+                                          false,
+                                          4034393411
+                                        ),
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-list-item-title", [
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "subtitle-1 font-italic font-weight-bold",
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(_vm.user.name) +
+                                            "\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "subtitle-2 font-italic" },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Contacto:\n                                    "
+                                        ),
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              href: "mailto:" + _vm.user.email,
+                                            },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(_vm.user.email) +
+                                                "\n                                    "
                                             ),
                                           ]
-                                        },
-                                        proxy: true,
-                                      },
-                                    ],
-                                    null,
-                                    false,
-                                    4034393411
-                                  ),
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("v-list-item-title", [
-                              _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "subtitle-1 font-italic font-weight-bold",
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        _vm.topics.user_update
-                                          ? _vm.topics.user_update
-                                          : _vm.topics.user
-                                      ) +
-                                      "\n                            "
-                                  ),
-                                ]
+                                        ),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("br"),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "subtitle-2 font-italic" },
+                                      [
+                                        _vm._v(
+                                          "\n                                    Ultima actualización: " +
+                                            _vm._s(_vm.user.date) +
+                                            "\n                                "
+                                        ),
+                                      ]
+                                    ),
+                                  ]),
+                                ],
+                                1
                               ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "subtitle-2 font-italic" },
-                                [
-                                  _vm._v(
-                                    "\n                                Contacto:\n                                "
-                                  ),
-                                  _c(
-                                    "a",
-                                    {
-                                      attrs: {
-                                        href:
-                                          "mailto:" +
-                                          (_vm.topics.user_update
-                                            ? _vm.topics.user_update_email
-                                            : _vm.topics.user_emai),
-                                      },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(
-                                            _vm.topics.user_update
-                                              ? _vm.topics.user_update_email
-                                              : _vm.topics.user_email
-                                          ) +
-                                          "\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c(
-                                "span",
-                                { staticClass: "subtitle-2 font-italic" },
-                                [
-                                  _vm._v(
-                                    "\n                                Ultima actualización: " +
-                                      _vm._s(
-                                        _vm.topics.user_update
-                                          ? _vm.topics.updated_at
-                                          : _vm.topics.created_at
-                                      ) +
-                                      "\n                            "
-                                  ),
-                                ]
-                              ),
-                            ]),
-                          ],
-                          1
-                        ),
-                      ],
-                      1
-                    ),
+                            ],
+                            1
+                          ),
+                        ]
+                      : _vm._e(),
                     _vm._v(" "),
                     _vm.topics.abstract
                       ? [
