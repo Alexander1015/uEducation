@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique()->default("");
-            $table->string('name')->unique()->unique()->default("");
+            $table->string('name')->unique()->default("");
             $table->string('img')->default("");
             $table->text('abstract')->default("");
             $table->longText('body')->default("");
             $table->boolean('status')->default(0);
-            $table->integer('sequence')->default(0);
+            $table->integer('sequence')->default(1);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('user_update_id')->nullable();
             $table->unsignedBigInteger('subject_id')->nullable();

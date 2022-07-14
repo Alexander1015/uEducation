@@ -19,8 +19,11 @@ class TagController extends Controller
     public function index()
     {
         try {
-            $tags = DB::table('tags')->orderBy('name', 'asc')->get();
-            return response()->json($tags);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $tags = DB::table('tags')->orderBy('name', 'asc')->get();
+                return response()->json($tags);
+            } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }
@@ -117,8 +120,11 @@ class TagController extends Controller
     public function show($slug)
     {
         try {
-            $tag = DB::table("tags")->where("slug", $slug)->first();
-            return response()->json($tag);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $tag = DB::table("tags")->where("slug", $slug)->first();
+                return response()->json($tag);
+            } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }

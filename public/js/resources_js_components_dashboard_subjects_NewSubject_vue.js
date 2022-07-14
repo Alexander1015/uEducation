@@ -129,7 +129,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
       }],
       imgRules: [function (v) {
-        return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
+        return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
       }],
       prev_img: {
         url_img: "/img/subjects/blank.png",
@@ -846,7 +846,7 @@ var render = function () {
                                           _vm._v("file_upload"),
                                         ]),
                                         _vm._v(
-                                          "\n                                        Subir imagen\n                                    "
+                                          "\n                                        Subir imágen\n                                    "
                                         ),
                                       ],
                                       1
@@ -901,7 +901,7 @@ var render = function () {
                                                 [_vm._v("delete")]
                                               ),
                                               _vm._v(
-                                                "\n                                            Borrar imagen\n                                        "
+                                                "\n                                            Borrar imágen\n                                        "
                                               ),
                                             ],
                                             1

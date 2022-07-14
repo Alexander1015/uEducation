@@ -98,7 +98,7 @@
                                         </v-btn>
                                         <v-file-input ref="uploader" v-model="form_information.avatar"
                                             @change="preview_img()" class="d-none"
-                                            label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                            label="Haz clic(k) aquí para subir una imágen" id="avatar"
                                             prepend-icon="photo_camera" :rules="info.avatarRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size>
                                         </v-file-input>
@@ -288,7 +288,7 @@ export default {
                 v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
             ],
             avatarRules: [
-                v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+                v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
             ],
         },
         passw: {

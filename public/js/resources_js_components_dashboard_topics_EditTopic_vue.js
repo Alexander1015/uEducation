@@ -378,7 +378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !v || v.length <= 250 || 'La descripción debe tener menos de 250 carácteres';
         }],
         imgRules: [function (v) {
-          return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
+          return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
         }]
       },
       statusRules: [function (v) {
@@ -899,7 +899,7 @@ var UploadAdapter = /*#__PURE__*/function () {
               reject(response.data.message);
             }
           })["catch"](function (response) {
-            reject("Ha ocurrido un error al subir la imagen");
+            reject("Ha ocurrido un error al subir la imágen");
           });
         });
       });
@@ -2430,7 +2430,7 @@ var render = function () {
                                           _vm._v("file_upload"),
                                         ]),
                                         _vm._v(
-                                          "\n                                        Subir imagen\n                                    "
+                                          "\n                                        Subir imágen\n                                    "
                                         ),
                                       ],
                                       1
@@ -2489,7 +2489,7 @@ var render = function () {
                                                 [_vm._v("delete")]
                                               ),
                                               _vm._v(
-                                                "\n                                            Borrar imagen\n                                        "
+                                                "\n                                            Borrar imágen\n                                        "
                                               ),
                                             ],
                                             1

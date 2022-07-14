@@ -314,7 +314,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return v && v.length <= 50 || 'El usuario debe tener menos de 50 carácteres';
         }],
         avatarRules: [function (v) {
-          return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
+          return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
         }]
       },
       passw: {
@@ -1910,7 +1910,7 @@ var render = function () {
                                       staticClass: "d-none",
                                       attrs: {
                                         label:
-                                          "Haz clic(k) aquí para subir una imagen",
+                                          "Haz clic(k) aquí para subir una imágen",
                                         id: "avatar",
                                         "prepend-icon": "photo_camera",
                                         rules: _vm.info.avatarRules,

@@ -68,6 +68,12 @@ body::-webkit-scrollbar-thumb {
 #body .logo_top {
   width: 13rem;
 }
+#body .btn_carousel {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 2;
+}
 #body #container {
   width: 100vw;
 }
@@ -85,8 +91,22 @@ body::-webkit-scrollbar-thumb {
 #body #container #topic_drag {
   border-radius: 0.5rem;
   cursor: move;
+  list-style: none;
 }
 #body #container .topic_drag_icon {
+  float: right;
+}
+#body #container #carousel_drag {
+  border: 1px solid #091E32;
+  border-radius: 0.5rem;
+  cursor: move;
+  list-style: none;
+  min-height: 10.5rem;
+}
+#body #container .carousel_drag_text {
+  float: left;
+}
+#body #container .carousel_drag_icon {
   float: right;
 }
 #body #container .ghost {

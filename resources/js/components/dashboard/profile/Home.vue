@@ -73,7 +73,7 @@
                                         Subir avatar
                                     </v-btn>
                                     <v-file-input ref="uploader" v-model="form.avatar" @change="preview_img"
-                                        label="Haz clic(k) aquí para subir una imagen" id="avatar" class="d-none"
+                                        label="Haz clic(k) aquí para subir una imágen" id="avatar" class="d-none"
                                         prepend-icon="photo_camera" :rules="avatarRules"
                                         accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size dense>
                                     </v-file-input>
@@ -208,7 +208,7 @@ export default {
             v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
         ],
         avatarRules: [
-            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+            v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
         ],
         passwordRules: [
             v => !!v || 'La contraseña es requerida',
@@ -261,7 +261,7 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            //Mostramos los datos asi por la imagen
+                            //Mostramos los datos asi por la imágen
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);
@@ -323,7 +323,7 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            //Mostramos los datos asi por la imagen
+                            //Mostramos los datos asi por la imágen
                             let data = new FormData();
                             data.append('password', this.form_password.password);
                             data.append('password_confirmation', this.form_password.password_confirmation);

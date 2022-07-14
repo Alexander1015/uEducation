@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 // Auth
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LogoutController;
+// Carousel
+use App\Http\Controllers\Carousel\CarouselController;
+use App\Http\Controllers\Carousel\ListController;
 // Profile
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\PasswordProfileController;
@@ -28,6 +31,7 @@ use App\Http\Controllers\Topics\UploadImageController;
 //Public
 use App\Http\Controllers\Public\GetDataController as PublicDataController;
 use App\Http\Controllers\Public\GetTopicController as PublicTopicController;
+use App\Http\Controllers\Public\GetCarouselController as PublicCarouselController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -40,10 +44,14 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 //Public
 Route::resource("getdata", PublicDataController::class);
 Route::resource("gettopic", PublicTopicController::class);
+Route::resource("getcarousel", PublicCarouselController::class);
 
 // Auth
 Route::resource("auth", AuthController::class);
 Route::resource('logout', LogoutController::class);
+// Corousel
+Route::resource('carousel', CarouselController::class)->middleware('auth');
+Route::resource('carousel/list', ListController::class)->middleware('auth');
 // Profile
 Route::resource('profile', ProfileController::class)->middleware('auth');
 Route::resource('profile/password', PasswordProfileController::class)->middleware('auth');

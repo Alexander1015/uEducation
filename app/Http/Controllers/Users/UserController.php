@@ -23,8 +23,11 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = DB::table('users')->orderBy('user', 'asc')->get();
-            return response()->json($users);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $users = DB::table('users')->orderBy('user', 'asc')->get();
+                return response()->json($users);
+            } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }
@@ -150,8 +153,11 @@ class UserController extends Controller
     public function show($slug)
     {
         try {
-            $user = DB::table("users")->where("slug", $slug)->first();
-            return response()->json($user);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $user = DB::table("users")->where("slug", $slug)->first();
+                return response()->json($user);
+            } else  return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }

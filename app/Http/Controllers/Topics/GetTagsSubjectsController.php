@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Topics;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GetTagsSubjectsController extends Controller
@@ -17,12 +16,20 @@ class GetTagsSubjectsController extends Controller
     public function index()
     {
         try {
-            $subjects = DB::table('subjects')->pluck('name');
-            $tags = DB::table('tags')->get();
-            return response()->json([
-                'subjects' => $subjects,
-                'tags' => $tags,
-            ]);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $subjects = DB::table('subjects')->pluck('name');
+                $tags = DB::table('tags')->get();
+                return response()->json([
+                    'subjects' => $subjects,
+                    'tags' => $tags,
+                ]);
+            } else {
+                return response()->json([
+                    'subjects' => [],
+                    'tags' => [],
+                ]);
+            }
         } catch (Exception $ex) {
             return response()->json([
                 'subjects' => [],

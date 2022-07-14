@@ -23,17 +23,20 @@ class TopicController extends Controller
     public function index()
     {
         try {
-            $topics = DB::select(
-                'SELECT
-                T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject, T.created_at, T.updated_at
-            FROM 
-                topics AS T
-            LEFT JOIN subjects AS S ON T.subject_id = S.id
-            LEFT JOIN users AS Uc ON T.user_id = Uc.id
-            LEFT JOIN users AS Uu ON T.user_update_id = Uu.id
-            ORDER BY T.name ASC'
-            );
-            return response()->json($topics);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $topics = DB::select(
+                    'SELECT
+                    T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject, T.created_at, T.updated_at
+                FROM 
+                    topics AS T
+                LEFT JOIN subjects AS S ON T.subject_id = S.id
+                LEFT JOIN users AS Uc ON T.user_id = Uc.id
+                LEFT JOIN users AS Uu ON T.user_update_id = Uu.id
+                ORDER BY T.name ASC'
+                );
+                return response()->json($topics);
+            } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }
@@ -109,6 +112,7 @@ class TopicController extends Controller
                                 $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
                             }
                             $slug = Str::slug($request->input('name'));
+                            // Obtenemos el ultimo valor de la secuencia
                             $new_sequence = 1;
                             $before_sequence = DB::table("topics")->where('subject_id', $exist_subject->id)->orderBy('sequence', 'desc')->first();
                             if ($before_sequence && (int) $before_sequence->sequence) {
@@ -209,70 +213,79 @@ class TopicController extends Controller
     public function show($slug)
     {
         try {
-            // Topic
-            $topic = DB::table("topics")->where("slug", $slug)->first();
-            // Subject
-            $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
-            // Tags
-            $tags_ids = DB::select(
-                'SELECT
-                    Ta.name
-                FROM 
-                    topic_tag AS Tt
-                LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
-                WHERE
-                    Tt.topic_id = ?
-                ORDER BY Ta.name ASC',
-                [
-                    $topic->id
-                ]
-            );
-            $tags = array();
-            for($x = 0; $x < sizeof($tags_ids); $x++) {
-                array_push($tags, $tags_ids[$x]->name);
-            }
-            // Liberar imagenes sin usar
-            $directory = public_path('/img/topics') . "/" . $topic->id;
-            $files = array();
-            if (File::isDirectory($directory)) {
-                // Obtenemos todos los datos
-                $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
-                $filedir = File::allFiles($directory);
-                for ($a = 0; $a < sizeof($filedir); $a++) {
-                    array_push($files, $filedir[$a]->getRelativePathname());
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                // Topic
+                $topic = DB::table("topics")->where("slug", $slug)->first();
+                // Subject
+                $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
+                // Tags
+                $tags_ids = DB::select(
+                    'SELECT
+                        Ta.name
+                    FROM 
+                        topic_tag AS Tt
+                    LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
+                    WHERE
+                        Tt.topic_id = ?
+                    ORDER BY Ta.name ASC',
+                    [
+                        $topic->id
+                    ]
+                );
+                $tags = array();
+                for ($x = 0; $x < sizeof($tags_ids); $x++) {
+                    array_push($tags, $tags_ids[$x]->name);
                 }
-                //Eliminamos registros si no existen en la carpeta
-                for ($x = 0; $x < sizeof($images_db); $x++) {
-                    $exist = false;
-                    for ($y = 0; $y < sizeof($files); $y++) {
-                        if ($images_db[$x]->image === $files[$y]) {
-                            $exist = true;
-                            break;
-                        }
+                // Liberar imagenes sin usar
+                $directory = public_path('/img/topics') . "/" . $topic->id;
+                $files = array();
+                if (File::isDirectory($directory)) {
+                    // Obtenemos todos los datos
+                    $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
+                    $filedir = File::allFiles($directory);
+                    for ($a = 0; $a < sizeof($filedir); $a++) {
+                        array_push($files, $filedir[$a]->getRelativePathname());
                     }
-                    if (!$exist) {
-                        DB::table("images")->delete($images_db[$x]->id);
-                    }
-                }
-                //Eliminamos archivos si no existen en la bd
-                for ($y = 0; $y < sizeof($files); $y++) {
-                    $exist = false;
+                    //Eliminamos registros si no existen en la carpeta
                     for ($x = 0; $x < sizeof($images_db); $x++) {
-                        if ($images_db[$x]->image == $files[$y]) {
-                            $exist = true;
-                            break;
+                        $exist = false;
+                        for ($y = 0; $y < sizeof($files); $y++) {
+                            if ($images_db[$x]->image === $files[$y]) {
+                                $exist = true;
+                                break;
+                            }
+                        }
+                        if (!$exist) {
+                            DB::table("images")->delete($images_db[$x]->id);
                         }
                     }
-                    if (!$exist) {
-                        File::delete($directory . '/' . $files[$y]);
+                    //Eliminamos archivos si no existen en la bd
+                    for ($y = 0; $y < sizeof($files); $y++) {
+                        $exist = false;
+                        for ($x = 0; $x < sizeof($images_db); $x++) {
+                            if ($images_db[$x]->image == $files[$y]) {
+                                $exist = true;
+                                break;
+                            }
+                        }
+                        if (!$exist) {
+                            File::delete($directory . '/' . $files[$y]);
+                        }
                     }
                 }
+                return response()->json([
+                    'topic' => $topic,
+                    'subject' => $subject,
+                    'tags' => $tags,
+                ]);
+            } else {
+                return response()->json([
+                    'topic' => [],
+                    'subject' => [],
+                    'tags' => [],
+                ]);
             }
-            return response()->json([
-                'topic' => $topic,
-                'subject' => $subject,
-                'tags' => $tags,
-            ]);
         } catch (Exception $ex) {
             return response()->json([
                 'topic' => [],

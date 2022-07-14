@@ -69,6 +69,12 @@ body::-webkit-scrollbar-thumb {
     .logo_top {
         width: 13rem;
     }
+    .btn_carousel {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        z-index: 2;
+    }
     #container {
         width: 100vw;
         .show_color {
@@ -85,8 +91,22 @@ body::-webkit-scrollbar-thumb {
         #topic_drag {
             border-radius: 0.5rem;
             cursor: move;
+            list-style: none;
         }
         .topic_drag_icon {
+            float: right;
+        }
+        #carousel_drag {
+            border: 1px solid $primary;
+            border-radius: 0.5rem;
+            cursor: move;
+            list-style: none;
+            min-height: 10.5rem;
+        }
+        .carousel_drag_text {
+            float: left;
+        }
+        .carousel_drag_icon {
             float: right;
         }
         .ghost {

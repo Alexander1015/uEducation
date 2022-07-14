@@ -138,7 +138,7 @@
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
-                                            Subir imagen
+                                            Subir imágen
                                         </v-btn>
                                         <v-file-input ref="uploader" v-model="form_information.img"
                                             @change="preview_img()" class="d-none"
@@ -149,7 +149,7 @@
                                         <template v-if="prev_img.url_img != '/img/topics/blank.png'">
                                             <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
-                                                Borrar imagen
+                                                Borrar imágen
                                             </v-btn>
                                         </template>
                                     </v-col>
@@ -313,7 +313,7 @@ export default {
                 v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 carácteres',
             ],
             imgRules: [
-                v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+                v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
             ],
         },
         statusRules: [
@@ -698,7 +698,7 @@ export class UploadAdapter {
                                 reject(response.data.message);
                             }
                         }).catch(response => {
-                            reject("Ha ocurrido un error al subir la imagen");
+                            reject("Ha ocurrido un error al subir la imágen");
                         });
                 });
             });

@@ -5811,6 +5811,11 @@ var PublicTopic = function PublicTopic() {
 
 var Auth = function Auth() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_auth_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/auth/Home.vue */ "./resources/js/components/auth/Home.vue"));
+}; // Carousel
+
+
+var DashboardCarousel = function DashboardCarousel() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_carousel_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/carousel/Home.vue */ "./resources/js/components/dashboard/carousel/Home.vue"));
 }; // Users
 
 
@@ -5883,6 +5888,19 @@ var routes = [{
   name: 'contents',
   path: '/contents',
   component: PublicContents
+}, {
+  name: 'carousel',
+  path: '/carousel',
+  component: DashboardCarousel,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
 }, {
   name: 'publicSubject',
   path: '/contents/:subject',
@@ -58187,7 +58205,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_carousel_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

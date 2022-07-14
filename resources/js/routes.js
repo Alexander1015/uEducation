@@ -7,6 +7,8 @@ const PublicSubject = () => import ('./components/public/Subject.vue')
 const PublicTopic = () => import ('./components/public/Topic.vue')
 // Auth
 const Auth = () => import ('./components/auth/Home.vue')
+// Carousel
+const DashboardCarousel = () => import ('./components/dashboard/carousel/Home.vue')
 // Users
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
@@ -33,12 +35,24 @@ export const routes = [
     {
         name: 'public',
         path: '/',
-        component: Public,
+        component: Public
     },
     {
         name: 'contents',
         path: '/contents',
-        component: PublicContents,
+        component: PublicContents
+    },
+    {
+        name: 'carousel',
+        path: '/carousel',
+        component: DashboardCarousel,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
     },
     {
         name: 'publicSubject',
@@ -51,13 +65,11 @@ export const routes = [
                 component: PublicTopic
             }
         ]
-    },
-    {
+    }, {
         name: 'auth',
         path: '/auth',
         component: Auth
-    },
-    {
+    }, {
         name: 'users',
         path: '/dashboard/users',
         component: DashboardUsers,
@@ -205,6 +217,6 @@ export const routes = [
     {
         name: 'error',
         path: '*',
-        component: Error,
+        component: Error
     }
 ]

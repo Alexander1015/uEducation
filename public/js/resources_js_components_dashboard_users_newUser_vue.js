@@ -206,7 +206,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'El repetir la contraseña es requerido';
       }],
       avatarRules: [function (v) {
-        return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
+        return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
       }],
       prev_img: {
         url_img: "/img/users/blank.png",
@@ -1091,7 +1091,7 @@ var render = function () {
                                       staticClass: "d-none",
                                       attrs: {
                                         label:
-                                          "Haz clic(k) aquí para subir una imagen",
+                                          "Haz clic(k) aquí para subir una imágen",
                                         id: "avatar",
                                         "prepend-icon": "photo_camera",
                                         rules: _vm.avatarRules,

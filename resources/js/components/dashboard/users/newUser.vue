@@ -78,7 +78,7 @@
                                             Subir avatar
                                         </v-btn>
                                         <v-file-input ref="uploader" v-model="form.avatar" @change="preview_img()"
-                                            class="d-none" label="Haz clic(k) aquí para subir una imagen" id="avatar"
+                                            class="d-none" label="Haz clic(k) aquí para subir una imágen" id="avatar"
                                             prepend-icon="photo_camera" :rules="avatarRules"
                                             accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size
                                             dense>
@@ -178,7 +178,7 @@ export default {
             v => !!v || 'El repetir la contraseña es requerido',
         ],
         avatarRules: [
-            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+            v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
         ],
         prev_img: {
             url_img: "/img/users/blank.png",

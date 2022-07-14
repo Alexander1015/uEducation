@@ -72,7 +72,7 @@
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
-                                            Subir imagen
+                                            Subir imágen
                                         </v-btn>
                                         <v-file-input ref="uploader" v-model="form_information.img"
                                             @change="preview_img()" class="d-none"
@@ -83,7 +83,7 @@
                                         <template v-if="prev_img.url_img != '/img/subjects/blank.png'">
                                             <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
-                                                Borrar imagen
+                                                Borrar imágen
                                             </v-btn>
                                         </template>
                                     </v-col>
@@ -218,8 +218,8 @@ export default {
             height: 200,
             width: 300,
         },
-        topics: {},
-        topics_copy: {},
+        topics: [],
+        topics_copy: [],
         form_status: {
             status: "",
         },
@@ -230,7 +230,7 @@ export default {
                 v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
             ],
             imgRules: [
-                v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+                v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
             ],
         },
         statusRules: [
@@ -362,56 +362,51 @@ export default {
             }
         },
         async saveListTopics() {
-            if (this.$refs.form_information.validate()) {
-                await this.$swal({
-                    title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Si',
-                    cancelButtonText: 'Cancelar',
-                })
-                    .then(result => {
-                        if (result.isConfirmed) {
-                            this.overlay = true;
-                            let data = new FormData();
-                            for (let item of this.topics) {
-                                data.append('topics[]', item.id);
-                            }
-                            data.append('_method', "put");
-                            this.axios.post('/api/subject/gettopics/' + this.address, data)
-                                .then(response => {
-                                    let title = "Error";
-                                    let icon = "error";
-                                    if (response.data.complete) {
-                                        title = "Éxito"
-                                        icon = "success";
-                                    }
-                                    this.$swal({
-                                        title: title,
-                                        icon: icon,
-                                        text: response.data.message,
-                                    }).then(() => {
-                                        if (response.data.complete) {
-                                            this.showSubject();
-                                        }
-                                        this.overlay = false;
-                                    });
-                                }).catch(error => {
-                                    this.$swal({
-                                        title: "Error",
-                                        icon: "error",
-                                        text: "Ha ocurrido un error en la aplicación",
-                                    }).then(() => {
-                                        this.overlay = false;
-                                        console.log(error);
-                                    });
-                                })
+            await this.$swal({
+                title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        let data = new FormData();
+                        for (let item of this.topics) {
+                            data.append('topics[]', item.id);
                         }
-                    });
-            }
-            else {
-                this.overlay = false;
-            }
+                        data.append('_method', "put");
+                        this.axios.post('/api/subject/gettopics/' + this.address, data)
+                            .then(response => {
+                                let title = "Error";
+                                let icon = "error";
+                                if (response.data.complete) {
+                                    title = "Éxito"
+                                    icon = "success";
+                                }
+                                this.$swal({
+                                    title: title,
+                                    icon: icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.showSubject();
+                                    }
+                                    this.overlay = false;
+                                });
+                            }).catch(error => {
+                                this.$swal({
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
+                                });
+                            });
+                    }
+                });
         },
         async statusSubject() {
             await this.$swal({

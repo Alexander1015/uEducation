@@ -21,8 +21,11 @@ class SubjectController extends Controller
     public function index()
     {
         try {
-            $subjects = DB::table('subjects')->orderBy('name', 'asc')->get();
-            return response()->json($subjects);
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $subjects = DB::table('subjects')->orderBy('name', 'asc')->get();
+                return response()->json($subjects);
+            } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
         }
@@ -143,29 +146,37 @@ class SubjectController extends Controller
     public function show($slug)
     {
         try {
-            $subject = DB::table("subjects")->where("slug", $slug)->first();
-            if ($subject) {
-                $topics = DB::select(
-                    'SELECT
-                    id, name
-                FROM 
-                    topics
-                WHERE
-                    subject_id = ?
-                ORDER BY sequence ASC',
-                    [
-                        $subject->id
-                    ]
-                );
-                $size = 1;
-                foreach ($topics as $data) {
-                    $data->key = $size;
-                    $size++;
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1) {
+                $subject = DB::table("subjects")->where("slug", $slug)->first();
+                if ($subject) {
+                    $topics = DB::select(
+                        'SELECT
+                        id, name
+                    FROM 
+                        topics
+                    WHERE
+                        subject_id = ?
+                    ORDER BY sequence ASC, id ASC',
+                        [
+                            $subject->id,
+                        ]
+                    );
+                    $size = 1;
+                    foreach ($topics as $data) {
+                        $data->key = $size;
+                        $size++;
+                    }
+                    return response()->json([
+                        'subject' => $subject,
+                        'topics' => $topics,
+                    ]);
+                } else {
+                    return response()->json([
+                        'subject' => [],
+                        'topics' => [],
+                    ]);
                 }
-                return response()->json([
-                    'subject' => $subject,
-                    'topics' => $topics,
-                ]);
             } else {
                 return response()->json([
                     'subject' => [],

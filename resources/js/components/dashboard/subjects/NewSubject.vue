@@ -40,7 +40,7 @@
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
-                                            Subir imagen
+                                            Subir imágen
                                         </v-btn>
                                         <v-file-input ref="uploader" v-model="form.img" @change="preview_img()"
                                             label="Haz clic(k) aquí para subir una portada" id="img" class="d-none"
@@ -50,7 +50,7 @@
                                         <template v-if="prev_img.url_img != '/img/subjects/blank.png'">
                                             <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
                                                 <v-icon left>delete</v-icon>
-                                                Borrar imagen
+                                                Borrar imágen
                                             </v-btn>
                                         </template>
                                     </v-col>
@@ -107,7 +107,7 @@ export default {
             v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
         ],
         imgRules: [
-            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
+            v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
         ],
         prev_img: {
             url_img: "/img/subjects/blank.png",
@@ -173,7 +173,7 @@ export default {
                                         console.log(error);
                                         this.overlay = false;
                                     });
-                                })
+                                });
                         }
                     });
             }

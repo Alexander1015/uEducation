@@ -234,7 +234,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length <= 50 || 'El usuario debe tener menos de 50 carácteres';
       }],
       avatarRules: [function (v) {
-        return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
+        return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
       }],
       passwordRules: [function (v) {
         return !!v || 'La contraseña es requerida';
@@ -317,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true; //Mostramos los datos asi por la imagen
+                    _this2.overlay = true; //Mostramos los datos asi por la imágen
 
                     var data = new FormData();
                     data.append('firstname', _this2.form.firstname);
@@ -404,7 +404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this3.overlay = true; //Mostramos los datos asi por la imagen
+                    _this3.overlay = true; //Mostramos los datos asi por la imágen
 
                     var data = new FormData();
                     data.append('password', _this3.form_password.password);
@@ -1299,7 +1299,7 @@ var render = function () {
                                   staticClass: "d-none",
                                   attrs: {
                                     label:
-                                      "Haz clic(k) aquí para subir una imagen",
+                                      "Haz clic(k) aquí para subir una imágen",
                                     id: "avatar",
                                     "prepend-icon": "photo_camera",
                                     rules: _vm.avatarRules,
