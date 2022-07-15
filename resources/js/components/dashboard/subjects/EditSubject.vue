@@ -129,7 +129,7 @@
                                 <draggable class="list-group" tag="ul" v-model="topics" v-bind="dragOptions"
                                     @start="drag = true" @end="drag = false">
                                     <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-                                        <li id="topic_drag" class="bk_brown txt_white my-1 mr-5 pa-2"
+                                        <li id="topic_drag" class="cursor bk_brown txt_white my-1 mr-5 pa-2"
                                             v-for="item in topics" :key="item.key">
                                             {{ item.key }} - {{ item.name }}
                                             <v-icon class="topic_drag_icon txt_white">view_list</v-icon>

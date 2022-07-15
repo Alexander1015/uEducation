@@ -47,6 +47,56 @@
                                                     no-data-text="No se encuentra información para mostrar"
                                                     prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
                                                     hide-selected required>
+                                                    <template v-slot:selection="data">
+                                                        <template v-if="data.item.status == 0">
+                                                            <v-tooltip bottom color="error">
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-icon class="mr-2 hand txt_red" v-bind="attrs"
+                                                                        v-on="on">
+                                                                        warning
+                                                                    </v-icon>
+                                                                </template>
+                                                                <span>
+                                                                    Esta materia esta deshabilitada. <br />
+                                                                    Aunque se pueda seleccionar, todo tema <br />
+                                                                    atribuido a este no podra ser accedido <br />
+                                                                    por el lector.
+                                                                </span>
+                                                            </v-tooltip>
+                                                            {{ data.item.name }}
+                                                        </template>
+                                                        <template v-else>
+                                                            {{ data.item.name }}
+                                                        </template>
+                                                    </template>
+                                                    <template v-slot:item="data">
+                                                        <v-list-item-content>
+                                                            <template v-if="data.item.status == 0">
+                                                                <span>
+                                                                    <v-tooltip bottom color="error">
+                                                                        <template v-slot:activator="{ on, attrs }">
+                                                                            <v-icon class="mr-2 hand txt_red"
+                                                                                v-bind="attrs" v-on="on">
+                                                                                warning
+                                                                            </v-icon>
+                                                                        </template>
+                                                                        <span>
+                                                                            Esta materia esta deshabilitada. <br />
+                                                                            Aunque se pueda seleccionar, todo tema
+                                                                            <br />
+                                                                            atribuido a este no podra ser accedido
+                                                                            <br />
+                                                                            por el lector.
+                                                                        </span>
+                                                                    </v-tooltip>
+                                                                    {{ data.item.name }}
+                                                                </span>
+                                                            </template>
+                                                            <template v-else>
+                                                                {{ data.item.name }}
+                                                            </template>
+                                                        </v-list-item-content>
+                                                    </template>
                                                 </v-autocomplete>
                                             </v-col>
                                             <v-col cols="1">
@@ -78,11 +128,51 @@
                                                             v-bind="data.attrs" close @click="data.select"
                                                             @click:close="remove(data.item)"
                                                             :input-value="data.selected" close-icon="close">
-                                                            {{ data.item.name }}
+                                                            <template v-if="data.item.status == 0">
+                                                                <v-tooltip bottom color="error">
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                        <v-icon class="mr-2 hand" v-bind="attrs"
+                                                                            v-on="on">
+                                                                            warning
+                                                                        </v-icon>
+                                                                    </template>
+                                                                    <span>
+                                                                        Esta etiqueta esta deshabilitada. <br />
+                                                                        Aunque se pueda seleccionar, el lector no <br />
+                                                                        podra verla.
+                                                                    </span>
+                                                                </v-tooltip>
+                                                                {{ data.item.name }}
+                                                            </template>
+                                                            <template v-else>
+                                                                {{ data.item.name }}
+                                                            </template>
                                                         </v-chip>
                                                     </template>
                                                     <template v-slot:item="data">
-                                                        <v-list-item-content v-text="data.item.name">
+                                                        <v-list-item-content>
+                                                            <template v-if="data.item.status == 0">
+                                                                <span>
+                                                                    <v-tooltip bottom color="error">
+                                                                        <template v-slot:activator="{ on, attrs }">
+                                                                            <v-icon class="mr-2 hand txt_red" v-bind="attrs"
+                                                                                v-on="on">
+                                                                                warning
+                                                                            </v-icon>
+                                                                        </template>
+                                                                        <span>
+                                                                            Esta etiqueta esta deshabilitada. <br />
+                                                                            Aunque se pueda seleccionar, el lector no
+                                                                            <br />
+                                                                            podra verla.
+                                                                        </span>
+                                                                    </v-tooltip>
+                                                                    {{ data.item.name }}
+                                                                </span>
+                                                            </template>
+                                                            <template v-else>
+                                                                {{ data.item.name }}
+                                                            </template>
                                                         </v-list-item-content>
                                                     </template>
                                                 </v-autocomplete>
@@ -231,6 +321,7 @@ export default {
             if (index >= 0) this.form.tags.splice(index, 1)
         },
         async showData() {
+            this.overlay = true;
             await this.axios.get('/api/getts')
                 .then(response => {
                     const items = response.data;
@@ -242,12 +333,14 @@ export default {
                         this.data_tags = items.tags;
                     }
                     else this.data_tags = [];
+                    this.overlay = false;
                     this.loading_tags = false;
                     this.loading_subjects = false;
                 })
                 .catch(error => {
                     this.data_subject = [];
                     this.data_tags = [];
+                    this.overlay = false;
                     this.loading_tags = false;
                     this.loading_subjects = false;
                 });
@@ -265,7 +358,7 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
-                            data.append('subject', this.form.subject);
+                            data.append('subject', this.form.subject.name);
                             if (this.form.tags.length > 0) {
                                 for (let tag of this.form.tags) {
                                     data.append('tags[]', tag);

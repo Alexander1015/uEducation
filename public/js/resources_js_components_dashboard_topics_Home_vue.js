@@ -139,13 +139,83 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTopic",
   data: function data() {
     return {
       overlay: false,
       loading_table: true,
-      headers: [{
+      search: '',
+      subjects: '',
+      data: []
+    };
+  },
+  computed: {
+    headers: function headers() {
+      var _this = this;
+
+      return [{
         text: 'Portada',
         value: 'img',
         align: 'center',
@@ -157,7 +227,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         text: 'Curso',
         value: 'subject',
-        align: 'center'
+        align: 'center',
+        filter: function filter(value) {
+          return value.toString().toLowerCase().includes(_this.subjects.toLowerCase());
+        }
       }, {
         text: 'Creado por',
         value: 'user',
@@ -183,10 +256,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'actions',
         align: 'center',
         sortable: false
-      }],
-      search: '',
-      data: []
-    };
+      }];
+    }
   },
   mounted: function mounted() {
     this.allTopics();
@@ -208,25 +279,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     allTopics: function allTopics() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.overlay = true;
-                _this.loading_table = true;
-                _this.data = [];
+                _this2.overlay = true;
+                _this2.loading_table = true;
+                _this2.data = [];
                 _context.next = 5;
-                return _this.axios.get('/api/topic').then(function (response) {
-                  _this.data = response.data;
-                  _this.loading_table = false;
-                  _this.overlay = false;
+                return _this2.axios.get('/api/topic').then(function (response) {
+                  _this2.data = response.data;
+                  _this2.loading_table = false;
+                  _this2.overlay = false;
                 })["catch"](function (error) {
-                  _this.data = [];
-                  _this.loading_table = false;
-                  _this.overlay = false;
+                  _this2.data = [];
+                  _this2.loading_table = false;
+                  _this2.overlay = false;
                 });
 
               case 5:
@@ -238,7 +309,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     deleteTopic: function deleteTopic(item) {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -246,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return _this2.$swal({
+                return _this3.$swal({
                   title: '¿Esta seguro de eliminar el tema?',
                   text: "Esta acción no se puede revertir",
                   icon: 'warning',
@@ -255,9 +326,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true;
+                    _this3.overlay = true;
 
-                    _this2.axios["delete"]('/api/topic/' + item).then(function (response) {
+                    _this3.axios["delete"]('/api/topic/' + item).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -266,25 +337,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon = "success";
                       }
 
-                      _this2.$swal({
+                      _this3.$swal({
                         title: title,
                         icon: icon,
                         text: response.data.message
                       }).then(function () {
-                        _this2.allTopics();
+                        _this3.allTopics();
 
-                        _this2.overlay = false;
+                        _this3.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.$swal({
+                      _this3.$swal({
                         title: "Error",
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
                         console.log(error);
-                        _this2.overlay = false;
+                        _this3.overlay = false;
 
-                        _this2.allTopics();
+                        _this3.allTopics();
                       });
                     });
                   }
@@ -299,7 +370,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     statusTopic: function statusTopic(item, type) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -307,7 +378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return _this3.$swal({
+                return _this4.$swal({
                   title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el tema seleccionado?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -315,12 +386,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this3.overlay = true;
+                    _this4.overlay = true;
                     var data = new FormData();
                     data.append('status', type);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/topic/status/' + item, data).then(function (response) {
+                    _this4.axios.post('/api/topic/status/' + item, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -329,25 +400,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon = "success";
                       }
 
-                      _this3.$swal({
+                      _this4.$swal({
                         title: title,
                         icon: icon,
                         text: response.data.message
                       }).then(function () {
-                        _this3.overlay = false;
+                        _this4.overlay = false;
 
-                        _this3.allTopics();
+                        _this4.allTopics();
                       });
                     })["catch"](function (error) {
-                      _this3.$swal({
+                      _this4.$swal({
                         title: "Error",
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
                         console.log(error);
-                        _this3.overlay = false;
+                        _this4.overlay = false;
 
-                        _this3.allTopics();
+                        _this4.allTopics();
                       });
                     });
                   }
@@ -1257,23 +1328,58 @@ var render = function () {
             ]),
           ]),
           _vm._v(" "),
-          _c("v-text-field", {
-            staticClass: "ml-2 mb-1",
-            attrs: {
-              "prepend-icon": "search",
-              label: "Buscar",
-              clearable: "",
-              "clear-icon": "cancel",
-              dense: "",
-            },
-            model: {
-              value: _vm.search,
-              callback: function ($$v) {
-                _vm.search = $$v
-              },
-              expression: "search",
-            },
-          }),
+          _c(
+            "v-row",
+            { staticClass: "mb-1" },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12", sm: "6" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      tabindex: "1",
+                      "prepend-icon": "search",
+                      label: "Buscar",
+                      dense: "",
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function ($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search",
+                    },
+                  }),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12", sm: "6" } },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      tabindex: "2",
+                      "prepend-icon": "collections_bookmark",
+                      label: "Buscar por cursos",
+                      dense: "",
+                    },
+                    model: {
+                      value: _vm.subjects,
+                      callback: function ($$v) {
+                        _vm.subjects = $$v
+                      },
+                      expression: "subjects",
+                    },
+                  }),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("v-data-table", {
             attrs: {
@@ -1352,15 +1458,138 @@ var render = function () {
                 },
               },
               {
+                key: "item.subject",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    item.subject
+                      ? [
+                          item.subject_status == 0
+                            ? [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(item.subject)
+                                ),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-tooltip",
+                                  {
+                                    attrs: { bottom: "", color: "error" },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "activator",
+                                          fn: function (ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-icon",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      staticClass:
+                                                        "hand txt_red",
+                                                    },
+                                                    "v-icon",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                ),
+                                                [
+                                                  _vm._v(
+                                                    "\n                                    warning\n                                "
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          },
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    ),
+                                  },
+                                  [
+                                    _vm._v(" "),
+                                    _c("span", [
+                                      _vm._v(
+                                        "\n                                Esta materia esta deshabilitada. "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(
+                                        "\n                                Todo tema atribuido a este no podra "
+                                      ),
+                                      _c("br"),
+                                      _vm._v(
+                                        "\n                                ser accedido por el lector.\n                            "
+                                      ),
+                                    ]),
+                                  ]
+                                ),
+                              ]
+                            : [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(item.subject) +
+                                    "\n                    "
+                                ),
+                              ],
+                        ]
+                      : [_c("v-icon", [_vm._v("remove")])],
+                  ]
+                },
+              },
+              {
+                key: "item.user",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    item.user
+                      ? [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(item.user) +
+                              "\n                "
+                          ),
+                        ]
+                      : [_c("v-icon", [_vm._v("remove")])],
+                  ]
+                },
+              },
+              {
                 key: "item.created_at",
                 fn: function (ref) {
                   var item = ref.item
                   return [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.created_at ? item.created_at : "") +
-                        "\n            "
-                    ),
+                    item.created_at
+                      ? [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(item.created_at) +
+                              "\n                "
+                          ),
+                        ]
+                      : [_c("v-icon", [_vm._v("remove")])],
+                  ]
+                },
+              },
+              {
+                key: "item.user_update",
+                fn: function (ref) {
+                  var item = ref.item
+                  return [
+                    item.user_update
+                      ? [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(item.user_update) +
+                              "\n                "
+                          ),
+                        ]
+                      : [_c("v-icon", [_vm._v("remove")])],
                   ]
                 },
               },
@@ -1369,11 +1598,15 @@ var render = function () {
                 fn: function (ref) {
                   var item = ref.item
                   return [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(item.updated_at ? item.updated_at : "") +
-                        "\n            "
-                    ),
+                    item.updated_at
+                      ? [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(item.updated_at) +
+                              "\n                "
+                          ),
+                        ]
+                      : [_c("v-icon", [_vm._v("remove")])],
                   ]
                 },
               },
@@ -1650,15 +1883,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VDataTable.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -1689,7 +1923,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_5__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_6__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_7__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_8__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_13__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["default"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_6__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_8__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_9__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__["default"],VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_14__["default"]})
 
 
 /* hot reload */

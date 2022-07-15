@@ -28,9 +28,19 @@
             <div class="mb-8">
                 <p>Listado de los temas existentes en la aplicación</p>
             </div>
-            <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" clearable
-                clear-icon="cancel" dense>
-            </v-text-field>
+            <v-row class="mb-1">
+                <!-- Search -->
+                <v-col cols="12" sm="6">
+                    <v-text-field v-model="search" tabindex="1" prepend-icon="search" label="Buscar" dense>
+                    </v-text-field>
+                </v-col>
+                <!-- Subjects -->
+                <v-col cols="12" sm="6">
+                    <v-text-field v-model="subjects" tabindex="2" prepend-icon="collections_bookmark"
+                        label="Buscar por cursos" dense>
+                    </v-text-field>
+                </v-col>
+            </v-row>
             <!-- Tabla -->
             <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{
                 showFirstLastPage: true,
@@ -53,11 +63,62 @@
                         </template>
                     </v-img>
                 </template>
+                <template v-slot:item.subject="{ item }">
+                    <template v-if="item.subject">
+                        <template v-if="item.subject_status == 0">
+                            {{ item.subject }}<br />
+                            <v-tooltip bottom color="error">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon class="hand txt_red" v-bind="attrs" v-on="on">
+                                        warning
+                                    </v-icon>
+                                </template>
+                                <span>
+                                    Esta materia esta deshabilitada. <br />
+                                    Todo tema atribuido a este no podra <br />
+                                    ser accedido por el lector.
+                                </span>
+                            </v-tooltip>
+                        </template>
+                        <template v-else>
+                            {{ item.subject }}
+                        </template>
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
+                </template>
+                <template v-slot:item.user="{ item }">
+                    <template v-if="item.user">
+                        {{ item.user }}
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
+                </template>
                 <template v-slot:item.created_at="{ item }">
-                    {{ item.created_at ? item.created_at : "" }}
+                    <template v-if="item.created_at">
+                        {{ item.created_at }}
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
+                </template>
+                <template v-slot:item.user_update="{ item }">
+                    <template v-if="item.user_update">
+                        {{ item.user_update }}
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
                 </template>
                 <template v-slot:item.updated_at="{ item }">
-                    {{ item.updated_at ? item.updated_at : "" }}
+                    <template v-if="item.updated_at">
+                        {{ item.updated_at }}
+                    </template>
+                    <template v-else>
+                        <v-icon>remove</v-icon>
+                    </template>
                 </template>
                 <template v-slot:item.status="{ item }">
                     <div>
@@ -124,20 +185,30 @@ export default {
     data: () => ({
         overlay: false,
         loading_table: true,
-        headers: [
-            { text: 'Portada', value: 'img', align: 'center', sortable: false },
-            { text: 'Título', value: 'name', align: 'center' },
-            { text: 'Curso', value: 'subject', align: 'center' },
-            { text: 'Creado por', value: 'user', align: 'center' },
-            { text: 'Creado el', value: 'created_at', align: 'center' },
-            { text: 'Actualizado por', value: 'user_update', align: 'center' },
-            { text: 'Actualizado el', value: 'updated_at', align: 'center' },
-            { text: 'Estado', value: 'status', align: 'center' },
-            { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
-        ],
         search: '',
+        subjects: '',
         data: [],
     }),
+    computed: {
+        headers() {
+            return [
+                { text: 'Portada', value: 'img', align: 'center', sortable: false },
+                { text: 'Título', value: 'name', align: 'center' },
+                {
+                    text: 'Curso', value: 'subject', align: 'center',
+                    filter: value => {
+                        return value.toString().toLowerCase().includes(this.subjects.toLowerCase())
+                    },
+                },
+                { text: 'Creado por', value: 'user', align: 'center' },
+                { text: 'Creado el', value: 'created_at', align: 'center' },
+                { text: 'Actualizado por', value: 'user_update', align: 'center' },
+                { text: 'Actualizado el', value: 'updated_at', align: 'center' },
+                { text: 'Estado', value: 'status', align: 'center' },
+                { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
+            ]
+        }
+    },
     mounted() {
         this.allTopics();
     },

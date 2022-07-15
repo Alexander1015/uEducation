@@ -187,6 +187,96 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -279,7 +369,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _this.overlay = true;
+                _context.next = 3;
                 return _this.axios.get('/api/getts').then(function (response) {
                   var items = response.data;
 
@@ -291,16 +382,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.data_tags = items.tags;
                   } else _this.data_tags = [];
 
+                  _this.overlay = false;
                   _this.loading_tags = false;
                   _this.loading_subjects = false;
                 })["catch"](function (error) {
                   _this.data_subject = [];
                   _this.data_tags = [];
+                  _this.overlay = false;
                   _this.loading_tags = false;
                   _this.loading_subjects = false;
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -332,7 +425,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this2.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this2.form.subject);
+                    data.append('subject', _this2.form.subject.name);
 
                     if (_this2.form.tags.length > 0) {
                       var _iterator = _createForOfIteratorHelper(_this2.form.tags),
@@ -1333,6 +1426,227 @@ var render = function () {
                                                 "hide-selected": "",
                                                 required: "",
                                               },
+                                              scopedSlots: _vm._u([
+                                                {
+                                                  key: "selection",
+                                                  fn: function (data) {
+                                                    return [
+                                                      data.item.status == 0
+                                                        ? [
+                                                            _c(
+                                                              "v-tooltip",
+                                                              {
+                                                                attrs: {
+                                                                  bottom: "",
+                                                                  color:
+                                                                    "error",
+                                                                },
+                                                                scopedSlots:
+                                                                  _vm._u(
+                                                                    [
+                                                                      {
+                                                                        key: "activator",
+                                                                        fn: function (
+                                                                          ref
+                                                                        ) {
+                                                                          var on =
+                                                                            ref.on
+                                                                          var attrs =
+                                                                            ref.attrs
+                                                                          return [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              _vm._g(
+                                                                                _vm._b(
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mr-2 hand txt_red",
+                                                                                  },
+                                                                                  "v-icon",
+                                                                                  attrs,
+                                                                                  false
+                                                                                ),
+                                                                                on
+                                                                              ),
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\n                                                                    warning\n                                                                "
+                                                                                ),
+                                                                              ]
+                                                                            ),
+                                                                          ]
+                                                                        },
+                                                                      },
+                                                                    ],
+                                                                    null,
+                                                                    true
+                                                                  ),
+                                                              },
+                                                              [
+                                                                _vm._v(" "),
+                                                                _c("span", [
+                                                                  _vm._v(
+                                                                    "\n                                                                Esta materia esta deshabilitada. "
+                                                                  ),
+                                                                  _c("br"),
+                                                                  _vm._v(
+                                                                    "\n                                                                Aunque se pueda seleccionar, todo tema "
+                                                                  ),
+                                                                  _c("br"),
+                                                                  _vm._v(
+                                                                    "\n                                                                atribuido a este no podra ser accedido "
+                                                                  ),
+                                                                  _c("br"),
+                                                                  _vm._v(
+                                                                    "\n                                                                por el lector.\n                                                            "
+                                                                  ),
+                                                                ]),
+                                                              ]
+                                                            ),
+                                                            _vm._v(
+                                                              "\n                                                        " +
+                                                                _vm._s(
+                                                                  data.item.name
+                                                                ) +
+                                                                "\n                                                    "
+                                                            ),
+                                                          ]
+                                                        : [
+                                                            _vm._v(
+                                                              "\n                                                        " +
+                                                                _vm._s(
+                                                                  data.item.name
+                                                                ) +
+                                                                "\n                                                    "
+                                                            ),
+                                                          ],
+                                                    ]
+                                                  },
+                                                },
+                                                {
+                                                  key: "item",
+                                                  fn: function (data) {
+                                                    return [
+                                                      _c(
+                                                        "v-list-item-content",
+                                                        [
+                                                          data.item.status == 0
+                                                            ? [
+                                                                _c(
+                                                                  "span",
+                                                                  [
+                                                                    _c(
+                                                                      "v-tooltip",
+                                                                      {
+                                                                        attrs: {
+                                                                          bottom:
+                                                                            "",
+                                                                          color:
+                                                                            "error",
+                                                                        },
+                                                                        scopedSlots:
+                                                                          _vm._u(
+                                                                            [
+                                                                              {
+                                                                                key: "activator",
+                                                                                fn: function (
+                                                                                  ref
+                                                                                ) {
+                                                                                  var on =
+                                                                                    ref.on
+                                                                                  var attrs =
+                                                                                    ref.attrs
+                                                                                  return [
+                                                                                    _c(
+                                                                                      "v-icon",
+                                                                                      _vm._g(
+                                                                                        _vm._b(
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "mr-2 hand txt_red",
+                                                                                          },
+                                                                                          "v-icon",
+                                                                                          attrs,
+                                                                                          false
+                                                                                        ),
+                                                                                        on
+                                                                                      ),
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "\n                                                                            warning\n                                                                        "
+                                                                                        ),
+                                                                                      ]
+                                                                                    ),
+                                                                                  ]
+                                                                                },
+                                                                              },
+                                                                            ],
+                                                                            null,
+                                                                            true
+                                                                          ),
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "span",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                                        Esta materia esta deshabilitada. "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\n                                                                        Aunque se pueda seleccionar, todo tema\n                                                                        "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\n                                                                        atribuido a este no podra ser accedido\n                                                                        "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\n                                                                        por el lector.\n                                                                    "
+                                                                            ),
+                                                                          ]
+                                                                        ),
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      "\n                                                                " +
+                                                                        _vm._s(
+                                                                          data
+                                                                            .item
+                                                                            .name
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                              ]
+                                                            : [
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      data.item
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ],
+                                                        ],
+                                                        2
+                                                      ),
+                                                    ]
+                                                  },
+                                                },
+                                              ]),
                                               model: {
                                                 value: _vm.form.subject,
                                                 callback: function ($$v) {
@@ -1499,14 +1813,96 @@ var render = function () {
                                                           false
                                                         ),
                                                         [
-                                                          _vm._v(
-                                                            "\n                                                        " +
-                                                              _vm._s(
-                                                                data.item.name
-                                                              ) +
-                                                              "\n                                                    "
-                                                          ),
-                                                        ]
+                                                          data.item.status == 0
+                                                            ? [
+                                                                _c(
+                                                                  "v-tooltip",
+                                                                  {
+                                                                    attrs: {
+                                                                      bottom:
+                                                                        "",
+                                                                      color:
+                                                                        "error",
+                                                                    },
+                                                                    scopedSlots:
+                                                                      _vm._u(
+                                                                        [
+                                                                          {
+                                                                            key: "activator",
+                                                                            fn: function (
+                                                                              ref
+                                                                            ) {
+                                                                              var on =
+                                                                                ref.on
+                                                                              var attrs =
+                                                                                ref.attrs
+                                                                              return [
+                                                                                _c(
+                                                                                  "v-icon",
+                                                                                  _vm._g(
+                                                                                    _vm._b(
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "mr-2 hand",
+                                                                                      },
+                                                                                      "v-icon",
+                                                                                      attrs,
+                                                                                      false
+                                                                                    ),
+                                                                                    on
+                                                                                  ),
+                                                                                  [
+                                                                                    _vm._v(
+                                                                                      "\n                                                                        warning\n                                                                    "
+                                                                                    ),
+                                                                                  ]
+                                                                                ),
+                                                                              ]
+                                                                            },
+                                                                          },
+                                                                        ],
+                                                                        null,
+                                                                        true
+                                                                      ),
+                                                                  },
+                                                                  [
+                                                                    _vm._v(" "),
+                                                                    _c("span", [
+                                                                      _vm._v(
+                                                                        "\n                                                                    Esta etiqueta esta deshabilitada. "
+                                                                      ),
+                                                                      _c("br"),
+                                                                      _vm._v(
+                                                                        "\n                                                                    Aunque se pueda seleccionar, el lector no "
+                                                                      ),
+                                                                      _c("br"),
+                                                                      _vm._v(
+                                                                        "\n                                                                    podra verla.\n                                                                "
+                                                                      ),
+                                                                    ]),
+                                                                  ]
+                                                                ),
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      data.item
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ]
+                                                            : [
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      data.item
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ],
+                                                        ],
+                                                        2
                                                       ),
                                                     ]
                                                   },
@@ -1517,13 +1913,113 @@ var render = function () {
                                                     return [
                                                       _c(
                                                         "v-list-item-content",
-                                                        {
-                                                          domProps: {
-                                                            textContent: _vm._s(
-                                                              data.item.name
-                                                            ),
-                                                          },
-                                                        }
+                                                        [
+                                                          data.item.status == 0
+                                                            ? [
+                                                                _c(
+                                                                  "span",
+                                                                  [
+                                                                    _c(
+                                                                      "v-tooltip",
+                                                                      {
+                                                                        attrs: {
+                                                                          bottom:
+                                                                            "",
+                                                                          color:
+                                                                            "error",
+                                                                        },
+                                                                        scopedSlots:
+                                                                          _vm._u(
+                                                                            [
+                                                                              {
+                                                                                key: "activator",
+                                                                                fn: function (
+                                                                                  ref
+                                                                                ) {
+                                                                                  var on =
+                                                                                    ref.on
+                                                                                  var attrs =
+                                                                                    ref.attrs
+                                                                                  return [
+                                                                                    _c(
+                                                                                      "v-icon",
+                                                                                      _vm._g(
+                                                                                        _vm._b(
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "mr-2 hand txt_red",
+                                                                                          },
+                                                                                          "v-icon",
+                                                                                          attrs,
+                                                                                          false
+                                                                                        ),
+                                                                                        on
+                                                                                      ),
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "\n                                                                            warning\n                                                                        "
+                                                                                        ),
+                                                                                      ]
+                                                                                    ),
+                                                                                  ]
+                                                                                },
+                                                                              },
+                                                                            ],
+                                                                            null,
+                                                                            true
+                                                                          ),
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "span",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                                        Esta etiqueta esta deshabilitada. "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\n                                                                        Aunque se pueda seleccionar, el lector no\n                                                                        "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\n                                                                        podra verla.\n                                                                    "
+                                                                            ),
+                                                                          ]
+                                                                        ),
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      "\n                                                                " +
+                                                                        _vm._s(
+                                                                          data
+                                                                            .item
+                                                                            .name
+                                                                        ) +
+                                                                        "\n                                                            "
+                                                                    ),
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                              ]
+                                                            : [
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      data.item
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ],
+                                                        ],
+                                                        2
                                                       ),
                                                     ]
                                                   },

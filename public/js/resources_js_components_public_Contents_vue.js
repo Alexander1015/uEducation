@@ -1114,8 +1114,6 @@ var render = function () {
                               "prepend-icon": "search",
                               label: "Buscar",
                               tabindex: "1",
-                              clearable: "",
-                              "clear-icon": "cancel",
                               dense: "",
                             },
                             model: {

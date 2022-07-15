@@ -165,7 +165,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -1297,13 +1296,7 @@ var render = function () {
           _vm._v(" "),
           _c("v-text-field", {
             staticClass: "ml-2 mb-1",
-            attrs: {
-              "prepend-icon": "search",
-              label: "Buscar",
-              clearable: "",
-              "clear-icon": "cancel",
-              dense: "",
-            },
+            attrs: { "prepend-icon": "search", label: "Buscar", dense: "" },
             model: {
               value: _vm.search,
               callback: function ($$v) {

@@ -12,7 +12,7 @@
                     <v-row>
                         <v-col cols="12">
                             <v-text-field v-model="search" class="mb-4" prepend-icon="search" label="Buscar"
-                                tabindex="1" clearable clear-icon="cancel" dense>
+                                tabindex="1" dense>
                             </v-text-field>
                             <template v-if='searchBy == "Temas" && data_tags.length > 0'>
                                 <v-autocomplete v-model="search_tags" :items="data_tags" label="Etiquetas"

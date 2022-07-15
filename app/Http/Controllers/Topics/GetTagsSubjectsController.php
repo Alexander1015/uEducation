@@ -18,7 +18,7 @@ class GetTagsSubjectsController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
-                $subjects = DB::table('subjects')->pluck('name');
+                $subjects = DB::table('subjects')->get();
                 $tags = DB::table('tags')->get();
                 return response()->json([
                     'subjects' => $subjects,

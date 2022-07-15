@@ -4804,7 +4804,7 @@ var render = function () {
                         "li",
                         {
                           key: item.key,
-                          staticClass: "my-1 mr-5 pa-2",
+                          staticClass: "cursor my-1 mr-5 pa-2",
                           attrs: { id: "carousel_drag" },
                         },
                         [

@@ -43,7 +43,7 @@
                 <draggable class="list-group" tag="ul" v-model="carousel" v-bind="dragOptions" @start="drag = true"
                     @end="drag = false">
                     <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-                        <li id="carousel_drag" class="my-1 mr-5 pa-2" v-for="item in carousel" :key="item.key">
+                        <li id="carousel_drag" class="cursor my-1 mr-5 pa-2" v-for="item in carousel" :key="item.key">
                             <div class="carousel_drag_text">
                                 <v-avatar size="25" class="caption bk_tags txt_white">
                                     {{ item.key }}

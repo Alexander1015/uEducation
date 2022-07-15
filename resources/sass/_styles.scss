@@ -82,6 +82,12 @@ body::-webkit-scrollbar-thumb {
             width: 10px;
             border: 0.1px solid $black;
         }
+        .cursor {
+            cursor: move;
+        }
+        .hand {
+            cursor: pointer;
+        }
         #ckeditor {
             border: 1px solid #C4C4C4;
         }
@@ -90,7 +96,6 @@ body::-webkit-scrollbar-thumb {
         }
         #topic_drag {
             border-radius: 0.5rem;
-            cursor: move;
             list-style: none;
         }
         .topic_drag_icon {
@@ -99,7 +104,6 @@ body::-webkit-scrollbar-thumb {
         #carousel_drag {
             border: 1px solid $primary;
             border-radius: 0.5rem;
-            cursor: move;
             list-style: none;
             min-height: 10.5rem;
         }

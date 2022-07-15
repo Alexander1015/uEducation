@@ -28,8 +28,7 @@
             <div class="mb-8">
                 <p>Listado de las materias existentes en la aplicación</p>
             </div>
-            <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" clearable
-                clear-icon="cancel" dense>
+            <v-text-field v-model="search" class="mb-1" prepend-icon="search" label="Buscar" tabindex="1" dense>
             </v-text-field>
             <!-- Tabla -->
             <v-data-table :headers="headers" :items="data" :items-per-page="10" :footer-props="{

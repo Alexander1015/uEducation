@@ -5684,7 +5684,7 @@ var render = function () {
                                         {
                                           key: item.key,
                                           staticClass:
-                                            "bk_brown txt_white my-1 mr-5 pa-2",
+                                            "cursor bk_brown txt_white my-1 mr-5 pa-2",
                                           attrs: { id: "topic_drag" },
                                         },
                                         [
