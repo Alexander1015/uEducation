@@ -17,7 +17,7 @@
                             </template>
                         </v-img>
                     </v-list-item-avatar>
-                    <v-list-item-title class="subtitle-2 text-uppercase font-weight-black">
+                    <v-list-item-title class="white_space caption text-uppercase font-weight-black">
                         {{ subject.name }}
                     </v-list-item-title>
                 </v-list-item>
@@ -28,7 +28,7 @@
                     <v-list-item-icon>
                         <v-icon>keyboard_double_arrow_left</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title class="body-2 font-weight-bold">
+                    <v-list-item-title class="caption font-weight-bold">
                         Regresar
                     </v-list-item-title>
                 </v-list-item>
@@ -43,7 +43,7 @@
                                 {{ item.key }}
                             </v-avatar>
                         </v-list-item-icon>
-                        <v-list-item-title class="body-2 font-weight-bold">
+                        <v-list-item-title class="white_space caption font-weight-bold">
                             {{ item.name }}
                         </v-list-item-title>
                     </v-list-item>

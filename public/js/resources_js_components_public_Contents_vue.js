@@ -224,6 +224,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'ContentsPublic',
   data: function data() {
@@ -1937,23 +1939,27 @@ var render = function () {
                       ),
                     }),
                     _vm._v(" "),
-                    _c("v-pagination", {
-                      staticClass: "mx-auto mt-6 mb-2",
-                      attrs: {
-                        color: "#091E32",
-                        length: _vm.pageCount,
-                        "total-visible": "8",
-                        "prev-icon": "chevron_left",
-                        "next-icon": "chevron_right",
-                      },
-                      model: {
-                        value: _vm.page,
-                        callback: function ($$v) {
-                          _vm.page = $$v
-                        },
-                        expression: "page",
-                      },
-                    }),
+                    _vm.totalRecords > 12
+                      ? [
+                          _c("v-pagination", {
+                            staticClass: "mx-auto mt-6 mb-2",
+                            attrs: {
+                              color: "#091E32",
+                              length: _vm.pageCount,
+                              "total-visible": "8",
+                              "prev-icon": "chevron_left",
+                              "next-icon": "chevron_right",
+                            },
+                            model: {
+                              value: _vm.page,
+                              callback: function ($$v) {
+                                _vm.page = $$v
+                              },
+                              expression: "page",
+                            },
+                          }),
+                        ]
+                      : _vm._e(),
                   ]
                 : [
                     _c(

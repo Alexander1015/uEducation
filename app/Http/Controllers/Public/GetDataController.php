@@ -30,8 +30,10 @@ class GetDataController extends Controller
             }
             $all_tags = [];
             if ($search == 0) { // Por Materias
+                $new_data = array();
+                $new_data_all = array();
                 //Corto
-                $new_data = DB::select(
+                $data = DB::select(
                     'SELECT
                         id, name
                     FROM 
@@ -43,28 +45,32 @@ class GetDataController extends Controller
                         1
                     ]
                 );
-                $total = sizeof($new_data) - 1;
+                $total = sizeof($data) - 1;
                 while ($total >= 0) {
-                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $new_data[$total]->id)->orderBy('sequence', 'asc')->first();
+                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $data[$total]->id)->orderBy('sequence', 'asc')->first();
                     if (!$topic) {
-                        unset($new_data[$total]);
+                        unset($data[$total]);
+                    }
+                    else {
+                        array_push($new_data, $data[$total]);
                     }
                     $total--;
                 }
                 $position = 0;
-                foreach ($new_data as $item) {
+                foreach ($data as $item) {
                     $item->key = $position;
                     $position++;
                 }
                 // Largo
-                $new_data_all = DB::table('subjects')->where('status', 1)->orderBy('name', 'asc')->get();
-                $total = sizeof($new_data_all) - 1;
+                $data_all = DB::table('subjects')->where('status', 1)->orderBy('name', 'asc')->get();
+                $total = sizeof($data_all) - 1;
                 while ($total >= 0) {
-                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $new_data_all[$total]->id)->orderBy('sequence', 'asc')->first();
+                    $topic = DB::table('topics')->where('status', 1)->where("subject_id", $data_all[$total]->id)->orderBy('sequence', 'asc')->first();
                     if ($topic) {
-                        $new_data_all[$total]->first = $topic->slug;
+                        $data_all[$total]->first = $topic->slug;
+                        array_push($new_data_all, $data_all[$total]);
                     } else {
-                        unset($new_data_all[$total]);
+                        unset($data_all[$total]);
                     }
                     $total--;
                 }
@@ -206,10 +212,7 @@ class GetDataController extends Controller
                 'topics' => $topics,
             ]);
         } catch (Exception $ex) {
-            return response()->json([
-                'subject' => [],
-                'topics' => [],
-            ]);
+            return response()->json([]);
         }
     }
 }

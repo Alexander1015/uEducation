@@ -28,3 +28,4 @@ yarn-error.log
 !/public/img/carousel/welcome.png
 /public/img/lazy_carousel/*
 !/public/img/lazy_carousel/welcome.png
+/public/img/bodies/

@@ -159,10 +159,12 @@
                             </v-row>
                         </template>
                     </v-data-iterator>
-                    <!-- Pagination -->
-                    <v-pagination class="mx-auto mt-6 mb-2" color="#091E32" v-model="page" :length="pageCount"
-                        total-visible="8" prev-icon="chevron_left" next-icon="chevron_right">
-                    </v-pagination>
+                    <template v-if="totalRecords > 12">
+                        <!-- Pagination -->
+                        <v-pagination class="mx-auto mt-6 mb-2" color="#091E32" v-model="page" :length="pageCount"
+                            total-visible="8" prev-icon="chevron_left" next-icon="chevron_right">
+                        </v-pagination>
+                    </template>
                 </template>
                 <!-- Cargando -->
                 <template v-else>

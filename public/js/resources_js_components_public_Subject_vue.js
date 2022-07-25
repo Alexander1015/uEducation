@@ -324,7 +324,7 @@ var render = function () {
                     "v-list-item-title",
                     {
                       staticClass:
-                        "subtitle-2 text-uppercase font-weight-black",
+                        "white_space caption text-uppercase font-weight-black",
                     },
                     [
                       _vm._v(
@@ -367,7 +367,7 @@ var render = function () {
                   _vm._v(" "),
                   _c(
                     "v-list-item-title",
-                    { staticClass: "body-2 font-weight-bold" },
+                    { staticClass: "caption font-weight-bold" },
                     [_vm._v("\n                    Regresar\n                ")]
                   ),
                 ],
@@ -426,7 +426,7 @@ var render = function () {
                       _vm._v(" "),
                       _c(
                         "v-list-item-title",
-                        { staticClass: "body-2 font-weight-bold" },
+                        { staticClass: "white_space caption font-weight-bold" },
                         [
                           _vm._v(
                             "\n                        " +

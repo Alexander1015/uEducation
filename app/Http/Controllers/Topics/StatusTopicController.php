@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Exception;
 
 class StatusTopicController extends Controller
@@ -38,7 +39,38 @@ class StatusTopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        if ($data->status == "0" && $request->input('status') == "1" && $data->body == "") {
+                        $subject = DB::table("subjects")->where("id", $data->subject_id)->first();
+                        $file = "";
+                        if ($subject) {
+                            $file = public_path('bodies') . "/" . $subject->slug . "/" . $data->slug . ".html";
+                            if (!file_exists($file)) {
+                                $path = public_path('bodies');
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path .= "/" . $subject->slug;
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path .= "/" . $data->slug . ".html";
+                                fopen($path, "w");
+                            }
+                        } else {
+                            $file = public_path('bodies/without-subject') . "/" . $data->slug . ".html";
+                            if (!file_exists($file)) {
+                                $path = public_path('bodies');
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path = public_path('bodies/without-subject');
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path .= "/" . $data->slug . ".html";
+                                fopen($path, "w");
+                            }
+                        }
+                        if ($data->status == "0" && $request->input('status') == "1" && trim(file_get_contents($file)) == "") {
                             return response()->json([
                                 'message' => 'No se puede activar el tema, debido a que no tiene contenido para mostrar',
                                 'complete' => false,

@@ -61,6 +61,9 @@ body::-webkit-scrollbar-thumb {
 #body .height_100 {
   height: 100% !important;
 }
+#body .white_space {
+  white-space: normal;
+}
 #body .img_login {
   height: 100%;
   max-width: 100%;
