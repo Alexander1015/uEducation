@@ -40,7 +40,7 @@ class GetDataController extends Controller
                         subjects AS T
                     WHERE
                         status = ?
-                    ORDER BY name ASC',
+                    ORDER BY name DESC',
                     [
                         1
                     ]
@@ -85,7 +85,7 @@ class GetDataController extends Controller
                     WHERE
                         T.status = ? AND
                         S.status = ?
-                    ORDER BY T.name ASC',
+                    ORDER BY T.name DESC',
                     [
                         1,
                         1
@@ -101,7 +101,7 @@ class GetDataController extends Controller
                     WHERE
                         T.status = ? AND
                         S.status = ?
-                    ORDER BY T.name ASC',
+                    ORDER BY T.name DESC',
                     [
                         1,
                         1
