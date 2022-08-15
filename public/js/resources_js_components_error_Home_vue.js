@@ -110,8 +110,8 @@ var render = function () {
           _c("v-img", {
             staticClass: "mx-auto",
             attrs: {
-              src: "/img/logo/logo-w-letters.png",
-              "lazy-src": "/img/lazy/logo-w-letters.png",
+              src: "/img/logo/logo_letters.png",
+              "lazy-src": "/img/logo/logo_letters_lazy.png",
               height: "200",
               contain: "",
             },

@@ -140,11 +140,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.topics = item.topics;
 
                     if (item.subject.img) {
-                      _this.subject.img = "/img/subjects/" + item.subject.img;
-                      _this.subject.lazy_img = "/img/lazy_subjects/" + item.subject.img;
+                      _this.subject.img = "/img/subjects/" + item.subject.img + "/index.png";
+                      _this.subject.lazy_img = "/img/subjects/" + item.subject.img + "/lazy.png";
                     } else {
                       _this.subject.img = "/img/subjects/blank.png";
-                      _this.subject.lazy_img = "/img/lazy_subjects/blank.png";
+                      _this.subject.lazy_img = "/img/subjects/blank_lazy.png";
                     }
 
                     _this.overlay = false;

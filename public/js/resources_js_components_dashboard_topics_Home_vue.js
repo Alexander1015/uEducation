@@ -1788,7 +1788,7 @@ var render = function () {
                                 },
                                 [
                                   _vm._v(" "),
-                                  _c("span", [_vm._v("Deshabilitar")]),
+                                  _c("span", [_vm._v("Modo Borrador")]),
                                 ]
                               ),
                             ]

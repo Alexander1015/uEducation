@@ -4724,7 +4724,7 @@ var render = function () {
           _c("div", { staticClass: "mb-8" }, [
             _c("p", [
               _vm._v(
-                "Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal"
+                "Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las imágenes para reordenarlas"
               ),
             ]),
           ]),
@@ -4897,8 +4897,10 @@ var render = function () {
                               _c("v-img", {
                                 staticClass: "mt-0 mx-auto",
                                 attrs: {
-                                  src: "/img/carousel/" + item.img,
-                                  "lazy-src": "/img/lazy_carousel/" + item.img,
+                                  src:
+                                    "/img/carousel/" + item.img + "/index.png",
+                                  "lazy-src":
+                                    "/img/carousel/" + item.img + "/lazy.png",
                                   "max-height": "150",
                                   contain: "",
                                 },

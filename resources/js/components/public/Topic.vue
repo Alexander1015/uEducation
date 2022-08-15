@@ -215,7 +215,7 @@ export default {
                             this.topics.name = item.topic.name;
                             this.topics.abstract = item.topic.abstract;
                             this.topics.subject = item.topic.subject;
-                            this.topics.body = item.topic.body;
+                            this.topics.body = item.topic.data;
                             // Users
                             if (item.topic.user_update && item.topic.user_update_status == 1) {
                                 this.user.name = item.topic.user_update;
@@ -223,12 +223,12 @@ export default {
                                 this.user.date = item.topic.updated_at;
                                 // Imagenes
                                 if (item.topic.user_update_avatar) {
-                                    this.user.avatar = "/img/users/" + item.topic.user_update_avatar;
-                                    this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_update_avatar;
+                                    this.user.avatar = "/img/users/" + item.topic.user_update_avatar + "/index.png";
+                                    this.user.lazy_avatar = "/img/users/" + item.topic.user_update_avatar + "/lazy.png";
                                 }
                                 else {
                                     this.user.avatar = "/img/users/blank.png";
-                                    this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                                    this.user.lazy_avatar = "/img/users/blank_lazy.png";
                                 }
                             }
                             else if (item.topic.user && item.topic.user_status == 1) {
@@ -237,12 +237,12 @@ export default {
                                 this.user.date = item.topic.updated_at ? item.topic.updated_at : item.topic.created_at;
                                 // Imagenes
                                 if (item.topic.user_avatar) {
-                                    this.user.avatar = "/img/users/" + item.topic.user_avatar;
-                                    this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
+                                    this.user.avatar = "/img/users/" + item.topic.user_avatar + "/index.png";
+                                    this.user.lazy_avatar = "/img/users/" + item.topic.user_avatar + "/lazy.png";
                                 }
                                 else {
                                     this.user.avatar = "/img/users/blank.png";
-                                    this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                                    this.user.lazy_avatar = "/img/users/blank_lazy.png";
                                 }
                             }
                             else {
@@ -250,16 +250,16 @@ export default {
                                 this.user.email = "";
                                 this.user.date = "";
                                 this.user.avatar = "/img/users/blank.png";
-                                this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                                this.user.lazy_avatar = "/img/users/blank_lazy.png";
                             }
                             // Imagen del topics
                             if (item.topic.img) {
-                                this.topics.img = "/img/topics/" + item.topic.img;
-                                this.topics.lazy_img = "/img/lazy_topics/" + item.topic.img;
+                                this.topics.img = "/img/topics/" + item.topic.img + "/index.png";
+                                this.topics.lazy_img = "/img/topics/" + item.topic.img + "/lazy.png";
                             }
                             else {
                                 this.topics.img = "/img/topics/blank.png";
-                                this.topics.lazy_img = "/img/lazy_topics/blank.png";
+                                this.topics.lazy_img = "/img/topics/blank_lazy.png";
                             }
                             // Anterior
                             if (item.previous.slug) {

@@ -1403,10 +1403,11 @@ var render = function () {
                                                                           .data_all[
                                                                           item
                                                                             .key
-                                                                        ].img
+                                                                        ].img +
+                                                                        "/index.png"
                                                                       : "blank.png"),
                                                                   "lazy-src":
-                                                                    "/img/lazy_subjects/" +
+                                                                    "/img/subjects/" +
                                                                     (_vm
                                                                       .data_all[
                                                                       item.key
@@ -1415,8 +1416,9 @@ var render = function () {
                                                                           .data_all[
                                                                           item
                                                                             .key
-                                                                        ].img
-                                                                      : "blank.png"),
+                                                                        ].img +
+                                                                        "/lazy.png"
+                                                                      : "blank_lazy.png"),
                                                                   height: "175",
                                                                 },
                                                                 scopedSlots:
@@ -1629,10 +1631,11 @@ var render = function () {
                                                                           .data_all[
                                                                           item
                                                                             .key
-                                                                        ].img
+                                                                        ].img +
+                                                                        "/index.png"
                                                                       : "blank.png"),
                                                                   "lazy-src":
-                                                                    "/img/lazy_topics/" +
+                                                                    "/img/topics/" +
                                                                     (_vm
                                                                       .data_all[
                                                                       item.key
@@ -1641,7 +1644,8 @@ var render = function () {
                                                                           .data_all[
                                                                           item
                                                                             .key
-                                                                        ].img
+                                                                        ].img +
+                                                                        "/lazy.png"
                                                                       : "blank.png"),
                                                                   height: "175",
                                                                 },
@@ -1935,7 +1939,7 @@ var render = function () {
                         ],
                         null,
                         false,
-                        2088065392
+                        2472578913
                       ),
                     }),
                     _vm._v(" "),

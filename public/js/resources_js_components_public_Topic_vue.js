@@ -283,7 +283,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     _this.topics.name = item.topic.name;
                     _this.topics["abstract"] = item.topic["abstract"];
                     _this.topics.subject = item.topic.subject;
-                    _this.topics.body = item.topic.body; // Users
+                    _this.topics.body = item.topic.data; // Users
 
                     if (item.topic.user_update && item.topic.user_update_status == 1) {
                       _this.user.name = item.topic.user_update;
@@ -291,11 +291,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       _this.user.date = item.topic.updated_at; // Imagenes
 
                       if (item.topic.user_update_avatar) {
-                        _this.user.avatar = "/img/users/" + item.topic.user_update_avatar;
-                        _this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_update_avatar;
+                        _this.user.avatar = "/img/users/" + item.topic.user_update_avatar + "/index.png";
+                        _this.user.lazy_avatar = "/img/users/" + item.topic.user_update_avatar + "/lazy.png";
                       } else {
                         _this.user.avatar = "/img/users/blank.png";
-                        _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                        _this.user.lazy_avatar = "/img/users/blank_lazy.png";
                       }
                     } else if (item.topic.user && item.topic.user_status == 1) {
                       _this.user.name = item.topic.user;
@@ -303,27 +303,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       _this.user.date = item.topic.updated_at ? item.topic.updated_at : item.topic.created_at; // Imagenes
 
                       if (item.topic.user_avatar) {
-                        _this.user.avatar = "/img/users/" + item.topic.user_avatar;
-                        _this.user.lazy_avatar = "/img/lazy_users/" + item.topic.user_avatar;
+                        _this.user.avatar = "/img/users/" + item.topic.user_avatar + "/index.png";
+                        _this.user.lazy_avatar = "/img/users/" + item.topic.user_avatar + "/lazy.png";
                       } else {
                         _this.user.avatar = "/img/users/blank.png";
-                        _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                        _this.user.lazy_avatar = "/img/users/blank_lazy.png";
                       }
                     } else {
                       _this.user.name = "";
                       _this.user.email = "";
                       _this.user.date = "";
                       _this.user.avatar = "/img/users/blank.png";
-                      _this.user.lazy_avatar = "/img/lazy_users/blank.png";
+                      _this.user.lazy_avatar = "/img/users/blank_lazy.png";
                     } // Imagen del topics
 
 
                     if (item.topic.img) {
-                      _this.topics.img = "/img/topics/" + item.topic.img;
-                      _this.topics.lazy_img = "/img/lazy_topics/" + item.topic.img;
+                      _this.topics.img = "/img/topics/" + item.topic.img + "/index.png";
+                      _this.topics.lazy_img = "/img/topics/" + item.topic.img + "/lazy.png";
                     } else {
                       _this.topics.img = "/img/topics/blank.png";
-                      _this.topics.lazy_img = "/img/lazy_topics/blank.png";
+                      _this.topics.lazy_img = "/img/topics/blank_lazy.png";
                     } // Anterior
 
 

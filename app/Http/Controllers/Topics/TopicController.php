@@ -189,7 +189,7 @@ class TopicController extends Controller
                                 fopen($path, "w");
                                 return response()->json([
                                     'message' => 'Tema creado exitosamente en modo borrador',
-                                    'topic' => $data->slug,
+                                    'topic' => $slug,
                                     'complete' => true,
                                 ]);
                             } else {

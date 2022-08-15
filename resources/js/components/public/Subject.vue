@@ -101,12 +101,12 @@ export default {
                             this.subject.name = item.subject.name;
                             this.topics = item.topics;
                             if (item.subject.img) {
-                                this.subject.img = "/img/subjects/" + item.subject.img;
-                                this.subject.lazy_img = "/img/lazy_subjects/" + item.subject.img;
+                                this.subject.img = "/img/subjects/" + item.subject.img + "/index.png";
+                                this.subject.lazy_img = "/img/subjects/" + item.subject.img + "/lazy.png";
                             }
                             else {
                                 this.subject.img = "/img/subjects/blank.png";
-                                this.subject.lazy_img = "/img/lazy_subjects/blank.png";
+                                this.subject.lazy_img = "/img/subjects/blank_lazy.png";
                             }
                             this.overlay = false;
                         }

@@ -21,7 +21,7 @@ class GetTopicController extends Controller
             // Topic
             $topic = DB::select(
                 'SELECT
-                T.id, T.name, T.slug, T.abstract, T.img, T.status, T.sequence, CONCAT(Uc.firstname, " ", Uc.lastname) AS user, Uc.email As user_email, Uc.avatar AS user_avatar, Uc.status AS user_status, CONCAT(Uu.firstname, " ", Uu.lastname) AS user_update, Uu.email As user_update_email, Uu.avatar AS user_update_avatar, Uu.status AS user_update_status, S.name AS subject, T.subject_id, S.slug AS subject_slug, T.created_at, T.updated_at
+                T.id, T.name, T.slug, T.abstract, T.img, T.status, T.sequence, T.body, CONCAT(Uc.firstname, " ", Uc.lastname) AS user, Uc.email As user_email, Uc.avatar AS user_avatar, Uc.status AS user_status, CONCAT(Uu.firstname, " ", Uu.lastname) AS user_update, Uu.email As user_update_email, Uu.avatar AS user_update_avatar, Uu.status AS user_update_status, S.name AS subject, T.subject_id, S.slug AS subject_slug, T.created_at, T.updated_at
             FROM 
                 topics AS T
             LEFT JOIN subjects AS S ON T.subject_id = S.id
@@ -39,37 +39,20 @@ class GetTopicController extends Controller
                 ]
             );
             // Verificamos que existe la carpeta para mostrar el body
-            $file = "";
-            if ($topic[0]->subject_slug) {
-                $file = public_path('bodies') . "/" . $topic[0]->subject_slug . "/" . $topic[0]->slug . ".html";
-                if (!file_exists($file)) {
-                    $path = public_path('bodies');
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
-                    }
-                    $path .= "/" . $topic[0]->subject_slug;
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
-                    }
-                    $path .= "/" . $topic[0]->slug . ".html";
-                    fopen($path, "w");
+            $file = public_path('data') . "/" . $topic[0]->body . "/body.html";
+            if (!file_exists($file)) {
+                $path = public_path('data');
+                if (!File::isDirectory($path)) {
+                    mkdir($path, 0777, true);
                 }
-            } else {
-                $file = public_path('bodies/without-subject') . "/" . $topic[0]->slug . ".html";
-                if (!file_exists($file)) {
-                    $path = public_path('bodies');
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
-                    }
-                    $path = public_path('bodies/without-subject');
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
-                    }
-                    $path .= "/" . $topic[0]->slug . ".html";
-                    fopen($path, "w");
+                $path .= "/" . $topic[0]->body;
+                if (!File::isDirectory($path)) {
+                    mkdir($path, 0777, true);
                 }
+                $path .= "/body.html";
+                fopen($path, "w");
             }
-            $topic[0]->body = file_get_contents($file);
+            $topic[0]->data = file_get_contents($file);
             // Obtenemos el anterior y el siguiente
             $all_topics = DB::select(
                 'SELECT

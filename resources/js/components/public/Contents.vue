@@ -61,8 +61,8 @@
                                         <v-card @click.stop="goTo(data_all[item.key].slug, data_all[item.key].first)"
                                             :elevation="hover ? 10 : 2">
                                             <v-img class="mx-auto"
-                                                :src='"/img/subjects/" + (data_all[item.key].img ? data_all[item.key].img : "blank.png")'
-                                                :lazy-src='"/img/lazy_subjects/" + (data_all[item.key].img ? data_all[item.key].img : "blank.png")'
+                                                :src='"/img/subjects/" + (data_all[item.key].img ? data_all[item.key].img + "/index.png" : "blank.png")'
+                                                :lazy-src='"/img/subjects/" + (data_all[item.key].img ? data_all[item.key].img + "/lazy.png" : "blank_lazy.png")'
                                                 height="175">
                                                 <template v-slot:placeholder>
                                                     <v-row class="fill-height ma-0" align="center" justify="center">
@@ -99,8 +99,8 @@
                                         <v-card
                                             @click.stop="goTo(data_all[item.key].subject_slug, data_all[item.key].slug)">
                                             <v-img class="mx-auto"
-                                                :src='"/img/topics/" + (data_all[item.key].img ? data_all[item.key].img : "blank.png")'
-                                                :lazy-src='"/img/lazy_topics/" + (data_all[item.key].img ? data_all[item.key].img : "blank.png")'
+                                                :src='"/img/topics/" + (data_all[item.key].img ? data_all[item.key].img + "/index.png": "blank.png")'
+                                                :lazy-src='"/img/topics/" + (data_all[item.key].img ? data_all[item.key].img + "/lazy.png" : "blank.png")'
                                                 height="175">
                                                 <template v-slot:placeholder>
                                                     <v-row class="fill-height ma-0" align="center" justify="center">

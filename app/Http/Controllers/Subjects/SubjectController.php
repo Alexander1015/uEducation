@@ -290,10 +290,18 @@ class SubjectController extends Controller
                                 });
                                 $img_o->save($directory . '/index.png', 100);
                             }
-                            return response()->json([
-                                'message' => 'Curso modificado exitosamente',
-                                'complete' => true,
-                            ]);
+                            if ($data->slug != $slug) {
+                                return response()->json([
+                                    'message' => 'Curso modificado exitosamente',
+                                    'complete' => true,
+                                    'reload' => $slug,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Curso modificado exitosamente',
+                                    'complete' => true,
+                                ]);
+                            }
                         } else {
                             if (
                                 $data->name == $request->input('name')

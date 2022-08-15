@@ -31,7 +31,7 @@
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal</p>
+                <p>Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las imágenes para reordenarlas</p>
             </div>
             <div>
                 <v-file-input ref="uploader" v-model="img" @change="uploadImage()"
@@ -62,8 +62,8 @@
                             </div>
                             <v-icon class="carousel_drag_icon txt_blue">view_list</v-icon>
                             <div class="mx-auto">
-                                <v-img class="mt-0 mx-auto" :src='"/img/carousel/" + item.img'
-                                    :lazy-src='"/img/lazy_carousel/" + item.img' max-height="150" contain>
+                                <v-img class="mt-0 mx-auto" :src='"/img/carousel/" + item.img + "/index.png"'
+                                    :lazy-src='"/img/carousel/" + item.img + "/lazy.png"' max-height="150" contain>
                                     <template v-slot:placeholder>
                                         <v-row class="fill-height ma-0" align="center" justify="center">
                                             <v-progress-circular indeterminate color="grey lighten-5">

@@ -156,7 +156,7 @@
                                         </v-icon>
                                     </v-btn>
                                 </template>
-                                <span>Deshabilitar</span>
+                                <span>Modo Borrador</span>
                             </v-tooltip>
                         </template>
                         <template v-else>
