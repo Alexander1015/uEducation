@@ -27,6 +27,7 @@ return new class extends Migration
                 "user" => "SOPORTE.UEDUCATION",
                 "password" => '$2y$10$jYwhOPt7oCtrLYOXV.trA.pepU1APJVxWyIW21F1PNVrv2p/PbsJC',
                 "avatar" => "",
+                "type" => "0",
                 "status" => "1",
             ]);
         DB::table("users")
@@ -38,6 +39,7 @@ return new class extends Migration
                 "user" => "BF180436",
                 "password" => '$2y$10$LRG1L8Xe1pu5XaJdMdyPnOv12aZuB.hCOMivQy3oqSdXcQ2Yj7wQG',
                 "avatar" => "",
+                "type" => "0",
                 "status" => "1",
             ]);
     }

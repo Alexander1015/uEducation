@@ -20,7 +20,7 @@ class TagController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $tags = DB::table('tags')->orderBy('name', 'asc')->get();
                 return response()->json($tags);
             } else return response()->json([]);
@@ -39,7 +39,7 @@ class TagController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $validator = Validator::make($request->all(), [
                     'name' => ['bail', 'required', 'string', 'max:25', 'unique:tags,name'],
                     'background_color' => ['bail', 'sometimes', 'string'],
@@ -98,7 +98,7 @@ class TagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
@@ -121,7 +121,7 @@ class TagController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $tag = DB::table("tags")->where("slug", $slug)->first();
                 return response()->json($tag);
             } else return response()->json([]);
@@ -141,7 +141,7 @@ class TagController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $data = DB::table("tags")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
@@ -226,7 +226,7 @@ class TagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
@@ -247,8 +247,8 @@ class TagController extends Controller
      */
     public function destroy($slug)
     {
-        $status = auth()->user()->status;
-        if ($status == 1) {
+        $auth_user = auth()->user();
+        if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
             try {
                 $data = DB::table("tags")->where("slug", $slug)->first();
                 if (!$data) {
@@ -282,7 +282,7 @@ class TagController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'El usuario actual esta deshabilitado',
+                'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                 'complete' => false,
             ]);
         }

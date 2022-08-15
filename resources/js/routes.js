@@ -13,6 +13,10 @@ const DashboardCarousel = () => import ('./components/dashboard/carousel/Home.vu
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
 const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
+// Students
+const DashboardStudents = () => import ('./components/dashboard/students/Home.vue')
+const NewStudent = () => import ('./components/dashboard/students/NewStudent.vue')
+const EditStudent = () => import ('./components/dashboard/students/EditStudent.vue')
 // Subjects
 const DashboardSubjects = () => import ('./components/dashboard/subjects/Home.vue')
 const NewSubject = () => import ('./components/dashboard/subjects/NewSubject.vue')
@@ -95,6 +99,39 @@ export const routes = [
         name: 'editUser',
         path: '/dashboard/users/edit/:slug',
         component: EditUser,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'students',
+        path: '/dashboard/students',
+        component: DashboardStudents,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'newStudent',
+        path: '/dashboard/students/new',
+        component: NewStudent,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'editStudent',
+        path: '/dashboard/students/edit/:slug',
+        component: EditStudent,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()

@@ -15,6 +15,8 @@ use App\Http\Controllers\Profile\PasswordProfileController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Controllers\Users\PasswordUserController;
 use App\Http\Controllers\Users\StatusUserController;
+// Student
+use App\Http\Controllers\Students\StudentController;
 // Subjects
 use App\Http\Controllers\Subjects\SubjectController;
 use App\Http\Controllers\Subjects\StatusSubjectController;
@@ -59,6 +61,8 @@ Route::resource('profile/password', PasswordProfileController::class)->middlewar
 Route::resource('user', UserController::class)->middleware('auth');
 Route::resource('user/password', PasswordUserController::class)->middleware('auth');
 Route::resource('user/status', StatusUserController::class)->middleware('auth');
+//Estudiantes
+Route::resource('student', StudentController::class)->middleware('auth');
 // Subjects
 Route::resource('subject', SubjectController::class)->middleware('auth');
 Route::resource('subject/status', StatusSubjectController::class)->middleware('auth');

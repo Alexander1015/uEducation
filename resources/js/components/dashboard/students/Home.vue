@@ -15,7 +15,7 @@
                     </template>
                     <span>Actualizar</span>
                 </v-tooltip>
-                <span class="text-h6">USUARIOS</span>
+                <span class="text-h6">ESTUDIANTES</span>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on" @click.stop="gotoNew()">
@@ -26,7 +26,7 @@
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de los usuarios existentes en la aplicación</p>
+                <p>Listado de los estudiantes existentes en la aplicación</p>
             </div>
             <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" dense>
             </v-text-field>
@@ -68,20 +68,6 @@
                             </v-img>
                         </v-list-item-avatar>
                     </template>
-                </template>
-                <!-- Tipo -->
-                <template v-slot:item.type="{ item }">
-                    <div>
-                        <template v-if="item.type == '0'">
-                            Administrador
-                        </template>
-                        <template v-else-if="item.type == '1'">
-                            Docente
-                        </template>
-                        <template v-else>
-                            <v-icon>remove</v-icon>
-                        </template>
-                    </div>
                 </template>
                 <!-- Estado -->
                 <template v-slot:item.status="{ item }">
@@ -160,7 +146,7 @@
 
 <script>
 export default {
-    name: "HomeUser",
+    name: "HomeStudent",
     data: () => ({
         overlay: false,
         loading_table: false,
@@ -170,7 +156,6 @@ export default {
             { text: 'Apellidos', value: 'lastname', align: 'center' },
             { text: 'Correo electrónico', value: 'email', align: 'center' },
             { text: 'Usuario', value: 'user', align: 'center' },
-            { text: 'Tipo', value: 'type', align: 'center' },
             { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
@@ -187,11 +172,11 @@ export default {
     methods: {
         gotoEdit(item) {
             this.overlay = true;
-            this.$router.push({ name: "editUser", params: { slug: item } });
+            this.$router.push({ name: "editStudent", params: { slug: item } });
         },
         gotoNew() {
             this.overlay = true;
-            this.$router.push({ name: "newUser" });
+            this.$router.push({ name: "newStudent" });
         },
         async allUsers() {
             this.overlay = true;
@@ -209,7 +194,7 @@ export default {
                             console.log(error);
                         });
                 });
-            await this.axios.get('/api/user')
+            await this.axios.get('/api/student')
                 .then(response => {
                     this.data = response.data;
                     this.loading_table = false;
@@ -234,7 +219,7 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/user/' + item)
+                        this.axios.delete('/api/student/' + item)
                             .then(response => {
                                 let title = "Error";
                                 let icon = "error";

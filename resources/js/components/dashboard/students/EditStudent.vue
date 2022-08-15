@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="mt-2">
-            <v-btn class="ml-4" text small @click.stop="returnUsers()">
+            <v-btn class="ml-4" text small @click.stop="returnStudents()">
                 <v-icon left>keyboard_double_arrow_left</v-icon>
                 Regresar
             </v-btn>
@@ -195,9 +195,7 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
-                                    permitido ingresar al apartado de docentes/administradores o manipular la información de
-                                    la base de datos)
+                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no podra ingresar)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
@@ -238,7 +236,7 @@
 
 <script>
 export default {
-    name: "EditUser",
+    name: "EditStudent",
     data: () => ({
         overlay: false,
         items_status: ["Habilitado", "Deshabilitado"],
@@ -312,9 +310,9 @@ export default {
         handleFileImport() {
             this.$refs.uploader.$refs.input.click()
         },
-        returnUsers() {
+        returnStudents() {
             this.overlay = true;
-            this.$router.push({ name: "users" });
+            this.$router.push({ name: "students" });
         },
         async showUser() {
             this.overlay = true;
@@ -332,7 +330,7 @@ export default {
                                 this.$router.push({ name: "error" });
                             });
                     });
-                await this.axios.get('/api/user/' + this.$route.params.slug)
+                await this.axios.get('/api/student/' + this.$route.params.slug)
                     .then(response => {
                         this.user = response.data;
                         if (!this.user.user) {
@@ -394,7 +392,7 @@ export default {
                             }
                             data.append('avatar_new', this.form_information.avatar_new);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.$route.params.slug, data, {
+                            this.axios.post('/api/student/' + this.$route.params.slug, data, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data',
                                 },
@@ -545,7 +543,7 @@ export default {
                 .then(result => {
                     if (result.isConfirmed) {
                         this.overlay = true;
-                        this.axios.delete('/api/user/' + this.$route.params.slug)
+                        this.axios.delete('/api/student/' + this.$route.params.slug)
                             .then(response => {
                                 let title = "Error";
                                 let icon = "error";
@@ -559,7 +557,7 @@ export default {
                                     text: response.data.message,
                                 }).then(() => {
                                     if (response.data.complete) {
-                                        this.$router.push({ name: "users" });
+                                        this.$router.push({ name: "students" });
                                     }
                                     else this.overlay = false;
                                 });

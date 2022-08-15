@@ -21,7 +21,7 @@ class StatusTagController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $data = DB::table("tags")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
@@ -59,7 +59,7 @@ class StatusTagController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }

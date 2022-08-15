@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str;
 use Exception;
 
-class UserController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class UserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
-                $users = DB::table('users')->where("type", "0")->orWhere("type", "1")->orderBy('user', 'asc')->get();
+                $users = DB::table('users')->where("type", "2")->orderBy('user', 'asc')->get();
                 return response()->json($users);
             } else return response()->json([]);
         } catch (Exception $ex) {
@@ -50,7 +50,6 @@ class UserController extends Controller
                     'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
                     'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email'],
                     'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()],
-                    'type' => ['bail', 'sometimes', 'in:0,1,2'],
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
@@ -77,11 +76,6 @@ class UserController extends Controller
                             'complete' => false,
                         ]);
                     }
-                } else if ($request->input("type") == "0" || $request->input("type") == "1") {
-                    return response()->json([
-                        'message' => 'El tipo de usuario seleccionado no es el indicado',
-                        'complete' => false,
-                    ]);
                 } else {
                     $time_avatar = "";
                     if ($request->file('avatar')) {
@@ -104,7 +98,7 @@ class UserController extends Controller
                             'user' => strtoupper($request->input('user')),
                             'email' => $request->input('email'),
                             'password' => Hash::make($request->input('password')),
-                            'type' => $request->input("type"),
+                            'type' => "2",
                             'avatar' => $time_avatar,
                         ])
                     ) {
@@ -164,7 +158,7 @@ class UserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
-                $user = DB::table("users")->where("slug", $slug)->where("type", "0")->orWhere("type", "1")->first();
+                $user = DB::table("users")->where("slug", $slug)->where("type", "2")->first();
                 return response()->json($user);
             } else  return response()->json([]);
         } catch (Exception $ex) {
@@ -196,7 +190,6 @@ class UserController extends Controller
                         'lastname' => ['bail', 'required', 'string', 'max:50'],
                         'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user,' . $data->id],
                         'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email,' . $data->id],
-                        'type' => ['bail', 'sometimes', 'in:0,1,2'],
                         'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                         'avatar_new' => ['bail', 'sometimes', 'boolean'],
                     ]);
@@ -219,11 +212,6 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         }
-                    } else if ($request->input("type") && ($request->input("type") == "0" || $request->input("type") == "1")) {
-                        return response()->json([
-                            'message' => 'El tipo de usuario seleccionado no es el indicado',
-                            'complete' => false,
-                        ]);
                     } else {
                         if ($auth_user->id == $data->id) {
                             return response()->json([
@@ -231,11 +219,6 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            // Obtenemos el tipo de usuario que estamos editando
-                            $type = (string) $data->type;
-                            if ($request->input("type") == "0" || $request->input("type") == "1") {
-                                $type = (string) $request->input("type");
-                            }
                             $time_avatar = "";
                             if (!$request->file('avatar')) {
                                 if ($request->input('avatar_new') && trim($data->avatar) != "") {
@@ -269,12 +252,11 @@ class UserController extends Controller
                                 }
                                 $time_avatar = time();
                             }
-                            if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, type = ?, avatar = ? WHERE id = ?", [
+                            if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
                                 $request->input('firstname'),
                                 $request->input('lastname'),
                                 strtoupper($request->input('user')),
                                 $request->input('email'),
-                                $type,
                                 $time_avatar,
                                 $data->id,
                             ])) {
@@ -360,59 +342,29 @@ class UserController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        $total = sizeof(DB::table('users')->get());
-                        if ($total <= 1) {
-                            return response()->json([
-                                'message' => "No puede eliminar el ultimo usuario de la aplicación, si desea eliminarlo, cree uno nuevo y luego elimine el deseado.",
-                                'complete' => false,
-                            ]);
-                        } else {
-                            $total = sizeof(DB::table('users')->where("type", "0")->get());
-                            if ($total <= 1) {
-                                return response()->json([
-                                    'message' => "No puede eliminar el ultimo usuario administrador, si desea eliminarlo, cree uno nuevo y luego elimine el deseado.",
-                                    'complete' => false,
-                                ]);
-                            } else {
-                                $topics_c = DB::table("topics")->where("user_id", $data->id)->get();
-                                if (sizeof($topics_c) > 0) {
-                                    DB::update("UPDATE topics SET user_id = ? WHERE user_id = ?", [
-                                        null,
-                                        $data->id,
-                                    ]);
-                                }
-                                $topics_u = DB::table("topics")->where("user_update_id", $data->id)->get();
-                                if (sizeof($topics_u) > 0) {
-                                    DB::update("UPDATE topics SET user_update_id = ? WHERE user_update_id = ?", [
-                                        null,
-                                        $data->id,
-                                    ]);
-                                }
-                                if (DB::table("users")->delete($data->id)) {
-                                    if ($data->avatar) {
-                                        // Eliminamos las imagenes del user
-                                        $directory = public_path('img/users') . "/" . $data->avatar;
-                                        if (File::isDirectory($directory)) {
-                                            $imgs = File::allFiles($directory);
-                                            if (sizeof($imgs) > 0) {
-                                                foreach ($imgs as $item) {
-                                                    File::delete($directory . '/' . $item->getRelativePathname());
-                                                }
-                                            }
-                                            rmdir($directory);
+                        if (DB::table("users")->delete($data->id)) {
+                            if ($data->avatar) {
+                                // Eliminamos las imagenes del user
+                                $directory = public_path('img/users') . "/" . $data->avatar;
+                                if (File::isDirectory($directory)) {
+                                    $imgs = File::allFiles($directory);
+                                    if (sizeof($imgs) > 0) {
+                                        foreach ($imgs as $item) {
+                                            File::delete($directory . '/' . $item->getRelativePathname());
                                         }
                                     }
-                                    return response()->json([
-                                        'message' => 'Usuario eliminado exitosamente',
-                                        'complete' => true,
-                                    ]);
-                                } else {
-                                    return response()->json([
-                                        'message' => 'Ha ocurrido un error al momento de eliminar el usuario',
-                                        'complete' => true,
-                                    ]);
+                                    rmdir($directory);
                                 }
                             }
+                            return response()->json([
+                                'message' => 'Usuario eliminado exitosamente',
+                                'complete' => true,
+                            ]);
+                        } else {
+                            return response()->json([
+                                'message' => 'Ha ocurrido un error al momento de eliminar el usuario',
+                                'complete' => true,
+                            ]);
                         }
                     }
                 }

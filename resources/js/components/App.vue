@@ -154,6 +154,7 @@ export default {
             { type: 2, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
             { type: 2, header: true, visible: false },
             { type: 2, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
+            { type: 2, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
         ],
         to: {
             profile: { name: "profile" },

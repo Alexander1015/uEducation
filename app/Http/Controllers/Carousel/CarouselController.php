@@ -21,7 +21,7 @@ class CarouselController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $carousel = DB::table('carousel')->orderBy('sequence', 'asc')->orderBy('id', 'asc')->get();
                 $size = 1;
                 foreach ($carousel as $data) {
@@ -45,7 +45,7 @@ class CarouselController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $validator = Validator::make($request->all(), [
                     'img' => ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
@@ -113,7 +113,7 @@ class CarouselController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
@@ -136,7 +136,7 @@ class CarouselController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $data = DB::table("carousel")->where("id", $id)->first();
                 if (!$data) {
                     return response()->json([
@@ -171,7 +171,7 @@ class CarouselController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }

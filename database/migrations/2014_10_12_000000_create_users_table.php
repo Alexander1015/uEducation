@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email')->unique()->default("");
             $table->string('password')->default("");
             $table->string('avatar')->default("");
+            $table->boolean('type')->default(1); // 0 -> Administrador, 1 -> Docente, 2 -> Estudiante
             $table->boolean('status')->default(1);
         });
     }

@@ -24,7 +24,7 @@ class TopicController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $topics = DB::select(
                     'SELECT
                     T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.name AS subject, S.status AS subject_status, T.created_at, T.updated_at
@@ -57,7 +57,7 @@ class TopicController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $validator = Validator::make($request->all(), [
                     'subject' => ['bail', 'required', 'string', 'max:100'],
                     'tags' => ['bail', 'required'],
@@ -211,7 +211,7 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
@@ -234,7 +234,7 @@ class TopicController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 // Topic
                 $topic = DB::table("topics")->where("slug", $slug)->first();
                 // Tags
@@ -339,7 +339,7 @@ class TopicController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
@@ -571,7 +571,7 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
@@ -594,7 +594,7 @@ class TopicController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1) {
+            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $data = DB::table("topics")->where("slug", $slug)->first();
                 if (!$data) {
                     return response()->json([
@@ -657,7 +657,7 @@ class TopicController extends Controller
                 }
             } else {
                 return response()->json([
-                    'message' => 'El usuario actual esta deshabilitado',
+                    'message' => 'El usuario actual esta deshabilitado ó no tiene los permisos necesarios',
                     'complete' => false,
                 ]);
             }
