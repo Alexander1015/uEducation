@@ -10,10 +10,10 @@
                 <v-toolbar-title>
                     <template v-if="user.firstname || user.lastname">
                         <template v-if="user.firstname">
-                            {{ user.firstname }}
+                            {{ user.firstname.toUpperCase() }}
                         </template>
                         <template v-if="user.lastname">
-                            {{ user.lastname }}
+                            {{ user.lastname.toUpperCase() }}
                         </template>
                     </template>
                     <template v-else>
@@ -78,8 +78,9 @@
                                         accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size dense>
                                     </v-file-input>
                                     <template v-if="prev_img.url_img != '/img/users/blank.png'">
-                                        <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">Borrar
-                                            avatar
+                                        <v-btn class="bk_brown txt_white" block @click.stop="clean_img()">
+                                            <v-icon left>delete</v-icon>
+                                            Borrar avatar
                                         </v-btn>
                                     </template>
                                 </v-col>
@@ -100,7 +101,8 @@
                                 form.lastname != user.lastname ||
                                 form.email != user.email ||
                                 form.user != user.user ||
-                                form.avatar != null
+                                form.avatar != null ||
+                                form.avatar_new != 0
                             ">
                                 <v-btn class="txt_white bk_green mt-4" block type="submit">
                                     <v-icon left>save</v-icon>
@@ -170,10 +172,6 @@
 export default {
     name: "Profile",
     data: () => ({
-        banner: {
-            img: "/img/banner/banner-new_user.jpg",
-            lazy: "/img/lazy/banner-new_user.jpg",
-        },
         overlay: false,
         form: {
             id: "",
@@ -226,6 +224,9 @@ export default {
         user: [],
     }),
     methods: {
+        handleFileImport() {
+            this.$refs.uploader.$refs.input.click()
+        },
         async showUser() {
             this.overlay = true;
             await this.axios.get('/api/auth')
@@ -235,7 +236,9 @@ export default {
                     this.form.lastname = this.user.lastname;
                     this.form.user = this.user.user;
                     this.form.email = this.user.email;
-                    if (this.user.avatar) this.prev_img.url_img = "/img/users/" + this.user.avatar;
+                    if (this.user.avatar) {
+                        this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
+                    }
                     this.overlay = false;
                 }).catch((error) => {
                     console.log(error);
@@ -265,7 +268,7 @@ export default {
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);
-                            data.append('user', this.form.user);
+                            data.append('user', (this.form.user).toUpperCase());
                             data.append('email', this.form.email);
                             this.form.avatar = document.querySelector('#avatar').files[0];
                             if (this.form.avatar) {

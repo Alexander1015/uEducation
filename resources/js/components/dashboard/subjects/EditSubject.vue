@@ -214,7 +214,7 @@ export default {
         },
         prev_img: {
             url_img: "/img/subjects/blank.png",
-            lazy_img: "/img/lazy_subjects/blank.png",
+            lazy_img: "/img/subjects/blank_lazy.png",
             height: 200,
             width: 300,
         },
@@ -281,8 +281,8 @@ export default {
                             this.subject = item.subject;
                             this.form_information.name = this.subject.name;
                             if (this.subject.img) {
-                                this.prev_img.url_img = "/img/subjects/" + this.subject.img;
-                                this.prev_img.lazy_img = "/img/lazy_subjects/" + this.subject.img;
+                                this.prev_img.url_img = "/img/subjects/" + this.subject.img + "/index.png";
+                                this.prev_img.lazy_img = "/img/subjects/" + this.subject.img + "/lazy.png";
                             }
                             this.form_information.img = null;
                             this.form_information.img_new = 0;
@@ -508,7 +508,7 @@ export default {
         },
         clean_img() {
             this.prev_img.url_img = "/img/subjects/blank.png";
-            this.prev_img.lazy_img = "/img/lazy_subjects/blank.png";
+            this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
             this.form_information.img = null;
             this.form_information.img_new = 1;
         }

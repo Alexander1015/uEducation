@@ -39,36 +39,18 @@ class StatusTopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        $subject = DB::table("subjects")->where("id", $data->subject_id)->first();
-                        $file = "";
-                        if ($subject) {
-                            $file = public_path('bodies') . "/" . $subject->slug . "/" . $data->slug . ".html";
-                            if (!file_exists($file)) {
-                                $path = public_path('bodies');
-                                if (!File::isDirectory($path)) {
-                                    mkdir($path, 0777, true);
-                                }
-                                $path .= "/" . $subject->slug;
-                                if (!File::isDirectory($path)) {
-                                    mkdir($path, 0777, true);
-                                }
-                                $path .= "/" . $data->slug . ".html";
-                                fopen($path, "w");
+                        $file = public_path('data') . "/" . $data->body . "/body.html";
+                        if (!file_exists($file)) {
+                            $path = public_path('data');
+                            if (!File::isDirectory($path)) {
+                                mkdir($path, 0777, true);
                             }
-                        } else {
-                            $file = public_path('bodies/without-subject') . "/" . $data->slug . ".html";
-                            if (!file_exists($file)) {
-                                $path = public_path('bodies');
-                                if (!File::isDirectory($path)) {
-                                    mkdir($path, 0777, true);
-                                }
-                                $path = public_path('bodies/without-subject');
-                                if (!File::isDirectory($path)) {
-                                    mkdir($path, 0777, true);
-                                }
-                                $path .= "/" . $data->slug . ".html";
-                                fopen($path, "w");
+                            $path .= "/" . $data->body;
+                            if (!File::isDirectory($path)) {
+                                mkdir($path, 0777, true);
                             }
+                            $path .= "/body.html";
+                            fopen($path, "w");
                         }
                         if ($data->status == "0" && $request->input('status') == "1" && trim(file_get_contents($file)) == "") {
                             return response()->json([

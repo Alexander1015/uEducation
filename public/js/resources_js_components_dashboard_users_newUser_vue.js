@@ -158,8 +158,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: true,
       banner: {
-        img: "/img/banner/banner-new_user.jpg",
-        lazy: "/img/lazy/banner-new_user.jpg"
+        img: "/img/banner/user.jpg",
+        lazy: "/img/banner/user_lazy.jpg"
       },
       overlay: false,
       form: {
@@ -210,7 +210,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       prev_img: {
         url_img: "/img/users/blank.png",
-        lazy_img: "/img/lazy_users/blank.png",
+        lazy_img: "/img/users/blank_lazy.png",
         height: 200,
         width: 300
       }
@@ -252,7 +252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('firstname', _this.form.firstname);
                     data.append('lastname', _this.form.lastname);
-                    data.append('user', _this.form.user);
+                    data.append('user', _this.form.user.toUpperCase());
                     data.append('email', _this.form.email);
                     data.append('password', _this.form.password);
                     data.append('password_confirmation', _this.form.password_confirmation);
@@ -320,7 +320,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/users/blank.png";
-      this.prev_img.lazy_img = "/img/lazy_users/blank.png";
+      this.prev_img.lazy_img = "/img/users/blank_lazy.png";
       this.form.avatar = null;
     }
   }

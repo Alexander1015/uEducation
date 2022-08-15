@@ -383,7 +383,7 @@ export default {
         data_tags: [],
         prev_img: {
             url_img: "/img/topics/blank.png",
-            lazy_img: "/img/lazy_topics/blank.png",
+            lazy_img: "/img/topics/blank_lazy.png",
             height: 200,
             width: 300,
         },
@@ -493,12 +493,12 @@ export default {
                             this.form_information.name = this.topic.name;
                             this.form_information.abstract = this.topic.abstract;
                             if (this.topic.img) {
-                                this.prev_img.url_img = "/img/topics/" + this.topic.img;
-                                this.prev_img.lazy_img = "/img/lazy_topics/" + this.topic.img;
+                                this.prev_img.url_img = "/img/topics/" + this.topic.img + "/index.png";
+                                this.prev_img.lazy_img = "/img/topics/" + this.topic.img + "/lazy.png";
                             }
                             this.form_information.img = null;
                             this.form_information.img_new = 0;
-                            this.editorData = this.topic.body;
+                            this.editorData = this.topic.data;
                             if (this.topic.status == 0) this.form_status.status = "Borrador";
                             else if (this.topic.status == 1) this.form_status.status = "Habilitado";
                             // Subject
@@ -745,7 +745,7 @@ export default {
         },
         clean_img() {
             this.prev_img.url_img = "/img/topics/blank.png";
-            this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
+            this.prev_img.lazy_img = "/img/topics/blank_lazy.png";
             this.form_information.img = null;
             this.form_information.img_new = 1;
         }

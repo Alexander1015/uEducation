@@ -110,8 +110,8 @@ export default {
     data: () => ({
         dialog: true,
         banner: {
-            img: "/img/banner/banner-new_tag.jpg",
-            lazy: "/img/lazy/banner-new_tag.jpg",
+            img: "/img/banner/tag.jpg",
+            lazy: "/img/banner/tag_lazy.jpg",
         },
         overlay: false,
         form: {

@@ -283,8 +283,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: true,
       banner: {
-        img: "/img/banner/banner-new_topic.jpg",
-        lazy: "/img/lazy/banner-new_topic.jpg"
+        img: "/img/banner/topic.jpg",
+        lazy: "/img/banner/topic_lazy.jpg"
       },
       overlay: false,
       form: {
@@ -317,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       prev_img: {
         url_img: "/img/topics/blank.png",
-        lazy_img: "/img/lazy_topics/blank.png",
+        lazy_img: "/img/topics/blank_lazy.png",
         height: 200,
         width: 300
       }
@@ -508,7 +508,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/topics/blank.png";
-      this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
+      this.prev_img.lazy_img = "/img/topics/blank_lazy.png";
       this.form.img = null;
     }
   }

@@ -44,8 +44,8 @@
                 <template v-slot:item.avatar="{ item }">
                     <template v-if="item.avatar">
                         <v-list-item-avatar class="mx-auto">
-                            <v-img :src='"/img/users/" + item.avatar' max-height='38' max-width="38"
-                                :lazy-src='"/img/lazy_users/" + item.avatar'>
+                            <v-img :src='"/img/users/" + item.avatar + "/index.png"' max-height='38' max-width="38"
+                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
                                 <template v-slot:placeholder>
                                     <v-row class="fill-height ma-0" align="center" justify="center">
                                         <v-progress-circular indeterminate color="grey lighten-5">
@@ -58,7 +58,7 @@
                     <template v-else>
                         <v-list-item-avatar class="mx-auto">
                             <v-img src="/img/users/blank.png" max-height="38" max-width="38"
-                                lazy-src="/img/lazy_users/blank.png">
+                                lazy-src="/img/users/blank_lazy.png">
                                 <template v-slot:placeholder>
                                     <v-row class="fill-height ma-0" align="center" justify="center">
                                         <v-progress-circular indeterminate color="grey lighten-5">

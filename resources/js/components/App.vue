@@ -28,7 +28,7 @@
                                 tile>
                                 <v-list-item-avatar>
                                     <v-img :src='"/img/users/" + user.avatar' max-height="38" max-width="38"
-                                        :lazy-src='"/img/lazy_users/" + user.avatar'>
+                                        :lazy-src='"/img/users/" + user.avatar_lazy'>
                                         <template v-slot:placeholder>
                                             <v-row class="fill-height ma-0" align="center" justify="center">
                                                 <v-progress-circular indeterminate color="grey lighten-5">
@@ -103,20 +103,23 @@
                 </v-list>
             </v-navigation-drawer>
             <!-- Contenido -->
-            <v-container id="container" fluid class="mt-9 mb-8 px-0">
+            <v-container id="container" fluid class="mt-9 mb-10 px-0">
                 <router-view></router-view>
             </v-container>
             <!-- Footer -->
             <v-footer padless fixed>
                 <v-card class="flex bk_brown" flat tile>
-                    <v-card-text class="py-2 text-center txt_white">
-                        <strong>uEducation</strong>
+                    <v-card-text class="pt-1 pb-0 text-center txt_white caption">
+                        <strong>Edgard Alexander Barrera Flamenco</strong>
                         <template v-if="today !== 2022">
                             <span>(2022 - {{ today }})</span>
                         </template>
                         <template v-else>
                             <span> - 2022</span>
                         </template>
+                    </v-card-text>
+                    <v-card-text class="pt-0 pb-1 text-center txt_white caption">
+                        (alexanderbarrera105@gmail.com)
                     </v-card-text>
                 </v-card>
             </v-footer>
@@ -132,10 +135,11 @@ export default {
         user: {
             user: "",
             avatar: null,
+            avatar_lazy: null,
         },
         logo: {
             img: "/img/logo/logo.png",
-            lazy: "/img/lazy/logo.png",
+            lazy: "/img/logo/logo_lazy.png",
         },
         links: [
             // Public
@@ -178,7 +182,14 @@ export default {
                             if (link.type == 1) link.visible = false;
                             else if (link.type == 2) link.visible = true;
                         }
-                        if (this.user.avatar == "") this.user.avatar = "blank.png";
+                        if (this.user.avatar == "") {
+                            this.user.avatar = "blank.png";
+                            this.user.avatar_lazy = "blank_lazy.png";
+                        }
+                        else {
+                            this.user.avatar = this.user.avatar + "/index.png";
+                            this.user.avatar_lazy = this.user.avatar + "/lazy.png";
+                        }
                     }
                 }).catch((error) => {
                     console.log(error);

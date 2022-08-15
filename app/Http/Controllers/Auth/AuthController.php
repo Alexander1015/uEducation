@@ -47,10 +47,14 @@ class AuthController extends Controller
                     'complete' => false,
                 ]);
             } else {
-                $user_state = DB::table('users')->where('user', $request->input('user'))->first();
+                $input = [
+                    "user" => strtoupper($request->input("user")),
+                    "password" => $request->input("password")
+                ];
+                $user_state = DB::table('users')->where('user', $input["user"])->first();
                 if ($user_state->user) {
                     if ($user_state->status == 1) {
-                        if (Auth::attempt($request->only('user', 'password'))) {
+                        if (Auth::attempt($input)) {
                             return response()->json([
                                 'message' => 'Bienvenido',
                                 'complete' => true,

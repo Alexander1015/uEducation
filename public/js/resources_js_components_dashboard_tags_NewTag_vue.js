@@ -131,8 +131,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: true,
       banner: {
-        img: "/img/banner/banner-new_tag.jpg",
-        lazy: "/img/lazy/banner-new_tag.jpg"
+        img: "/img/banner/tag.jpg",
+        lazy: "/img/banner/tag_lazy.jpg"
       },
       overlay: false,
       form: {

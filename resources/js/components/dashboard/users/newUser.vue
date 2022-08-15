@@ -137,8 +137,8 @@ export default {
     data: () => ({
         dialog: true,
         banner: {
-            img: "/img/banner/banner-new_user.jpg",
-            lazy: "/img/lazy/banner-new_user.jpg",
+            img: "/img/banner/user.jpg",
+            lazy: "/img/banner/user_lazy.jpg",
         },
         overlay: false,
         form: {
@@ -182,7 +182,7 @@ export default {
         ],
         prev_img: {
             url_img: "/img/users/blank.png",
-            lazy_img: "/img/lazy_users/blank.png",
+            lazy_img: "/img/users/blank_lazy.png",
             height: 200,
             width: 300,
         }
@@ -210,7 +210,7 @@ export default {
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);
-                            data.append('user', this.form.user);
+                            data.append('user', (this.form.user).toUpperCase());
                             data.append('email', this.form.email);
                             data.append('password', this.form.password);
                             data.append('password_confirmation', this.form.password_confirmation);
@@ -263,7 +263,7 @@ export default {
         },
         clean_img() {
             this.prev_img.url_img = "/img/users/blank.png";
-            this.prev_img.lazy_img = "/img/lazy_users/blank.png";
+            this.prev_img.lazy_img = "/img/users/blank_lazy.png";
             this.form.avatar = null;
         }
     },

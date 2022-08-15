@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->unique()->default("");
             $table->string('img')->default("");
             $table->text('abstract')->default("");
-            $table->longText('body')->default("");
+            $table->string('body')->default("");
             $table->boolean('status')->default(0);
             $table->integer('sequence')->default(1);
             $table->unsignedBigInteger('user_id')->nullable();

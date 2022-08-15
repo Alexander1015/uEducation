@@ -47,24 +47,27 @@ class CarouselController extends Controller
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1) {
                 $validator = Validator::make($request->all(), [
-                    'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
+                    'img' => ['bail', 'required', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
-                    return response()->json([
-                        'message' => 'La imágen proporcionada no sigue el formato solicitado',
-                        'complete' => false,
-                    ]);
+                    if ($request->file('img')) {
+                        return response()->json([
+                            'message' => 'No se ha proporcionado una imágen',
+                            'complete' => false,
+                        ]);
+                    } else {
+                        return response()->json([
+                            'message' => 'La imágen proporcionada no sigue el formato solicitado',
+                            'complete' => false,
+                        ]);
+                    }
                 } else {
+                    $time_img = time();
                     /*
                     * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
                     * y cambiar la linea: ;extension=gd a: extension=gd
                     * o: ;extension=gd2 a: extension=gd2
                     */
-                    $new_img = "";
-                    if ($request->file('img')) {
-                        //Direccion de la imagen
-                        $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
-                    }
                     // Obtenemos el ultimo valor de la secuencia
                     $new_sequence = 1;
                     $before_sequence = DB::table("carousel")->orderBy('sequence', 'desc')->first();
@@ -74,25 +77,28 @@ class CarouselController extends Controller
                     }
                     if (DB::table("carousel")
                         ->insert([
-                            'img' => $new_img,
+                            'img' => $time_img,
                             'sequence' => $new_sequence,
                         ])
                     ) {
                         if ($request->file('img')) {
+                            // Creamos la carpeta que contendra las imagenes del carousel
+                            $directory = public_path('img/carousel') . "/" . $time_img;
+                            if (!File::isDirectory($directory)) {
+                                mkdir($directory, 0777, true);
+                            }
                             $img = $request->file('img');
                             $size = Image::make($img->getRealPath())->width();
                             //lazy
-                            $address_l = public_path('/img/lazy_carousel');
                             $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_l->save($address_l . '/' . $new_img, 100);
+                            $img_l->save($directory . '/lazy.png', 100);
                             //original
-                            $address_o = public_path('/img/carousel');
                             $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_o->save($address_o . '/' . $new_img, 100);
+                            $img_o->save($directory . '/index.png', 100);
                         }
                         return response()->json([
                             'message' => 'Imágen cargada',
@@ -140,8 +146,17 @@ class CarouselController extends Controller
                 } else {
                     if (DB::table("carousel")->delete($data->id)) {
                         if ($data->img) {
-                            File::delete(public_path('/img/carousel') . '/' . $data->img);
-                            File::delete(public_path('/img/lazy_carousel/') . '/' . $data->img);
+                            // Eliminamos las imagenes del carousel
+                            $directory = public_path('img/carousel') . "/" . $data->img;
+                            if (File::isDirectory($directory)) {
+                                $imgs = File::allFiles($directory);
+                                if (sizeof($imgs) > 0) {
+                                    foreach ($imgs as $item) {
+                                        File::delete($directory . '/' . $item->getRelativePathname());
+                                    }
+                                }
+                                rmdir($directory);
+                            }
                         }
                         return response()->json([
                             'message' => 'imágen eliminada exitosamente',

@@ -77,8 +77,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       banner: {
-        img: "/img/banner/banner-login.jpg",
-        lazy: "/img/lazy/banner-login.jpg"
+        img: "/img/banner/login.jpg",
+        lazy: "/img/banner/login_lazy.jpg"
       },
       overlay: false,
       form: {

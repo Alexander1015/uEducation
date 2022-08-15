@@ -200,6 +200,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTopic",
   data: function data() {
@@ -1408,52 +1421,98 @@ var render = function () {
                 fn: function (ref) {
                   var item = ref.item
                   return [
-                    _c("v-img", {
-                      staticClass: "mx-auto",
-                      attrs: {
-                        src:
-                          "/img/topics/" + (item.img ? item.img : "blank.png"),
-                        "lazy-src":
-                          "/img/lazy_topics/" +
-                          (item.img ? item.img : "blank.png"),
-                        "max-height": "40",
-                        "max-width": "60",
-                        contain: "",
-                      },
-                      scopedSlots: _vm._u(
-                        [
-                          {
-                            key: "placeholder",
-                            fn: function () {
-                              return [
-                                _c(
-                                  "v-row",
-                                  {
-                                    staticClass: "fill-height ma-0",
-                                    attrs: {
-                                      align: "center",
-                                      justify: "center",
-                                    },
-                                  },
-                                  [
-                                    _c("v-progress-circular", {
-                                      attrs: {
-                                        indeterminate: "",
-                                        color: "grey lighten-5",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ]
+                    item.img
+                      ? [
+                          _c("v-img", {
+                            staticClass: "mx-auto",
+                            attrs: {
+                              src: "/img/topics/" + item.img + "/index.png",
+                              "lazy-src":
+                                "/img/topics/" + item.img + "/lazy.png",
+                              "max-height": "40",
+                              "max-width": "60",
+                              contain: "",
                             },
-                            proxy: true,
-                          },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "placeholder",
+                                  fn: function () {
+                                    return [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          staticClass: "fill-height ma-0",
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center",
+                                          },
+                                        },
+                                        [
+                                          _c("v-progress-circular", {
+                                            attrs: {
+                                              indeterminate: "",
+                                              color: "grey lighten-5",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  },
+                                  proxy: true,
+                                },
+                              ],
+                              null,
+                              true
+                            ),
+                          }),
+                        ]
+                      : [
+                          _c("v-img", {
+                            staticClass: "mx-auto",
+                            attrs: {
+                              src: "/img/topics/blank.png",
+                              "lazy-src": "/img/topics/blank_lazy.png",
+                              "max-height": "40",
+                              "max-width": "60",
+                              contain: "",
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "placeholder",
+                                  fn: function () {
+                                    return [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          staticClass: "fill-height ma-0",
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center",
+                                          },
+                                        },
+                                        [
+                                          _c("v-progress-circular", {
+                                            attrs: {
+                                              indeterminate: "",
+                                              color: "grey lighten-5",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  },
+                                  proxy: true,
+                                },
+                              ],
+                              null,
+                              true
+                            ),
+                          }),
                         ],
-                        null,
-                        true
-                      ),
-                    }),
                   ]
                 },
               },

@@ -35,8 +35,7 @@ class UploadImageController extends Controller
                         $new_img = time() . '.' . $request->file('image')->getClientOriginalExtension();
                         $img = $request->file('image');
                         $size = Image::make($img->getRealPath())->width();
-                        //original
-                        $address = public_path('/img/topics') . "/" . $data->id;
+                        $address = public_path('/data') . "/" . $data->body . "/img"; // Direccion de la imagen
                         if (!File::isDirectory($address)) {
                             File::makeDirectory($address, 0777, true, true);
                         }
@@ -50,7 +49,7 @@ class UploadImageController extends Controller
                                 'image' => $new_img,
                             ]);
                         return response()->json([
-                            'url' => '/img/topics/' . $data->id . '/' . $new_img,
+                            'url' => '/data/' . $data->body . '/img/' . $new_img,
                             'message' => "Se ha subido exitosamente la imagen al servidor.",
                         ]);
                     } else {

@@ -106,16 +106,17 @@ class TopicController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
+                            $time_img = "";
+                            if ($request->file('img')) {
+                                $time_img = time();
+                            }
+                            // Nombramos el directory del body
+                            $body_data = time();
                             /*
                             * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
                             * y cambiar la linea: ;extension=gd a: extension=gd
                             * o: ;extension=gd2 a: extension=gd2
                             */
-                            $new_img = "";
-                            if ($request->file('img')) {
-                                //Direccion de la imagen
-                                $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
-                            }
                             $slug = Str::slug($request->input('name'));
                             // Obtenemos el ultimo valor de la secuencia
                             $new_sequence = 1;
@@ -133,7 +134,8 @@ class TopicController extends Controller
                                     'name' => $request->input('name'),
                                     'slug' => $slug,
                                     'abstract' => $request->input('abstract') ? $request->input('abstract') : "",
-                                    'img' => $new_img,
+                                    'img' => $time_img,
+                                    'body' => $body_data,
                                     'user_id' => auth()->user()->id,
                                     'user_update_id' => null,
                                     'sequence' => $new_sequence,
@@ -155,33 +157,35 @@ class TopicController extends Controller
                                     ]);
                                 }
                                 if ($request->file('img')) {
+                                    // Creamos la carpeta que contendra las imagenes del subject
+                                    $directory = public_path('img/topics') . "/" . $time_img;
+                                    if (!File::isDirectory($directory)) {
+                                        mkdir($directory, 0777, true);
+                                    }
                                     $img = $request->file('img');
                                     $size = Image::make($img->getRealPath())->width();
                                     //lazy
-                                    $address_l = public_path('/img/lazy_topics');
                                     $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
-                                    $img_l->save($address_l . '/' . $new_img, 100);
+                                    $img_l->save($directory . '/lazy.png', 100);
                                     //original
-                                    $address_o = public_path('/img/topics');
                                     $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
-                                    $img_o->save($address_o . '/' . $new_img, 100);
+                                    $img_o->save($directory . '/index.png', 100);
                                 }
-                                $data = DB::table("topics")->where("name", $request->input('name'))->first();
-                                // Creamos la carpeta de los bodies de topic si no existe
-                                $path = public_path('bodies');
+                                // Creamos la carpeta que contendra la data del body
+                                $path = public_path('data');
                                 if (!File::isDirectory($path)) {
                                     mkdir($path, 0777, true);
                                 }
-                                $path .= "/" . $exist_subject->slug;
+                                $path .= "/" . $body_data;
                                 if (!File::isDirectory($path)) {
                                     mkdir($path, 0777, true);
                                 }
                                 // Creamos el archivo del body
-                                $path .= "/" . $slug . ".html";
+                                $path .= "/body.html";
                                 fopen($path, "w");
                                 return response()->json([
                                     'message' => 'Tema creado exitosamente en modo borrador',
@@ -249,48 +253,37 @@ class TopicController extends Controller
                 );
                 // Subject
                 $subject = DB::table("subjects")->where("id", $topic->subject_id)->first();
-                // Verificamos que existe la carpeta
-                $file = "";
-                if ($subject) {
-                    $file = public_path('bodies') . "/" . $subject->slug . "/" . $topic->slug . ".html";
-                    if (!file_exists($file)) {
-                        $path = public_path('bodies');
-                        if (!File::isDirectory($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                        $path .= "/" . $subject->slug;
-                        if (!File::isDirectory($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                        $path .= "/" . $topic->slug . ".html";
-                        fopen($path, "w");
+                // Obtenemos el archivo que contiene el body
+                $file = public_path('data') . "/" . $topic->body . "/body.html";
+                if (!file_exists($file)) {
+                    $path = public_path('data');
+                    if (!File::isDirectory($path)) {
+                        mkdir($path, 0777, true);
                     }
-                } else {
-                    $file = public_path('bodies/without-subject') . "/" . $topic->slug . ".html";
-                    if (!file_exists($file)) {
-                        $path = public_path('bodies');
-                        if (!File::isDirectory($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                        $path = public_path('bodies/without-subject');
-                        if (!File::isDirectory($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                        $path .= "/" . $topic->slug . ".html";
-                        fopen($path, "w");
+                    $path .= "/" . $topic->body;
+                    if (!File::isDirectory($path)) {
+                        mkdir($path, 0777, true);
                     }
+                    $path .= "/body.html";
+                    fopen($path, "w");
                 }
-                $topic->body = file_get_contents($file);
+                $topic->data = file_get_contents($file);
                 $tags = array();
                 for ($x = 0; $x < sizeof($tags_ids); $x++) {
                     array_push($tags, $tags_ids[$x]->name);
                 }
                 // Liberar imagenes sin usar
-                $directory = public_path('/img/topics') . "/" . $topic->id;
+                $directory = public_path('data') . "/" . $topic->body . "/img";
                 $files = array();
                 if (File::isDirectory($directory)) {
                     // Obtenemos todos los datos
                     $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
+                    foreach ($images_db as $db) {
+                        $txtimg = "src=\"/data/" . $topic->body . "/img/" . $db->image . "\"";
+                        if (!Str::contains($topic->data, $txtimg)) {
+                            DB::table("images")->delete($db->id);
+                        }
+                    }
                     $filedir = File::allFiles($directory);
                     for ($a = 0; $a < sizeof($filedir); $a++) {
                         array_push($files, $filedir[$a]->getRelativePathname());
@@ -403,14 +396,38 @@ class TopicController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                $new_img = "";
-                                //Direccion de la imagen
+                                $time_img = "";
                                 if (!$request->file('img')) {
-                                    if (!$request->input('img_new')) {
-                                        $new_img = $data->img;
-                                    }
+                                    if ($request->input('img_new') && trim($data->img) != "") {
+                                        // Eliminamos las imagenes del user no usadas
+                                        $directory = public_path('img/topics') . "/" . $data->img;
+                                        if (File::isDirectory($directory)) {
+                                            $imgs = File::allFiles($directory);
+                                            if (sizeof($imgs) > 0) {
+                                                foreach ($imgs as $item) {
+                                                    File::delete($directory . '/' . $item->getRelativePathname());
+                                                }
+                                            }
+                                            // Eliminamos la carpeta ya que no se usara
+                                            rmdir($directory);
+                                        }
+                                    } else $time_img = $data->img;
                                 } else {
-                                    $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                                    if (trim($data->img) != "") {
+                                        // Eliminamos las imagenes del user antiguas
+                                        $directory = public_path('img/topics') . "/" . $data->img;
+                                        if (File::isDirectory($directory)) {
+                                            $imgs = File::allFiles($directory);
+                                            if (sizeof($imgs) > 0) {
+                                                foreach ($imgs as $item) {
+                                                    File::delete($directory . '/' . $item->getRelativePathname());
+                                                }
+                                            }
+                                            // Eliminamos la carpeta ya que no se usara
+                                            rmdir($directory);
+                                        }
+                                    }
+                                    $time_img = time();
                                 }
                                 $slug = Str::slug($request->input('name'));
                                 if (DB::update("UPDATE topics SET slug = ?, subject_id = ?, name = ?, abstract = ?, img = ?, user_id = ? WHERE id = ?", [
@@ -418,49 +435,10 @@ class TopicController extends Controller
                                     $exist_subject->id,
                                     $request->input('name'),
                                     $request->input('abstract') ? $request->input('abstract') : "",
-                                    $new_img,
+                                    $time_img,
                                     auth()->user()->id,
                                     $data->id,
                                 ])) {
-                                    // Actualizamos la posicion del body
-                                    if ($data->subject_id != $exist_subject->id || $data->name != $request->input('name')) {
-                                        // Creamos la carpeta de los bodies de topic si no existe
-                                        $path = public_path('bodies');
-                                        if (!File::isDirectory($path)) {
-                                            mkdir($path, 0777, true);
-                                        }
-                                        // Anterior Subject
-                                        $old_subject = DB::table("subjects")->where("id", $data->subject_id)->first();
-                                        if ($old_subject) {
-                                            // Direcciones
-                                            $current_location = $path . "/" . $old_subject->slug . "/" . $data->slug . ".html";
-                                            $new_location = public_path('bodies') . "/" . $exist_subject->slug . "/" . $slug . ".html";
-                                            // Creamos la nueva carpeta
-                                            $path = public_path('bodies') . "/" . $exist_subject->slug;
-                                            if (!File::isDirectory($path)) {
-                                                mkdir($path, 0777, true);
-                                            }
-                                            if (file_exists($current_location)) {
-                                                rename($current_location, $new_location);
-                                            } else {
-                                                fopen($new_location, "w");
-                                            }
-                                        } else {
-                                            // Direcciones
-                                            $current_location = public_path('bodies/without-subject') . "/" . $data->slug . ".html";
-                                            $new_location = public_path('bodies') . "/" . $exist_subject->slug . "/" . $slug . ".html";
-                                            // Creamos la nueva carpeta
-                                            $path = public_path('bodies') . "/" . $exist_subject->slug;
-                                            if (!File::isDirectory($path)) {
-                                                mkdir($path, 0777, true);
-                                            }
-                                            if (file_exists($current_location)) {
-                                                rename($current_location, $new_location);
-                                            } else {
-                                                fopen($new_location, "w");
-                                            }
-                                        }
-                                    }
                                     // Actualizamos las etiquetas
                                     $topic_tag = DB::table("topic_tag")->where("topic_id", $data->id)->get();
                                     if (sizeof($topic_tag) > 0) {
@@ -492,30 +470,23 @@ class TopicController extends Controller
                                         }
                                     }
                                     // Verificamos si no se ha eliminado el img que ya tenia el tema
-                                    if (!$request->file('img')) {
-                                        if ($request->input('img_new') && $data->img) {
-                                            File::delete(public_path('/img/topics') . '/' . $data->img);
-                                            File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
-                                        }
-                                    } else {
-                                        if ($data->img) {
-                                            File::delete(public_path('/img/topics') . '/' . $data->img);
-                                            File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                                    if ($request->file('img')) {
+                                        $directory = public_path('img/topics') . "/" . $time_img;
+                                        if (!File::isDirectory($directory)) {
+                                            mkdir($directory, 0777, true);
                                         }
                                         $img = $request->file('img');
                                         $size = Image::make($img->getRealPath())->width();
                                         //lazy
-                                        $address_l = public_path('/img/lazy_topics');
                                         $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                             $constraint->aspectRatio();
                                         });
-                                        $img_l->save($address_l . '/' . $new_img, 100);
+                                        $img_l->save($directory . '/lazy.png', 100);
                                         //original
-                                        $address_o = public_path('/img/topics');
                                         $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
                                             $constraint->aspectRatio();
                                         });
-                                        $img_o->save($address_o . '/' . $new_img, 100);
+                                        $img_o->save($directory . '/index.png', 100);
                                     }
                                     if ($data->slug != $slug) {
                                         return response()->json([
@@ -636,11 +607,10 @@ class TopicController extends Controller
                         DB::table("topic_tag")->where("topic_id", $data->id)->delete();
                     }
                     // Eliminamos las imagenes del body
-                    $directory = public_path('/img/topics') . "/" . $data->id;
+                    DB::table("images")->where("topic_id", $data->id)->delete(); // Tabla Images
+                    $directory = public_path('/img/data') . "/" . $data->body . "/img";
                     if (File::isDirectory($directory)) {
-                        // Tabla Images
-                        DB::table("images")->where("topic_id", $data->id)->delete();
-                        // Carpeta en topics
+                        // Carpeta de img
                         $data = File::allFiles($directory);
                         if (sizeof($data) > 0) {
                             foreach ($data as $item) {
@@ -649,24 +619,30 @@ class TopicController extends Controller
                         }
                         rmdir($directory);
                     }
-                    $exist_subject = DB::table("subjects")->where("id", $data->slug)->first();
-                    if ($exist_subject) {
-                        // Eliminamos el body
-                        $directory_body = public_path('bodies') . "/" . $exist_subject->slug;
-                        if (File::isDirectory($directory_body)) {
-                            File::delete($directory_body . '/' . $data->slug . ".html");
+                    $directory = public_path('/img/data') . "/" . $data->body;
+                    if (File::isDirectory($directory)) {
+                        // Carpeta del body
+                        $data = File::allFiles($directory);
+                        if (sizeof($data) > 0) {
+                            foreach ($data as $item) {
+                                File::delete($directory . '/' . $item->getRelativePathname());
+                            }
                         }
-                    } else {
-                        // Eliminamos el body si no tiene subject
-                        $directory_body = public_path('bodies/without-subject');
-                        if (File::isDirectory($directory_body)) {
-                            File::delete($directory_body . '/' . $data->slug . ".html");
-                        }
+                        rmdir($directory);
                     }
                     if (DB::table("topics")->delete($data->id)) {
                         if ($data->img) {
-                            File::delete(public_path('/img/topics') . '/' . $data->img);
-                            File::delete(public_path('/img/lazy_topics/') . '/' . $data->img);
+                            // Eliminamos las imagenes del user
+                            $directory = public_path('img/topics') . "/" . $data->img;
+                            if (File::isDirectory($directory)) {
+                                $imgs = File::allFiles($directory);
+                                if (sizeof($imgs) > 0) {
+                                    foreach ($imgs as $item) {
+                                        File::delete($directory . '/' . $item->getRelativePathname());
+                                    }
+                                }
+                                rmdir($directory);
+                            }
                         }
                         return response()->json([
                             'message' => 'Tema eliminado exitosamente',

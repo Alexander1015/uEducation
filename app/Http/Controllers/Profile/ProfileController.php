@@ -51,48 +51,65 @@ class ProfileController extends Controller
                         ]);
                     }
                 } else {
-                    $new_avatar = "";
-                    //Direccion de la imagen
+                    $time_avatar = "";
                     if (!$request->file('avatar')) {
-                        if (!$request->input('avatar_new')) {
-                            $new_avatar = $user->avatar;
-                        }
+                        if ($request->input('avatar_new') && trim($user->avatar) != "") {
+                            // Eliminamos las imagenes del user no usadas
+                            $directory = public_path('img/users') . "/" . $user->avatar;
+                            if (File::isDirectory($directory)) {
+                                $imgs = File::allFiles($directory);
+                                if (sizeof($imgs) > 0) {
+                                    foreach ($imgs as $item) {
+                                        File::delete($directory . '/' . $item->getRelativePathname());
+                                    }
+                                }
+                                // Eliminamos la carpeta ya que no se usara
+                                rmdir($directory);
+                            }
+                        } else $time_avatar = $user->avatar;
                     } else {
-                        $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+                        if (trim($user->avatar) != "") {
+                            // Eliminamos las imagenes del user antiguas
+                            $directory = public_path('img/users') . "/" . $user->avatar;
+                            if (File::isDirectory($directory)) {
+                                $imgs = File::allFiles($directory);
+                                if (sizeof($imgs) > 0) {
+                                    foreach ($imgs as $item) {
+                                        File::delete($directory . '/' . $item->getRelativePathname());
+                                    }
+                                }
+                            }
+                            // Eliminamos la carpeta ya que no se usara
+                            rmdir($directory);
+                        }
+                        $time_avatar = time();
                     }
                     if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
                         $request->input('firstname'),
                         $request->input('lastname'),
                         $request->input('user'),
                         $request->input('email'),
-                        $new_avatar,
+                        $time_avatar,
                         $user->id,
                     ])) {
                         // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
-                        if (!$request->file('avatar')) {
-                            if ($request->input('avatar_new') && $user->avatar) {
-                                File::delete(public_path('/img/users') . '/' . $user->avatar);
-                                File::delete(public_path('/img/lazy_users/') . '/' . $user->avatar);
-                            }
-                        } else {
-                            if ($user->avatar) {
-                                File::delete(public_path('/img/users') . '/' . $user->avatar);
-                                File::delete(public_path('/img/lazy_users/') . '/' . $user->avatar);
+                        if ($request->file('avatar')) {
+                            $directory = public_path('img/users') . "/" . $time_avatar;
+                            if (!File::isDirectory($directory)) {
+                                mkdir($directory, 0777, true);
                             }
                             $avatar = $request->file('avatar');
                             $size = Image::make($avatar->getRealPath())->width();
                             //lazy
-                            $address_l = public_path('/img/lazy_users');
                             $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_l->save($address_l . '/' . $new_avatar, 100);
+                            $img_l->save($directory . '/lazy.png', 100);
                             //original
-                            $address_o = public_path('/img/users');
                             $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_o->save($address_o . '/' . $new_avatar, 100);
+                            $img_o->save($directory . '/index.png', 100);
                         }
                         return response()->json([
                             'message' => 'Ha modificado exitosamente su información',
@@ -124,8 +141,8 @@ class ProfileController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                // 'message' => $ex->getMessage(),
-                'message' => "Ha ocurrido un error en la aplicación",
+                'message' => $ex->getMessage(),
+                // 'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

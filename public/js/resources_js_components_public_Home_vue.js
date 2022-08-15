@@ -430,7 +430,7 @@ var render = function () {
               _c("v-carousel-item", {
                 attrs: {
                   src: "/img/carousel/welcome.png",
-                  "lazy-src": "/img/lazy_carousel/welcome.png",
+                  "lazy-src": "/img/carousel/welcome_lazy.png",
                 },
               }),
               _vm._v(" "),
@@ -438,8 +438,8 @@ var render = function () {
                 return _c("v-carousel-item", {
                   key: i,
                   attrs: {
-                    src: "/img/carousel/" + item.img,
-                    "lazy-src": "/img/lazy_carousel/" + item.img,
+                    src: "/img/carousel/" + item.img + "/index.png",
+                    "lazy-src": "/img/carousel/" + item.img + "/lazy.png",
                   },
                 })
               }),
@@ -464,8 +464,8 @@ var render = function () {
                       _c("v-img", {
                         attrs: {
                           "max-height": "200",
-                          src: "/img/logo/logo-w-letters.png",
-                          "lazy-src": "/img/lazy/logo-w-letters.png",
+                          src: "/img/logo/logo_letters.png",
+                          "lazy-src": "/img/logo/logo_letters_lazy.png",
                           contain: "",
                         },
                         scopedSlots: _vm._u([

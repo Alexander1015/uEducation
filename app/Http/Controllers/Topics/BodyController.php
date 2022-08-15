@@ -37,36 +37,18 @@ class BodyController extends Controller
                     $now = new DateTime();
                     $now->setTimezone($zone);
                     // Obtenemos el body 
-                    $subject = DB::table("subjects")->where("id", $data->subject_id)->first();
-                    $file = "";
-                    if ($subject) {
-                        $file = public_path('bodies') . "/" . $subject->slug . "/" . $data->slug . ".html";
-                        if (!file_exists($file)) {
-                            $path = public_path('bodies');
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path .= "/" . $subject->slug;
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path .= "/" . $data->slug . ".html";
-                            fopen($path, "w");
+                    $file = public_path('data') . "/" . $data->body . "/body.html";
+                    if (!file_exists($file)) {
+                        $path = public_path('data');
+                        if (!File::isDirectory($path)) {
+                            mkdir($path, 0777, true);
                         }
-                    } else {
-                        $file = public_path('bodies/without-subject') . "/" . $data->slug . ".html";
-                        if (!file_exists($file)) {
-                            $path = public_path('bodies');
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path = public_path('bodies/without-subject');
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path .= "/" . $data->slug . ".html";
-                            fopen($path, "w");
+                        $path .= "/" . $data->body;
+                        if (!File::isDirectory($path)) {
+                            mkdir($path, 0777, true);
                         }
+                        $path .= "/body.html";
+                        fopen($path, "w");
                     }
                     if (file_get_contents($file) != $request->input('body')) {
                         // Adjuntamos los datos al archivo
@@ -92,12 +74,12 @@ class BodyController extends Controller
                             // Eliminamos de la BD las imagenes que se eliminaron
                             $images_db = DB::table("images")->where("topic_id", $data->id)->get();
                             foreach ($images_db as $db) {
-                                $txtimg = "src=\"/img/topics/" . $data->id . "/" . $db->image . "\"";
+                                $txtimg = "src=\"/data/" . $data->body . "/img/" . $db->image . "\"";
                                 if (!Str::contains($request->input('body'), $txtimg)) {
                                     DB::table("images")->delete($db->id);
                                 }
                             }
-                            $directory = public_path('/img/topics') . "/" . $data->id;
+                            $directory = public_path('/data') . "/" . $data->body . "/img";
                             $files = array();
                             if (File::isDirectory($directory)) {
                                 // Obtenemos todos los datos

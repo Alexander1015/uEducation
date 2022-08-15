@@ -5523,6 +5523,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
   data: function data() {
@@ -5530,11 +5533,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       today: new Date().getFullYear(),
       user: {
         user: "",
-        avatar: null
+        avatar: null,
+        avatar_lazy: null
       },
       logo: {
         img: "/img/logo/logo.png",
-        lazy: "/img/lazy/logo.png"
+        lazy: "/img/logo/logo_lazy.png"
       },
       links: [// Public
       {
@@ -5654,7 +5658,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _iterator.f();
                     }
 
-                    if (_this2.user.avatar == "") _this2.user.avatar = "blank.png";
+                    if (_this2.user.avatar == "") {
+                      _this2.user.avatar = "blank.png";
+                      _this2.user.avatar_lazy = "blank_lazy.png";
+                    } else {
+                      _this2.user.avatar = _this2.user.avatar + "/index.png";
+                      _this2.user.avatar_lazy = _this2.user.avatar + "/lazy.png";
+                    }
                   }
                 })["catch"](function (error) {
                   console.log(error);
@@ -30637,8 +30647,8 @@ var render = function () {
                                               "max-height": "38",
                                               "max-width": "38",
                                               "lazy-src":
-                                                "/img/lazy_users/" +
-                                                _vm.user.avatar,
+                                                "/img/users/" +
+                                                _vm.user.avatar_lazy,
                                             },
                                             scopedSlots: _vm._u(
                                               [
@@ -30700,7 +30710,7 @@ var render = function () {
                           ],
                           null,
                           false,
-                          304666554
+                          536899226
                         ),
                       },
                       [
@@ -30924,7 +30934,7 @@ var render = function () {
           _c(
             "v-container",
             {
-              staticClass: "mt-9 mb-8 px-0",
+              staticClass: "mt-9 mb-10 px-0",
               attrs: { id: "container", fluid: "" },
             },
             [_c("router-view")],
@@ -30941,9 +30951,11 @@ var render = function () {
                 [
                   _c(
                     "v-card-text",
-                    { staticClass: "py-2 text-center txt_white" },
+                    { staticClass: "pt-1 pb-0 text-center txt_white caption" },
                     [
-                      _c("strong", [_vm._v("uEducation")]),
+                      _c("strong", [
+                        _vm._v("Edgard Alexander Barrera Flamenco"),
+                      ]),
                       _vm._v(" "),
                       _vm.today !== 2022
                         ? [
@@ -30954,6 +30966,16 @@ var render = function () {
                         : [_c("span", [_vm._v(" - 2022")])],
                     ],
                     2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    { staticClass: "pt-0 pb-1 text-center txt_white caption" },
+                    [
+                      _vm._v(
+                        "\n                    (alexanderbarrera105@gmail.com)\n                "
+                      ),
+                    ]
                   ),
                 ],
                 1

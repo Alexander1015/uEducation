@@ -242,7 +242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       prev_img: {
         url_img: "/img/subjects/blank.png",
-        lazy_img: "/img/lazy_subjects/blank.png",
+        lazy_img: "/img/subjects/blank_lazy.png",
         height: 200,
         width: 300
       },
@@ -328,8 +328,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form_information.name = _this.subject.name;
 
                     if (_this.subject.img) {
-                      _this.prev_img.url_img = "/img/subjects/" + _this.subject.img;
-                      _this.prev_img.lazy_img = "/img/lazy_subjects/" + _this.subject.img;
+                      _this.prev_img.url_img = "/img/subjects/" + _this.subject.img + "/index.png";
+                      _this.prev_img.lazy_img = "/img/subjects/" + _this.subject.img + "/lazy.png";
                     }
 
                     _this.form_information.img = null;
@@ -664,7 +664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/subjects/blank.png";
-      this.prev_img.lazy_img = "/img/lazy_subjects/blank.png";
+      this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
       this.form_information.img = null;
       this.form_information.img_new = 1;
     }

@@ -261,7 +261,7 @@ export default {
         },
         prev_img: {
             url_img: "/img/users/blank.png",
-            lazy_img: "/img/lazy_users/blank.png",
+            lazy_img: "/img/users/blank_lazy.png",
             height: 200,
             width: 300,
         },
@@ -344,8 +344,8 @@ export default {
                             this.form_information.user = this.user.user;
                             this.form_information.email = this.user.email;
                             if (this.user.avatar) {
-                                this.prev_img.url_img = "/img/users/" + this.user.avatar;
-                                this.prev_img.lazy_img = "/img/lazy_users/" + this.user.avatar;
+                                this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
+                                this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
                             }
                             this.form_information.avatar = null;
                             this.form_information.avatar_new = 0;
@@ -386,7 +386,7 @@ export default {
                             let data = new FormData();
                             data.append('firstname', this.form_information.firstname);
                             data.append('lastname', this.form_information.lastname);
-                            data.append('user', this.form_information.user);
+                            data.append('user', (this.form_information.user).toUpperCase());
                             data.append('email', this.form_information.email);
                             this.form_information.avatar = document.querySelector('#avatar').files[0];
                             if (this.form_information.avatar) {
@@ -584,7 +584,7 @@ export default {
         },
         clean_img() {
             this.prev_img.url_img = "/img/users/blank.png";
-            this.prev_img.lazy_img = "/img/lazy_users/blank.png";
+            this.prev_img.lazy_img = "/img/users/blank_lazy.png";
             this.form_information.avatar = null;
             this.form_information.avatar_new = 1;
         }

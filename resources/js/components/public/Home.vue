@@ -21,17 +21,17 @@
             </template>
             <v-carousel cycle interval="6000" height="500" hide-delimiter-background show-arrows-on-hover
                 delimiter-icon="fiber_manual_record" prev-icon="chevron_left" next-icon="chevron_right">
-                <v-carousel-item src="/img/carousel/welcome.png" lazy-src="/img/lazy_carousel/welcome.png">
+                <v-carousel-item src="/img/carousel/welcome.png" lazy-src="/img/carousel/welcome_lazy.png">
                 </v-carousel-item>
-                <v-carousel-item v-for="(item, i) in items" :key="i" :src='"/img/carousel/" + item.img'
-                    :lazy-src='"/img/lazy_carousel/" + item.img'>
+                <v-carousel-item v-for="(item, i) in items" :key="i" :src='"/img/carousel/" + item.img + "/index.png"'
+                    :lazy-src='"/img/carousel/" + item.img + "/lazy.png"'>
                 </v-carousel-item>
             </v-carousel>
             <div class="mt-8 mx-4">
                 <v-row>
                     <v-col cols="12" sm="4" class="mt-2 mx-auto bk_blue rounded-lg">
-                        <v-img max-height="200" src="/img/logo/logo-w-letters.png"
-                            lazy-src="/img/lazy/logo-w-letters.png" contain>
+                        <v-img max-height="200" src="/img/logo/logo_letters.png"
+                            lazy-src="/img/logo/logo_letters_lazy.png" contain>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="grey lighten-5">

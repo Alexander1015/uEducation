@@ -56,8 +56,8 @@ export default {
     name: "HomeAuth",
     data: () => ({
         banner: {
-            img: "/img/banner/banner-login.jpg",
-            lazy: "/img/lazy/banner-login.jpg",
+            img: "/img/banner/login.jpg",
+            lazy: "/img/banner/login_lazy.jpg",
         },
         overlay: false,
         form: {

@@ -1341,10 +1341,12 @@ var render = function () {
                             [
                               _c("v-img", {
                                 attrs: {
-                                  src: "/img/users/" + item.avatar,
+                                  src:
+                                    "/img/users/" + item.avatar + "/index.png",
                                   "max-height": "38",
                                   "max-width": "38",
-                                  "lazy-src": "/img/lazy_users/" + item.avatar,
+                                  "lazy-src":
+                                    "/img/users/" + item.avatar + "/lazy.png",
                                 },
                                 scopedSlots: _vm._u(
                                   [
@@ -1394,7 +1396,7 @@ var render = function () {
                                   src: "/img/users/blank.png",
                                   "max-height": "38",
                                   "max-width": "38",
-                                  "lazy-src": "/img/lazy_users/blank.png",
+                                  "lazy-src": "/img/users/blank_lazy.png",
                                 },
                                 scopedSlots: _vm._u(
                                   [

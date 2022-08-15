@@ -77,16 +77,15 @@ class UserController extends Controller
                         ]);
                     }
                 } else {
+                    $time_avatar = "";
+                    if ($request->file('avatar')) {
+                        $time_avatar = time();
+                    }
                     /*
                     * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
                     * y cambiar la linea: ;extension=gd a: extension=gd
                     * o: ;extension=gd2 a: extension=gd2
                     */
-                    $new_avatar = "";
-                    if ($request->file('avatar')) {
-                        //Direccion de la imagen
-                        $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
-                    }
                     $slug = Str::slug(Str::random(20));
                     while (DB::table("users")->where('slug', $slug)->first()) {
                         $slug = Str::random(20);
@@ -96,27 +95,30 @@ class UserController extends Controller
                             'slug' => $slug,
                             'firstname' => $request->input('firstname'),
                             'lastname' => $request->input('lastname'),
-                            'user' => $request->input('user'),
+                            'user' => strtoupper($request->input('user')),
                             'email' => $request->input('email'),
                             'password' => Hash::make($request->input('password')),
-                            'avatar' => $new_avatar,
+                            'avatar' => $time_avatar,
                         ])
                     ) {
                         if ($request->file('avatar')) {
+                            // Creamos la carpeta que contendra las imagenes del usuario
+                            $directory = public_path('img/users') . "/" . $time_avatar;
+                            if (!File::isDirectory($directory)) {
+                                mkdir($directory, 0777, true);
+                            }
                             $avatar = $request->file('avatar');
                             $size = Image::make($avatar->getRealPath())->width();
                             //lazy
-                            $address_l = public_path('/img/lazy_users');
                             $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_l->save($address_l . '/' . $new_avatar, 100);
+                            $img_l->save($directory . '/lazy.png', 100);
                             //original
-                            $address_o = public_path('/img/users');
                             $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
                                 $constraint->aspectRatio();
                             });
-                            $img_o->save($address_o . '/' . $new_avatar, 100);
+                            $img_o->save($directory . '/index.png', 100);
                         }
                         return response()->json([
                             'message' => 'Usuario creado exitosamente',
@@ -216,48 +218,65 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            $new_avatar = "";
-                            //Direccion de la imagen
+                            $time_avatar = "";
                             if (!$request->file('avatar')) {
-                                if (!$request->input('avatar_new')) {
-                                    $new_avatar = $data->avatar;
-                                }
+                                if ($request->input('avatar_new') && trim($data->avatar) != "") {
+                                    // Eliminamos las imagenes del user no usadas
+                                    $directory = public_path('img/users') . "/" . $data->avatar;
+                                    if (File::isDirectory($directory)) {
+                                        $imgs = File::allFiles($directory);
+                                        if (sizeof($imgs) > 0) {
+                                            foreach ($imgs as $item) {
+                                                File::delete($directory . '/' . $item->getRelativePathname());
+                                            }
+                                        }
+                                        // Eliminamos la carpeta ya que no se usara
+                                        rmdir($directory);
+                                    }
+                                } else $time_avatar = $data->avatar;
                             } else {
-                                $new_avatar = time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+                                if (trim($data->avatar) != "") {
+                                    // Eliminamos las imagenes del user antiguas
+                                    $directory = public_path('img/users') . "/" . $data->avatar;
+                                    if (File::isDirectory($directory)) {
+                                        $imgs = File::allFiles($directory);
+                                        if (sizeof($imgs) > 0) {
+                                            foreach ($imgs as $item) {
+                                                File::delete($directory . '/' . $item->getRelativePathname());
+                                            }
+                                        }
+                                        // Eliminamos la carpeta ya que no se usara
+                                        rmdir($directory);
+                                    }
+                                }
+                                $time_avatar = time();
                             }
                             if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
                                 $request->input('firstname'),
                                 $request->input('lastname'),
-                                $request->input('user'),
+                                strtoupper($request->input('user')),
                                 $request->input('email'),
-                                $new_avatar,
+                                $time_avatar,
                                 $data->id,
                             ])) {
                                 // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
-                                if (!$request->file('avatar')) {
-                                    if ($request->input('avatar_new') && $data->avatar) {
-                                        File::delete(public_path('/img/users') . '/' . $data->avatar);
-                                        File::delete(public_path('/img/lazy_users/') . '/' . $data->avatar);
-                                    }
-                                } else {
-                                    if ($data->avatar) {
-                                        File::delete(public_path('/img/users') . '/' . $data->avatar);
-                                        File::delete(public_path('/img/lazy_users/') . '/' . $data->avatar);
+                                if ($request->file('avatar')) {
+                                    $directory = public_path('img/users') . "/" . $time_avatar;
+                                    if (!File::isDirectory($directory)) {
+                                        mkdir($directory, 0777, true);
                                     }
                                     $avatar = $request->file('avatar');
                                     $size = Image::make($avatar->getRealPath())->width();
                                     //lazy
-                                    $address_l = public_path('/img/lazy_users');
                                     $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
-                                    $img_l->save($address_l . '/' . $new_avatar, 100);
+                                    $img_l->save($directory . '/lazy.png', 100);
                                     //original
-                                    $address_o = public_path('/img/users');
                                     $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
                                         $constraint->aspectRatio();
                                     });
-                                    $img_o->save($address_o . '/' . $new_avatar, 100);
+                                    $img_o->save($directory . '/index.png', 100);
                                 }
                                 return response()->json([
                                     'message' => 'Usuario modificado exitosamente',
@@ -345,8 +364,17 @@ class UserController extends Controller
                             }
                             if (DB::table("users")->delete($data->id)) {
                                 if ($data->avatar) {
-                                    File::delete(public_path('/img/users') . '/' . $data->avatar);
-                                    File::delete(public_path('/img/lazy_users/') . '/' . $data->avatar);
+                                    // Eliminamos las imagenes del user
+                                    $directory = public_path('img/users') . "/" . $data->avatar;
+                                    if (File::isDirectory($directory)) {
+                                        $imgs = File::allFiles($directory);
+                                        if (sizeof($imgs) > 0) {
+                                            foreach ($imgs as $item) {
+                                                File::delete($directory . '/' . $item->getRelativePathname());
+                                            }
+                                        }
+                                        rmdir($directory);
+                                    }
                                 }
                                 return response()->json([
                                     'message' => 'Usuario eliminado exitosamente',

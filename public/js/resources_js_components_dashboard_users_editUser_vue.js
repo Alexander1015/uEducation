@@ -282,7 +282,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       prev_img: {
         url_img: "/img/users/blank.png",
-        lazy_img: "/img/lazy_users/blank.png",
+        lazy_img: "/img/users/blank_lazy.png",
         height: 200,
         width: 300
       },
@@ -395,8 +395,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form_information.email = _this.user.email;
 
                     if (_this.user.avatar) {
-                      _this.prev_img.url_img = "/img/users/" + _this.user.avatar;
-                      _this.prev_img.lazy_img = "/img/lazy_users/" + _this.user.avatar;
+                      _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
+                      _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
                     }
 
                     _this.form_information.avatar = null;
@@ -466,7 +466,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('firstname', _this2.form_information.firstname);
                     data.append('lastname', _this2.form_information.lastname);
-                    data.append('user', _this2.form_information.user);
+                    data.append('user', _this2.form_information.user.toUpperCase());
                     data.append('email', _this2.form_information.email);
                     _this2.form_information.avatar = document.querySelector('#avatar').files[0];
 
@@ -738,7 +738,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/users/blank.png";
-      this.prev_img.lazy_img = "/img/lazy_users/blank.png";
+      this.prev_img.lazy_img = "/img/users/blank_lazy.png";
       this.form_information.avatar = null;
       this.form_information.avatar_new = 1;
     }

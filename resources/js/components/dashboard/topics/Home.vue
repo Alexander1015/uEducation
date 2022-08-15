@@ -52,16 +52,29 @@
                 no-data-text="No se ha obtenido información" no-results-text="No se obtuvieron resultados" multi-sort
                 :search="search" fixed-header align="center">
                 <template v-slot:item.img="{ item }">
-                    <v-img class="mx-auto" :src='"/img/topics/" + (item.img ? item.img : "blank.png")'
-                        :lazy-src='"/img/lazy_topics/" + (item.img ? item.img : "blank.png")' max-height="40"
-                        max-width="60" contain>
-                        <template v-slot:placeholder>
-                            <v-row class="fill-height ma-0" align="center" justify="center">
-                                <v-progress-circular indeterminate color="grey lighten-5">
-                                </v-progress-circular>
-                            </v-row>
-                        </template>
-                    </v-img>
+                    <template v-if="item.img">
+                        <v-img class="mx-auto" :src='"/img/topics/" + item.img + "/index.png"'
+                            :lazy-src='"/img/topics/" + item.img + "/lazy.png"' max-height="40"
+                            max-width="60" contain>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                    </v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
+                    </template>
+                    <template v-else>
+                        <v-img class="mx-auto" src="/img/topics/blank.png" lazy-src="/img/topics/blank_lazy.png"
+                            max-height="40" max-width="60" contain>
+                            <template v-slot:placeholder>
+                                <v-row class="fill-height ma-0" align="center" justify="center">
+                                    <v-progress-circular indeterminate color="grey lighten-5">
+                                    </v-progress-circular>
+                                </v-row>
+                            </template>
+                        </v-img>
+                    </template>
                 </template>
                 <template v-slot:item.subject="{ item }">
                     <template v-if="item.subject">

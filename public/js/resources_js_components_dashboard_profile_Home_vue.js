@@ -187,14 +187,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
     return {
-      banner: {
-        img: "/img/banner/banner-new_user.jpg",
-        lazy: "/img/lazy/banner-new_user.jpg"
-      },
       overlay: false,
       form: {
         id: "",
@@ -255,6 +253,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
+    },
     showUser: function showUser() {
       var _this = this;
 
@@ -271,7 +272,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.form.lastname = _this.user.lastname;
                   _this.form.user = _this.user.user;
                   _this.form.email = _this.user.email;
-                  if (_this.user.avatar) _this.prev_img.url_img = "/img/users/" + _this.user.avatar;
+
+                  if (_this.user.avatar) {
+                    _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
+                  }
+
                   _this.overlay = false;
                 })["catch"](function (error) {
                   console.log(error);
@@ -322,7 +327,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('firstname', _this2.form.firstname);
                     data.append('lastname', _this2.form.lastname);
-                    data.append('user', _this2.form.user);
+                    data.append('user', _this2.form.user.toUpperCase());
                     data.append('email', _this2.form.email);
                     _this2.form.avatar = document.querySelector('#avatar').files[0];
 
@@ -1072,7 +1077,7 @@ var render = function () {
                           ? [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(_vm.user.firstname) +
+                                  _vm._s(_vm.user.firstname.toUpperCase()) +
                                   "\n                    "
                               ),
                             ]
@@ -1082,7 +1087,7 @@ var render = function () {
                           ? [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(_vm.user.lastname) +
+                                  _vm._s(_vm.user.lastname.toUpperCase()) +
                                   "\n                    "
                               ),
                             ]
@@ -1333,10 +1338,16 @@ var render = function () {
                                           },
                                         },
                                         [
-                                          _vm._v(
-                                            "Borrar\n                                        avatar\n                                    "
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("delete")]
                                           ),
-                                        ]
+                                          _vm._v(
+                                            "\n                                        Borrar avatar\n                                    "
+                                          ),
+                                        ],
+                                        1
                                       ),
                                     ]
                                   : _vm._e(),
@@ -1398,7 +1409,8 @@ var render = function () {
                         _vm.form.lastname != _vm.user.lastname ||
                         _vm.form.email != _vm.user.email ||
                         _vm.form.user != _vm.user.user ||
-                        _vm.form.avatar != null
+                        _vm.form.avatar != null ||
+                        _vm.form.avatar_new != 0
                           ? [
                               _c(
                                 "v-btn",

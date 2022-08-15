@@ -69,63 +69,58 @@ class SubjectController extends Controller
                         }
                     }
                 } else {
-                    if ($request->input('name') == "without-subject") {
-                        return response()->json([
-                            'message' => 'Este nombre para el tema no puede ser utilizado',
-                            'complete' => false,
-                        ]);
-                    } else {
-                        /*
+                    $time_img = "";
+                    if ($request->file('img')) {
+                        $time_img = time();
+                    }
+                    /*
                     * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
                     * y cambiar la linea: ;extension=gd a: extension=gd
                     * o: ;extension=gd2 a: extension=gd2
                     */
-                        $new_img = "";
+                    $slug = Str::slug($request->input('name'));
+                    if (DB::table("subjects")
+                        ->insert([
+                            'name' => $request->input('name'),
+                            'slug' => $slug,
+                            'img' => $time_img,
+                        ])
+                    ) {
                         if ($request->file('img')) {
-                            //Direccion de la imagen
-                            $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
-                        }
-                        $slug = Str::slug($request->input('name'));
-                        if (DB::table("subjects")
-                            ->insert([
-                                'name' => $request->input('name'),
-                                'slug' => $slug,
-                                'img' => $new_img,
-                            ])
-                        ) {
-                            if ($request->file('img')) {
-                                $img = $request->file('img');
-                                $size = Image::make($img->getRealPath())->width();
-                                //lazy
-                                $address_l = public_path('/img/lazy_subjects');
-                                $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
-                                    $constraint->aspectRatio();
-                                });
-                                $img_l->save($address_l . '/' . $new_img, 100);
-                                //original
-                                $address_o = public_path('/img/subjects');
-                                $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
-                                    $constraint->aspectRatio();
-                                });
-                                $img_o->save($address_o . '/' . $new_img, 100);
+                            // Creamos la carpeta que contendra las imagenes del subject
+                            $directory = public_path('img/subjects') . "/" . $time_img;
+                            if (!File::isDirectory($directory)) {
+                                mkdir($directory, 0777, true);
                             }
+                            $img = $request->file('img');
+                            $size = Image::make($img->getRealPath())->width();
+                            //lazy
+                            $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_l->save($directory . '/lazy.png', 100);
+                            //original
+                            $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img_o->save($directory . '/index.png', 100);
+                        }
+                        return response()->json([
+                            'message' => 'Curso creado exitosamente',
+                            'complete' => true,
+                        ]);
+                    } else {
+                        $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                        if ($old_slug) {
                             return response()->json([
-                                'message' => 'Curso creado exitosamente',
-                                'complete' => true,
+                                'message' => 'El slug generado ya existe, genere uno nuevo',
+                                'complete' => false,
                             ]);
                         } else {
-                            $old_slug = DB::table("subjects")->where('slug', $slug)->first();
-                            if ($old_slug) {
-                                return response()->json([
-                                    'message' => 'El slug generado ya existe, genere uno nuevo',
-                                    'complete' => false,
-                                ]);
-                            } else {
-                                return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de crear la materia',
-                                    'complete' => false,
-                                ]);
-                            }
+                            return response()->json([
+                                'message' => 'Ha ocurrido un error al momento de crear la materia',
+                                'complete' => false,
+                            ]);
                         }
                     }
                 }
@@ -236,92 +231,89 @@ class SubjectController extends Controller
                             }
                         }
                     } else {
-                        if ($request->input('name') == "without-subject") {
+                        $time_img = "";
+                        if (!$request->file('img')) {
+                            if ($request->input('img_new') && trim($data->img) != "") {
+                                // Eliminamos las imagenes del user no usadas
+                                $directory = public_path('img/subjects') . "/" . $data->img;
+                                if (File::isDirectory($directory)) {
+                                    $imgs = File::allFiles($directory);
+                                    if (sizeof($imgs) > 0) {
+                                        foreach ($imgs as $item) {
+                                            File::delete($directory . '/' . $item->getRelativePathname());
+                                        }
+                                    }
+                                    // Eliminamos la carpeta ya que no se usara
+                                    rmdir($directory);
+                                }
+                            } else $time_img = $data->img;
+                        } else {
+                            if (trim($data->img) != "") {
+                                // Eliminamos las imagenes del user antiguas
+                                $directory = public_path('img/subjects') . "/" . $data->img;
+                                if (File::isDirectory($directory)) {
+                                    $imgs = File::allFiles($directory);
+                                    if (sizeof($imgs) > 0) {
+                                        foreach ($imgs as $item) {
+                                            File::delete($directory . '/' . $item->getRelativePathname());
+                                        }
+                                    }
+                                    // Eliminamos la carpeta ya que no se usara
+                                    rmdir($directory);
+                                }
+                            }
+                            $time_img = time();
+                        }
+                        $slug = Str::slug($request->input('name'));
+                        if (DB::update("UPDATE subjects SET slug = ?, name = ?, img = ? WHERE id = ?", [
+                            $slug,
+                            $request->input('name'),
+                            $time_img,
+                            $data->id,
+                        ])) {
+                            // Verificamos si no se ha eliminado el img que ya tenia el tema
+                            if ($request->file('img')) {
+                                $directory = public_path('img/subjects') . "/" . $time_img;
+                                if (!File::isDirectory($directory)) {
+                                    mkdir($directory, 0777, true);
+                                }
+                                $img = $request->file('img');
+                                $size = Image::make($img->getRealPath())->width();
+                                //lazy
+                                $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_l->save($directory . '/lazy.png', 100);
+                                //original
+                                $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_o->save($directory . '/index.png', 100);
+                            }
                             return response()->json([
-                                'message' => 'Este nombre para el tema no puede ser utilizado',
-                                'complete' => false,
+                                'message' => 'Curso modificado exitosamente',
+                                'complete' => true,
                             ]);
                         } else {
-                            $new_img = "";
-                            //Direccion de la imagen
-                            if (!$request->file('img')) {
-                                if (!$request->input('img_new')) {
-                                    $new_img = $data->img;
-                                }
+                            if (
+                                $data->name == $request->input('name')
+                            ) {
+                                return response()->json([
+                                    'message' => 'La información proporcionada no modifica la materia, asi que no se ha actualizado',
+                                    'complete' => false,
+                                ]);
                             } else {
-                                $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
-                            }
-                            $slug = Str::slug($request->input('name'));
-                            if (DB::update("UPDATE subjects SET slug = ?, name = ?, img = ? WHERE id = ?", [
-                                $slug,
-                                $request->input('name'),
-                                $new_img,
-                                $data->id,
-                            ])) {
-                                // Verificamos si no se ha eliminado el img que ya tenia el tema
-                                if (!$request->file('img')) {
-                                    if ($request->input('img_new') && $data->img) {
-                                        File::delete(public_path('/img/subjects') . '/' . $data->img);
-                                        File::delete(public_path('/img/lazy_subjects/') . '/' . $data->img);
-                                    }
-                                } else {
-                                    if ($data->img) {
-                                        File::delete(public_path('/img/subjects') . '/' . $data->img);
-                                        File::delete(public_path('/img/lazy_subjects/') . '/' . $data->img);
-                                    }
-                                    $img = $request->file('img');
-                                    $size = Image::make($img->getRealPath())->width();
-                                    //lazy
-                                    $address_l = public_path('/img/lazy_subjects');
-                                    $img_l = Image::make($img->getRealPath())->resize($size * 0.01, null, function ($constraint) {
-                                        $constraint->aspectRatio();
-                                    });
-                                    $img_l->save($address_l . '/' . $new_img, 100);
-                                    //original
-                                    $address_o = public_path('/img/subjects');
-                                    $img_o = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
-                                        $constraint->aspectRatio();
-                                    });
-                                    $img_o->save($address_o . '/' . $new_img, 100);
-                                }
-                                if ($data->slug != $slug) {
-                                    $current_location = public_path('bodies') . "/" . $data->slug;
-                                    if (File::isDirectory($current_location)) {
-                                        $new_location = public_path('bodies') . "/" . $slug;
-                                        rename($current_location, $new_location);
-                                    }
+                                $old_slug = DB::table("subjects")->where('slug', $slug)->first();
+                                if ($old_slug) {
                                     return response()->json([
-                                        'message' => 'Curso modificado exitosamente',
-                                        'complete' => true,
-                                        'reload' => $slug,
-                                    ]);
-                                } else {
-                                    return response()->json([
-                                        'message' => 'Curso modificado exitosamente',
-                                        'complete' => true,
-                                    ]);
-                                }
-                            } else {
-                                if (
-                                    $data->name == $request->input('name')
-                                ) {
-                                    return response()->json([
-                                        'message' => 'La información proporcionada no modifica la materia, asi que no se ha actualizado',
+                                        'message' => 'El slug generado ya existe, genere uno nuevo',
                                         'complete' => false,
                                     ]);
                                 } else {
-                                    $old_slug = DB::table("subjects")->where('slug', $slug)->first();
-                                    if ($old_slug) {
-                                        return response()->json([
-                                            'message' => 'El slug generado ya existe, genere uno nuevo',
-                                            'complete' => false,
-                                        ]);
-                                    } else {
-                                        return response()->json([
-                                            'message' => 'Ha ocurrido un error al momento de modificar la materia',
-                                            'complete' => false,
-                                        ]);
-                                    }
+                                    return response()->json([
+                                        'message' => 'Ha ocurrido un error al momento de modificar la materia',
+                                        'complete' => false,
+                                    ]);
                                 }
                             }
                         }
@@ -366,22 +358,20 @@ class SubjectController extends Controller
                             null,
                             $data->id,
                         ]);
-                        // Creamos la carpeta para topics sin subject
-                        $without = public_path('bodies/without-subject');
-                        if (!File::isDirectory($without)) {
-                            mkdir($without, 0777, true);
-                        }
-                        // Quitamos el subject de los bodies
-                        foreach ($topics as $item) {
-                            $current_location = public_path('bodies') . "/" . $data->slug . "/" . $item->slug . ".html";
-                            $new_location = $without . "/" . $item->slug . ".html";
-                            rename($current_location, $new_location);
-                        }
                     }
                     if (DB::table("subjects")->delete($data->id)) {
                         if ($data->img) {
-                            File::delete(public_path('/img/subjects') . '/' . $data->img);
-                            File::delete(public_path('/img/lazy_subjects/') . '/' . $data->img);
+                            // Eliminamos las imagenes del user
+                            $directory = public_path('img/subjects') . "/" . $data->img;
+                            if (File::isDirectory($directory)) {
+                                $imgs = File::allFiles($directory);
+                                if (sizeof($imgs) > 0) {
+                                    foreach ($imgs as $item) {
+                                        File::delete($directory . '/' . $item->getRelativePathname());
+                                    }
+                                }
+                                rmdir($directory);
+                            }
                         }
                         return response()->json([
                             'message' => 'Curso eliminado exitosamente',

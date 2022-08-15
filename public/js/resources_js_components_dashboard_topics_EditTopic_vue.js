@@ -447,7 +447,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data_tags: [],
       prev_img: {
         url_img: "/img/topics/blank.png",
-        lazy_img: "/img/lazy_topics/blank.png",
+        lazy_img: "/img/topics/blank_lazy.png",
         height: 200,
         width: 300
       },
@@ -584,13 +584,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.form_information["abstract"] = _this.topic["abstract"];
 
                     if (_this.topic.img) {
-                      _this.prev_img.url_img = "/img/topics/" + _this.topic.img;
-                      _this.prev_img.lazy_img = "/img/lazy_topics/" + _this.topic.img;
+                      _this.prev_img.url_img = "/img/topics/" + _this.topic.img + "/index.png";
+                      _this.prev_img.lazy_img = "/img/topics/" + _this.topic.img + "/lazy.png";
                     }
 
                     _this.form_information.img = null;
                     _this.form_information.img_new = 0;
-                    _this.editorData = _this.topic.body;
+                    _this.editorData = _this.topic.data;
                     if (_this.topic.status == 0) _this.form_status.status = "Borrador";else if (_this.topic.status == 1) _this.form_status.status = "Habilitado"; // Subject
 
                     if (items.subject) {
@@ -945,7 +945,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     clean_img: function clean_img() {
       this.prev_img.url_img = "/img/topics/blank.png";
-      this.prev_img.lazy_img = "/img/lazy_topics/blank.png";
+      this.prev_img.lazy_img = "/img/topics/blank_lazy.png";
       this.form_information.img = null;
       this.form_information.img_new = 1;
     }
