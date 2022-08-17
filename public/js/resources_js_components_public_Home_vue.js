@@ -354,7 +354,7 @@ var render = function () {
         "div",
         { staticClass: "ma-2" },
         [
-          _vm.user.user
+          _vm.user.user && (_vm.user.type == "0" || _vm.user.type == "1")
             ? [
                 _c(
                   "v-tooltip",

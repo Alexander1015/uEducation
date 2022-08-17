@@ -88,16 +88,21 @@
                     <div>
                         <template v-if="item.status == 0">
                             <template v-if="user.slug !== item.slug">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 1)">
-                                            <v-icon>
-                                                check_box_outline_blank
-                                            </v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Habilitar</span>
-                                </v-tooltip>
+                                <template v-if="user.type == '0'">
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 1)">
+                                                <v-icon>
+                                                    check_box_outline_blank
+                                                </v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Habilitar</span>
+                                    </v-tooltip>
+                                </template>
+                                <template v-else>
+                                    <v-icon>check_box_outline_blank</v-icon>
+                                </template>
                             </template>
                             <template v-else>
                                 <v-icon>check_box_outline_blank</v-icon>
@@ -105,16 +110,21 @@
                         </template>
                         <template v-else-if="item.status == 1">
                             <template v-if="user.slug !== item.slug">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 0)">
-                                            <v-icon>
-                                                check_box
-                                            </v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Deshabilitar</span>
-                                </v-tooltip>
+                                <template v-if="user.type == '0'">
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusUser(item.slug, 0)">
+                                                <v-icon>
+                                                    check_box
+                                                </v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Deshabilitar</span>
+                                    </v-tooltip>
+                                </template>
+                                <template v-else>
+                                    <v-icon>check_box</v-icon>
+                                </template>
                             </template>
                             <template v-else>
                                 <v-icon>check_box</v-icon>
@@ -127,27 +137,35 @@
                 </template>
                 <template v-slot:item.actions="{ item }">
                     <template v-if="user.slug !== item.slug">
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon class="txt_blue" v-bind="attrs" v-on="on" @click.stop="gotoEdit(item.slug)">
-                                    <v-icon>
-                                        settings
-                                    </v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Ver usuario</span>
-                        </v-tooltip>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon class="txt_red" @click.stop="deleteUser(item.slug)" v-bind="attrs"
-                                    v-on="on">
-                                    <v-icon>
-                                        delete
-                                    </v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Eliminar</span>
-                        </v-tooltip>
+                        <template v-if="user.type == '0' || (user.type == '1' && item.type == '1')">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon class="txt_blue" v-bind="attrs" v-on="on"
+                                        @click.stop="gotoEdit(item.slug)">
+                                        <v-icon>
+                                            settings
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Ver usuario</span>
+                            </v-tooltip>
+                        </template>
+                        <template v-if="user.type == '0'">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon class="txt_red" @click.stop="deleteUser(item.slug)" v-bind="attrs"
+                                        v-on="on">
+                                        <v-icon>
+                                            delete
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>Eliminar</span>
+                            </v-tooltip>
+                        </template>
+                        <template v-else>
+                            <v-icon>remove</v-icon>
+                        </template>
                     </template>
                     <template v-else>
                         <v-icon>remove</v-icon>

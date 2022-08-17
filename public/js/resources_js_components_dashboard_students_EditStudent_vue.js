@@ -1721,7 +1721,7 @@ var render = function () {
                       [
                         _c("v-card-subtitle", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Información almacenada del usuario seleccionado\n                        "
+                            "\n                            Información almacenada del estudiante seleccionado\n                        "
                           ),
                         ]),
                         _vm._v(" "),

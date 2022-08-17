@@ -6,7 +6,7 @@
         </v-overlay>
         <!-- Contenido -->
         <div class="ma-2">
-            <template v-if="user.user">
+            <template v-if="user.user && (user.type == '0' || user.type == '1')">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn class="mx-2 bk_green txt_white btn_carousel" fab v-bind="attrs" v-on="on"

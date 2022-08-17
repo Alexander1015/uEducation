@@ -179,6 +179,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -1496,64 +1514,75 @@ var render = function () {
                           ? [
                               _vm.user.slug !== item.slug
                                 ? [
-                                    _c(
-                                      "v-tooltip",
-                                      {
-                                        attrs: { bottom: "" },
-                                        scopedSlots: _vm._u(
-                                          [
+                                    _vm.user.type == "0"
+                                      ? [
+                                          _c(
+                                            "v-tooltip",
                                             {
-                                              key: "activator",
-                                              fn: function (ref) {
-                                                var on = ref.on
-                                                var attrs = ref.attrs
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: { icon: "" },
-                                                          on: {
-                                                            click: function (
-                                                              $event
-                                                            ) {
-                                                              $event.stopPropagation()
-                                                              return _vm.statusUser(
-                                                                item.slug,
-                                                                1
-                                                              )
-                                                            },
-                                                          },
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\n                                            check_box_outline_blank\n                                        "
+                                              attrs: { bottom: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function (ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: "",
+                                                                },
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      $event.stopPropagation()
+                                                                      return _vm.statusUser(
+                                                                        item.slug,
+                                                                        1
+                                                                      )
+                                                                    },
+                                                                },
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "\n                                                check_box_outline_blank\n                                            "
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                          1
                                                         ),
-                                                      ]),
-                                                    ],
-                                                    1
-                                                  ),
-                                                ]
-                                              },
+                                                      ]
+                                                    },
+                                                  },
+                                                ],
+                                                null,
+                                                true
+                                              ),
                                             },
-                                          ],
-                                          null,
-                                          true
-                                        ),
-                                      },
-                                      [
-                                        _vm._v(" "),
-                                        _c("span", [_vm._v("Habilitar")]),
-                                      ]
-                                    ),
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [_vm._v("Habilitar")]),
+                                            ]
+                                          ),
+                                        ]
+                                      : [
+                                          _c("v-icon", [
+                                            _vm._v("check_box_outline_blank"),
+                                          ]),
+                                        ],
                                   ]
                                 : [
                                     _c("v-icon", [
@@ -1565,64 +1594,73 @@ var render = function () {
                           ? [
                               _vm.user.slug !== item.slug
                                 ? [
-                                    _c(
-                                      "v-tooltip",
-                                      {
-                                        attrs: { bottom: "" },
-                                        scopedSlots: _vm._u(
-                                          [
+                                    _vm.user.type == "0"
+                                      ? [
+                                          _c(
+                                            "v-tooltip",
                                             {
-                                              key: "activator",
-                                              fn: function (ref) {
-                                                var on = ref.on
-                                                var attrs = ref.attrs
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: { icon: "" },
-                                                          on: {
-                                                            click: function (
-                                                              $event
-                                                            ) {
-                                                              $event.stopPropagation()
-                                                              return _vm.statusUser(
-                                                                item.slug,
-                                                                0
-                                                              )
-                                                            },
-                                                          },
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\n                                            check_box\n                                        "
+                                              attrs: { bottom: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function (ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                attrs: {
+                                                                  icon: "",
+                                                                },
+                                                                on: {
+                                                                  click:
+                                                                    function (
+                                                                      $event
+                                                                    ) {
+                                                                      $event.stopPropagation()
+                                                                      return _vm.statusUser(
+                                                                        item.slug,
+                                                                        0
+                                                                      )
+                                                                    },
+                                                                },
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "\n                                                check_box\n                                            "
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                          1
                                                         ),
-                                                      ]),
-                                                    ],
-                                                    1
-                                                  ),
-                                                ]
-                                              },
+                                                      ]
+                                                    },
+                                                  },
+                                                ],
+                                                null,
+                                                true
+                                              ),
                                             },
-                                          ],
-                                          null,
-                                          true
-                                        ),
-                                      },
-                                      [
-                                        _vm._v(" "),
-                                        _c("span", [_vm._v("Deshabilitar")]),
-                                      ]
-                                    ),
+                                            [
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Deshabilitar"),
+                                              ]),
+                                            ]
+                                          ),
+                                        ]
+                                      : [_c("v-icon", [_vm._v("check_box")])],
                                   ]
                                 : [_c("v-icon", [_vm._v("check_box")])],
                             ]
@@ -1640,113 +1678,132 @@ var render = function () {
                   return [
                     _vm.user.slug !== item.slug
                       ? [
-                          _c(
-                            "v-tooltip",
-                            {
-                              attrs: { bottom: "" },
-                              scopedSlots: _vm._u(
-                                [
+                          _vm.user.type == "0" ||
+                          (_vm.user.type == "1" && item.type == "1")
+                            ? [
+                                _c(
+                                  "v-tooltip",
                                   {
-                                    key: "activator",
-                                    fn: function (ref) {
-                                      var on = ref.on
-                                      var attrs = ref.attrs
-                                      return [
-                                        _c(
-                                          "v-btn",
-                                          _vm._g(
-                                            _vm._b(
-                                              {
-                                                staticClass: "txt_blue",
-                                                attrs: { icon: "" },
-                                                on: {
-                                                  click: function ($event) {
-                                                    $event.stopPropagation()
-                                                    return _vm.gotoEdit(
-                                                      item.slug
-                                                    )
-                                                  },
-                                                },
-                                              },
-                                              "v-btn",
-                                              attrs,
-                                              false
-                                            ),
-                                            on
-                                          ),
-                                          [
-                                            _c("v-icon", [
-                                              _vm._v(
-                                                "\n                                    settings\n                                "
+                                    attrs: { bottom: "" },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "activator",
+                                          fn: function (ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-btn",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      staticClass: "txt_blue",
+                                                      attrs: { icon: "" },
+                                                      on: {
+                                                        click: function (
+                                                          $event
+                                                        ) {
+                                                          $event.stopPropagation()
+                                                          return _vm.gotoEdit(
+                                                            item.slug
+                                                          )
+                                                        },
+                                                      },
+                                                    },
+                                                    "v-btn",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                ),
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "\n                                        settings\n                                    "
+                                                    ),
+                                                  ]),
+                                                ],
+                                                1
                                               ),
-                                            ]),
-                                          ],
-                                          1
-                                        ),
-                                      ]
-                                    },
+                                            ]
+                                          },
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    ),
                                   },
-                                ],
-                                null,
-                                true
-                              ),
-                            },
-                            [_vm._v(" "), _c("span", [_vm._v("Ver usuario")])]
-                          ),
+                                  [
+                                    _vm._v(" "),
+                                    _c("span", [_vm._v("Ver usuario")]),
+                                  ]
+                                ),
+                              ]
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c(
-                            "v-tooltip",
-                            {
-                              attrs: { bottom: "" },
-                              scopedSlots: _vm._u(
-                                [
+                          _vm.user.type == "0"
+                            ? [
+                                _c(
+                                  "v-tooltip",
                                   {
-                                    key: "activator",
-                                    fn: function (ref) {
-                                      var on = ref.on
-                                      var attrs = ref.attrs
-                                      return [
-                                        _c(
-                                          "v-btn",
-                                          _vm._g(
-                                            _vm._b(
-                                              {
-                                                staticClass: "txt_red",
-                                                attrs: { icon: "" },
-                                                on: {
-                                                  click: function ($event) {
-                                                    $event.stopPropagation()
-                                                    return _vm.deleteUser(
-                                                      item.slug
-                                                    )
-                                                  },
-                                                },
-                                              },
-                                              "v-btn",
-                                              attrs,
-                                              false
-                                            ),
-                                            on
-                                          ),
-                                          [
-                                            _c("v-icon", [
-                                              _vm._v(
-                                                "\n                                    delete\n                                "
+                                    attrs: { bottom: "" },
+                                    scopedSlots: _vm._u(
+                                      [
+                                        {
+                                          key: "activator",
+                                          fn: function (ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-btn",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      staticClass: "txt_red",
+                                                      attrs: { icon: "" },
+                                                      on: {
+                                                        click: function (
+                                                          $event
+                                                        ) {
+                                                          $event.stopPropagation()
+                                                          return _vm.deleteUser(
+                                                            item.slug
+                                                          )
+                                                        },
+                                                      },
+                                                    },
+                                                    "v-btn",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                ),
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "\n                                        delete\n                                    "
+                                                    ),
+                                                  ]),
+                                                ],
+                                                1
                                               ),
-                                            ]),
-                                          ],
-                                          1
-                                        ),
-                                      ]
-                                    },
+                                            ]
+                                          },
+                                        },
+                                      ],
+                                      null,
+                                      true
+                                    ),
                                   },
-                                ],
-                                null,
-                                true
-                              ),
-                            },
-                            [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
-                          ),
+                                  [
+                                    _vm._v(" "),
+                                    _c("span", [_vm._v("Eliminar")]),
+                                  ]
+                                ),
+                              ]
+                            : [_c("v-icon", [_vm._v("remove")])],
                         ]
                       : [_c("v-icon", [_vm._v("remove")])],
                   ]

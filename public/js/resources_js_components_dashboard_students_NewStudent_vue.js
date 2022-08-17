@@ -158,8 +158,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dialog: true,
       banner: {
-        img: "/img/banner/user.jpg",
-        lazy: "/img/banner/user_lazy.jpg"
+        img: "/img/banner/student.jpg",
+        lazy: "/img/banner/student_lazy.jpg"
       },
       overlay: false,
       form: {
@@ -835,12 +835,12 @@ var render = function () {
                     _vm._v(" "),
                     _c("v-card-title", { staticClass: "text-h5" }, [
                       _c("p", { staticClass: "mx-auto" }, [
-                        _vm._v("NUEVO USUARIO"),
+                        _vm._v("NUEVO ESTUDIANTE"),
                       ]),
                     ]),
                     _vm._v(" "),
                     _c("v-card-subtitle", { staticClass: "text-center" }, [
-                      _vm._v("Cree un usuario nuevo"),
+                      _vm._v("Cree un estudiante nuevo"),
                     ]),
                     _vm._v(" "),
                     _c(

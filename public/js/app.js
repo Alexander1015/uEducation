@@ -5547,14 +5547,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         icon: "token",
         to: "/",
         visible: true
-      }, {
-        type: 0,
-        title: "Contenido",
-        icon: "school",
-        to: {
-          name: "contents"
-        },
-        visible: true
       }, // Login
       {
         type: 1,
@@ -5564,13 +5556,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           name: "auth"
         },
         visible: true
-      }, // Dashboard
+      }, // Public User
       {
         type: 2,
+        title: "Contenido",
+        icon: "school",
+        to: {
+          name: "contents"
+        },
+        visible: false
+      }, // Dashboard
+      {
+        type: 3,
         header: true,
         visible: false
       }, {
-        type: 2,
+        type: 3,
         title: "Materias",
         icon: "collections_bookmark",
         to: {
@@ -5578,7 +5579,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 2,
+        type: 3,
         title: "Etiquetas",
         icon: "local_offer",
         to: {
@@ -5586,7 +5587,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 2,
+        type: 3,
         title: "Temas",
         icon: "library_books",
         to: {
@@ -5594,11 +5595,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 2,
+        type: 3,
         header: true,
         visible: false
       }, {
-        type: 2,
+        type: 3,
         title: "Usuarios",
         icon: "people",
         to: {
@@ -5606,7 +5607,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 2,
+        type: 3,
         title: "Estudiantes",
         icon: "badge",
         to: {
@@ -5658,7 +5659,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var link = _step.value;
-                        if (link.type == 1) link.visible = false;else if (link.type == 2) link.visible = true;
+                        // Para la vista del content
+                        if (link.type == 1) link.visible = false;else if (link.type == 2) link.visible = true; // Para la vista admin
+
+                        if (_this2.user.type == "0" || _this2.user.type == "1") {
+                          if (link.type == 3) {
+                            link.visible = true;
+                          }
+                        }
                       }
                     } catch (err) {
                       _iterator.e(err);
@@ -5916,13 +5924,13 @@ var routes = [{
   path: '/',
   component: Public
 }, {
+  name: 'auth',
+  path: '/auth',
+  component: Auth
+}, {
   name: 'contents',
   path: '/contents',
-  component: PublicContents
-}, {
-  name: 'carousel',
-  path: '/carousel',
-  component: DashboardCarousel,
+  component: PublicContents,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       next();
@@ -5940,18 +5948,62 @@ var routes = [{
     name: 'publicTopic',
     path: ':topic',
     component: PublicTopic
-  }]
+  }],
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      next();
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
 }, {
-  name: 'auth',
-  path: '/auth',
-  component: Auth
+  name: 'carousel',
+  path: '/carousel',
+  component: DashboardCarousel,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
 }, {
   name: 'users',
   path: '/dashboard/users',
   component: DashboardUsers,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -5964,7 +6016,20 @@ var routes = [{
   component: NewUser,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -5977,7 +6042,20 @@ var routes = [{
   component: EditUser,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -5990,7 +6068,20 @@ var routes = [{
   component: DashboardStudents,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6003,7 +6094,20 @@ var routes = [{
   component: NewStudent,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6016,7 +6120,20 @@ var routes = [{
   component: EditStudent,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6029,7 +6146,20 @@ var routes = [{
   component: DashboardSubjects,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6042,7 +6172,20 @@ var routes = [{
   component: NewSubject,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6055,7 +6198,20 @@ var routes = [{
   component: EditSubject,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6068,7 +6224,20 @@ var routes = [{
   component: DashboardTopics,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6081,7 +6250,20 @@ var routes = [{
   component: NewTopic,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6094,7 +6276,20 @@ var routes = [{
   component: EditTopic,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6107,7 +6302,20 @@ var routes = [{
   component: DashboardTags,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6120,7 +6328,20 @@ var routes = [{
   component: NewTag,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'
@@ -6133,7 +6354,20 @@ var routes = [{
   component: EditTag,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
-      next();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "2") {
+          return next({
+            name: 'error'
+          });
+        } else {
+          next();
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'error'
+        });
+      });
     })["catch"](function (error) {
       return next({
         name: 'auth'

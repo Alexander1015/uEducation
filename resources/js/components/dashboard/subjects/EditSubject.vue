@@ -57,7 +57,7 @@
                     <v-tab-item>
                         <div class="px-4 py-4">
                             <v-card-subtitle class="text-center">
-                                Información almacenada de la materia seleccionado
+                                Información almacenada de la materia seleccionada
                             </v-card-subtitle>
                             <!-- Formulario -->
                             <v-form ref="form_information" @submit.prevent="editSubject()" lazy-validation>
@@ -176,17 +176,19 @@
                                     </template>
                                 </v-form>
                             </div>
-                            <v-divider class="mt-8 mb-4"></v-divider>
-                            <div>
-                                <v-card-subtitle class="text-justify">
-                                    Elimine la materia seleccionado de la base de datos, esta opcion no se puede
-                                    revertir
-                                </v-card-subtitle>
-                                <v-btn class="txt_white bk_red" block @click.stop="deleteSubject()">
-                                    <v-icon left>delete</v-icon>
-                                    Eliminar materia
-                                </v-btn>
-                            </div>
+                            <template v-if="login_user.type == '0'">
+                                <v-divider class="mt-8 mb-4"></v-divider>
+                                <div>
+                                    <v-card-subtitle class="text-justify">
+                                        Elimine la materia seleccionada de la base de datos, esta opcion no se puede
+                                        revertir
+                                    </v-card-subtitle>
+                                    <v-btn class="txt_white bk_red" block @click.stop="deleteSubject()">
+                                        <v-icon left>delete</v-icon>
+                                        Eliminar materia
+                                    </v-btn>
+                                </div>
+                            </template>
                         </div>
                     </v-tab-item>
                 </v-tabs>
@@ -237,6 +239,7 @@ export default {
             v => !!v || 'Debe elegir un item',
         ],
         name: "",
+        login_user: {},
     }),
     mounted() {
         this.showSubject();
@@ -270,6 +273,19 @@ export default {
         async showSubject() {
             this.overlay = true;
             if (this.address) {
+                await this.axios.get('/api/auth')
+                    .then(response => {
+                        this.login_user = response.data;
+                    }).catch((error) => {
+                        console.log(error);
+                        this.axios.post('/api/logout')
+                            .then(response => {
+                                window.location.href = "/auth"
+                            }).catch((error) => {
+                                console.log(error);
+                                this.$router.push({ name: "error" });
+                            });
+                    });
                 await this.axios.get('/api/subject/' + this.address)
                     .then(response => {
                         const item = response.data;
@@ -458,48 +474,50 @@ export default {
                 });
         },
         async deleteSubject() {
-            await this.$swal({
-                title: '¿Esta seguro de eliminar la materia?',
-                text: "Esta acción no se puede revertir",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        this.axios.delete('/api/subject/' + this.address)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
+            if (this.login_user.type == '0') {
+                await this.$swal({
+                    title: '¿Esta seguro de eliminar la materia?',
+                    text: "Esta acción no se puede revertir",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            this.axios.delete('/api/subject/' + this.address)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.$router.push({ name: "subjects" });
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
-                                    else this.overlay = false;
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.$router.push({ name: "subjects" });
+                                        }
+                                        else this.overlay = false;
+                                    });
+                                })
+                                .catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
+                                    });
                                 });
-                            })
-                            .catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    this.overlay = false;
-                                    console.log(error);
-                                });
-                            });
-                    }
-                });
+                        }
+                    });
+            }
         },
         preview_img() {
             this.form_information.img_new = 1;

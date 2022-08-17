@@ -60,7 +60,7 @@
                     <v-tab-item>
                         <div class="px-4 py-4">
                             <v-card-subtitle class="text-center">
-                                Información almacenada del usuario seleccionado
+                                Información almacenada del estudiante seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
                             <v-form ref="form_information" enctype="multipart/form-data" @submit.prevent="editUser()"

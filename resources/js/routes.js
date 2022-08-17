@@ -42,14 +42,14 @@ export const routes = [
         component: Public
     },
     {
-        name: 'contents',
-        path: '/contents',
-        component: PublicContents
+        name: 'auth',
+        path: '/auth',
+        component: Auth
     },
     {
-        name: 'carousel',
-        path: '/carousel',
-        component: DashboardCarousel,
+        name: 'contents',
+        path: '/contents',
+        component: PublicContents,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()
@@ -68,18 +68,48 @@ export const routes = [
                 path: ':topic',
                 component: PublicTopic
             }
-        ]
+        ],
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                next()
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
     }, {
-        name: 'auth',
-        path: '/auth',
-        component: Auth
+        name: 'carousel',
+        path: '/carousel',
+        component: DashboardCarousel,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
     }, {
         name: 'users',
         path: '/dashboard/users',
         component: DashboardUsers,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -90,7 +120,15 @@ export const routes = [
         component: NewUser,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -101,7 +139,15 @@ export const routes = [
         component: EditUser,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -112,7 +158,15 @@ export const routes = [
         component: DashboardStudents,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -123,7 +177,15 @@ export const routes = [
         component: NewStudent,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -134,7 +196,15 @@ export const routes = [
         component: EditStudent,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -145,7 +215,15 @@ export const routes = [
         component: DashboardSubjects,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -156,7 +234,15 @@ export const routes = [
         component: NewSubject,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -167,7 +253,15 @@ export const routes = [
         component: EditSubject,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -178,7 +272,15 @@ export const routes = [
         component: DashboardTopics,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -189,7 +291,15 @@ export const routes = [
         component: NewTopic,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -200,7 +310,15 @@ export const routes = [
         component: EditTopic,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -211,7 +329,15 @@ export const routes = [
         component: DashboardTags,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -222,7 +348,15 @@ export const routes = [
         component: NewTag,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });
@@ -233,7 +367,15 @@ export const routes = [
         component: EditTag,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
-                next()
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
             }).catch((error) => {
                 return next({name: 'auth'})
             });

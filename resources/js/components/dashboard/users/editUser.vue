@@ -44,18 +44,20 @@
                         </v-icon>
                         Información
                     </v-tab>
-                    <v-tab>
-                        <v-icon left>
-                            lock
-                        </v-icon>
-                        Contraseña
-                    </v-tab>
-                    <v-tab>
-                        <v-icon left>
-                            manage_accounts
-                        </v-icon>
-                        Otros
-                    </v-tab>
+                    <template v-if="login_user.type == '0'">
+                        <v-tab>
+                            <v-icon left>
+                                lock
+                            </v-icon>
+                            Contraseña
+                        </v-tab>
+                        <v-tab>
+                            <v-icon left>
+                                manage_accounts
+                            </v-icon>
+                            Otros
+                        </v-tab>
+                    </template>
                     <!-- Información del usuario -->
                     <v-tab-item>
                         <div class="px-4 py-4">
@@ -91,6 +93,17 @@
                                             clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
+                                    <template v-if="login_user.type == '0'">
+                                        <v-col cols="12" sm=12>
+                                            <v-autocomplete v-model="form_information.type" :rules="info.typeRules"
+                                                :items="data_type" clearable clear-icon="cancel"
+                                                label="Tipo de Usuario *" tabindex="5" dense
+                                                no-data-text="No se encuentra información para mostrar"
+                                                prepend-icon="admin_panel_settings" append-icon="arrow_drop_down"
+                                                hide-selected required>
+                                            </v-autocomplete>
+                                        </v-col>
+                                    </template>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
@@ -122,114 +135,120 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <template v-if="
-                                    form_information.firstname != user.firstname ||
-                                    form_information.lastname != user.lastname ||
-                                    form_information.email != user.email ||
-                                    form_information.user != user.user ||
-                                    form_information.avatar != null ||
-                                    form_information.avatar_new != 0
-                                ">
-                                    <v-btn class="txt_white bk_green mt-4" block type="submit">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </template>
-                                <template v-else>
-                                    <v-btn class="mt-4" block disabled>
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </template>
-                            </v-form>
-                        </div>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
-                                Cambie la contraseña del usuario seleccionado
-                            </v-card-subtitle>
-                            <!-- Formulario -->
-                            <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
-                                <small class="font-italic txt_red">Obligatorio *</small>
-                                <v-row class="mt-2">
-                                    <v-col cols="12">
-                                        <v-text-field v-model="form_password.password" :rules="passw.passwordRules"
-                                            label="Contraseña *" tabindex="1" dense prepend-icon="lock"
-                                            :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
-                                            :type="form_password.show1 ? 'text' : 'password'"
-                                            @click:append="form_password.show1 = !form_password.show1" clearable
-                                            clear-icon="cancel" required>
-                                        </v-text-field>
-                                    </v-col>
-                                    <v-col cols="12">
-                                        <v-text-field v-model="form_password.password_confirmation"
-                                            :rules="passw.passwordconfirmRules" label="Repita la contraseña *"
-                                            tabindex="2" dense prepend-icon="lock"
-                                            :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
-                                            :type="form_password.show2 ? 'text' : 'password'"
-                                            @click:append="form_password.show2 = !form_password.show2" clearable
-                                            clear-icon="cancel" required>
-                                        </v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <template v-if="
-                                    form_password.password != '' &&
-                                    form_password.password_confirmation != ''
-                                ">
-                                    <v-btn class="txt_white bk_green mt-2" block type="submit">
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </template>
-                                <template v-else>
-                                    <v-btn class="mt-2" block disabled>
-                                        <v-icon left>save</v-icon>
-                                        Guardar
-                                    </v-btn>
-                                </template>
-                            </v-form>
-                        </div>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <div class="px-4 py-4">
-                            <div>
-                                <v-card-subtitle class="text-justify">
-                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
-                                    permitido ingresar al apartado de docentes/administradores o manipular la información de
-                                    la base de datos)
-                                </v-card-subtitle>
-                                <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
-                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <template
-                                        v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
-                                        <v-btn class="txt_white bk_green" block type="submit">
+                                <template v-if="login_user.type == '0' || (login_user.type != '0' && user.type == '1')">
+                                    <template v-if="
+                                        form_information.firstname != user.firstname ||
+                                        form_information.lastname != user.lastname ||
+                                        form_information.email != user.email ||
+                                        form_information.user != user.user ||
+                                        form_information.avatar != null ||
+                                        form_information.avatar_new != 0 ||
+                                        (login_user.type == '0' && form_information.type != user.type)
+                                    ">
+                                        <v-btn class="txt_white bk_green mt-4" block type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                     <template v-else>
-                                        <v-btn block disabled>
+                                        <v-btn class="mt-4" block disabled>
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
+                                </template>
+                            </v-form>
+                        </div>
+                    </v-tab-item>
+                    <template v-if="login_user.type == '0'">
+                        <v-tab-item>
+                            <div class="px-4 py-4">
+                                <v-card-subtitle class="text-center">
+                                    Cambie la contraseña del usuario seleccionado
+                                </v-card-subtitle>
+                                <!-- Formulario -->
+                                <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
+                                    <small class="font-italic txt_red">Obligatorio *</small>
+                                    <v-row class="mt-2">
+                                        <v-col cols="12">
+                                            <v-text-field v-model="form_password.password" :rules="passw.passwordRules"
+                                                label="Contraseña *" tabindex="1" dense prepend-icon="lock"
+                                                :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
+                                                :type="form_password.show1 ? 'text' : 'password'"
+                                                @click:append="form_password.show1 = !form_password.show1" clearable
+                                                clear-icon="cancel" required>
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-text-field v-model="form_password.password_confirmation"
+                                                :rules="passw.passwordconfirmRules" label="Repita la contraseña *"
+                                                tabindex="2" dense prepend-icon="lock"
+                                                :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
+                                                :type="form_password.show2 ? 'text' : 'password'"
+                                                @click:append="form_password.show2 = !form_password.show2" clearable
+                                                clear-icon="cancel" required>
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <template v-if="
+                                        form_password.password != '' &&
+                                        form_password.password_confirmation != ''
+                                    ">
+                                        <v-btn class="txt_white bk_green mt-2" block type="submit">
+                                            <v-icon left>save</v-icon>
+                                            Guardar
+                                        </v-btn>
+                                    </template>
+                                    <template v-else>
+                                        <v-btn class="mt-2" block disabled>
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                 </v-form>
                             </div>
-                            <v-divider class="mt-8 mb-4"></v-divider>
-                            <div>
-                                <v-card-subtitle class="text-justify">
-                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
-                                    revertir
-                                </v-card-subtitle>
-                                <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
-                                    <v-icon left>delete</v-icon>
-                                    Eliminar usuario
-                                </v-btn>
+                        </v-tab-item>
+                        <v-tab-item>
+                            <div class="px-4 py-4">
+                                <div>
+                                    <v-card-subtitle class="text-justify">
+                                        Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
+                                        permitido ingresar al apartado de docentes/administradores o manipular la
+                                        información de
+                                        la base de datos)
+                                    </v-card-subtitle>
+                                    <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
+                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                            label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        <template
+                                            v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
+                                            <v-btn class="txt_white bk_green" block type="submit">
+                                                <v-icon left>save</v-icon>
+                                                Guardar
+                                            </v-btn>
+                                        </template>
+                                        <template v-else>
+                                            <v-btn block disabled>
+                                                <v-icon left>save</v-icon>
+                                                Guardar
+                                            </v-btn>
+                                        </template>
+                                    </v-form>
+                                </div>
+                                <v-divider class="mt-8 mb-4"></v-divider>
+                                <div>
+                                    <v-card-subtitle class="text-justify">
+                                        Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
+                                        revertir
+                                    </v-card-subtitle>
+                                    <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
+                                        <v-icon left>delete</v-icon>
+                                        Eliminar usuario
+                                    </v-btn>
+                                </div>
                             </div>
-                        </div>
-                    </v-tab-item>
+                        </v-tab-item>
+                    </template>
                 </v-tabs>
             </v-card>
         </div>
@@ -242,11 +261,16 @@ export default {
     data: () => ({
         overlay: false,
         items_status: ["Habilitado", "Deshabilitado"],
+        data_type: [
+            "Administrador",
+            "Docente"
+        ],
         form_information: {
             firstname: "",
             lastname: "",
             user: "",
             email: "",
+            type: "Docente",
             avatar: null,
             avatar_new: 0,
         },
@@ -289,6 +313,9 @@ export default {
             ],
             avatarRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
+            ],
+            typeRules: [
+                v => !!v || 'El tipo de usuario es requerido',
             ],
         },
         passw: {
@@ -339,28 +366,37 @@ export default {
                             this.$router.push({ name: "error" });
                         }
                         else {
-                            this.form_information.firstname = this.user.firstname;
-                            this.form_information.lastname = this.user.lastname;
-                            this.form_information.user = this.user.user;
-                            this.form_information.email = this.user.email;
-                            if (this.user.avatar) {
-                                this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
-                                this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
-                            }
-                            this.form_information.avatar = null;
-                            this.form_information.avatar_new = 0;
-                            if (this.form_password.password != "" || this.form_password.password_confirmation != "") {
-                                this.form_password.password = "";
-                                this.form_password.password_confirmation = "";
-                                this.$refs.form_password.reset();
+                            if (this.login_user.type != "0" && this.user.type == "0") {
+                                this.$router.push({ name: "error" });
                             }
                             else {
-                                this.form_password.password = "";
-                                this.form_password.password_confirmation = "";
+                                this.form_information.firstname = this.user.firstname;
+                                this.form_information.lastname = this.user.lastname;
+                                this.form_information.user = this.user.user;
+                                this.form_information.email = this.user.email;
+                                if (this.user.avatar) {
+                                    this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
+                                    this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
+                                }
+                                this.form_information.avatar = null;
+                                this.form_information.avatar_new = 0;
+                                if (this.form_password.password != "" || this.form_password.password_confirmation != "") {
+                                    this.form_password.password = "";
+                                    this.form_password.password_confirmation = "";
+                                    this.$refs.form_password.reset();
+                                }
+                                else {
+                                    this.form_password.password = "";
+                                    this.form_password.password_confirmation = "";
+                                }
+                                if (this.user.status == 0) this.form_status.status = "Deshabilitado";
+                                else if (this.user.status == 1) this.form_status.status = "Habilitado";
+                                if (this.login_user.type == '0') {
+                                    if (this.user.type == "0") this.form_information.type = this.user.type = "Administrador";
+                                    else if (this.user.type == "1") this.form_information.type = this.user.type = "Docente";
+                                }
+                                this.overlay = false;
                             }
-                            if (this.user.status == 0) this.form_status.status = "Deshabilitado";
-                            else if (this.user.status == 1) this.form_status.status = "Habilitado";
-                            this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -372,71 +408,136 @@ export default {
             }
         },
         async editUser() {
-            if (this.$refs.form_information.validate()) {
-                await this.$swal({
-                    title: '¿Esta seguro de modificar la información del usuario?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Si',
-                    cancelButtonText: 'Cancelar',
-                })
-                    .then(result => {
-                        if (result.isConfirmed) {
-                            this.overlay = true;
-                            let data = new FormData();
-                            data.append('firstname', this.form_information.firstname);
-                            data.append('lastname', this.form_information.lastname);
-                            data.append('user', (this.form_information.user).toUpperCase());
-                            data.append('email', this.form_information.email);
-                            this.form_information.avatar = document.querySelector('#avatar').files[0];
-                            if (this.form_information.avatar) {
-                                data.append('avatar', this.form_information.avatar);
-                            }
-                            data.append('avatar_new', this.form_information.avatar_new);
-                            data.append('_method', "put");
-                            this.axios.post('/api/user/' + this.$route.params.slug, data, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                            })
-                                .then(response => {
-                                    let title = "Error";
-                                    let icon = "error";
-                                    if (response.data.complete) {
-                                        title = "Éxito"
-                                        icon = "success";
+            if (this.login_user.type == '0' || (this.login_user.type != "0" && this.user.type == "1")) {
+                if (this.$refs.form_information.validate()) {
+                    await this.$swal({
+                        title: '¿Esta seguro de modificar la información del usuario?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Si',
+                        cancelButtonText: 'Cancelar',
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                this.overlay = true;
+                                let data = new FormData();
+                                data.append('firstname', this.form_information.firstname);
+                                data.append('lastname', this.form_information.lastname);
+                                data.append('user', (this.form_information.user).toUpperCase());
+                                data.append('email', this.form_information.email);
+                                this.form_information.avatar = document.querySelector('#avatar').files[0];
+                                if (this.form_information.avatar) {
+                                    data.append('avatar', this.form_information.avatar);
+                                }
+                                data.append('avatar_new', this.form_information.avatar_new);
+                                if (this.login_user.type == '0') {
+                                    let type = "";
+                                    if (this.form_information.type == "Administrador") {
+                                        type = "0";
                                     }
-                                    this.$swal({
-                                        title: title,
-                                        icon: icon,
-                                        text: response.data.message,
-                                    }).then(() => {
-                                        if (response.data.complete) {
-                                            this.showUser();
-                                        }
-                                        this.overlay = false;
-                                    });
-                                }).catch(error => {
-                                    this.$swal({
-                                        title: "Error",
-                                        icon: "error",
-                                        text: "Ha ocurrido un error en la aplicación",
-                                    }).then(() => {
-                                        console.log(error);
-                                        this.overlay = false;
-                                    });
+                                    else if (this.form_information.type == "Docente") {
+                                        type = "1";
+                                    }
+                                    data.append('type', type);
+                                }
+                                data.append('_method', "put");
+                                this.axios.post('/api/user/' + this.$route.params.slug, data, {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data',
+                                    },
                                 })
-                        }
-                    });
-            }
-            else {
-                this.overlay = false;
+                                    .then(response => {
+                                        let title = "Error";
+                                        let icon = "error";
+                                        if (response.data.complete) {
+                                            title = "Éxito"
+                                            icon = "success";
+                                        }
+                                        this.$swal({
+                                            title: title,
+                                            icon: icon,
+                                            text: response.data.message,
+                                        }).then(() => {
+                                            if (response.data.complete) {
+                                                this.showUser();
+                                            }
+                                            this.overlay = false;
+                                        });
+                                    }).catch(error => {
+                                        this.$swal({
+                                            title: "Error",
+                                            icon: "error",
+                                            text: "Ha ocurrido un error en la aplicación",
+                                        }).then(() => {
+                                            console.log(error);
+                                            this.overlay = false;
+                                        });
+                                    })
+                            }
+                        });
+                }
+                else {
+                    this.overlay = false;
+                }
             }
         },
         async editPassword() {
-            if (this.$refs.form_password.validate()) {
+            if (this.login_user.type == '0') {
+                if (this.$refs.form_password.validate()) {
+                    await this.$swal({
+                        title: '¿Esta seguro de cambiar la contraseña?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Si',
+                        cancelButtonText: 'Cancelar',
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                this.overlay = true;
+                                let data = new FormData();
+                                data.append('password', this.form_password.password);
+                                data.append('password_confirmation', this.form_password.password_confirmation);
+                                data.append('_method', "put");
+                                this.axios.post('/api/user/password/' + this.$route.params.slug, data)
+                                    .then(response => {
+                                        let title = "Error";
+                                        let icon = "error";
+                                        if (response.data.complete) {
+                                            title = "Éxito"
+                                            icon = "success";
+                                        }
+                                        this.$swal({
+                                            title: title,
+                                            icon: icon,
+                                            text: response.data.message,
+                                        }).then(() => {
+                                            if (response.data.complete) {
+                                                this.showUser();
+                                            }
+                                            this.overlay = false;
+                                        });
+                                    }).catch(error => {
+                                        this.$swal({
+                                            title: "Error",
+                                            icon: "error",
+                                            text: "Ha ocurrido un error en la aplicación",
+                                        }).then(() => {
+                                            console.log(error);
+                                            this.overlay = false;
+                                        });
+                                    })
+                            }
+                        });
+                }
+                else {
+                    this.overlay = false;
+                }
+            }
+        },
+        async statusUser() {
+            if (this.login_user.type == '0') {
                 await this.$swal({
-                    title: '¿Esta seguro de cambiar la contraseña?',
+                    title: '¿Esta seguro de cambiar el estado del usuario?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -446,10 +547,12 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
-                            data.append('password', this.form_password.password);
-                            data.append('password_confirmation', this.form_password.password_confirmation);
+                            let type = 3;
+                            if (this.form_status.status == "Habilitado") type = 1;
+                            else if (this.form_status.status == "Deshabilitado") type = 0;
+                            data.append('status', type);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/password/' + this.$route.params.slug, data)
+                            this.axios.post('/api/user/status/' + this.$route.params.slug, data)
                                 .then(response => {
                                     let title = "Error";
                                     let icon = "error";
@@ -467,7 +570,8 @@ export default {
                                         }
                                         this.overlay = false;
                                     });
-                                }).catch(error => {
+                                })
+                                .catch(error => {
                                     this.$swal({
                                         title: "Error",
                                         icon: "error",
@@ -476,106 +580,56 @@ export default {
                                         console.log(error);
                                         this.overlay = false;
                                     });
-                                })
+                                });
                         }
                     });
             }
-            else {
-                this.overlay = false;
-            }
-        },
-        async statusUser() {
-            await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del usuario?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        let type = 3;
-                        if (this.form_status.status == "Habilitado") type = 1;
-                        else if (this.form_status.status == "Deshabilitado") type = 0;
-                        data.append('status', type);
-                        data.append('_method', "put");
-                        this.axios.post('/api/user/status/' + this.$route.params.slug, data)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
-                                    if (response.data.complete) {
-                                        this.showUser();
-                                    }
-                                    this.overlay = false;
-                                });
-                            })
-                            .catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    console.log(error);
-                                    this.overlay = false;
-                                });
-                            });
-                    }
-                });
         },
         async deleteUser() {
-            await this.$swal({
-                title: '¿Esta seguro de eliminar el usuario?',
-                text: "Esta acción no se puede revertir",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        this.axios.delete('/api/user/' + this.$route.params.slug)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
+            if (this.login_user.type == '0') {
+                await this.$swal({
+                    title: '¿Esta seguro de eliminar el usuario?',
+                    text: "Esta acción no se puede revertir",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            this.axios.delete('/api/user/' + this.$route.params.slug)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.$router.push({ name: "users" });
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
-                                    else this.overlay = false;
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.$router.push({ name: "users" });
+                                        }
+                                        else this.overlay = false;
+                                    });
+                                })
+                                .catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
+                                    });
                                 });
-                            })
-                            .catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    console.log(error);
-                                    this.overlay = false;
-                                });
-                            });
-                    }
-                });
+                        }
+                    });
+            }
         },
         preview_img() {
             this.form_information.avatar_new = 1;

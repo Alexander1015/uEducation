@@ -57,16 +57,29 @@
                                         required>
                                     </v-text-field>
                                 </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-text-field v-model="form.email" :rules="emailRules" label="Correo electrónico *"
-                                        tabindex="3" dense prepend-icon="email" clearable clear-icon="cancel" required>
-                                    </v-text-field>
-                                </v-col>
-                                <v-col cols="12" sm="12" md="6">
-                                    <v-text-field v-model="form.user" tabindex="4" :rules="userRules" clearable
-                                        clear-icon="cancel" label="Usuario *" dense prepend-icon="person" required>
-                                    </v-text-field>
-                                </v-col>
+                                <template v-if="user.type == '0' || user.type == '1'">
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.email" :rules="emailRules"
+                                            label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
+                                            clearable clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
+                                </template>
+                                <template v-else>
+                                    <v-col cols="12" sm="12">
+                                        <v-text-field v-model="form.email" :rules="emailRules"
+                                            label="Correo electrónico *" tabindex="3" dense prepend-icon="email"
+                                            clearable clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
+                                </template>
+                                <template v-if="user.type == '0' || user.type == '1'">
+                                    <v-col cols="12" sm="12" md="6">
+                                        <v-text-field v-model="form.user" tabindex="4" :rules="userRules" clearable
+                                            clear-icon="cancel" label="Usuario *" dense prepend-icon="person" required>
+                                        </v-text-field>
+                                    </v-col>
+                                </template>
                                 <v-col cols="12" sm="12" md="6">
                                     <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                         <v-icon left>file_upload</v-icon>
@@ -100,7 +113,7 @@
                                 form.firstname != user.firstname ||
                                 form.lastname != user.lastname ||
                                 form.email != user.email ||
-                                form.user != user.user ||
+                                ((user.type == '0' || user.type == '1') && form.user != user.user) ||
                                 form.avatar != null ||
                                 form.avatar_new != 0
                             ">
@@ -268,7 +281,9 @@ export default {
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);
-                            data.append('user', (this.form.user).toUpperCase());
+                            if (this.user.type == '0' || this.user.type == '1') {
+                                data.append('user', (this.form.user).toUpperCase());
+                            }
                             data.append('email', this.form.email);
                             this.form.avatar = document.querySelector('#avatar').files[0];
                             if (this.form.avatar) {
@@ -343,7 +358,10 @@ export default {
                                         icon: icon,
                                         text: response.data.message,
                                     }).then(() => {
-                                        this.overlay = false;
+                                        if (response.data.complete) {
+                                            window.location.href = "/dashboard/profile"
+                                        }
+                                        else this.overlay = false;
                                     });
                                 }).catch(error => {
                                     this.$swal({

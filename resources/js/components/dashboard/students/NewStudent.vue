@@ -23,9 +23,9 @@
                             Regresar
                         </v-btn>
                         <v-card-title class="text-h5">
-                            <p class="mx-auto">NUEVO USUARIO</p>
+                            <p class="mx-auto">NUEVO ESTUDIANTE</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
+                        <v-card-subtitle class="text-center">Cree un estudiante nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
                             <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser()">
@@ -137,8 +137,8 @@ export default {
     data: () => ({
         dialog: true,
         banner: {
-            img: "/img/banner/user.jpg",
-            lazy: "/img/banner/user_lazy.jpg",
+            img: "/img/banner/student.jpg",
+            lazy: "/img/banner/student_lazy.jpg",
         },
         overlay: false,
         form: {

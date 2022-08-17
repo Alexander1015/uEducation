@@ -50,7 +50,7 @@ class UserController extends Controller
                     'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user'],
                     'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email'],
                     'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()],
-                    'type' => ['bail', 'sometimes', 'in:0,1,2'],
+                    'type' => ['bail', 'sometimes', 'in:0,1'],
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
@@ -77,9 +77,9 @@ class UserController extends Controller
                             'complete' => false,
                         ]);
                     }
-                } else if ($request->input("type") == "0" || $request->input("type") == "1") {
+                } else if ($auth_user->type == "0" && trim($request->input("type")) == "") {
                     return response()->json([
-                        'message' => 'El tipo de usuario seleccionado no es el indicado',
+                        'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                         'complete' => false,
                     ]);
                 } else {
@@ -96,6 +96,10 @@ class UserController extends Controller
                     while (DB::table("users")->where('slug', $slug)->first()) {
                         $slug = Str::random(20);
                     }
+                    $user_type = "1";
+                    if ($auth_user->type == "0") {
+                        $user_type = (string) $request->input("type");
+                    }
                     if (DB::table("users")
                         ->insert([
                             'slug' => $slug,
@@ -104,7 +108,7 @@ class UserController extends Controller
                             'user' => strtoupper($request->input('user')),
                             'email' => $request->input('email'),
                             'password' => Hash::make($request->input('password')),
-                            'type' => $request->input("type"),
+                            'type' => $user_type,
                             'avatar' => $time_avatar,
                         ])
                     ) {
@@ -219,9 +223,9 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         }
-                    } else if ($request->input("type") && ($request->input("type") == "0" || $request->input("type") == "1")) {
+                    } else if ($auth_user->type == "0" && trim($request->input("type")) == "") {
                         return response()->json([
-                            'message' => 'El tipo de usuario seleccionado no es el indicado',
+                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                             'complete' => false,
                         ]);
                     } else {
@@ -233,7 +237,7 @@ class UserController extends Controller
                         } else {
                             // Obtenemos el tipo de usuario que estamos editando
                             $type = (string) $data->type;
-                            if ($request->input("type") == "0" || $request->input("type") == "1") {
+                            if ($auth_user->type == "0") {
                                 $type = (string) $request->input("type");
                             }
                             $time_avatar = "";
@@ -305,7 +309,8 @@ class UserController extends Controller
                                 if (
                                     $data->firstname == $request->input('firstname') && $data->lastname == $request->input('lastname') &&
                                     $data->user == $request->input('user') && $data->email == $request->input('email') &&
-                                    $data->avatar == $request->input('avatar')
+                                    $data->avatar == $request->input('avatar') &&
+                                    ($auth_user->type == "0" && $data->type == $request->input('type'))
                                 ) {
                                     return response()->json([
                                         'message' => 'La información proporcionada no modifica el usuario, asi que no se ha actualizado',

@@ -121,6 +121,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HomePublic',
@@ -4724,7 +4725,7 @@ var render = function () {
           _c("div", { staticClass: "mb-8" }, [
             _c("p", [
               _vm._v(
-                "Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las imágenes para reordenarlas"
+                "Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las\n                imágenes para reordenarlas"
               ),
             ]),
           ]),

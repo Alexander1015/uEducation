@@ -144,17 +144,18 @@ export default {
         links: [
             // Public
             { type: 0, title: "Inicio", icon: "token", to: "/", visible: true },
-            { type: 0, title: "Contenido", icon: "school", to: { name: "contents" }, visible: true },
             // Login
             { type: 1, title: "Iniciar Sesión", icon: "account_box", to: { name: "auth" }, visible: true },
+            // Public User
+            { type: 2, title: "Contenido", icon: "school", to: { name: "contents" }, visible: false },
             // Dashboard
-            { type: 2, header: true, visible: false },
-            { type: 2, title: "Materias", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
-            { type: 2, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
-            { type: 2, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
-            { type: 2, header: true, visible: false },
-            { type: 2, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
-            { type: 2, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
+            { type: 3, header: true, visible: false },
+            { type: 3, title: "Materias", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
+            { type: 3, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
+            { type: 3, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
+            { type: 3, header: true, visible: false },
+            { type: 3, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
+            { type: 3, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
         ],
         to: {
             profile: { name: "profile" },
@@ -180,8 +181,15 @@ export default {
                     this.user = response.data;
                     if (this.user.user) {
                         for (let link of this.links) {
+                            // Para la vista del content
                             if (link.type == 1) link.visible = false;
                             else if (link.type == 2) link.visible = true;
+                            // Para la vista admin
+                            if (this.user.type == "0" || this.user.type == "1") {
+                                if (link.type == 3) {
+                                    link.visible = true;
+                                }
+                            }
                         }
                         if (this.user.avatar == "") {
                             this.user.avatar = "blank.png";

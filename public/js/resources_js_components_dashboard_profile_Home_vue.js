@@ -189,6 +189,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Profile",
   data: function data() {
@@ -327,7 +340,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     var data = new FormData();
                     data.append('firstname', _this2.form.firstname);
                     data.append('lastname', _this2.form.lastname);
-                    data.append('user', _this2.form.user.toUpperCase());
+
+                    if (_this2.user.type == '0' || _this2.user.type == '1') {
+                      data.append('user', _this2.form.user.toUpperCase());
+                    }
+
                     data.append('email', _this2.form.email);
                     _this2.form.avatar = document.querySelector('#avatar').files[0];
 
@@ -429,7 +446,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: icon,
                         text: response.data.message
                       }).then(function () {
-                        _this3.overlay = false;
+                        if (response.data.complete) {
+                          window.location.href = "/dashboard/profile";
+                        } else _this3.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this3.$swal({
@@ -1218,59 +1237,98 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
-                              [
-                                _c("v-text-field", {
-                                  attrs: {
-                                    rules: _vm.emailRules,
-                                    label: "Correo electrónico *",
-                                    tabindex: "3",
-                                    dense: "",
-                                    "prepend-icon": "email",
-                                    clearable: "",
-                                    "clear-icon": "cancel",
-                                    required: "",
-                                  },
-                                  model: {
-                                    value: _vm.form.email,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.form, "email", $$v)
+                            _vm.user.type == "0" || _vm.user.type == "1"
+                              ? [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      attrs: { cols: "12", sm: "12", md: "6" },
                                     },
-                                    expression: "form.email",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          rules: _vm.emailRules,
+                                          label: "Correo electrónico *",
+                                          tabindex: "3",
+                                          dense: "",
+                                          "prepend-icon": "email",
+                                          clearable: "",
+                                          "clear-icon": "cancel",
+                                          required: "",
+                                        },
+                                        model: {
+                                          value: _vm.form.email,
+                                          callback: function ($$v) {
+                                            _vm.$set(_vm.form, "email", $$v)
+                                          },
+                                          expression: "form.email",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12", sm: "12" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          rules: _vm.emailRules,
+                                          label: "Correo electrónico *",
+                                          tabindex: "3",
+                                          dense: "",
+                                          "prepend-icon": "email",
+                                          clearable: "",
+                                          "clear-icon": "cancel",
+                                          required: "",
+                                        },
+                                        model: {
+                                          value: _vm.form.email,
+                                          callback: function ($$v) {
+                                            _vm.$set(_vm.form, "email", $$v)
+                                          },
+                                          expression: "form.email",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
                             _vm._v(" "),
-                            _c(
-                              "v-col",
-                              { attrs: { cols: "12", sm: "12", md: "6" } },
-                              [
-                                _c("v-text-field", {
-                                  attrs: {
-                                    tabindex: "4",
-                                    rules: _vm.userRules,
-                                    clearable: "",
-                                    "clear-icon": "cancel",
-                                    label: "Usuario *",
-                                    dense: "",
-                                    "prepend-icon": "person",
-                                    required: "",
-                                  },
-                                  model: {
-                                    value: _vm.form.user,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.form, "user", $$v)
+                            _vm.user.type == "0" || _vm.user.type == "1"
+                              ? [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      attrs: { cols: "12", sm: "12", md: "6" },
                                     },
-                                    expression: "form.user",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          tabindex: "4",
+                                          rules: _vm.userRules,
+                                          clearable: "",
+                                          "clear-icon": "cancel",
+                                          label: "Usuario *",
+                                          dense: "",
+                                          "prepend-icon": "person",
+                                          required: "",
+                                        },
+                                        model: {
+                                          value: _vm.form.user,
+                                          callback: function ($$v) {
+                                            _vm.$set(_vm.form, "user", $$v)
+                                          },
+                                          expression: "form.user",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "v-col",
@@ -1402,13 +1460,14 @@ var render = function () {
                               1
                             ),
                           ],
-                          1
+                          2
                         ),
                         _vm._v(" "),
                         _vm.form.firstname != _vm.user.firstname ||
                         _vm.form.lastname != _vm.user.lastname ||
                         _vm.form.email != _vm.user.email ||
-                        _vm.form.user != _vm.user.user ||
+                        ((_vm.user.type == "0" || _vm.user.type == "1") &&
+                          _vm.form.user != _vm.user.user) ||
                         _vm.form.avatar != null ||
                         _vm.form.avatar_new != 0
                           ? [

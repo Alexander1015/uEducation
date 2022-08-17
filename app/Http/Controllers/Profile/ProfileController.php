@@ -26,7 +26,7 @@ class ProfileController extends Controller
                 $validator = Validator::make($request->all(), [
                     'firstname' => ['bail', 'required', 'string', 'max:50'],
                     'lastname' => ['bail', 'required', 'string', 'max:50'],
-                    'user' => ['bail', 'required', 'string', 'max:50', 'unique:users,user,' . $user->id],
+                    'user' => ['bail', 'sometimes', 'string', 'max:50', 'unique:users,user,' . $user->id],
                     'email' => ['bail', 'required', 'email', 'max:100', 'unique:users,email,' . $user->id],
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                     'avatar_new' => ['bail', 'sometimes', 'boolean'],
@@ -51,85 +51,100 @@ class ProfileController extends Controller
                         ]);
                     }
                 } else {
-                    $time_avatar = "";
-                    if (!$request->file('avatar')) {
-                        if ($request->input('avatar_new') && trim($user->avatar) != "") {
-                            // Eliminamos las imagenes del user no usadas
-                            $directory = public_path('img/users') . "/" . $user->avatar;
-                            if (File::isDirectory($directory)) {
-                                $imgs = File::allFiles($directory);
-                                if (sizeof($imgs) > 0) {
-                                    foreach ($imgs as $item) {
-                                        File::delete($directory . '/' . $item->getRelativePathname());
+                    // Verificamos que se ha ingresado al usuario segun el tipo del mismo
+                    if ($user->type == "2" && $request->input("user")) {
+                        return response()->json([
+                            'message' => 'No tiene permitido cambiar el usuario del sistema, contacte a un administrador para llevar a cabo la acción',
+                            'complete' => false,
+                        ]);
+                    }
+                    else if (($user->type == "0" || $user->type == "1") && !$request->input("user")) {
+                        return response()->json([
+                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                            'complete' => false,
+                        ]);
+                    }
+                    else {
+                        $time_avatar = "";
+                        if (!$request->file('avatar')) {
+                            if ($request->input('avatar_new') && trim($user->avatar) != "") {
+                                // Eliminamos las imagenes del user no usadas
+                                $directory = public_path('img/users') . "/" . $user->avatar;
+                                if (File::isDirectory($directory)) {
+                                    $imgs = File::allFiles($directory);
+                                    if (sizeof($imgs) > 0) {
+                                        foreach ($imgs as $item) {
+                                            File::delete($directory . '/' . $item->getRelativePathname());
+                                        }
+                                    }
+                                    // Eliminamos la carpeta ya que no se usara
+                                    rmdir($directory);
+                                }
+                            } else $time_avatar = $user->avatar;
+                        } else {
+                            if (trim($user->avatar) != "") {
+                                // Eliminamos las imagenes del user antiguas
+                                $directory = public_path('img/users') . "/" . $user->avatar;
+                                if (File::isDirectory($directory)) {
+                                    $imgs = File::allFiles($directory);
+                                    if (sizeof($imgs) > 0) {
+                                        foreach ($imgs as $item) {
+                                            File::delete($directory . '/' . $item->getRelativePathname());
+                                        }
                                     }
                                 }
                                 // Eliminamos la carpeta ya que no se usara
                                 rmdir($directory);
                             }
-                        } else $time_avatar = $user->avatar;
-                    } else {
-                        if (trim($user->avatar) != "") {
-                            // Eliminamos las imagenes del user antiguas
-                            $directory = public_path('img/users') . "/" . $user->avatar;
-                            if (File::isDirectory($directory)) {
-                                $imgs = File::allFiles($directory);
-                                if (sizeof($imgs) > 0) {
-                                    foreach ($imgs as $item) {
-                                        File::delete($directory . '/' . $item->getRelativePathname());
-                                    }
+                            $time_avatar = time();
+                        }
+                        if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
+                            $request->input('firstname'),
+                            $request->input('lastname'),
+                            $request->input('user') ? $request->input('user') : $user->user,
+                            $request->input('email'),
+                            $time_avatar,
+                            $user->id,
+                        ])) {
+                            // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
+                            if ($request->file('avatar')) {
+                                $directory = public_path('img/users') . "/" . $time_avatar;
+                                if (!File::isDirectory($directory)) {
+                                    mkdir($directory, 0777, true);
                                 }
+                                $avatar = $request->file('avatar');
+                                $size = Image::make($avatar->getRealPath())->width();
+                                //lazy
+                                $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_l->save($directory . '/lazy.png', 100);
+                                //original
+                                $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                $img_o->save($directory . '/index.png', 100);
                             }
-                            // Eliminamos la carpeta ya que no se usara
-                            rmdir($directory);
-                        }
-                        $time_avatar = time();
-                    }
-                    if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
-                        $request->input('firstname'),
-                        $request->input('lastname'),
-                        $request->input('user'),
-                        $request->input('email'),
-                        $time_avatar,
-                        $user->id,
-                    ])) {
-                        // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
-                        if ($request->file('avatar')) {
-                            $directory = public_path('img/users') . "/" . $time_avatar;
-                            if (!File::isDirectory($directory)) {
-                                mkdir($directory, 0777, true);
-                            }
-                            $avatar = $request->file('avatar');
-                            $size = Image::make($avatar->getRealPath())->width();
-                            //lazy
-                            $img_l = Image::make($avatar->getRealPath())->resize($size * 0.01, null, function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
-                            $img_l->save($directory . '/lazy.png', 100);
-                            //original
-                            $img_o = Image::make($avatar->getRealPath())->resize($size, null, function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
-                            $img_o->save($directory . '/index.png', 100);
-                        }
-                        return response()->json([
-                            'message' => 'Ha modificado exitosamente su información',
-                            'complete' => true,
-                        ]);
-                    } else {
-                        if (
-                            $user->firstname == $request->input('firstname') && $user->lastname == $request->input('lastname') &&
-                            $user->user == $request->input('user') && $user->email == $request->input('email') &&
-                            $user->avatar == $request->input('avatar')
-                        ) {
                             return response()->json([
-                                'message' => 'La información proporcionada no modifica su información, asi que no sera actualizada',
-                                'complete' => false,
+                                'message' => 'Ha modificado exitosamente su información',
+                                'complete' => true,
                             ]);
                         } else {
-                            return response()->json([
-                                'message' => 'Ha ocurrido un error al momento de modificar su información',
-                                'complete' => false,
-                            ]);
+                            if (
+                                $user->firstname == $request->input('firstname') && $user->lastname == $request->input('lastname') &&
+                                $user->user == $request->input('user') && $user->email == $request->input('email') &&
+                                $user->avatar == $request->input('avatar')
+                            ) {
+                                return response()->json([
+                                    'message' => 'La información proporcionada no modifica su información, asi que no sera actualizada',
+                                    'complete' => false,
+                                ]);
+                            } else {
+                                return response()->json([
+                                    'message' => 'Ha ocurrido un error al momento de modificar su información',
+                                    'complete' => false,
+                                ]);
+                            }
                         }
                     }
                 }

@@ -31,7 +31,8 @@
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las imágenes para reordenarlas</p>
+                <p>Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las
+                    imágenes para reordenarlas</p>
             </div>
             <div>
                 <v-file-input ref="uploader" v-model="img" @change="uploadImage()"

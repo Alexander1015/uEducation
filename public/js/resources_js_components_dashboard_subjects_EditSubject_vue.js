@@ -224,6 +224,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -265,7 +267,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       statusRules: [function (v) {
         return !!v || 'Debe elegir un item';
       }],
-      name: ""
+      name: "",
+      login_user: {}
     };
   },
   mounted: function mounted() {
@@ -310,11 +313,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.overlay = true;
 
                 if (!_this.address) {
-                  _context.next = 6;
+                  _context.next = 8;
                   break;
                 }
 
                 _context.next = 4;
+                return _this.axios.get('/api/auth').then(function (response) {
+                  _this.login_user = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
+
+                  _this.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
+
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  });
+                });
+
+              case 4:
+                _context.next = 6;
                 return _this.axios.get('/api/subject/' + _this.address).then(function (response) {
                   var item = response.data;
 
@@ -347,16 +368,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 });
 
-              case 4:
-                _context.next = 7;
+              case 6:
+                _context.next = 9;
                 break;
 
-              case 6:
+              case 8:
                 _this.$router.push({
                   name: "error"
                 });
 
-              case 7:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -604,7 +625,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                if (!(_this5.login_user.type == '0')) {
+                  _context5.next = 3;
+                  break;
+                }
+
+                _context5.next = 3;
                 return _this5.$swal({
                   title: '¿Esta seguro de eliminar la materia?',
                   text: "Esta acción no se puede revertir",
@@ -649,7 +675,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context5.stop();
             }
@@ -5379,7 +5405,7 @@ var render = function () {
                       [
                         _c("v-card-subtitle", { staticClass: "text-center" }, [
                           _vm._v(
-                            "\n                            Información almacenada de la materia seleccionado\n                        "
+                            "\n                            Información almacenada de la materia seleccionada\n                        "
                           ),
                         ]),
                         _vm._v(" "),
@@ -5863,48 +5889,52 @@ var render = function () {
                           1
                         ),
                         _vm._v(" "),
-                        _c("v-divider", { staticClass: "mt-8 mb-4" }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "v-card-subtitle",
-                              { staticClass: "text-justify" },
-                              [
-                                _vm._v(
-                                  "\n                                Elimine la materia seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
-                                ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "txt_white bk_red",
-                                attrs: { block: "" },
-                                on: {
-                                  click: function ($event) {
-                                    $event.stopPropagation()
-                                    return _vm.deleteSubject()
-                                  },
-                                },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("delete"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Eliminar materia\n                            "
-                                ),
-                              ],
-                              1
-                            ),
-                          ],
-                          1
-                        ),
+                        _vm.login_user.type == "0"
+                          ? [
+                              _c("v-divider", { staticClass: "mt-8 mb-4" }),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                [
+                                  _c(
+                                    "v-card-subtitle",
+                                    { staticClass: "text-justify" },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Elimine la materia seleccionada de la base de datos, esta opcion no se puede\n                                    revertir\n                                "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "txt_white bk_red",
+                                      attrs: { block: "" },
+                                      on: {
+                                        click: function ($event) {
+                                          $event.stopPropagation()
+                                          return _vm.deleteSubject()
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("delete"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Eliminar materia\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ]
+                          : _vm._e(),
                       ],
-                      1
+                      2
                     ),
                   ]),
                 ],

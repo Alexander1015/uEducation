@@ -43,8 +43,8 @@
                 <template v-slot:item.img="{ item }">
                     <template v-if="item.img">
                         <v-img class="mx-auto" :src='"/img/subjects/" + item.img + "/index.png"'
-                            :lazy-src='"/img/subjects/" + item.img + "/lazy.png"' max-height="40"
-                            max-width="60" contain>
+                            :lazy-src='"/img/subjects/" + item.img + "/lazy.png"' max-height="40" max-width="60"
+                            contain>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -107,16 +107,19 @@
                         </template>
                         <span>Ver materia</span>
                     </v-tooltip>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon class="txt_red" @click.stop="deleteSubject(item.slug)" v-bind="attrs" v-on="on">
-                                <v-icon>
-                                    delete
-                                </v-icon>
-                            </v-btn>
-                        </template>
-                        <span>Eliminar</span>
-                    </v-tooltip>
+                    <template v-if="user.type == '0'">
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon class="txt_red" @click.stop="deleteSubject(item.slug)" v-bind="attrs"
+                                    v-on="on">
+                                    <v-icon>
+                                        delete
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Eliminar</span>
+                        </v-tooltip>
+                    </template>
                 </template>
             </v-data-table>
         </div>
@@ -137,6 +140,7 @@ export default {
         ],
         search: '',
         data: [],
+        user: {},
     }),
     mounted() {
         this.allSubjects();
@@ -153,6 +157,18 @@ export default {
         async allSubjects() {
             this.overlay = true;
             this.loading_table = true;
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    this.user = response.data;
+                }).catch((error) => {
+                    console.log(error);
+                    this.axios.post('/api/logout')
+                        .then(response => {
+                            window.location.href = "/auth"
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                });
             this.data = [];
             await this.axios.get('/api/subject')
                 .then(response => {

@@ -257,17 +257,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
     return {
       overlay: false,
       items_status: ["Habilitado", "Deshabilitado"],
+      data_type: ["Administrador", "Docente"],
       form_information: {
         firstname: "",
         lastname: "",
         user: "",
         email: "",
+        type: "Docente",
         avatar: null,
         avatar_new: 0
       },
@@ -315,6 +336,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }],
         avatarRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
+        }],
+        typeRules: [function (v) {
+          return !!v || 'El tipo de usuario es requerido';
         }]
       },
       passw: {
@@ -389,31 +413,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       name: "error"
                     });
                   } else {
-                    _this.form_information.firstname = _this.user.firstname;
-                    _this.form_information.lastname = _this.user.lastname;
-                    _this.form_information.user = _this.user.user;
-                    _this.form_information.email = _this.user.email;
-
-                    if (_this.user.avatar) {
-                      _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
-                      _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
-                    }
-
-                    _this.form_information.avatar = null;
-                    _this.form_information.avatar_new = 0;
-
-                    if (_this.form_password.password != "" || _this.form_password.password_confirmation != "") {
-                      _this.form_password.password = "";
-                      _this.form_password.password_confirmation = "";
-
-                      _this.$refs.form_password.reset();
+                    if (_this.login_user.type != "0" && _this.user.type == "0") {
+                      _this.$router.push({
+                        name: "error"
+                      });
                     } else {
-                      _this.form_password.password = "";
-                      _this.form_password.password_confirmation = "";
-                    }
+                      _this.form_information.firstname = _this.user.firstname;
+                      _this.form_information.lastname = _this.user.lastname;
+                      _this.form_information.user = _this.user.user;
+                      _this.form_information.email = _this.user.email;
 
-                    if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
-                    _this.overlay = false;
+                      if (_this.user.avatar) {
+                        _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
+                        _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
+                      }
+
+                      _this.form_information.avatar = null;
+                      _this.form_information.avatar_new = 0;
+
+                      if (_this.form_password.password != "" || _this.form_password.password_confirmation != "") {
+                        _this.form_password.password = "";
+                        _this.form_password.password_confirmation = "";
+
+                        _this.$refs.form_password.reset();
+                      } else {
+                        _this.form_password.password = "";
+                        _this.form_password.password_confirmation = "";
+                      }
+
+                      if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
+
+                      if (_this.login_user.type == '0') {
+                        if (_this.user.type == "0") _this.form_information.type = _this.user.type = "Administrador";else if (_this.user.type == "1") _this.form_information.type = _this.user.type = "Docente";
+                      }
+
+                      _this.overlay = false;
+                    }
                   }
                 })["catch"](function (error) {
                   console.log(error);
@@ -448,12 +483,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!_this2.$refs.form_information.validate()) {
-                  _context2.next = 5;
+                if (!(_this2.login_user.type == '0' || _this2.login_user.type != "0" && _this2.user.type == "1")) {
+                  _context2.next = 7;
                   break;
                 }
 
-                _context2.next = 3;
+                if (!_this2.$refs.form_information.validate()) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 4;
                 return _this2.$swal({
                   title: '¿Esta seguro de modificar la información del usuario?',
                   icon: 'warning',
@@ -475,6 +515,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     data.append('avatar_new', _this2.form_information.avatar_new);
+
+                    if (_this2.login_user.type == '0') {
+                      var type = "";
+
+                      if (_this2.form_information.type == "Administrador") {
+                        type = "0";
+                      } else if (_this2.form_information.type == "Docente") {
+                        type = "1";
+                      }
+
+                      data.append('type', type);
+                    }
+
                     data.append('_method', "put");
 
                     _this2.axios.post('/api/user/' + _this2.$route.params.slug, data, {
@@ -514,14 +567,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
-                _context2.next = 6;
+              case 4:
+                _context2.next = 7;
                 break;
 
-              case 5:
+              case 6:
                 _this2.overlay = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -537,12 +590,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!_this3.$refs.form_password.validate()) {
-                  _context3.next = 5;
+                if (!(_this3.login_user.type == '0')) {
+                  _context3.next = 7;
                   break;
                 }
 
-                _context3.next = 3;
+                if (!_this3.$refs.form_password.validate()) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _context3.next = 4;
                 return _this3.$swal({
                   title: '¿Esta seguro de cambiar la contraseña?',
                   icon: 'warning',
@@ -590,14 +648,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
-                _context3.next = 6;
+              case 4:
+                _context3.next = 7;
                 break;
 
-              case 5:
+              case 6:
                 _this3.overlay = false;
 
-              case 6:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -613,7 +671,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                if (!(_this4.login_user.type == '0')) {
+                  _context4.next = 3;
+                  break;
+                }
+
+                _context4.next = 3;
                 return _this4.$swal({
                   title: '¿Esta seguro de cambiar el estado del usuario?',
                   icon: 'warning',
@@ -662,7 +725,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context4.stop();
             }
@@ -678,7 +741,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                if (!(_this5.login_user.type == '0')) {
+                  _context5.next = 3;
+                  break;
+                }
+
+                _context5.next = 3;
                 return _this5.$swal({
                   title: '¿Esta seguro de eliminar el usuario?',
                   text: "Esta acción no se puede revertir",
@@ -723,7 +791,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 2:
+              case 3:
               case "end":
                 return _context5.stop();
             }
@@ -744,6 +812,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".v-autocomplete.v-input > .v-input__control > .v-input__slot {\n  cursor: text;\n}\n.v-autocomplete input {\n  align-self: center;\n}\n.v-autocomplete.v-select.v-input--is-focused input {\n  min-width: 64px;\n}\n.v-autocomplete:not(.v-input--is-focused).v-select--chips input {\n  max-height: 0;\n  padding: 0;\n}\n.v-autocomplete--is-selecting-index input {\n  opacity: 0;\n}\n.v-autocomplete.v-text-field--enclosed:not(.v-text-field--solo):not(.v-text-field--single-line):not(.v-text-field--outlined) .v-select__slot > input {\n  margin-top: 24px;\n}\n.v-autocomplete.v-text-field--enclosed:not(.v-text-field--solo):not(.v-text-field--single-line):not(.v-text-field--outlined).v-input--dense .v-select__slot > input {\n  margin-top: 20px;\n}\n.v-autocomplete:not(.v-input--is-disabled).v-select.v-text-field input {\n  pointer-events: inherit;\n}\n.v-autocomplete__content.v-menu__content {\n  border-radius: 0;\n}\n.v-autocomplete__content.v-menu__content .v-card {\n  border-radius: 0;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -1066,6 +1157,35 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".v-window {\n  overflow: hidden;\n}\n.
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass":
+/*!******************************************************************************!*\
+  !*** ./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VAutocomplete_sass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!../../../../laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!../../../../sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./VAutocomplete.sass */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-15[0].rules[0].use[3]!./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VAutocomplete_sass__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_1_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_2_sass_loader_dist_cjs_js_clonedRuleSet_15_0_rules_0_use_3_VAutocomplete_sass__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -1688,33 +1808,39 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-tab",
-                    [
-                      _c("v-icon", { attrs: { left: "" } }, [
-                        _vm._v(
-                          "\n                        lock\n                    "
+                  _vm.login_user.type == "0"
+                    ? [
+                        _c(
+                          "v-tab",
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v(
+                                "\n                            lock\n                        "
+                              ),
+                            ]),
+                            _vm._v(
+                              "\n                        Contraseña\n                    "
+                            ),
+                          ],
+                          1
                         ),
-                      ]),
-                      _vm._v(
-                        "\n                    Contraseña\n                "
-                      ),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab",
-                    [
-                      _c("v-icon", { attrs: { left: "" } }, [
-                        _vm._v(
-                          "\n                        manage_accounts\n                    "
+                        _vm._v(" "),
+                        _c(
+                          "v-tab",
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v(
+                                "\n                            manage_accounts\n                        "
+                              ),
+                            ]),
+                            _vm._v(
+                              "\n                        Otros\n                    "
+                            ),
+                          ],
+                          1
                         ),
-                      ]),
-                      _vm._v("\n                    Otros\n                "),
-                    ],
-                    1
-                  ),
+                      ]
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("v-tab-item", [
                     _c(
@@ -1878,6 +2004,48 @@ var render = function () {
                                   1
                                 ),
                                 _vm._v(" "),
+                                _vm.login_user.type == "0"
+                                  ? [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12", sm: "12" } },
+                                        [
+                                          _c("v-autocomplete", {
+                                            attrs: {
+                                              rules: _vm.info.typeRules,
+                                              items: _vm.data_type,
+                                              clearable: "",
+                                              "clear-icon": "cancel",
+                                              label: "Tipo de Usuario *",
+                                              tabindex: "5",
+                                              dense: "",
+                                              "no-data-text":
+                                                "No se encuentra información para mostrar",
+                                              "prepend-icon":
+                                                "admin_panel_settings",
+                                              "append-icon": "arrow_drop_down",
+                                              "hide-selected": "",
+                                              required: "",
+                                            },
+                                            model: {
+                                              value: _vm.form_information.type,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.form_information,
+                                                  "type",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "form_information.type",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : _vm._e(),
+                                _vm._v(" "),
                                 _c(
                                   "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
@@ -2018,53 +2186,69 @@ var render = function () {
                                   1
                                 ),
                               ],
-                              1
+                              2
                             ),
                             _vm._v(" "),
-                            _vm.form_information.firstname !=
-                              _vm.user.firstname ||
-                            _vm.form_information.lastname !=
-                              _vm.user.lastname ||
-                            _vm.form_information.email != _vm.user.email ||
-                            _vm.form_information.user != _vm.user.user ||
-                            _vm.form_information.avatar != null ||
-                            _vm.form_information.avatar_new != 0
+                            _vm.login_user.type == "0" ||
+                            (_vm.login_user.type != "0" && _vm.user.type == "1")
                               ? [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "txt_white bk_green mt-4",
-                                      attrs: { block: "", type: "submit" },
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("save"),
-                                      ]),
-                                      _vm._v(
-                                        "\n                                    Guardar\n                                "
-                                      ),
-                                    ],
-                                    1
-                                  ),
+                                  _vm.form_information.firstname !=
+                                    _vm.user.firstname ||
+                                  _vm.form_information.lastname !=
+                                    _vm.user.lastname ||
+                                  _vm.form_information.email !=
+                                    _vm.user.email ||
+                                  _vm.form_information.user != _vm.user.user ||
+                                  _vm.form_information.avatar != null ||
+                                  _vm.form_information.avatar_new != 0 ||
+                                  (_vm.login_user.type == "0" &&
+                                    _vm.form_information.type != _vm.user.type)
+                                    ? [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass:
+                                              "txt_white bk_green mt-4",
+                                            attrs: {
+                                              block: "",
+                                              type: "submit",
+                                            },
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("save")]
+                                            ),
+                                            _vm._v(
+                                              "\n                                        Guardar\n                                    "
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ]
+                                    : [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "mt-4",
+                                            attrs: { block: "", disabled: "" },
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("save")]
+                                            ),
+                                            _vm._v(
+                                              "\n                                        Guardar\n                                    "
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ],
                                 ]
-                              : [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mt-4",
-                                      attrs: { block: "", disabled: "" },
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("save"),
-                                      ]),
-                                      _vm._v(
-                                        "\n                                    Guardar\n                                "
-                                      ),
-                                    ],
-                                    1
-                                  ),
-                                ],
+                              : _vm._e(),
                           ],
                           2
                         ),
@@ -2073,321 +2257,358 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _c("v-tab-item", [
-                    _c(
-                      "div",
-                      { staticClass: "px-4 py-4" },
-                      [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                            Cambie la contraseña del usuario seleccionado\n                        "
+                  _vm.login_user.type == "0"
+                    ? [
+                        _c("v-tab-item", [
+                          _c(
+                            "div",
+                            { staticClass: "px-4 py-4" },
+                            [
+                              _c(
+                                "v-card-subtitle",
+                                { staticClass: "text-center" },
+                                [
+                                  _vm._v(
+                                    "\n                                Cambie la contraseña del usuario seleccionado\n                            "
+                                  ),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-form",
+                                {
+                                  ref: "form_password",
+                                  attrs: { "lazy-validation": "" },
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.editPassword()
+                                    },
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "small",
+                                    { staticClass: "font-italic txt_red" },
+                                    [_vm._v("Obligatorio *")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-row",
+                                    { staticClass: "mt-2" },
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              rules: _vm.passw.passwordRules,
+                                              label: "Contraseña *",
+                                              tabindex: "1",
+                                              dense: "",
+                                              "prepend-icon": "lock",
+                                              "append-icon": _vm.form_password
+                                                .show1
+                                                ? "visibility"
+                                                : "visibility_off",
+                                              type: _vm.form_password.show1
+                                                ? "text"
+                                                : "password",
+                                              clearable: "",
+                                              "clear-icon": "cancel",
+                                              required: "",
+                                            },
+                                            on: {
+                                              "click:append": function (
+                                                $event
+                                              ) {
+                                                _vm.form_password.show1 =
+                                                  !_vm.form_password.show1
+                                              },
+                                            },
+                                            model: {
+                                              value: _vm.form_password.password,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.form_password,
+                                                  "password",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "form_password.password",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              rules:
+                                                _vm.passw.passwordconfirmRules,
+                                              label: "Repita la contraseña *",
+                                              tabindex: "2",
+                                              dense: "",
+                                              "prepend-icon": "lock",
+                                              "append-icon": _vm.form_password
+                                                .show2
+                                                ? "visibility"
+                                                : "visibility_off",
+                                              type: _vm.form_password.show2
+                                                ? "text"
+                                                : "password",
+                                              clearable: "",
+                                              "clear-icon": "cancel",
+                                              required: "",
+                                            },
+                                            on: {
+                                              "click:append": function (
+                                                $event
+                                              ) {
+                                                _vm.form_password.show2 =
+                                                  !_vm.form_password.show2
+                                              },
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.form_password
+                                                  .password_confirmation,
+                                              callback: function ($$v) {
+                                                _vm.$set(
+                                                  _vm.form_password,
+                                                  "password_confirmation",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "form_password.password_confirmation",
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.form_password.password != "" &&
+                                  _vm.form_password.password_confirmation != ""
+                                    ? [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass:
+                                              "txt_white bk_green mt-2",
+                                            attrs: {
+                                              block: "",
+                                              type: "submit",
+                                            },
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("save")]
+                                            ),
+                                            _vm._v(
+                                              "\n                                        Guardar\n                                    "
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ]
+                                    : [
+                                        _c(
+                                          "v-btn",
+                                          {
+                                            staticClass: "mt-2",
+                                            attrs: { block: "", disabled: "" },
+                                          },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { left: "" } },
+                                              [_vm._v("save")]
+                                            ),
+                                            _vm._v(
+                                              "\n                                        Guardar\n                                    "
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                      ],
+                                ],
+                                2
+                              ),
+                            ],
+                            1
                           ),
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "v-form",
-                          {
-                            ref: "form_password",
-                            attrs: { "lazy-validation": "" },
-                            on: {
-                              submit: function ($event) {
-                                $event.preventDefault()
-                                return _vm.editPassword()
-                              },
-                            },
-                          },
-                          [
-                            _c(
-                              "small",
-                              { staticClass: "font-italic txt_red" },
-                              [_vm._v("Obligatorio *")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-row",
-                              { staticClass: "mt-2" },
-                              [
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        rules: _vm.passw.passwordRules,
-                                        label: "Contraseña *",
-                                        tabindex: "1",
-                                        dense: "",
-                                        "prepend-icon": "lock",
-                                        "append-icon": _vm.form_password.show1
-                                          ? "visibility"
-                                          : "visibility_off",
-                                        type: _vm.form_password.show1
-                                          ? "text"
-                                          : "password",
-                                        clearable: "",
-                                        "clear-icon": "cancel",
-                                        required: "",
-                                      },
-                                      on: {
-                                        "click:append": function ($event) {
-                                          _vm.form_password.show1 =
-                                            !_vm.form_password.show1
-                                        },
-                                      },
-                                      model: {
-                                        value: _vm.form_password.password,
-                                        callback: function ($$v) {
-                                          _vm.$set(
-                                            _vm.form_password,
-                                            "password",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "form_password.password",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        rules: _vm.passw.passwordconfirmRules,
-                                        label: "Repita la contraseña *",
-                                        tabindex: "2",
-                                        dense: "",
-                                        "prepend-icon": "lock",
-                                        "append-icon": _vm.form_password.show2
-                                          ? "visibility"
-                                          : "visibility_off",
-                                        type: _vm.form_password.show2
-                                          ? "text"
-                                          : "password",
-                                        clearable: "",
-                                        "clear-icon": "cancel",
-                                        required: "",
-                                      },
-                                      on: {
-                                        "click:append": function ($event) {
-                                          _vm.form_password.show2 =
-                                            !_vm.form_password.show2
-                                        },
-                                      },
-                                      model: {
-                                        value:
-                                          _vm.form_password
-                                            .password_confirmation,
-                                        callback: function ($$v) {
-                                          _vm.$set(
-                                            _vm.form_password,
-                                            "password_confirmation",
-                                            $$v
-                                          )
-                                        },
-                                        expression:
-                                          "form_password.password_confirmation",
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _vm.form_password.password != "" &&
-                            _vm.form_password.password_confirmation != ""
-                              ? [
+                        _c("v-tab-item", [
+                          _c(
+                            "div",
+                            { staticClass: "px-4 py-4" },
+                            [
+                              _c(
+                                "div",
+                                [
                                   _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "txt_white bk_green mt-2",
-                                      attrs: { block: "", type: "submit" },
-                                    },
+                                    "v-card-subtitle",
+                                    { staticClass: "text-justify" },
                                     [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("save"),
-                                      ]),
                                       _vm._v(
-                                        "\n                                    Guardar\n                                "
+                                        "\n                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra\n                                    permitido ingresar al apartado de docentes/administradores o manipular la\n                                    información de\n                                    la base de datos)\n                                "
                                       ),
-                                    ],
-                                    1
+                                    ]
                                   ),
-                                ]
-                              : [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-form",
+                                    {
+                                      ref: "form_status",
+                                      attrs: { "lazy-validation": "" },
+                                      on: {
+                                        submit: function ($event) {
+                                          $event.preventDefault()
+                                          return _vm.statusUser()
+                                        },
+                                      },
+                                    },
+                                    [
+                                      _c("v-select", {
+                                        staticClass: "width_100",
+                                        attrs: {
+                                          items: _vm.items_status,
+                                          label: "Estado",
+                                          rules: _vm.statusRules,
+                                          dense: "",
+                                          "prepend-icon": "rule",
+                                        },
+                                        model: {
+                                          value: _vm.form_status.status,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.form_status,
+                                              "status",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "form_status.status",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _vm.form_status.status !=
+                                      (_vm.user.status == 1
+                                        ? "Habilitado"
+                                        : "Deshabilitado")
+                                        ? [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                staticClass:
+                                                  "txt_white bk_green",
+                                                attrs: {
+                                                  block: "",
+                                                  type: "submit",
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [_vm._v("save")]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                            Guardar\n                                        "
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ]
+                                        : [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  block: "",
+                                                  disabled: "",
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [_vm._v("save")]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                            Guardar\n                                        "
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ],
+                                    ],
+                                    2
+                                  ),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "mt-8 mb-4" }),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                [
+                                  _c(
+                                    "v-card-subtitle",
+                                    { staticClass: "text-justify" },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede\n                                    revertir\n                                "
+                                      ),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "mt-2",
-                                      attrs: { block: "", disabled: "" },
+                                      staticClass: "txt_white bk_red",
+                                      attrs: { block: "" },
+                                      on: {
+                                        click: function ($event) {
+                                          $event.stopPropagation()
+                                          return _vm.deleteUser()
+                                        },
+                                      },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("save"),
+                                        _vm._v("delete"),
                                       ]),
                                       _vm._v(
-                                        "\n                                    Guardar\n                                "
+                                        "\n                                    Eliminar usuario\n                                "
                                       ),
                                     ],
                                     1
                                   ),
                                 ],
-                          ],
-                          2
-                        ),
-                      ],
-                      1
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("v-tab-item", [
-                    _c(
-                      "div",
-                      { staticClass: "px-4 py-4" },
-                      [
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "v-card-subtitle",
-                              { staticClass: "text-justify" },
-                              [
-                                _vm._v(
-                                  "\n                                Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra\n                                permitido ingresar al apartado de docentes/administradores o manipular la información de\n                                la base de datos)\n                            "
-                                ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-form",
-                              {
-                                ref: "form_status",
-                                attrs: { "lazy-validation": "" },
-                                on: {
-                                  submit: function ($event) {
-                                    $event.preventDefault()
-                                    return _vm.statusUser()
-                                  },
-                                },
-                              },
-                              [
-                                _c("v-select", {
-                                  staticClass: "width_100",
-                                  attrs: {
-                                    items: _vm.items_status,
-                                    label: "Estado",
-                                    rules: _vm.statusRules,
-                                    dense: "",
-                                    "prepend-icon": "rule",
-                                  },
-                                  model: {
-                                    value: _vm.form_status.status,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.form_status, "status", $$v)
-                                    },
-                                    expression: "form_status.status",
-                                  },
-                                }),
-                                _vm._v(" "),
-                                _vm.form_status.status !=
-                                (_vm.user.status == 1
-                                  ? "Habilitado"
-                                  : "Deshabilitado")
-                                  ? [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "txt_white bk_green",
-                                          attrs: { block: "", type: "submit" },
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("save")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                        Guardar\n                                    "
-                                          ),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  : [
-                                      _c(
-                                        "v-btn",
-                                        { attrs: { block: "", disabled: "" } },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("save")]
-                                          ),
-                                          _vm._v(
-                                            "\n                                        Guardar\n                                    "
-                                          ),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                              ],
-                              2
-                            ),
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider", { staticClass: "mt-8 mb-4" }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "v-card-subtitle",
-                              { staticClass: "text-justify" },
-                              [
-                                _vm._v(
-                                  "\n                                Elimine el usuario seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
-                                ),
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "txt_white bk_red",
-                                attrs: { block: "" },
-                                on: {
-                                  click: function ($event) {
-                                    $event.stopPropagation()
-                                    return _vm.deleteUser()
-                                  },
-                                },
-                              },
-                              [
-                                _c("v-icon", { attrs: { left: "" } }, [
-                                  _vm._v("delete"),
-                                ]),
-                                _vm._v(
-                                  "\n                                Eliminar usuario\n                            "
-                                ),
-                              ],
-                              1
-                            ),
-                          ],
-                          1
-                        ),
-                      ],
-                      1
-                    ),
-                  ]),
+                                1
+                              ),
+                            ],
+                            1
+                          ),
+                        ]),
+                      ]
+                    : _vm._e(),
                 ],
-                1
+                2
               ),
             ],
             1
@@ -2421,27 +2642,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
-/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
-/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
-/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
-/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
+/* harmony import */ var vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAutocomplete */ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/VBtn.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/VCard.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VCol.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/VDivider.js");
+/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/VFileInput.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/VForm.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/VIcon.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/VImg.js");
+/* harmony import */ var vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VMain */ "./node_modules/vuetify/lib/components/VMain/VMain.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/VOverlay.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTab.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabItem.js");
+/* harmony import */ var vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTabs */ "./node_modules/vuetify/lib/components/VTabs/VTabs.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/VToolbar.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
+/* harmony import */ var vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! vuetify/lib/components/VTooltip */ "./node_modules/vuetify/lib/components/VTooltip/VTooltip.js");
 
 
 
@@ -2483,13 +2705,433 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__.VCardSubtitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_9__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_12__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_13__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_14__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_15__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_16__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_17__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_18__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_21__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__.VToolbarTitle,VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_24__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAutocomplete: vuetify_lib_components_VAutocomplete__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["default"],VCardSubtitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__.VCardSubtitle,VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["default"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["default"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_10__["default"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_11__["default"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_12__["default"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_13__["default"],VMain: vuetify_lib_components_VMain__WEBPACK_IMPORTED_MODULE_14__["default"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_15__["default"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_16__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_17__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__["default"],VTab: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_19__["default"],VTabItem: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_20__["default"],VTabs: vuetify_lib_components_VTabs__WEBPACK_IMPORTED_MODULE_21__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_22__["default"],VToolbar: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_23__["default"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_24__.VToolbarTitle,VTooltip: vuetify_lib_components_VTooltip__WEBPACK_IMPORTED_MODULE_25__["default"]})
 
 
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/js/components/dashboard/users/EditUser.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/vuetify/lib/components/VAutocomplete/VAutocomplete.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _src_components_VAutocomplete_VAutocomplete_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../src/components/VAutocomplete/VAutocomplete.sass */ "./node_modules/vuetify/src/components/VAutocomplete/VAutocomplete.sass");
+/* harmony import */ var _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../VSelect/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
+/* harmony import */ var _VTextField_VTextField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../VTextField/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var _util_mergeData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/mergeData */ "./node_modules/vuetify/lib/util/mergeData.js");
+/* harmony import */ var _util_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/helpers */ "./node_modules/vuetify/lib/util/helpers.js");
+// Styles
+ // Extensions
+
+
+ // Utilities
+
+
+
+const defaultMenuProps = { ..._VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__.defaultMenuProps,
+  offsetY: true,
+  offsetOverflow: true,
+  transition: false
+};
+/* @vue/component */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].extend({
+  name: 'v-autocomplete',
+  props: {
+    allowOverflow: {
+      type: Boolean,
+      default: true
+    },
+    autoSelectFirst: {
+      type: Boolean,
+      default: false
+    },
+    filter: {
+      type: Function,
+      default: (item, queryText, itemText) => {
+        return itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) > -1;
+      }
+    },
+    hideNoData: Boolean,
+    menuProps: {
+      type: _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.props.menuProps.type,
+      default: () => defaultMenuProps
+    },
+    noFilter: Boolean,
+    searchInput: {
+      type: String
+    }
+  },
+
+  data() {
+    return {
+      lazySearch: this.searchInput
+    };
+  },
+
+  computed: {
+    classes() {
+      return { ..._VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.computed.classes.call(this),
+        'v-autocomplete': true,
+        'v-autocomplete--is-selecting-index': this.selectedIndex > -1
+      };
+    },
+
+    computedItems() {
+      return this.filteredItems;
+    },
+
+    selectedValues() {
+      return this.selectedItems.map(item => this.getValue(item));
+    },
+
+    hasDisplayedItems() {
+      return this.hideSelected ? this.filteredItems.some(item => !this.hasItem(item)) : this.filteredItems.length > 0;
+    },
+
+    currentRange() {
+      if (this.selectedItem == null) return 0;
+      return String(this.getText(this.selectedItem)).length;
+    },
+
+    filteredItems() {
+      if (!this.isSearching || this.noFilter || this.internalSearch == null) return this.allItems;
+      return this.allItems.filter(item => {
+        const value = (0,_util_helpers__WEBPACK_IMPORTED_MODULE_2__.getPropertyFromItem)(item, this.itemText);
+        const text = value != null ? String(value) : '';
+        return this.filter(item, String(this.internalSearch), text);
+      });
+    },
+
+    internalSearch: {
+      get() {
+        return this.lazySearch;
+      },
+
+      set(val) {
+        // emit update event only when the new
+        // search value is different from previous
+        if (this.lazySearch !== val) {
+          this.lazySearch = val;
+          this.$emit('update:search-input', val);
+        }
+      }
+
+    },
+
+    isAnyValueAllowed() {
+      return false;
+    },
+
+    isDirty() {
+      return this.searchIsDirty || this.selectedItems.length > 0;
+    },
+
+    isSearching() {
+      return this.multiple && this.searchIsDirty || this.searchIsDirty && this.internalSearch !== this.getText(this.selectedItem);
+    },
+
+    menuCanShow() {
+      if (!this.isFocused) return false;
+      return this.hasDisplayedItems || !this.hideNoData;
+    },
+
+    $_menuProps() {
+      const props = _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.computed.$_menuProps.call(this);
+      props.contentClass = `v-autocomplete__content ${props.contentClass || ''}`.trim();
+      return { ...defaultMenuProps,
+        ...props
+      };
+    },
+
+    searchIsDirty() {
+      return this.internalSearch != null && this.internalSearch !== '';
+    },
+
+    selectedItem() {
+      if (this.multiple) return null;
+      return this.selectedItems.find(i => {
+        return this.valueComparator(this.getValue(i), this.getValue(this.internalValue));
+      });
+    },
+
+    listData() {
+      const data = _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.computed.listData.call(this);
+      data.props = { ...data.props,
+        items: this.virtualizedItems,
+        noFilter: this.noFilter || !this.isSearching || !this.filteredItems.length,
+        searchInput: this.internalSearch
+      };
+      return data;
+    }
+
+  },
+  watch: {
+    filteredItems: 'onFilteredItemsChanged',
+    internalValue: 'setSearch',
+
+    isFocused(val) {
+      if (val) {
+        document.addEventListener('copy', this.onCopy);
+        this.$refs.input && this.$refs.input.select();
+      } else {
+        document.removeEventListener('copy', this.onCopy);
+        this.blur();
+        this.updateSelf();
+      }
+    },
+
+    isMenuActive(val) {
+      if (val || !this.hasSlot) return;
+      this.lazySearch = null;
+    },
+
+    items(val, oldVal) {
+      // If we are focused, the menu
+      // is not active, hide no data is enabled,
+      // and items change
+      // User is probably async loading
+      // items, try to activate the menu
+      if (!(oldVal && oldVal.length) && this.hideNoData && this.isFocused && !this.isMenuActive && val.length) this.activateMenu();
+    },
+
+    searchInput(val) {
+      this.lazySearch = val;
+    },
+
+    internalSearch: 'onInternalSearchChanged',
+    itemText: 'updateSelf'
+  },
+
+  created() {
+    this.setSearch();
+  },
+
+  destroyed() {
+    document.removeEventListener('copy', this.onCopy);
+  },
+
+  methods: {
+    onFilteredItemsChanged(val, oldVal) {
+      // TODO: How is the watcher triggered
+      // for duplicate items? no idea
+      if (val === oldVal) return;
+
+      if (!this.autoSelectFirst) {
+        const preSelectedItem = oldVal[this.$refs.menu.listIndex];
+
+        if (preSelectedItem) {
+          this.setMenuIndex(val.findIndex(i => i === preSelectedItem));
+        } else {
+          this.setMenuIndex(-1);
+        }
+
+        this.$emit('update:list-index', this.$refs.menu.listIndex);
+      }
+
+      this.$nextTick(() => {
+        if (!this.internalSearch || val.length !== 1 && !this.autoSelectFirst) return;
+        this.$refs.menu.getTiles();
+
+        if (this.autoSelectFirst && val.length) {
+          this.setMenuIndex(0);
+          this.$emit('update:list-index', this.$refs.menu.listIndex);
+        }
+      });
+    },
+
+    onInternalSearchChanged() {
+      this.updateMenuDimensions();
+    },
+
+    updateMenuDimensions() {
+      // Type from menuable is not making it through
+      this.isMenuActive && this.$refs.menu && this.$refs.menu.updateDimensions();
+    },
+
+    changeSelectedIndex(keyCode) {
+      // Do not allow changing of selectedIndex
+      // when search is dirty
+      if (this.searchIsDirty) return;
+
+      if (this.multiple && keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes.left) {
+        if (this.selectedIndex === -1) {
+          this.selectedIndex = this.selectedItems.length - 1;
+        } else {
+          this.selectedIndex--;
+        }
+      } else if (this.multiple && keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes.right) {
+        if (this.selectedIndex >= this.selectedItems.length - 1) {
+          this.selectedIndex = -1;
+        } else {
+          this.selectedIndex++;
+        }
+      } else if (keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes.backspace || keyCode === _util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes["delete"]) {
+        this.deleteCurrentItem();
+      }
+    },
+
+    deleteCurrentItem() {
+      const curIndex = this.selectedIndex;
+      const curItem = this.selectedItems[curIndex]; // Do nothing if input or item is disabled
+
+      if (!this.isInteractive || this.getDisabled(curItem)) return;
+      const lastIndex = this.selectedItems.length - 1; // Select the last item if
+      // there is no selection
+
+      if (this.selectedIndex === -1 && lastIndex !== 0) {
+        this.selectedIndex = lastIndex;
+        return;
+      }
+
+      const length = this.selectedItems.length;
+      const nextIndex = curIndex !== length - 1 ? curIndex : curIndex - 1;
+      const nextItem = this.selectedItems[nextIndex];
+
+      if (!nextItem) {
+        this.setValue(this.multiple ? [] : null);
+      } else {
+        this.selectItem(curItem);
+      }
+
+      this.selectedIndex = nextIndex;
+    },
+
+    clearableCallback() {
+      this.internalSearch = null;
+      _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.clearableCallback.call(this);
+    },
+
+    genInput() {
+      const input = _VTextField_VTextField__WEBPACK_IMPORTED_MODULE_3__["default"].options.methods.genInput.call(this);
+      input.data = (0,_util_mergeData__WEBPACK_IMPORTED_MODULE_4__["default"])(input.data, {
+        attrs: {
+          'aria-activedescendant': (0,_util_helpers__WEBPACK_IMPORTED_MODULE_2__.getObjectValueByPath)(this.$refs.menu, 'activeTile.id'),
+          autocomplete: (0,_util_helpers__WEBPACK_IMPORTED_MODULE_2__.getObjectValueByPath)(input.data, 'attrs.autocomplete', 'off')
+        },
+        domProps: {
+          value: this.internalSearch
+        }
+      });
+      return input;
+    },
+
+    genInputSlot() {
+      const slot = _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.genInputSlot.call(this);
+      slot.data.attrs.role = 'combobox';
+      return slot;
+    },
+
+    genSelections() {
+      return this.hasSlot || this.multiple ? _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.genSelections.call(this) : [];
+    },
+
+    onClick(e) {
+      if (!this.isInteractive) return;
+      this.selectedIndex > -1 ? this.selectedIndex = -1 : this.onFocus();
+      if (!this.isAppendInner(e.target)) this.activateMenu();
+    },
+
+    onInput(e) {
+      if (this.selectedIndex > -1 || !e.target) return;
+      const target = e.target;
+      const value = target.value; // If typing and menu is not currently active
+
+      if (target.value) this.activateMenu();
+      if (!this.multiple && value === '') this.deleteCurrentItem();
+      this.internalSearch = value;
+      this.badInput = target.validity && target.validity.badInput;
+    },
+
+    onKeyDown(e) {
+      const keyCode = e.keyCode;
+
+      if (e.ctrlKey || ![_util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes.home, _util_helpers__WEBPACK_IMPORTED_MODULE_2__.keyCodes.end].includes(keyCode)) {
+        _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.onKeyDown.call(this, e);
+      } // The ordering is important here
+      // allows new value to be updated
+      // and then moves the index to the
+      // proper location
+
+
+      this.changeSelectedIndex(keyCode);
+    },
+
+    onSpaceDown(e) {},
+
+    onTabDown(e) {
+      _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.onTabDown.call(this, e);
+      this.updateSelf();
+    },
+
+    onUpDown(e) {
+      // Prevent screen from scrolling
+      e.preventDefault(); // For autocomplete / combobox, cycling
+      // interfers with native up/down behavior
+      // instead activate the menu
+
+      this.activateMenu();
+    },
+
+    selectItem(item) {
+      _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.selectItem.call(this, item);
+      this.setSearch();
+    },
+
+    setSelectedItems() {
+      _VSelect_VSelect__WEBPACK_IMPORTED_MODULE_1__["default"].options.methods.setSelectedItems.call(this); // #4273 Don't replace if searching
+      // #4403 Don't replace if focused
+
+      if (!this.isFocused) this.setSearch();
+    },
+
+    setSearch() {
+      // Wait for nextTick so selectedItem
+      // has had time to update
+      this.$nextTick(() => {
+        if (!this.multiple || !this.internalSearch || !this.isMenuActive) {
+          this.internalSearch = !this.selectedItems.length || this.multiple || this.hasSlot ? null : this.getText(this.selectedItem);
+        }
+      });
+    },
+
+    updateSelf() {
+      if (!this.searchIsDirty && !this.internalValue) return;
+
+      if (!this.multiple && !this.valueComparator(this.internalSearch, this.getValue(this.internalValue))) {
+        this.setSearch();
+      }
+    },
+
+    hasItem(item) {
+      return this.selectedValues.indexOf(this.getValue(item)) > -1;
+    },
+
+    onCopy(event) {
+      var _event$clipboardData, _event$clipboardData2;
+
+      if (this.selectedIndex === -1) return;
+      const currentItem = this.selectedItems[this.selectedIndex];
+      const currentItemText = this.getText(currentItem);
+      (_event$clipboardData = event.clipboardData) == null ? void 0 : _event$clipboardData.setData('text/plain', currentItemText);
+      (_event$clipboardData2 = event.clipboardData) == null ? void 0 : _event$clipboardData2.setData('text/vnd.vuetify.autocomplete.item+plain', currentItemText);
+      event.preventDefault();
+    }
+
+  }
+}));
+//# sourceMappingURL=VAutocomplete.js.map
 
 /***/ }),
 
