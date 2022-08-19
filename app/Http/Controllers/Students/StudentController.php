@@ -178,7 +178,7 @@ class StudentController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
-                $data = DB::table("users")->where("slug", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->where("type", "2")->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -329,7 +329,7 @@ class StudentController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
-                $data = DB::table("users")->where("slug", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->where("type", "2")->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -342,6 +342,11 @@ class StudentController extends Controller
                             'complete' => false,
                         ]);
                     } else {
+                        // Eliminamos las relaciones de la materia con un usuario
+                        $subjects_user = DB::table("user_subject")->where("user_id", $data->id)->get();
+                        if (sizeof($subjects_user) > 0) {
+                            DB::table("user_subject")->where("user_id", $data->id)->delete();
+                        }
                         if (DB::table("users")->delete($data->id)) {
                             if ($data->avatar) {
                                 // Eliminamos las imagenes del user

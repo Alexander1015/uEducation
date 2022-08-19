@@ -360,12 +360,18 @@ class SubjectController extends Controller
                         'complete' => false,
                     ]);
                 } else {
+                    // Sacamos los temas atribuidos a la materia
                     $topics = DB::table("topics")->where("subject_id", $data->id)->get();
                     if (sizeof($topics) > 0) {
                         DB::update("UPDATE topics SET subject_id = ? WHERE subject_id = ?", [
                             null,
                             $data->id,
                         ]);
+                    }
+                    // Eliminamos las relaciones de la materia con un usuario
+                    $users_subject = DB::table("user_subject")->where("subject_id", $data->id)->get();
+                    if (sizeof($users_subject) > 0) {
+                        DB::table("user_subject")->where("subject_id", $data->id)->delete();
                     }
                     if (DB::table("subjects")->delete($data->id)) {
                         if ($data->img) {

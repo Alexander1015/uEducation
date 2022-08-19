@@ -188,7 +188,7 @@ class UserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
-                $data = DB::table("users")->where("slug", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->where('type', "0")->orWhere('type', '1')->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -352,7 +352,7 @@ class UserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
-                $data = DB::table("users")->where("slug", $slug)->first();
+                $data = DB::table("users")->where("slug", $slug)->where('type', "0")->orWhere('type', '1')->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -372,13 +372,14 @@ class UserController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            $total = sizeof(DB::table('users')->where("type", "0")->get());
-                            if ($total <= 1) {
+                            $total = DB::table('users')->where("type", "0")->get();
+                            if (sizeof($total) <= 1 && $data->type == "0") {
                                 return response()->json([
                                     'message' => "No puede eliminar el ultimo usuario administrador, si desea eliminarlo, cree uno nuevo y luego elimine el deseado.",
                                     'complete' => false,
                                 ]);
                             } else {
+                                // Sacamos los temas atribuidos al usuario, tanto si el lo creo o si fue actualizado
                                 $topics_c = DB::table("topics")->where("user_id", $data->id)->get();
                                 if (sizeof($topics_c) > 0) {
                                     DB::update("UPDATE topics SET user_id = ? WHERE user_id = ?", [
@@ -392,6 +393,11 @@ class UserController extends Controller
                                         null,
                                         $data->id,
                                     ]);
+                                }
+                                // Eliminamos las relaciones de la materia con un usuario
+                                $subjects_user = DB::table("user_subject")->where("user_id", $data->id)->get();
+                                if (sizeof($subjects_user) > 0) {
+                                    DB::table("user_subject")->where("user_id", $data->id)->delete();
                                 }
                                 if (DB::table("users")->delete($data->id)) {
                                     if ($data->avatar) {
