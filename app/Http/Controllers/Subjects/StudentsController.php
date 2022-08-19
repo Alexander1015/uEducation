@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 
-class UsersController extends Controller
+class StudentsController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -22,7 +22,7 @@ class UsersController extends Controller
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $validator = Validator::make($request->all(), [
-                    'user' => ['bail', 'required', 'string'],
+                    'students' => ['bail', 'required'],
                     'subject' => ['bail', 'required', 'string'],
                 ]);
                 if ($validator->fails()) {
@@ -31,9 +31,9 @@ class UsersController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    if ($auth_user->slug == $request->input("user")) {
+                    if (!is_array($request->input('students')) || sizeof($request->input('students')) < 1) {
                         return response()->json([
-                            'message' => 'No puede desuscribirse usted mismo de la materia seleccionada',
+                            'message' => 'Los estudiantes proporcionados no poseen el formato solicitado',
                             'complete' => false,
                         ]);
                     } else {
@@ -44,39 +44,35 @@ class UsersController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            $data_user = DB::table("users")->where("slug", $request->input("user"))->first();
-                            if (!$data_user) {
+                            $total = 0;
+                            foreach ($request->input('students') as $user) {
+                                $data_user = DB::table("users")->where("type", "2")->where("slug", $user)->first();
+                                if ($data_user) {
+                                    $review = DB::table("user_subject")->where("subject_id", $data_subject->id)->where("user_id", $data_user->id)->first();
+                                    if ($review) {
+                                        DB::table("user_subject")->delete($review->id);
+                                    }
+                                } else $total++;
+                            }
+                            if ($total == (sizeof($request->input('students')))) { // Si ninguno se ingreso
                                 return response()->json([
-                                    'message' => "El usuario seleccionado no existe",
-                                    'complete' => false,
+                                    'message' => 'No se pudieron desuscribir todos los estudiantes seleccionados',
+                                    'complete' => true,
+                                ]);
+                            } else if ($total > 0 && $total < (sizeof($request->input('students')))) { // Si No todos se pudieron ingresar
+                                return response()->json([
+                                    'message' => 'No se pudieron desuscribir algunos de los estudiantes seleccionados',
+                                    'complete' => true,
                                 ]);
                             } else {
-                                $review = DB::table("user_subject")->where("subject_id", $data_subject->id)->where("user_id", $data_user->id)->first();
-                                if (!$review) {
-                                    return response()->json([
-                                        'message' => "Esa relación de materia y docente no existe",
-                                        'complete' => false,
-                                    ]);
-                                } else {
-                                    if (DB::table("user_subject")->delete($review->id)) {
-                                        return response()->json([
-                                            'message' => 'Se ha desuscrito exitosamente el docente seleccionado',
-                                            'complete' => true,
-                                        ]);
-                                    } else {
-                                        return response()->json([
-                                            'message' => 'Ha ocurrido un error al momento de eliminar el usuario',
-                                            'complete' => true,
-                                        ]);
-                                    }
-                                    DB::table("user_subject")->insert([
-                                        'subject_id' => $data_subject->id,
-                                        'user_id' => $data_user->id,
-                                    ]);
-                                }
+                                return response()->json([
+                                    'message' => 'Se han desuscrito exitosamente todos los estudiantes seleccionados',
+                                    'complete' => true,
+                                ]);
                             }
                         }
                     }
+                    //
                 }
             } else {
                 return response()->json([
@@ -104,35 +100,35 @@ class UsersController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
-                // Obtenemos los docentes que no esten suscritos a la materia
-                $users = DB::table('users')->where("type", "1")->orderBy('user', 'asc')->get();
+                // Obtenemos los estudiantes que no esten suscritos a la materia
+                $users = DB::table('users')->where("type", "2")->orderBy('user', 'asc')->get();
                 $subjects = DB::table('subjects')->where("slug", $slug)->first();
                 $data_all = array();
                 $data_subject = array();
                 foreach ($users as $item) {
-                    $user_subject = DB::table('user_subject')->where("user_id", $item->id)->where("subject_id", $subjects->id)->get();
-                    if (sizeof($user_subject) == 0 && $item->status == "1") { // Si entra aqui es para la lista sin importar la materia
-                        if ($item->id != $auth_user->id) {
+                    if ($auth_user->id != $item->id) {
+                        $user_subject = DB::table('user_subject')->where("user_id", $item->id)->where("subject_id", $subjects->id)->get();
+                        if (sizeof($user_subject) == 0 && $item->status == "1") {
                             array_push($data_all, $item);
+                        } else if (sizeof($user_subject) > 0) {
+                            array_push($data_subject, $item);
                         }
-                    } else if (sizeof($user_subject) > 0) { // Si entra aqui es para la lista de la materia seleccionada
-                        array_push($data_subject, $item);
                     }
                 }
                 return response()->json([
-                    "all_users" => $data_all,
-                    "subject_users" => $data_subject
+                    "all_students" => $data_all,
+                    "subject_students" => $data_subject
                 ]);
             } else {
                 return response()->json([
-                    "all_users" => [],
-                    "subject_users" => []
+                    "all_students" => [],
+                    "subject_students" => []
                 ]);
             }
         } catch (Exception $ex) {
             return response()->json([
-                "all_users" => [],
-                "subject_users" => []
+                "all_students" => [],
+                "subject_students" => []
             ]);
         }
     }
@@ -157,7 +153,7 @@ class UsersController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'users' => ['bail', 'required'],
+                        'students' => ['bail', 'required'],
                     ]);
                     if ($validator->fails()) {
                         return response()->json([
@@ -165,16 +161,16 @@ class UsersController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        if (!is_array($request->input('users')) || sizeof($request->input('users')) < 1) {
+                        if (!is_array($request->input('students')) || sizeof($request->input('students')) < 1) {
                             return response()->json([
-                                'message' => 'Los docentes proporcionados no poseen el formato solicitado',
+                                'message' => 'Los estudiantes proporcionados no poseen el formato solicitado',
                                 'complete' => false,
                             ]);
                         } else {
                             $total = 0;
-                            foreach ($request->input('users') as $user) {
-                                $data_user = DB::table("users")->where("type", "1")->where("slug", $user)->first();
-                                if ($data_user && $data_user->id != $auth_user->id) {
+                            foreach ($request->input('students') as $user) {
+                                $data_user = DB::table("users")->where("type", "2")->where("slug", $user)->first();
+                                if ($data_user) {
                                     $review = DB::table("user_subject")->where("subject_id", $data_subject->id)->where("user_id", $data_user->id)->first();
                                     if (!$review) {
                                         DB::table("user_subject")->insert([
@@ -184,19 +180,19 @@ class UsersController extends Controller
                                     }
                                 } else $total++;
                             }
-                            if ($total == (sizeof($request->input('users')))) { // Si ninguno se ingreso
+                            if ($total == (sizeof($request->input('students')))) { // Si ninguno se ingreso
                                 return response()->json([
-                                    'message' => 'No se pudieron suscribir todos los docentes seleccionados',
+                                    'message' => 'No se pudieron suscribir todos los estudiantes seleccionados',
                                     'complete' => true,
                                 ]);
-                            } else if ($total > 0 && $total < (sizeof($request->input('users')))) { // Si No todos se pudieron ingresar
+                            } else if ($total > 0 && $total < (sizeof($request->input('students')))) { // Si No todos se pudieron ingresar
                                 return response()->json([
-                                    'message' => 'No se pudieron suscribir algunos de los docentes seleccionados',
+                                    'message' => 'No se pudieron suscribir algunos de los estudiantes seleccionados',
                                     'complete' => true,
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Se han suscrito exitosamente todos los docentes seleccionados',
+                                    'message' => 'Se han suscrito exitosamente todos los estudiantes seleccionados',
                                     'complete' => true,
                                 ]);
                             }

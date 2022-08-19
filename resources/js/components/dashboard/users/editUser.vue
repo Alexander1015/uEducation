@@ -378,6 +378,10 @@ export default {
                                     this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
                                     this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
                                 }
+                                else {
+                                    this.prev_img.url_img = "/img/users/blank.png";
+                                    this.prev_img.lazy_img = "/img/users/blank_lazy.png";
+                                }
                                 this.form_information.avatar = null;
                                 this.form_information.avatar_new = 0;
                                 if (this.form_password.password != "" || this.form_password.password_confirmation != "") {

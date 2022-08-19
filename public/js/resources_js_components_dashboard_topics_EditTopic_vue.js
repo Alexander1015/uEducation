@@ -586,6 +586,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     if (_this.topic.img) {
                       _this.prev_img.url_img = "/img/topics/" + _this.topic.img + "/index.png";
                       _this.prev_img.lazy_img = "/img/topics/" + _this.topic.img + "/lazy.png";
+                    } else {
+                      _this.prev_img.url_img = "/img/topics/blank.png";
+                      _this.prev_img.lazy_img = "/img/topics/blank_lazy.png";
                     }
 
                     _this.form_information.img = null;

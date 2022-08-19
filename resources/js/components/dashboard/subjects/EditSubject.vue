@@ -49,15 +49,9 @@
                     </template>
                     <v-tab>
                         <v-icon left>
-                            people
+                            accessibility
                         </v-icon>
-                        Docentes
-                    </v-tab>
-                    <v-tab>
-                        <v-icon left>
-                            badge
-                        </v-icon>
-                        Estudiantes
+                        Accesos
                     </v-tab>
                     <v-tab>
                         <v-icon left>
@@ -166,150 +160,410 @@
                     <v-tab-item>
                         <v-tabs grow>
                             <!-- Menú grow -->
-                            <v-tab>
+                            <v-tab class="caption">
                                 <v-icon left>
-                                    fact_check
+                                    people
                                 </v-icon>
-                                Lista actual
+                                Docentes
                             </v-tab>
-                            <v-tab>
+                            <v-tab class="caption">
                                 <v-icon left>
-                                    group_add
+                                    badge
                                 </v-icon>
-                                Suscribir docentes
+                                Estudiantes
                             </v-tab>
+                            <!-- Docentes -->
                             <v-tab-item>
-                                <div class="px-4 py-4">
-                                    <v-card-subtitle class="text-center">
-                                        Listado de los docentes inscritos actualmente en la materia seleccionada
-                                    </v-card-subtitle>
-                                </div>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <div class="px-4 py-4">
-                                    <v-card-subtitle class="text-center">
-                                        Suscribir docentes a la materia seleccionada
-                                    </v-card-subtitle>
-                                    <v-row>
-                                        <v-col cols="12" md="10">
-                                            <v-text-field v-model="search_all_users" class="my-1" prepend-icon="search"
-                                                label="Buscar" tabindex="1" dense>
+                                <v-tabs grow>
+                                    <!-- Menú grow -->
+                                    <v-tab class="caption">
+                                        <v-icon left>
+                                            fact_check
+                                        </v-icon>
+                                        Lista actual de docentes
+                                    </v-tab>
+                                    <v-tab class="caption">
+                                        <v-icon left>
+                                            group_add
+                                        </v-icon>
+                                        Suscribir docentes
+                                    </v-tab>
+                                    <v-tab-item>
+                                        <div class="px-4 py-4">
+                                            <v-card-subtitle class="text-center">
+                                                Listado de los docentes inscritos actualmente en la materia seleccionada
+                                            </v-card-subtitle>
+                                            <v-text-field v-model="search_subject_users" class="my-1"
+                                                prepend-icon="search" label="Buscar" tabindex="1" dense>
                                             </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12" md="2">
-
-                                            <template v-if="selected.length > 0">
-                                                <v-tooltip bottom>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn class="bk_green txt_white width_100" v-bind="attrs"
-                                                            v-on="on" @click.stop="suscribe()">
+                                            <v-data-table class="mt-2" :headers="headers_subject_users"
+                                                :items="subject_users" :items-per-page="10" :footer-props="{
+                                                    showFirstLastPage: true,
+                                                    firstIcon: 'first_page',
+                                                    lastIcon: 'last_page',
+                                                    prevIcon: 'chevron_left',
+                                                    nextIcon: 'chevron_right'
+                                                }" :loading="overlay" loading-text="Obteniendo información"
+                                                no-data-text="No se ha obtenido información"
+                                                no-results-text="No se obtuvieron resultados" multi-sort
+                                                :search="search_subject_users" align="center">
+                                                <template v-slot:item.avatar="{ item }">
+                                                    <template v-if="item.avatar">
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img :src='"/img/users/" + item.avatar + "/index.png"'
+                                                                max-height='38' max-width="38"
+                                                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img src="/img/users/blank.png" max-height="38"
+                                                                max-width="38" lazy-src="/img/users/blank_lazy.png">
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                </template>
+                                                <template v-slot:item.actions="{ item }">
+                                                    <template v-if="login_user.slug != item.slug">
+                                                        <v-tooltip bottom>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn icon class="txt_red"
+                                                                    @click.stop="unsubscribe(item.slug)" v-bind="attrs"
+                                                                    v-on="on">
+                                                                    <v-icon>
+                                                                        playlist_remove
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Desuscribir docente</span>
+                                                        </v-tooltip>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-icon>remove</v-icon>
+                                                    </template>
+                                                </template>
+                                            </v-data-table>
+                                        </div>
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        <div class="px-4 py-4">
+                                            <v-card-subtitle class="text-center">
+                                                Suscribir docentes a la materia seleccionada
+                                            </v-card-subtitle>
+                                            <v-row>
+                                                <v-col cols="12" md="9">
+                                                    <v-text-field v-model="search_all_users" class="my-1"
+                                                        prepend-icon="search" label="Buscar" tabindex="1" dense>
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" md="3">
+                                                    <template v-if="selected.length > 0">
+                                                        <v-tooltip bottom>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn class="bk_green txt_white width_100"
+                                                                    v-bind="attrs" v-on="on" @click.stop="suscribe()">
+                                                                    <v-icon left>playlist_add</v-icon>
+                                                                    Suscribir
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Suscribir docentes seleccionados</span>
+                                                        </v-tooltip>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-btn class="width_100" disabled>
                                                             <v-icon left>playlist_add</v-icon>
                                                             Suscribir
                                                         </v-btn>
                                                     </template>
-                                                    <span>Suscribir docentes seleccionados</span>
-                                                </v-tooltip>
-                                            </template>
-                                            <template v-else>
-                                                <v-btn class="width_100" v-bind="attrs" v-on="on"
-                                                    @click.stop="suscribe()" disabled>
-                                                    <v-icon left>playlist_add</v-icon>
-                                                    Suscribir
-                                                </v-btn>
-                                            </template>
-                                        </v-col>
-                                    </v-row>
-                                    <v-data-table class="mt-2" v-model="selected" :headers="headers_all_users"
-                                        :items="all_users" :items-per-page="10" :single-select="singleSelect"
-                                        item-key="id" show-select :footer-props="{
-                                            showFirstLastPage: true,
-                                            firstIcon: 'first_page',
-                                            lastIcon: 'last_page',
-                                            prevIcon: 'chevron_left',
-                                            nextIcon: 'chevron_right'
-                                        }" :loading="overlay" loading-text="Obteniendo información"
-                                        no-data-text="No se ha obtenido información"
-                                        no-results-text="No se obtuvieron resultados" multi-sort
-                                        :search="search_all_users" align="center">
-                                        <template v-slot:header.data-table-select="{ props, on }">
-                                            <v-checkbox :input-value="props.value" :indeterminate="props.indeterminate"
-                                                @change="on.input" off-icon="check_box_outline_blank"
-                                                on-icon="check_box" indeterminate-icon="indeterminate_check_box"
-                                                hide-details>
-                                            </v-checkbox>
-                                        </template>
-                                        <template v-slot:item.data-table-select="{ isSelected, select }">
-                                            <v-checkbox :input-value="isSelected" @click="select(!isSelected)"
-                                                off-icon="check_box_outline_blank" on-icon="check_box"
-                                                indeterminate-icon="indeterminate_check_box" hide-details>
-                                            </v-checkbox>
-                                        </template>
-                                        <template v-slot:item.avatar="{ item }">
-                                            <template v-if="item.avatar">
-                                                <v-list-item-avatar class="mx-auto">
-                                                    <v-img :src='"/img/users/" + item.avatar + "/index.png"'
-                                                        max-height='38' max-width="38"
-                                                        :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
-                                                        <template v-slot:placeholder>
-                                                            <v-row class="fill-height ma-0" align="center"
-                                                                justify="center">
-                                                                <v-progress-circular indeterminate
-                                                                    color="grey lighten-5">
-                                                                </v-progress-circular>
-                                                            </v-row>
-                                                        </template>
-                                                    </v-img>
-                                                </v-list-item-avatar>
-                                            </template>
-                                            <template v-else>
-                                                <v-list-item-avatar class="mx-auto">
-                                                    <v-img src="/img/users/blank.png" max-height="38" max-width="38"
-                                                        lazy-src="/img/users/blank_lazy.png">
-                                                        <template v-slot:placeholder>
-                                                            <v-row class="fill-height ma-0" align="center"
-                                                                justify="center">
-                                                                <v-progress-circular indeterminate
-                                                                    color="grey lighten-5">
-                                                                </v-progress-circular>
-                                                            </v-row>
-                                                        </template>
-                                                    </v-img>
-                                                </v-list-item-avatar>
-                                            </template>
-                                        </template>
-                                    </v-data-table>
-                                </div>
+                                                </v-col>
+                                            </v-row>
+                                            <v-data-table class="mt-2" v-model="selected" :headers="headers_all_users"
+                                                :items="all_users" :items-per-page="10" :single-select="singleSelect"
+                                                item-key="id" show-select :footer-props="{
+                                                    showFirstLastPage: true,
+                                                    firstIcon: 'first_page',
+                                                    lastIcon: 'last_page',
+                                                    prevIcon: 'chevron_left',
+                                                    nextIcon: 'chevron_right'
+                                                }" :loading="overlay" loading-text="Obteniendo información"
+                                                no-data-text="No se ha obtenido información"
+                                                no-results-text="No se obtuvieron resultados" multi-sort
+                                                :search="search_all_users" align="center">
+                                                <template v-slot:header.data-table-select="{ props, on }">
+                                                    <v-checkbox :input-value="props.value"
+                                                        :indeterminate="props.indeterminate" @change="on.input"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.data-table-select="{ isSelected, select }">
+                                                    <v-checkbox :input-value="isSelected" @click="select(!isSelected)"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.avatar="{ item }">
+                                                    <template v-if="item.avatar">
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img :src='"/img/users/" + item.avatar + "/index.png"'
+                                                                max-height='38' max-width="38"
+                                                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img src="/img/users/blank.png" max-height="38"
+                                                                max-width="38" lazy-src="/img/users/blank_lazy.png">
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                </template>
+                                            </v-data-table>
+                                        </div>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
-                        </v-tabs>
-                    </v-tab-item>
-                    <v-tab-item>
-                        <v-tabs grow>
-                            <!-- Menú grow -->
-                            <v-tab>
-                                <v-icon left>
-                                    fact_check
-                                </v-icon>
-                                Lista actual
-                            </v-tab>
-                            <v-tab>
-                                <v-icon left>
-                                    group_add
-                                </v-icon>
-                                Suscribir estudiantes
-                            </v-tab>
+                            <!-- Estudiantes -->
                             <v-tab-item>
-                                <div class="px-4 py-4">
-                                    <v-card-subtitle class="text-center">
-                                        Listado de los estudiantes inscritos actualmente en la materia seleccionada
-                                    </v-card-subtitle>
-                                </div>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <div class="px-4 py-4">
-                                    <v-card-subtitle class="text-center">
-                                        Suscribir estudiantes a la materia seleccionada
-                                    </v-card-subtitle>
-                                </div>
+                                <v-tabs grow>
+                                    <!-- Menú grow -->
+                                    <v-tab class="caption">
+                                        <v-icon left>
+                                            fact_check
+                                        </v-icon>
+                                        Lista actual de estudiantes
+                                    </v-tab>
+                                    <v-tab class="caption">
+                                        <v-icon left>
+                                            contacts
+                                        </v-icon>
+                                        Suscribir estudiantes
+                                    </v-tab>
+                                    <v-tab-item>
+                                        <div class="px-4 py-4">
+                                            <v-card-subtitle class="text-center">
+                                                Listado de los estudiantes inscritos actualmente en la materia
+                                                seleccionada
+                                            </v-card-subtitle>
+                                            <v-row>
+                                                <v-col cols="12" md="9">
+                                                    <v-text-field v-model="search_subject_students" class="my-1"
+                                                        prepend-icon="search" label="Buscar" tabindex="1" dense>
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" md="3">
+                                                    <template v-if="selected_subject_students.length > 0">
+                                                        <v-tooltip bottom>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn class="bk_red txt_white width_100" v-bind="attrs"
+                                                                    v-on="on" @click.stop="unsubscribe_students()">
+                                                                    <v-icon left>playlist_remove</v-icon>
+                                                                    Desuscribir
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Desuscribir estudiantes seleccionados</span>
+                                                        </v-tooltip>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-btn class="width_100" disabled>
+                                                            <v-icon left>playlist_remove</v-icon>
+                                                            Desuscribir
+                                                        </v-btn>
+                                                    </template>
+                                                </v-col>
+                                            </v-row>
+                                            <v-data-table class="mt-2" v-model="selected_subject_students"
+                                                :headers="headers_subject_students" :items="subject_students"
+                                                :items-per-page="10" :single-select="singleSelect" item-key="id"
+                                                show-select :footer-props="{
+                                                    showFirstLastPage: true,
+                                                    firstIcon: 'first_page',
+                                                    lastIcon: 'last_page',
+                                                    prevIcon: 'chevron_left',
+                                                    nextIcon: 'chevron_right'
+                                                }" :loading="overlay" loading-text="Obteniendo información"
+                                                no-data-text="No se ha obtenido información"
+                                                no-results-text="No se obtuvieron resultados" multi-sort
+                                                :search="search_subject_students" align="center">
+                                                <template v-slot:header.data-table-select="{ props, on }">
+                                                    <v-checkbox :input-value="props.value"
+                                                        :indeterminate="props.indeterminate" @change="on.input"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.data-table-select="{ isSelected, select }">
+                                                    <v-checkbox :input-value="isSelected" @click="select(!isSelected)"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.avatar="{ item }">
+                                                    <template v-if="item.avatar">
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img :src='"/img/users/" + item.avatar + "/index.png"'
+                                                                max-height='38' max-width="38"
+                                                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img src="/img/users/blank.png" max-height="38"
+                                                                max-width="38" lazy-src="/img/users/blank_lazy.png">
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                </template>
+                                            </v-data-table>
+                                        </div>
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        <div class="px-4 py-4">
+                                            <v-card-subtitle class="text-center">
+                                                Suscribir estudiantes a la materia seleccionada
+                                            </v-card-subtitle>
+                                            <v-row>
+                                                <v-col cols="12" md="9">
+                                                    <v-text-field v-model="search_all_students" class="my-1"
+                                                        prepend-icon="search" label="Buscar" tabindex="1" dense>
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" md="3">
+                                                    <template v-if="selected_students.length > 0">
+                                                        <v-tooltip bottom>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn class="bk_green txt_white width_100"
+                                                                    v-bind="attrs" v-on="on"
+                                                                    @click.stop="suscribe_students()">
+                                                                    <v-icon left>playlist_add</v-icon>
+                                                                    Suscribir
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Suscribir estudiantes seleccionados</span>
+                                                        </v-tooltip>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-btn class="width_100" disabled>
+                                                            <v-icon left>playlist_add</v-icon>
+                                                            Suscribir
+                                                        </v-btn>
+                                                    </template>
+                                                </v-col>
+                                            </v-row>
+                                            <v-data-table class="mt-2" v-model="selected_students"
+                                                :headers="headers_all_students" :items="all_students"
+                                                :items-per-page="10" :single-select="singleSelect" item-key="id"
+                                                show-select :footer-props="{
+                                                    showFirstLastPage: true,
+                                                    firstIcon: 'first_page',
+                                                    lastIcon: 'last_page',
+                                                    prevIcon: 'chevron_left',
+                                                    nextIcon: 'chevron_right'
+                                                }" :loading="overlay" loading-text="Obteniendo información"
+                                                no-data-text="No se ha obtenido información"
+                                                no-results-text="No se obtuvieron resultados" multi-sort
+                                                :search="search_all_students" align="center">
+                                                <template v-slot:header.data-table-select="{ props, on }">
+                                                    <v-checkbox :input-value="props.value"
+                                                        :indeterminate="props.indeterminate" @change="on.input"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.data-table-select="{ isSelected, select }">
+                                                    <v-checkbox :input-value="isSelected" @click="select(!isSelected)"
+                                                        off-icon="check_box_outline_blank" on-icon="check_box"
+                                                        indeterminate-icon="indeterminate_check_box" hide-details>
+                                                    </v-checkbox>
+                                                </template>
+                                                <template v-slot:item.avatar="{ item }">
+                                                    <template v-if="item.avatar">
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img :src='"/img/users/" + item.avatar + "/index.png"'
+                                                                max-height='38' max-width="38"
+                                                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                    <template v-else>
+                                                        <v-list-item-avatar class="mx-auto">
+                                                            <v-img src="/img/users/blank.png" max-height="38"
+                                                                max-width="38" lazy-src="/img/users/blank_lazy.png">
+                                                                <template v-slot:placeholder>
+                                                                    <v-row class="fill-height ma-0" align="center"
+                                                                        justify="center">
+                                                                        <v-progress-circular indeterminate
+                                                                            color="grey lighten-5">
+                                                                        </v-progress-circular>
+                                                                    </v-row>
+                                                                </template>
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    </template>
+                                                </template>
+                                            </v-data-table>
+                                        </div>
+                                    </v-tab-item>
+                                </v-tabs>
                             </v-tab-item>
                         </v-tabs>
                     </v-tab-item>
@@ -405,7 +659,9 @@ export default {
         name: "",
         login_user: {},
         singleSelect: false,
+        // Docentes
         all_users: {},
+        subject_users: {},
         headers_all_users: [
             { text: 'Avatar', value: 'avatar', align: 'center', sortable: false },
             { text: 'Nombres', value: 'firstname', align: 'center' },
@@ -414,6 +670,34 @@ export default {
         ],
         selected: [],
         search_all_users: '',
+        headers_subject_users: [
+            { text: 'Avatar', value: 'avatar', align: 'center', sortable: false },
+            { text: 'Nombres', value: 'firstname', align: 'center' },
+            { text: 'Apellidos', value: 'lastname', align: 'center' },
+            { text: 'Usuarios', value: 'user', align: 'center' },
+            { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
+        ],
+        search_subject_users: '',
+        // Estudiantes
+        all_students: [],
+        subject_students: {},
+        headers_all_students: [
+            { text: 'Avatar', value: 'avatar', align: 'center', sortable: false },
+            { text: 'Nombres', value: 'firstname', align: 'center' },
+            { text: 'Apellidos', value: 'lastname', align: 'center' },
+            { text: 'Usuarios', value: 'user', align: 'center' },
+        ],
+        selected_students: [],
+        selected_subject_students: [],
+        search_all_students: '',
+        headers_subject_students: [
+            { text: 'Avatar', value: 'avatar', align: 'center', sortable: false },
+            { text: 'Nombres', value: 'firstname', align: 'center' },
+            { text: 'Apellidos', value: 'lastname', align: 'center' },
+            { text: 'Usuarios', value: 'user', align: 'center' },
+            { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
+        ],
+        search_subject_students: '',
     }),
     mounted() {
         this.showSubject();
@@ -437,6 +721,53 @@ export default {
         }
     },
     methods: {
+        // Docentes
+        async unsubscribe(slug) {
+            await this.$swal({
+                title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        let data = new FormData();
+                        data.append('user', slug);
+                        data.append('subject', this.address);
+                        this.axios.post('/api/getusr/', data)
+                            .then(response => {
+                                let title = "Error";
+                                let icon = "error";
+                                if (response.data.complete) {
+                                    title = "Éxito"
+                                    icon = "success";
+                                }
+                                this.$swal({
+                                    title: title,
+                                    icon: icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.showSubject();
+                                    }
+                                    else this.overlay = false;
+                                });
+                            }).catch(error => {
+                                this.$swal({
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
+                                });
+                            })
+                    }
+                });
+
+        },
         async suscribe() {
             if (this.selected.length > 0) {
                 await this.$swal({
@@ -470,7 +801,112 @@ export default {
                                         if (response.data.complete) {
                                             this.showSubject();
                                         }
+                                        else this.overlay = false;
+                                    });
+                                }).catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
                                         this.overlay = false;
+                                    });
+                                })
+                        }
+                    });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
+        // Estudiantes
+        async unsubscribe_students() {
+            if (this.selected_subject_students.length > 0) {
+                await this.$swal({
+                    title: '¿Esta seguro de desuscribir al estudiante seleccionado de la materia actual?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            for (let student of this.selected_subject_students) {
+                                data.append('students[]', student.slug);
+                            }
+                            data.append('subject', this.address);
+                            this.axios.post('/api/getstd/', data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        else this.overlay = false;
+                                    });
+                                }).catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
+                                    });
+                                })
+                        }
+                    });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
+        async suscribe_students() {
+            if (this.selected_students.length > 0) {
+                await this.$swal({
+                    title: '¿Esta seguro de suscribir los estudiantes seleccionados?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            for (let student of this.selected_students) {
+                                data.append('students[]', student.slug);
+                            }
+                            data.append('_method', "put");
+                            this.axios.post('/api/getstd/' + this.address, data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        else this.overlay = false;
                                     });
                                 }).catch(error => {
                                     this.$swal({
@@ -514,9 +950,18 @@ export default {
                             });
                     });
                 // Obtenemos todos los docentes
-                await this.axios.get('/api/getusr')
+                await this.axios.get('/api/getusr/' + this.address)
                     .then(response => {
-                        this.all_users = response.data;
+                        this.all_users = response.data.all_users;
+                        this.subject_users = response.data.subject_users;
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                // Obtenemos todos los estudiantes
+                await this.axios.get('/api/getstd/' + this.address)
+                    .then(response => {
+                        this.all_students = response.data.all_students;
+                        this.subject_students = response.data.subject_students;
                     }).catch((error) => {
                         console.log(error);
                     });
@@ -534,6 +979,10 @@ export default {
                             if (this.subject.img) {
                                 this.prev_img.url_img = "/img/subjects/" + this.subject.img + "/index.png";
                                 this.prev_img.lazy_img = "/img/subjects/" + this.subject.img + "/lazy.png";
+                            }
+                            else {
+                                this.prev_img.url_img = "/img/subjects/blank.png";
+                                this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
                             }
                             this.form_information.img = null;
                             this.form_information.img_new = 0;

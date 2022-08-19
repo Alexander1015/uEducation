@@ -426,6 +426,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       if (_this.user.avatar) {
                         _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
                         _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
+                      } else {
+                        _this.prev_img.url_img = "/img/users/blank.png";
+                        _this.prev_img.lazy_img = "/img/users/blank_lazy.png";
                       }
 
                       _this.form_information.avatar = null;

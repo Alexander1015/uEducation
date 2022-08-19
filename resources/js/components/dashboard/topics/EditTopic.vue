@@ -496,6 +496,10 @@ export default {
                                 this.prev_img.url_img = "/img/topics/" + this.topic.img + "/index.png";
                                 this.prev_img.lazy_img = "/img/topics/" + this.topic.img + "/lazy.png";
                             }
+                            else {
+                                this.prev_img.url_img = "/img/topics/blank.png";
+                                this.prev_img.lazy_img = "/img/topics/blank_lazy.png";
+                            }
                             this.form_information.img = null;
                             this.form_information.img_new = 0;
                             this.editorData = this.topic.data;
