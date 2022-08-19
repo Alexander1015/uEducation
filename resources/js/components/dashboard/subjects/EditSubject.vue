@@ -695,7 +695,6 @@ export default {
             { text: 'Nombres', value: 'firstname', align: 'center' },
             { text: 'Apellidos', value: 'lastname', align: 'center' },
             { text: 'Usuarios', value: 'user', align: 'center' },
-            { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search_subject_students: '',
     }),

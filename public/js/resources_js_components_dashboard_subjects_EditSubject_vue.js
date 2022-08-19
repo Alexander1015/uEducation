@@ -776,11 +776,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: 'Usuarios',
         value: 'user',
         align: 'center'
-      }, {
-        text: 'Acciones',
-        value: 'actions',
-        align: 'center',
-        sortable: false
       }],
       search_subject_students: ''
     };
