@@ -177,6 +177,22 @@ export default {
         },
         async showImages() {
             this.overlay = true;
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    let user = response.data;
+                    if (user.type != "0") {
+                        this.$router.push({ name: "error" });
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    this.axios.post('/api/logout')
+                        .then(response => {
+                            window.location.href = "/auth"
+                        }).catch((error) => {
+                            console.log(error);
+                            this.$router.push({ name: "error" });
+                        });
+                });
             await this.axios.get('/api/carousel/')
                 .then(response => {
                     this.carousel = this.carousel_copy = response.data;

@@ -153,9 +153,9 @@ export default {
             { type: 3, title: "Materias", icon: "collections_bookmark", to: { name: "subjects" }, visible: false },
             { type: 3, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
             { type: 3, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
-            { type: 3, header: true, visible: false },
-            { type: 3, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
-            { type: 3, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
+            { type: 4, header: true, visible: false },
+            { type: 4, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
+            { type: 4, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
         ],
         to: {
             profile: { name: "profile" },
@@ -187,6 +187,11 @@ export default {
                             // Para la vista admin
                             if (this.user.type == "0" || this.user.type == "1") {
                                 if (link.type == 3) {
+                                    link.visible = true;
+                                }
+                            }
+                            if (this.user.type == "0") {
+                                if (link.type == 4) {
                                     link.visible = true;
                                 }
                             }

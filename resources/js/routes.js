@@ -102,7 +102,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()
@@ -121,7 +121,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()
@@ -140,7 +140,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()
@@ -159,7 +159,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()
@@ -178,7 +178,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()
@@ -197,7 +197,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
+                    if (response.data.type == "1" || response.data.type == "2") {
                         return next({name: 'error'})
                     } else {
                         next()

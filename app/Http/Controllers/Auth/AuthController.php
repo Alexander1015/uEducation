@@ -48,7 +48,7 @@ class AuthController extends Controller
                 ]);
             } else {
                 $input = [
-                    "user" => strtoupper($request->input("user")),
+                    "user" => strtolower($request->input("user")),
                     "password" => $request->input("password")
                 ];
                 $user_state = DB::table('users')->where('user', $input["user"])->first();

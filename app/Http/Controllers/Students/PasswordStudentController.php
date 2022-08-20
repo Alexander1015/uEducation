@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Students;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 use Exception;
 
-class StatusUserController extends Controller
+class PasswordStudentController extends Controller
 {
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $slug)
@@ -22,7 +24,7 @@ class StatusUserController extends Controller
         try {
             $auth_user = auth()->user();
             if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
-                $data = DB::table("users")->where("slug", $slug)->where("type", "0")->orWhere("type", "1")->first();
+                $data = DB::table("users")->where("slug", $slug)->where("type", "2")->first();
                 if (!$data) {
                     return response()->json([
                         'message' => "El usuario seleccionado no existe",
@@ -30,34 +32,39 @@ class StatusUserController extends Controller
                     ]);
                 } else {
                     $validator = Validator::make($request->all(), [
-                        'status' => ['bail', 'required', 'in:0,1'],
+                        'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()],
                     ]);
                     if ($validator->fails()) {
-                        return response()->json([
-                            'message' => 'Ha ocurrido un error con el envío de información',
-                            'complete' => false,
-                        ]);
-                    } else {
-                        if (DB::update("UPDATE users SET status = ? WHERE id = ?", [
-                            $request->input('status'),
-                            $data->id,
-                        ])) {
-                            $message = "";
-                            if ($request->input('status') == 0) $message = "Se ha deshabilitado al usuario exitosamente";
-                            else if ($request->input('status') == 1) $message = "Se ha habilitado al usuario exitosamente";
+                        if ($request->input('password') != $request->input('password_confirmation')) {
                             return response()->json([
-                                'message' => $message,
-                                'complete' => true,
+                                'message' => 'Las contraseñas ingresadas no son iguales',
+                                'complete' => false,
                             ]);
                         } else {
-                            if ($data->status == $request->input("status")) {
+                            return response()->json([
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
+                                'complete' => false,
+                            ]);
+                        }
+                    } else {
+                        $user_auth = auth()->user()->id;
+                        if ($user_auth == $data->id) {
+                            return response()->json([
+                                'message' => "Debe modificar su contraseña en el perfil de su usuario",
+                                'complete' => false,
+                            ]);
+                        } else {
+                            if (DB::update("UPDATE users SET password = ? WHERE id = ?", [
+                                Hash::make($request->input('password')),
+                                $data->id,
+                            ])) {
                                 return response()->json([
-                                    'message' => 'El estado seleccionado no modifica al usuario, asi que no se ha actualizado',
-                                    'complete' => false,
+                                    'message' => 'Contraseña actualizada exitosamente',
+                                    'complete' => true,
                                 ]);
                             } else {
                                 return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de cambiar el estado del usuario',
+                                    'message' => 'Ha ocurrido un error al momento de modificar la contraseña del usuario',
                                     'complete' => false,
                                 ]);
                             }

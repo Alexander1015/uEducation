@@ -5595,11 +5595,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 3,
+        type: 4,
         header: true,
         visible: false
       }, {
-        type: 3,
+        type: 4,
         title: "Usuarios",
         icon: "people",
         to: {
@@ -5607,7 +5607,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 3,
+        type: 4,
         title: "Estudiantes",
         icon: "badge",
         to: {
@@ -5664,6 +5664,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                         if (_this2.user.type == "0" || _this2.user.type == "1") {
                           if (link.type == 3) {
+                            link.visible = true;
+                          }
+                        }
+
+                        if (_this2.user.type == "0") {
+                          if (link.type == 4) {
                             link.visible = true;
                           }
                         }
@@ -5992,7 +5998,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
@@ -6018,7 +6024,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
@@ -6044,7 +6050,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
@@ -6070,7 +6076,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
@@ -6096,7 +6102,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
@@ -6122,7 +6128,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });

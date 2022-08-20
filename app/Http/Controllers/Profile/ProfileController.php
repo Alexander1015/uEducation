@@ -32,7 +32,7 @@ class ProfileController extends Controller
                     'avatar_new' => ['bail', 'sometimes', 'boolean'],
                 ]);
                 if ($validator->fails()) {
-                    $old_user = DB::table("users")->where('user', $request->input('user'))->first();
+                    $old_user = DB::table("users")->where('user', strtolower($request->input('user')))->first();
                     $old_email = DB::table("users")->where('email', $request->input('email'))->first();
                     if ($user->id != $old_user->id) {
                         return response()->json([
@@ -57,14 +57,12 @@ class ProfileController extends Controller
                             'message' => 'No tiene permitido cambiar el usuario del sistema, contacte a un administrador para llevar a cabo la acción',
                             'complete' => false,
                         ]);
-                    }
-                    else if (($user->type == "0" || $user->type == "1") && !$request->input("user")) {
+                    } else if (($user->type == "0" || $user->type == "1") && !$request->input("user")) {
                         return response()->json([
                             'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                             'complete' => false,
                         ]);
-                    }
-                    else {
+                    } else {
                         $time_avatar = "";
                         if (!$request->file('avatar')) {
                             if ($request->input('avatar_new') && trim($user->avatar) != "") {
@@ -101,7 +99,7 @@ class ProfileController extends Controller
                         if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, avatar = ? WHERE id = ?", [
                             $request->input('firstname'),
                             $request->input('lastname'),
-                            $request->input('user') ? $request->input('user') : $user->user,
+                            strtolower($request->input('user') ? $request->input('user') : $user->user),
                             $request->input('email'),
                             $time_avatar,
                             $user->id,
@@ -132,7 +130,7 @@ class ProfileController extends Controller
                         } else {
                             if (
                                 $user->firstname == $request->input('firstname') && $user->lastname == $request->input('lastname') &&
-                                $user->user == $request->input('user') && $user->email == $request->input('email') &&
+                                $user->user == strtolower($request->input('user')) && $user->email == $request->input('email') &&
                                 $user->avatar == $request->input('avatar')
                             ) {
                                 return response()->json([
@@ -156,8 +154,8 @@ class ProfileController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }

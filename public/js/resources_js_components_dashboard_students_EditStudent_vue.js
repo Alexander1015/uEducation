@@ -363,6 +363,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.login_user = response.data;
+
+                  if (_this.login_user.type != "0") {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  }
                 })["catch"](function (error) {
                   console.log(error);
 
@@ -555,7 +561,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('password_confirmation', _this3.form_password.password_confirmation);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/user/password/' + _this3.$route.params.slug, data).then(function (response) {
+                    _this3.axios.post('/api/student/password/' + _this3.$route.params.slug, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -627,7 +633,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('status', type);
                     data.append('_method', "put");
 
-                    _this4.axios.post('/api/user/status/' + _this4.$route.params.slug, data).then(function (response) {
+                    _this4.axios.post('/api/student/status/' + _this4.$route.params.slug, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 

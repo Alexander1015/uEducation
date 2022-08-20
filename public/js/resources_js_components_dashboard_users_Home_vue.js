@@ -279,6 +279,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.user = response.data;
+
+                  if (_this.user.type != "0") {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  }
                 })["catch"](function (error) {
                   console.log(error);
 

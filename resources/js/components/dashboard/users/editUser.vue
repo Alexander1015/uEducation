@@ -44,20 +44,18 @@
                         </v-icon>
                         Información
                     </v-tab>
-                    <template v-if="login_user.type == '0'">
-                        <v-tab>
-                            <v-icon left>
-                                lock
-                            </v-icon>
-                            Contraseña
-                        </v-tab>
-                        <v-tab>
-                            <v-icon left>
-                                manage_accounts
-                            </v-icon>
-                            Otros
-                        </v-tab>
-                    </template>
+                    <v-tab>
+                        <v-icon left>
+                            lock
+                        </v-icon>
+                        Contraseña
+                    </v-tab>
+                    <v-tab>
+                        <v-icon left>
+                            manage_accounts
+                        </v-icon>
+                        Otros
+                    </v-tab>
                     <!-- Información del usuario -->
                     <v-tab-item>
                         <div class="px-4 py-4">
@@ -93,17 +91,14 @@
                                             clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
-                                    <template v-if="login_user.type == '0'">
-                                        <v-col cols="12" sm=12>
-                                            <v-autocomplete v-model="form_information.type" :rules="info.typeRules"
-                                                :items="data_type" clearable clear-icon="cancel"
-                                                label="Tipo de Usuario *" tabindex="5" dense
-                                                no-data-text="No se encuentra información para mostrar"
-                                                prepend-icon="admin_panel_settings" append-icon="arrow_drop_down"
-                                                hide-selected required>
-                                            </v-autocomplete>
-                                        </v-col>
-                                    </template>
+                                    <v-col cols="12" sm=12>
+                                        <v-autocomplete v-model="form_information.type" :rules="info.typeRules"
+                                            :items="data_type" clearable clear-icon="cancel" label="Tipo de Usuario *"
+                                            tabindex="5" dense no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="admin_panel_settings" append-icon="arrow_drop_down"
+                                            hide-selected required>
+                                        </v-autocomplete>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
@@ -135,120 +130,116 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <template v-if="login_user.type == '0' || (login_user.type != '0' && user.type == '1')">
-                                    <template v-if="
-                                        form_information.firstname != user.firstname ||
-                                        form_information.lastname != user.lastname ||
-                                        form_information.email != user.email ||
-                                        form_information.user != user.user ||
-                                        form_information.avatar != null ||
-                                        form_information.avatar_new != 0 ||
-                                        (login_user.type == '0' && form_information.type != user.type)
-                                    ">
-                                        <v-btn class="txt_white bk_green mt-4" block type="submit">
-                                            <v-icon left>save</v-icon>
-                                            Guardar
-                                        </v-btn>
-                                    </template>
-                                    <template v-else>
-                                        <v-btn class="mt-4" block disabled>
-                                            <v-icon left>save</v-icon>
-                                            Guardar
-                                        </v-btn>
-                                    </template>
+                                <template v-if="
+                                    form_information.firstname != user.firstname ||
+                                    form_information.lastname != user.lastname ||
+                                    form_information.email != user.email ||
+                                    form_information.user != user.user ||
+                                    form_information.avatar != null ||
+                                    form_information.avatar_new != 0 ||
+                                    form_information.type != user.type
+                                ">
+                                    <v-btn class="txt_white bk_green mt-4" block type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="mt-4" block disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
                                 </template>
                             </v-form>
                         </div>
                     </v-tab-item>
-                    <template v-if="login_user.type == '0'">
-                        <v-tab-item>
-                            <div class="px-4 py-4">
-                                <v-card-subtitle class="text-center">
-                                    Cambie la contraseña del usuario seleccionado
+                    <v-tab-item>
+                        <div class="px-4 py-4">
+                            <v-card-subtitle class="text-center">
+                                Cambie la contraseña del usuario seleccionado
+                            </v-card-subtitle>
+                            <!-- Formulario -->
+                            <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
+                                <small class="font-italic txt_red">Obligatorio *</small>
+                                <v-row class="mt-2">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_password.password" :rules="passw.passwordRules"
+                                            label="Contraseña *" tabindex="1" dense prepend-icon="lock"
+                                            :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
+                                            :type="form_password.show1 ? 'text' : 'password'"
+                                            @click:append="form_password.show1 = !form_password.show1" clearable
+                                            clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_password.password_confirmation"
+                                            :rules="passw.passwordconfirmRules" label="Repita la contraseña *"
+                                            tabindex="2" dense prepend-icon="lock"
+                                            :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
+                                            :type="form_password.show2 ? 'text' : 'password'"
+                                            @click:append="form_password.show2 = !form_password.show2" clearable
+                                            clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <template v-if="
+                                    form_password.password != '' &&
+                                    form_password.password_confirmation != ''
+                                ">
+                                    <v-btn class="txt_white bk_green mt-2" block type="submit">
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                                <template v-else>
+                                    <v-btn class="mt-2" block disabled>
+                                        <v-icon left>save</v-icon>
+                                        Guardar
+                                    </v-btn>
+                                </template>
+                            </v-form>
+                        </div>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <div class="px-4 py-4">
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
+                                    permitido ingresar al apartado de docentes/administradores o manipular la
+                                    información de
+                                    la base de datos)
                                 </v-card-subtitle>
-                                <!-- Formulario -->
-                                <v-form ref="form_password" @submit.prevent="editPassword()" lazy-validation>
-                                    <small class="font-italic txt_red">Obligatorio *</small>
-                                    <v-row class="mt-2">
-                                        <v-col cols="12">
-                                            <v-text-field v-model="form_password.password" :rules="passw.passwordRules"
-                                                label="Contraseña *" tabindex="1" dense prepend-icon="lock"
-                                                :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
-                                                :type="form_password.show1 ? 'text' : 'password'"
-                                                @click:append="form_password.show1 = !form_password.show1" clearable
-                                                clear-icon="cancel" required>
-                                            </v-text-field>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="form_password.password_confirmation"
-                                                :rules="passw.passwordconfirmRules" label="Repita la contraseña *"
-                                                tabindex="2" dense prepend-icon="lock"
-                                                :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
-                                                :type="form_password.show2 ? 'text' : 'password'"
-                                                @click:append="form_password.show2 = !form_password.show2" clearable
-                                                clear-icon="cancel" required>
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                    <template v-if="
-                                        form_password.password != '' &&
-                                        form_password.password_confirmation != ''
-                                    ">
-                                        <v-btn class="txt_white bk_green mt-2" block type="submit">
+                                <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
+                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                    <template
+                                        v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
+                                        <v-btn class="txt_white bk_green" block type="submit">
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                     <template v-else>
-                                        <v-btn class="mt-2" block disabled>
+                                        <v-btn block disabled>
                                             <v-icon left>save</v-icon>
                                             Guardar
                                         </v-btn>
                                     </template>
                                 </v-form>
                             </div>
-                        </v-tab-item>
-                        <v-tab-item>
-                            <div class="px-4 py-4">
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra
-                                        permitido ingresar al apartado de docentes/administradores o manipular la
-                                        información de
-                                        la base de datos)
-                                    </v-card-subtitle>
-                                    <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
-                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                        <template
-                                            v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
-                                            <v-btn class="txt_white bk_green" block type="submit">
-                                                <v-icon left>save</v-icon>
-                                                Guardar
-                                            </v-btn>
-                                        </template>
-                                        <template v-else>
-                                            <v-btn block disabled>
-                                                <v-icon left>save</v-icon>
-                                                Guardar
-                                            </v-btn>
-                                        </template>
-                                    </v-form>
-                                </div>
-                                <v-divider class="mt-8 mb-4"></v-divider>
-                                <div>
-                                    <v-card-subtitle class="text-justify">
-                                        Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
-                                        revertir
-                                    </v-card-subtitle>
-                                    <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
-                                        <v-icon left>delete</v-icon>
-                                        Eliminar usuario
-                                    </v-btn>
-                                </div>
+                            <v-divider class="mt-8 mb-4"></v-divider>
+                            <div>
+                                <v-card-subtitle class="text-justify">
+                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
+                                    revertir
+                                </v-card-subtitle>
+                                <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
+                                    <v-icon left>delete</v-icon>
+                                    Eliminar usuario
+                                </v-btn>
                             </div>
-                        </v-tab-item>
-                    </template>
+                        </div>
+                    </v-tab-item>
                 </v-tabs>
             </v-card>
         </div>
@@ -345,10 +336,13 @@ export default {
         },
         async showUser() {
             this.overlay = true;
-            if (this.$route.params.slug && this.login_user.slug != this.$route.params.slug) {
+            if (this.$route.params.slug) {
                 await this.axios.get('/api/auth')
                     .then(response => {
                         this.login_user = response.data;
+                        if (this.login_user.slug == this.$route.params.slug || this.login_user.type != "0") {
+                            this.$router.push({ name: "error" });
+                        }
                     }).catch((error) => {
                         console.log(error);
                         this.axios.post('/api/logout')
@@ -366,10 +360,6 @@ export default {
                             this.$router.push({ name: "error" });
                         }
                         else {
-                            if (this.login_user.type != "0" && this.user.type == "0") {
-                                this.$router.push({ name: "error" });
-                            }
-                            else {
                                 this.form_information.firstname = this.user.firstname;
                                 this.form_information.lastname = this.user.lastname;
                                 this.form_information.user = this.user.user;
@@ -395,12 +385,9 @@ export default {
                                 }
                                 if (this.user.status == 0) this.form_status.status = "Deshabilitado";
                                 else if (this.user.status == 1) this.form_status.status = "Habilitado";
-                                if (this.login_user.type == '0') {
                                     if (this.user.type == "0") this.form_information.type = this.user.type = "Administrador";
                                     else if (this.user.type == "1") this.form_information.type = this.user.type = "Docente";
-                                }
                                 this.overlay = false;
-                            }
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -412,7 +399,6 @@ export default {
             }
         },
         async editUser() {
-            if (this.login_user.type == '0' || (this.login_user.type != "0" && this.user.type == "1")) {
                 if (this.$refs.form_information.validate()) {
                     await this.$swal({
                         title: '¿Esta seguro de modificar la información del usuario?',
@@ -434,7 +420,6 @@ export default {
                                     data.append('avatar', this.form_information.avatar);
                                 }
                                 data.append('avatar_new', this.form_information.avatar_new);
-                                if (this.login_user.type == '0') {
                                     let type = "";
                                     if (this.form_information.type == "Administrador") {
                                         type = "0";
@@ -443,7 +428,6 @@ export default {
                                         type = "1";
                                     }
                                     data.append('type', type);
-                                }
                                 data.append('_method', "put");
                                 this.axios.post('/api/user/' + this.$route.params.slug, data, {
                                     headers: {
@@ -483,10 +467,8 @@ export default {
                 else {
                     this.overlay = false;
                 }
-            }
         },
         async editPassword() {
-            if (this.login_user.type == '0') {
                 if (this.$refs.form_password.validate()) {
                     await this.$swal({
                         title: '¿Esta seguro de cambiar la contraseña?',
@@ -536,10 +518,8 @@ export default {
                 else {
                     this.overlay = false;
                 }
-            }
         },
         async statusUser() {
-            if (this.login_user.type == '0') {
                 await this.$swal({
                     title: '¿Esta seguro de cambiar el estado del usuario?',
                     icon: 'warning',
@@ -587,10 +567,8 @@ export default {
                                 });
                         }
                     });
-            }
         },
         async deleteUser() {
-            if (this.login_user.type == '0') {
                 await this.$swal({
                     title: '¿Esta seguro de eliminar el usuario?',
                     text: "Esta acción no se puede revertir",
@@ -633,7 +611,6 @@ export default {
                                 });
                         }
                     });
-            }
         },
         preview_img() {
             this.form_information.avatar_new = 1;

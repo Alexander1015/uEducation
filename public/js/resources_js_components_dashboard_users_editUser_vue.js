@@ -267,15 +267,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -381,7 +372,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.overlay = true;
 
-                if (!(_this.$route.params.slug && _this.login_user.slug != _this.$route.params.slug)) {
+                if (!_this.$route.params.slug) {
                   _context.next = 8;
                   break;
                 }
@@ -389,6 +380,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.login_user = response.data;
+
+                  if (_this.login_user.slug == _this.$route.params.slug || _this.login_user.type != "0") {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  }
                 })["catch"](function (error) {
                   console.log(error);
 
@@ -413,45 +410,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       name: "error"
                     });
                   } else {
-                    if (_this.login_user.type != "0" && _this.user.type == "0") {
-                      _this.$router.push({
-                        name: "error"
-                      });
+                    _this.form_information.firstname = _this.user.firstname;
+                    _this.form_information.lastname = _this.user.lastname;
+                    _this.form_information.user = _this.user.user;
+                    _this.form_information.email = _this.user.email;
+
+                    if (_this.user.avatar) {
+                      _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
+                      _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
                     } else {
-                      _this.form_information.firstname = _this.user.firstname;
-                      _this.form_information.lastname = _this.user.lastname;
-                      _this.form_information.user = _this.user.user;
-                      _this.form_information.email = _this.user.email;
-
-                      if (_this.user.avatar) {
-                        _this.prev_img.url_img = "/img/users/" + _this.user.avatar + "/index.png";
-                        _this.prev_img.lazy_img = "/img/users/" + _this.user.avatar + "/lazy.png";
-                      } else {
-                        _this.prev_img.url_img = "/img/users/blank.png";
-                        _this.prev_img.lazy_img = "/img/users/blank_lazy.png";
-                      }
-
-                      _this.form_information.avatar = null;
-                      _this.form_information.avatar_new = 0;
-
-                      if (_this.form_password.password != "" || _this.form_password.password_confirmation != "") {
-                        _this.form_password.password = "";
-                        _this.form_password.password_confirmation = "";
-
-                        _this.$refs.form_password.reset();
-                      } else {
-                        _this.form_password.password = "";
-                        _this.form_password.password_confirmation = "";
-                      }
-
-                      if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
-
-                      if (_this.login_user.type == '0') {
-                        if (_this.user.type == "0") _this.form_information.type = _this.user.type = "Administrador";else if (_this.user.type == "1") _this.form_information.type = _this.user.type = "Docente";
-                      }
-
-                      _this.overlay = false;
+                      _this.prev_img.url_img = "/img/users/blank.png";
+                      _this.prev_img.lazy_img = "/img/users/blank_lazy.png";
                     }
+
+                    _this.form_information.avatar = null;
+                    _this.form_information.avatar_new = 0;
+
+                    if (_this.form_password.password != "" || _this.form_password.password_confirmation != "") {
+                      _this.form_password.password = "";
+                      _this.form_password.password_confirmation = "";
+
+                      _this.$refs.form_password.reset();
+                    } else {
+                      _this.form_password.password = "";
+                      _this.form_password.password_confirmation = "";
+                    }
+
+                    if (_this.user.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.user.status == 1) _this.form_status.status = "Habilitado";
+                    if (_this.user.type == "0") _this.form_information.type = _this.user.type = "Administrador";else if (_this.user.type == "1") _this.form_information.type = _this.user.type = "Docente";
+                    _this.overlay = false;
                   }
                 })["catch"](function (error) {
                   console.log(error);
@@ -486,17 +473,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this2.login_user.type == '0' || _this2.login_user.type != "0" && _this2.user.type == "1")) {
-                  _context2.next = 7;
-                  break;
-                }
-
                 if (!_this2.$refs.form_information.validate()) {
-                  _context2.next = 6;
+                  _context2.next = 5;
                   break;
                 }
 
-                _context2.next = 4;
+                _context2.next = 3;
                 return _this2.$swal({
                   title: '¿Esta seguro de modificar la información del usuario?',
                   icon: 'warning',
@@ -518,19 +500,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     }
 
                     data.append('avatar_new', _this2.form_information.avatar_new);
+                    var type = "";
 
-                    if (_this2.login_user.type == '0') {
-                      var type = "";
-
-                      if (_this2.form_information.type == "Administrador") {
-                        type = "0";
-                      } else if (_this2.form_information.type == "Docente") {
-                        type = "1";
-                      }
-
-                      data.append('type', type);
+                    if (_this2.form_information.type == "Administrador") {
+                      type = "0";
+                    } else if (_this2.form_information.type == "Docente") {
+                      type = "1";
                     }
 
+                    data.append('type', type);
                     data.append('_method', "put");
 
                     _this2.axios.post('/api/user/' + _this2.$route.params.slug, data, {
@@ -570,14 +548,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 4:
-                _context2.next = 7;
+              case 3:
+                _context2.next = 6;
                 break;
 
-              case 6:
+              case 5:
                 _this2.overlay = false;
 
-              case 7:
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -593,17 +571,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(_this3.login_user.type == '0')) {
-                  _context3.next = 7;
-                  break;
-                }
-
                 if (!_this3.$refs.form_password.validate()) {
-                  _context3.next = 6;
+                  _context3.next = 5;
                   break;
                 }
 
-                _context3.next = 4;
+                _context3.next = 3;
                 return _this3.$swal({
                   title: '¿Esta seguro de cambiar la contraseña?',
                   icon: 'warning',
@@ -651,14 +624,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 4:
-                _context3.next = 7;
+              case 3:
+                _context3.next = 6;
                 break;
 
-              case 6:
+              case 5:
                 _this3.overlay = false;
 
-              case 7:
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -674,12 +647,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(_this4.login_user.type == '0')) {
-                  _context4.next = 3;
-                  break;
-                }
-
-                _context4.next = 3;
+                _context4.next = 2;
                 return _this4.$swal({
                   title: '¿Esta seguro de cambiar el estado del usuario?',
                   icon: 'warning',
@@ -728,7 +696,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
+              case 2:
               case "end":
                 return _context4.stop();
             }
@@ -744,12 +712,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(_this5.login_user.type == '0')) {
-                  _context5.next = 3;
-                  break;
-                }
-
-                _context5.next = 3;
+                _context5.next = 2;
                 return _this5.$swal({
                   title: '¿Esta seguro de eliminar el usuario?',
                   text: "Esta acción no se puede revertir",
@@ -794,7 +757,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 3:
+              case 2:
               case "end":
                 return _context5.stop();
             }
@@ -1811,39 +1774,33 @@ var render = function () {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.login_user.type == "0"
-                    ? [
-                        _c(
-                          "v-tab",
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v(
-                                "\n                            lock\n                        "
-                              ),
-                            ]),
-                            _vm._v(
-                              "\n                        Contraseña\n                    "
-                            ),
-                          ],
-                          1
+                  _c(
+                    "v-tab",
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\n                        lock\n                    "
                         ),
-                        _vm._v(" "),
-                        _c(
-                          "v-tab",
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v(
-                                "\n                            manage_accounts\n                        "
-                              ),
-                            ]),
-                            _vm._v(
-                              "\n                        Otros\n                    "
-                            ),
-                          ],
-                          1
+                      ]),
+                      _vm._v(
+                        "\n                    Contraseña\n                "
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-tab",
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v(
+                          "\n                        manage_accounts\n                    "
                         ),
-                      ]
-                    : _vm._e(),
+                      ]),
+                      _vm._v("\n                    Otros\n                "),
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("v-tab-item", [
                     _c(
@@ -2007,47 +1964,41 @@ var render = function () {
                                   1
                                 ),
                                 _vm._v(" "),
-                                _vm.login_user.type == "0"
-                                  ? [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12", sm: "12" } },
-                                        [
-                                          _c("v-autocomplete", {
-                                            attrs: {
-                                              rules: _vm.info.typeRules,
-                                              items: _vm.data_type,
-                                              clearable: "",
-                                              "clear-icon": "cancel",
-                                              label: "Tipo de Usuario *",
-                                              tabindex: "5",
-                                              dense: "",
-                                              "no-data-text":
-                                                "No se encuentra información para mostrar",
-                                              "prepend-icon":
-                                                "admin_panel_settings",
-                                              "append-icon": "arrow_drop_down",
-                                              "hide-selected": "",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.form_information.type,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form_information,
-                                                  "type",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "form_information.type",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  : _vm._e(),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12" } },
+                                  [
+                                    _c("v-autocomplete", {
+                                      attrs: {
+                                        rules: _vm.info.typeRules,
+                                        items: _vm.data_type,
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        label: "Tipo de Usuario *",
+                                        tabindex: "5",
+                                        dense: "",
+                                        "no-data-text":
+                                          "No se encuentra información para mostrar",
+                                        "prepend-icon": "admin_panel_settings",
+                                        "append-icon": "arrow_drop_down",
+                                        "hide-selected": "",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form_information.type,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_information,
+                                            "type",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "form_information.type",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
@@ -2189,69 +2140,54 @@ var render = function () {
                                   1
                                 ),
                               ],
-                              2
+                              1
                             ),
                             _vm._v(" "),
-                            _vm.login_user.type == "0" ||
-                            (_vm.login_user.type != "0" && _vm.user.type == "1")
+                            _vm.form_information.firstname !=
+                              _vm.user.firstname ||
+                            _vm.form_information.lastname !=
+                              _vm.user.lastname ||
+                            _vm.form_information.email != _vm.user.email ||
+                            _vm.form_information.user != _vm.user.user ||
+                            _vm.form_information.avatar != null ||
+                            _vm.form_information.avatar_new != 0 ||
+                            _vm.form_information.type != _vm.user.type
                               ? [
-                                  _vm.form_information.firstname !=
-                                    _vm.user.firstname ||
-                                  _vm.form_information.lastname !=
-                                    _vm.user.lastname ||
-                                  _vm.form_information.email !=
-                                    _vm.user.email ||
-                                  _vm.form_information.user != _vm.user.user ||
-                                  _vm.form_information.avatar != null ||
-                                  _vm.form_information.avatar_new != 0 ||
-                                  (_vm.login_user.type == "0" &&
-                                    _vm.form_information.type != _vm.user.type)
-                                    ? [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass:
-                                              "txt_white bk_green mt-4",
-                                            attrs: {
-                                              block: "",
-                                              type: "submit",
-                                            },
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { left: "" } },
-                                              [_vm._v("save")]
-                                            ),
-                                            _vm._v(
-                                              "\n                                        Guardar\n                                    "
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                      ]
-                                    : [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass: "mt-4",
-                                            attrs: { block: "", disabled: "" },
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { left: "" } },
-                                              [_vm._v("save")]
-                                            ),
-                                            _vm._v(
-                                              "\n                                        Guardar\n                                    "
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                      ],
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "txt_white bk_green mt-4",
+                                      attrs: { block: "", type: "submit" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
                                 ]
-                              : _vm._e(),
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "mt-4",
+                                      attrs: { block: "", disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ],
                           ],
                           2
                         ),
@@ -2260,358 +2196,321 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _vm.login_user.type == "0"
-                    ? [
-                        _c("v-tab-item", [
-                          _c(
-                            "div",
-                            { staticClass: "px-4 py-4" },
-                            [
-                              _c(
-                                "v-card-subtitle",
-                                { staticClass: "text-center" },
-                                [
-                                  _vm._v(
-                                    "\n                                Cambie la contraseña del usuario seleccionado\n                            "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-form",
-                                {
-                                  ref: "form_password",
-                                  attrs: { "lazy-validation": "" },
-                                  on: {
-                                    submit: function ($event) {
-                                      $event.preventDefault()
-                                      return _vm.editPassword()
-                                    },
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "small",
-                                    { staticClass: "font-italic txt_red" },
-                                    [_vm._v("Obligatorio *")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-row",
-                                    { staticClass: "mt-2" },
-                                    [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules: _vm.passw.passwordRules,
-                                              label: "Contraseña *",
-                                              tabindex: "1",
-                                              dense: "",
-                                              "prepend-icon": "lock",
-                                              "append-icon": _vm.form_password
-                                                .show1
-                                                ? "visibility"
-                                                : "visibility_off",
-                                              type: _vm.form_password.show1
-                                                ? "text"
-                                                : "password",
-                                              clearable: "",
-                                              "clear-icon": "cancel",
-                                              required: "",
-                                            },
-                                            on: {
-                                              "click:append": function (
-                                                $event
-                                              ) {
-                                                _vm.form_password.show1 =
-                                                  !_vm.form_password.show1
-                                              },
-                                            },
-                                            model: {
-                                              value: _vm.form_password.password,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form_password,
-                                                  "password",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "form_password.password",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12" } },
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              rules:
-                                                _vm.passw.passwordconfirmRules,
-                                              label: "Repita la contraseña *",
-                                              tabindex: "2",
-                                              dense: "",
-                                              "prepend-icon": "lock",
-                                              "append-icon": _vm.form_password
-                                                .show2
-                                                ? "visibility"
-                                                : "visibility_off",
-                                              type: _vm.form_password.show2
-                                                ? "text"
-                                                : "password",
-                                              clearable: "",
-                                              "clear-icon": "cancel",
-                                              required: "",
-                                            },
-                                            on: {
-                                              "click:append": function (
-                                                $event
-                                              ) {
-                                                _vm.form_password.show2 =
-                                                  !_vm.form_password.show2
-                                              },
-                                            },
-                                            model: {
-                                              value:
-                                                _vm.form_password
-                                                  .password_confirmation,
-                                              callback: function ($$v) {
-                                                _vm.$set(
-                                                  _vm.form_password,
-                                                  "password_confirmation",
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "form_password.password_confirmation",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _vm.form_password.password != "" &&
-                                  _vm.form_password.password_confirmation != ""
-                                    ? [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass:
-                                              "txt_white bk_green mt-2",
-                                            attrs: {
-                                              block: "",
-                                              type: "submit",
-                                            },
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { left: "" } },
-                                              [_vm._v("save")]
-                                            ),
-                                            _vm._v(
-                                              "\n                                        Guardar\n                                    "
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                      ]
-                                    : [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass: "mt-2",
-                                            attrs: { block: "", disabled: "" },
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { left: "" } },
-                                              [_vm._v("save")]
-                                            ),
-                                            _vm._v(
-                                              "\n                                        Guardar\n                                    "
-                                            ),
-                                          ],
-                                          1
-                                        ),
-                                      ],
-                                ],
-                                2
-                              ),
-                            ],
-                            1
+                  _c("v-tab-item", [
+                    _c(
+                      "div",
+                      { staticClass: "px-4 py-4" },
+                      [
+                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                          _vm._v(
+                            "\n                            Cambie la contraseña del usuario seleccionado\n                        "
                           ),
                         ]),
                         _vm._v(" "),
-                        _c("v-tab-item", [
-                          _c(
-                            "div",
-                            { staticClass: "px-4 py-4" },
-                            [
-                              _c(
-                                "div",
-                                [
-                                  _c(
-                                    "v-card-subtitle",
-                                    { staticClass: "text-justify" },
-                                    [
-                                      _vm._v(
-                                        "\n                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra\n                                    permitido ingresar al apartado de docentes/administradores o manipular la\n                                    información de\n                                    la base de datos)\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-form",
-                                    {
-                                      ref: "form_status",
-                                      attrs: { "lazy-validation": "" },
+                        _c(
+                          "v-form",
+                          {
+                            ref: "form_password",
+                            attrs: { "lazy-validation": "" },
+                            on: {
+                              submit: function ($event) {
+                                $event.preventDefault()
+                                return _vm.editPassword()
+                              },
+                            },
+                          },
+                          [
+                            _c(
+                              "small",
+                              { staticClass: "font-italic txt_red" },
+                              [_vm._v("Obligatorio *")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-row",
+                              { staticClass: "mt-2" },
+                              [
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.passw.passwordRules,
+                                        label: "Contraseña *",
+                                        tabindex: "1",
+                                        dense: "",
+                                        "prepend-icon": "lock",
+                                        "append-icon": _vm.form_password.show1
+                                          ? "visibility"
+                                          : "visibility_off",
+                                        type: _vm.form_password.show1
+                                          ? "text"
+                                          : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        required: "",
+                                      },
                                       on: {
-                                        submit: function ($event) {
-                                          $event.preventDefault()
-                                          return _vm.statusUser()
+                                        "click:append": function ($event) {
+                                          _vm.form_password.show1 =
+                                            !_vm.form_password.show1
                                         },
                                       },
-                                    },
-                                    [
-                                      _c("v-select", {
-                                        staticClass: "width_100",
-                                        attrs: {
-                                          items: _vm.items_status,
-                                          label: "Estado",
-                                          rules: _vm.statusRules,
-                                          dense: "",
-                                          "prepend-icon": "rule",
+                                      model: {
+                                        value: _vm.form_password.password,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_password,
+                                            "password",
+                                            $$v
+                                          )
                                         },
-                                        model: {
-                                          value: _vm.form_status.status,
-                                          callback: function ($$v) {
-                                            _vm.$set(
-                                              _vm.form_status,
-                                              "status",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "form_status.status",
+                                        expression: "form_password.password",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        rules: _vm.passw.passwordconfirmRules,
+                                        label: "Repita la contraseña *",
+                                        tabindex: "2",
+                                        dense: "",
+                                        "prepend-icon": "lock",
+                                        "append-icon": _vm.form_password.show2
+                                          ? "visibility"
+                                          : "visibility_off",
+                                        type: _vm.form_password.show2
+                                          ? "text"
+                                          : "password",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        required: "",
+                                      },
+                                      on: {
+                                        "click:append": function ($event) {
+                                          _vm.form_password.show2 =
+                                            !_vm.form_password.show2
                                         },
-                                      }),
-                                      _vm._v(" "),
-                                      _vm.form_status.status !=
-                                      (_vm.user.status == 1
-                                        ? "Habilitado"
-                                        : "Deshabilitado")
-                                        ? [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                staticClass:
-                                                  "txt_white bk_green",
-                                                attrs: {
-                                                  block: "",
-                                                  type: "submit",
-                                                },
-                                              },
-                                              [
-                                                _c(
-                                                  "v-icon",
-                                                  { attrs: { left: "" } },
-                                                  [_vm._v("save")]
-                                                ),
-                                                _vm._v(
-                                                  "\n                                            Guardar\n                                        "
-                                                ),
-                                              ],
-                                              1
-                                            ),
-                                          ]
-                                        : [
-                                            _c(
-                                              "v-btn",
-                                              {
-                                                attrs: {
-                                                  block: "",
-                                                  disabled: "",
-                                                },
-                                              },
-                                              [
-                                                _c(
-                                                  "v-icon",
-                                                  { attrs: { left: "" } },
-                                                  [_vm._v("save")]
-                                                ),
-                                                _vm._v(
-                                                  "\n                                            Guardar\n                                        "
-                                                ),
-                                              ],
-                                              1
-                                            ),
-                                          ],
-                                    ],
-                                    2
-                                  ),
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("v-divider", { staticClass: "mt-8 mb-4" }),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                [
-                                  _c(
-                                    "v-card-subtitle",
-                                    { staticClass: "text-justify" },
-                                    [
-                                      _vm._v(
-                                        "\n                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede\n                                    revertir\n                                "
-                                      ),
-                                    ]
-                                  ),
-                                  _vm._v(" "),
+                                      },
+                                      model: {
+                                        value:
+                                          _vm.form_password
+                                            .password_confirmation,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_password,
+                                            "password_confirmation",
+                                            $$v
+                                          )
+                                        },
+                                        expression:
+                                          "form_password.password_confirmation",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _vm.form_password.password != "" &&
+                            _vm.form_password.password_confirmation != ""
+                              ? [
                                   _c(
                                     "v-btn",
                                     {
-                                      staticClass: "txt_white bk_red",
-                                      attrs: { block: "" },
-                                      on: {
-                                        click: function ($event) {
-                                          $event.stopPropagation()
-                                          return _vm.deleteUser()
-                                        },
-                                      },
+                                      staticClass: "txt_white bk_green mt-2",
+                                      attrs: { block: "", type: "submit" },
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("delete"),
+                                        _vm._v("save"),
                                       ]),
                                       _vm._v(
-                                        "\n                                    Eliminar usuario\n                                "
+                                        "\n                                    Guardar\n                                "
+                                      ),
+                                    ],
+                                    1
+                                  ),
+                                ]
+                              : [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "mt-2",
+                                      attrs: { block: "", disabled: "" },
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("save"),
+                                      ]),
+                                      _vm._v(
+                                        "\n                                    Guardar\n                                "
                                       ),
                                     ],
                                     1
                                   ),
                                 ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                        ]),
-                      ]
-                    : _vm._e(),
+                          ],
+                          2
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("v-tab-item", [
+                    _c(
+                      "div",
+                      { staticClass: "px-4 py-4" },
+                      [
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "v-card-subtitle",
+                              { staticClass: "text-justify" },
+                              [
+                                _vm._v(
+                                  "\n                                Cambie el estado del usuario en el sistema (Si esta deshabilitado no tendra\n                                permitido ingresar al apartado de docentes/administradores o manipular la\n                                información de\n                                la base de datos)\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-form",
+                              {
+                                ref: "form_status",
+                                attrs: { "lazy-validation": "" },
+                                on: {
+                                  submit: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.statusUser()
+                                  },
+                                },
+                              },
+                              [
+                                _c("v-select", {
+                                  staticClass: "width_100",
+                                  attrs: {
+                                    items: _vm.items_status,
+                                    label: "Estado",
+                                    rules: _vm.statusRules,
+                                    dense: "",
+                                    "prepend-icon": "rule",
+                                  },
+                                  model: {
+                                    value: _vm.form_status.status,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.form_status, "status", $$v)
+                                    },
+                                    expression: "form_status.status",
+                                  },
+                                }),
+                                _vm._v(" "),
+                                _vm.form_status.status !=
+                                (_vm.user.status == 1
+                                  ? "Habilitado"
+                                  : "Deshabilitado")
+                                  ? [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "txt_white bk_green",
+                                          attrs: { block: "", type: "submit" },
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  : [
+                                      _c(
+                                        "v-btn",
+                                        { attrs: { block: "", disabled: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("save")]
+                                          ),
+                                          _vm._v(
+                                            "\n                                        Guardar\n                                    "
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ],
+                              ],
+                              2
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider", { staticClass: "mt-8 mb-4" }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "v-card-subtitle",
+                              { staticClass: "text-justify" },
+                              [
+                                _vm._v(
+                                  "\n                                Elimine el usuario seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "txt_white bk_red",
+                                attrs: { block: "" },
+                                on: {
+                                  click: function ($event) {
+                                    $event.stopPropagation()
+                                    return _vm.deleteUser()
+                                  },
+                                },
+                              },
+                              [
+                                _c("v-icon", { attrs: { left: "" } }, [
+                                  _vm._v("delete"),
+                                ]),
+                                _vm._v(
+                                  "\n                                Eliminar usuario\n                            "
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
                 ],
-                2
+                1
               ),
             ],
             1

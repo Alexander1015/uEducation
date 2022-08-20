@@ -72,16 +72,14 @@
                                             required>
                                         </v-text-field>
                                     </v-col>
-                                    <template v-if="login_user.type == '0'">
-                                        <v-col cols="12" sm=12>
-                                            <v-autocomplete v-model="form.type" :rules="typeRules" :items="data_type"
-                                                clearable clear-icon="cancel" label="Tipo de Usuario *" tabindex="7"
-                                                dense no-data-text="No se encuentra información para mostrar"
-                                                prepend-icon="admin_panel_settings" append-icon="arrow_drop_down"
-                                                hide-selected required>
-                                            </v-autocomplete>
-                                        </v-col>
-                                    </template>
+                                    <v-col cols="12" sm=12>
+                                        <v-autocomplete v-model="form.type" :rules="typeRules" :items="data_type"
+                                            clearable clear-icon="cancel" label="Tipo de Usuario *" tabindex="7" dense
+                                            no-data-text="No se encuentra información para mostrar"
+                                            prepend-icon="admin_panel_settings" append-icon="arrow_drop_down"
+                                            hide-selected required>
+                                        </v-autocomplete>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
@@ -120,7 +118,7 @@
                                     form.user != '' &&
                                     form.password != '' &&
                                     form.password_confirmation != '' &&
-                                    (login_user.type == '1' || (login_user.type == '0' && form.type != ''))
+                                    form.type != ''
                                 ">
                                     <v-btn class="txt_white bk_green mt-4" block type="submit">
                                         <v-icon left>save</v-icon>
@@ -152,7 +150,6 @@ export default {
             lazy: "/img/banner/user_lazy.jpg",
         },
         overlay: false,
-        login_user: {},
         form: {
             firstname: "",
             lastname: "",
@@ -207,9 +204,6 @@ export default {
             width: 300,
         }
     }),
-    mounted() {
-        this.getUser()
-    },
     methods: {
         handleFileImport() {
             this.$refs.uploader.$refs.input.click()
@@ -217,24 +211,6 @@ export default {
         returnUsers() {
             this.overlay = true;
             this.$router.push({ name: "users" });
-        },
-        async getUser() {
-            this.overlay = true;
-            await this.axios.get('/api/auth')
-                .then(response => {
-                    this.login_user = response.data;
-                    this.overlay = false;
-                }).catch((error) => {
-                    console.log(error);
-                    this.axios.post('/api/logout')
-                        .then(response => {
-                            window.location.href = "/auth"
-                        }).catch((error) => {
-                            console.log(error);
-                            this.$router.push({ name: "error" });
-                        });
-
-                });
         },
         async registerUser() {
             if (this.$refs.form.validate()) {
@@ -259,16 +235,14 @@ export default {
                             if (this.form.avatar) {
                                 data.append('avatar', this.form.avatar);
                             }
-                            if (this.login_user.type == '0') {
-                                let type = "";
-                                if (this.form.type == "Administrador") {
-                                    type = "0";
-                                }
-                                else if (this.form.type == "Docente") {
-                                     type = "1";
-                                }
-                                data.append('type', type);
+                            let type = "";
+                            if (this.form.type == "Administrador") {
+                                type = "0";
                             }
+                            else if (this.form.type == "Docente") {
+                                type = "1";
+                            }
+                            data.append('type', type);
                             this.axios.post('/api/user', data, {
                                 headers: {
                                     'Content-Type': 'multipart/form-data',

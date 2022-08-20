@@ -161,8 +161,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewUser",
   data: function data() {
@@ -173,7 +171,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         lazy: "/img/banner/user_lazy.jpg"
       },
       overlay: false,
-      login_user: {},
       form: {
         firstname: "",
         lastname: "",
@@ -233,9 +230,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     };
   },
-  mounted: function mounted() {
-    this.getUser();
-  },
   methods: {
     handleFileImport: function handleFileImport() {
       this.$refs.uploader.$refs.input.click();
@@ -246,7 +240,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: "users"
       });
     },
-    getUser: function getUser() {
+    registerUser: function registerUser() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -254,48 +248,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.overlay = true;
-                _context.next = 3;
-                return _this.axios.get('/api/auth').then(function (response) {
-                  _this.login_user = response.data;
-                  _this.overlay = false;
-                })["catch"](function (error) {
-                  console.log(error);
-
-                  _this.axios.post('/api/logout').then(function (response) {
-                    window.location.href = "/auth";
-                  })["catch"](function (error) {
-                    console.log(error);
-
-                    _this.$router.push({
-                      name: "error"
-                    });
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    registerUser: function registerUser() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!_this2.$refs.form.validate()) {
-                  _context2.next = 5;
+                if (!_this.$refs.form.validate()) {
+                  _context.next = 5;
                   break;
                 }
 
-                _context2.next = 3;
-                return _this2.$swal({
+                _context.next = 3;
+                return _this.$swal({
                   title: '¿Esta seguro de crear el usuario?',
                   icon: 'warning',
                   showCancelButton: true,
@@ -303,33 +262,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true;
+                    _this.overlay = true;
                     var data = new FormData();
-                    data.append('firstname', _this2.form.firstname);
-                    data.append('lastname', _this2.form.lastname);
-                    data.append('user', _this2.form.user.toUpperCase());
-                    data.append('email', _this2.form.email);
-                    data.append('password', _this2.form.password);
-                    data.append('password_confirmation', _this2.form.password_confirmation);
-                    _this2.form.avatar = document.querySelector('#avatar').files[0];
+                    data.append('firstname', _this.form.firstname);
+                    data.append('lastname', _this.form.lastname);
+                    data.append('user', _this.form.user.toUpperCase());
+                    data.append('email', _this.form.email);
+                    data.append('password', _this.form.password);
+                    data.append('password_confirmation', _this.form.password_confirmation);
+                    _this.form.avatar = document.querySelector('#avatar').files[0];
 
-                    if (_this2.form.avatar) {
-                      data.append('avatar', _this2.form.avatar);
+                    if (_this.form.avatar) {
+                      data.append('avatar', _this.form.avatar);
                     }
 
-                    if (_this2.login_user.type == '0') {
-                      var type = "";
+                    var type = "";
 
-                      if (_this2.form.type == "Administrador") {
-                        type = "0";
-                      } else if (_this2.form.type == "Docente") {
-                        type = "1";
-                      }
-
-                      data.append('type', type);
+                    if (_this.form.type == "Administrador") {
+                      type = "0";
+                    } else if (_this.form.type == "Docente") {
+                      type = "1";
                     }
 
-                    _this2.axios.post('/api/user', data, {
+                    data.append('type', type);
+
+                    _this.axios.post('/api/user', data, {
                       headers: {
                         'Content-Type': 'multipart/form-data'
                       }
@@ -342,43 +299,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon = "success";
                       }
 
-                      _this2.$swal({
+                      _this.$swal({
                         title: title,
                         icon: icon,
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this2.$router.push({
+                          _this.$router.push({
                             name: "users"
                           });
-                        } else _this2.overlay = false;
+                        } else _this.overlay = false;
                       });
                     })["catch"](function (error) {
-                      _this2.$swal({
+                      _this.$swal({
                         title: "Error",
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
                         console.log(error);
-                        _this2.overlay = false;
+                        _this.overlay = false;
                       });
                     });
                   }
                 });
 
               case 3:
-                _context2.next = 6;
+                _context.next = 6;
                 break;
 
               case 5:
-                _this2.overlay = false;
+                _this.overlay = false;
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee);
       }))();
     },
     preview_img: function preview_img() {
@@ -1334,42 +1291,37 @@ var render = function () {
                                   1
                                 ),
                                 _vm._v(" "),
-                                _vm.login_user.type == "0"
-                                  ? [
-                                      _c(
-                                        "v-col",
-                                        { attrs: { cols: "12", sm: "12" } },
-                                        [
-                                          _c("v-autocomplete", {
-                                            attrs: {
-                                              rules: _vm.typeRules,
-                                              items: _vm.data_type,
-                                              clearable: "",
-                                              "clear-icon": "cancel",
-                                              label: "Tipo de Usuario *",
-                                              tabindex: "7",
-                                              dense: "",
-                                              "no-data-text":
-                                                "No se encuentra información para mostrar",
-                                              "prepend-icon":
-                                                "admin_panel_settings",
-                                              "append-icon": "arrow_drop_down",
-                                              "hide-selected": "",
-                                              required: "",
-                                            },
-                                            model: {
-                                              value: _vm.form.type,
-                                              callback: function ($$v) {
-                                                _vm.$set(_vm.form, "type", $$v)
-                                              },
-                                              expression: "form.type",
-                                            },
-                                          }),
-                                        ],
-                                        1
-                                      ),
-                                    ]
-                                  : _vm._e(),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12", sm: "12" } },
+                                  [
+                                    _c("v-autocomplete", {
+                                      attrs: {
+                                        rules: _vm.typeRules,
+                                        items: _vm.data_type,
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        label: "Tipo de Usuario *",
+                                        tabindex: "7",
+                                        dense: "",
+                                        "no-data-text":
+                                          "No se encuentra información para mostrar",
+                                        "prepend-icon": "admin_panel_settings",
+                                        "append-icon": "arrow_drop_down",
+                                        "hide-selected": "",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.type,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "type", $$v)
+                                        },
+                                        expression: "form.type",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
@@ -1507,7 +1459,7 @@ var render = function () {
                                   1
                                 ),
                               ],
-                              2
+                              1
                             ),
                             _vm._v(" "),
                             _vm.form.firstname != "" &&
@@ -1516,9 +1468,7 @@ var render = function () {
                             _vm.form.user != "" &&
                             _vm.form.password != "" &&
                             _vm.form.password_confirmation != "" &&
-                            (_vm.login_user.type == "1" ||
-                              (_vm.login_user.type == "0" &&
-                                _vm.form.type != ""))
+                            _vm.form.type != ""
                               ? [
                                   _c(
                                     "v-btn",

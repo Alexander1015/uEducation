@@ -320,6 +320,9 @@ export default {
                 await this.axios.get('/api/auth')
                     .then(response => {
                         this.login_user = response.data;
+                        if (this.login_user.type != "0") {
+                            this.$router.push({ name: "error" });
+                        }
                     }).catch((error) => {
                         console.log(error);
                         this.axios.post('/api/logout')
@@ -447,7 +450,7 @@ export default {
                             data.append('password', this.form_password.password);
                             data.append('password_confirmation', this.form_password.password_confirmation);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/password/' + this.$route.params.slug, data)
+                            this.axios.post('/api/student/password/' + this.$route.params.slug, data)
                                 .then(response => {
                                     let title = "Error";
                                     let icon = "error";
@@ -499,7 +502,7 @@ export default {
                         else if (this.form_status.status == "Deshabilitado") type = 0;
                         data.append('status', type);
                         data.append('_method', "put");
-                        this.axios.post('/api/user/status/' + this.$route.params.slug, data)
+                        this.axios.post('/api/student/status/' + this.$route.params.slug, data)
                             .then(response => {
                                 let title = "Error";
                                 let icon = "error";

@@ -218,6 +218,9 @@ export default {
             await this.axios.get('/api/auth')
                 .then(response => {
                     this.user = response.data;
+                    if (this.user.type != "0") {
+                        this.$router.push({ name: "error" });
+                    }
                 }).catch((error) => {
                     console.log(error);
                     this.axios.post('/api/logout')

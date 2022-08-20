@@ -20,8 +20,8 @@ class PasswordProfileController extends Controller
     public function store(Request $request)
     {
         try {
-            $user = auth()->user();
-            if ($user && $user->status == 1) {
+            $user_auth = auth()->user();
+            if ($user_auth && $user_auth->status == 1) {
                 $validator = Validator::make($request->all(), [
                     'password' => ['bail', 'required', 'string', 'min:8', 'max:50', 'confirmed'],
                 ]);
@@ -38,27 +38,19 @@ class PasswordProfileController extends Controller
                         ]);
                     }
                 } else {
-                    $user_auth = auth()->user()->id;
-                    if ($user_auth != $user->id) {
+                    if (DB::update("UPDATE users SET password = ? WHERE id = ?", [
+                        Hash::make($request->input('password')),
+                        $user_auth->id,
+                    ])) {
                         return response()->json([
-                            'message' => "No puede actualizar la contraseña del usuario en este apartado",
-                            'complete' => false,
+                            'message' => 'Contraseña actualizada exitosamente',
+                            'complete' => true,
                         ]);
                     } else {
-                        if (DB::update("UPDATE users SET password = ? WHERE id = ?", [
-                            Hash::make($request->input('password')),
-                            $user->id,
-                        ])) {
-                            return response()->json([
-                                'message' => 'Contraseña actualizada exitosamente',
-                                'complete' => true,
-                            ]);
-                        } else {
-                            return response()->json([
-                                'message' => 'Ha ocurrido un error al momento de modificar la contraseña usuario',
-                                'complete' => false,
-                            ]);
-                        }
+                        return response()->json([
+                            'message' => 'Ha ocurrido un error al momento de modificar la contraseña usuario',
+                            'complete' => false,
+                        ]);
                     }
                 }
             } else {

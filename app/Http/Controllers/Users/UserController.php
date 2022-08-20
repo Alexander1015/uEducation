@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
+            if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
                 $users = DB::table('users')->where("type", "0")->orWhere("type", "1")->orderBy('user', 'asc')->get();
                 return response()->json($users);
             } else return response()->json([]);
@@ -43,7 +43,7 @@ class UserController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
+            if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
                 $validator = Validator::make($request->all(), [
                     'firstname' => ['bail', 'required', 'string', 'max:50'],
                     'lastname' => ['bail', 'required', 'string', 'max:50'],
@@ -54,7 +54,7 @@ class UserController extends Controller
                     'avatar' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                 ]);
                 if ($validator->fails()) {
-                    $old_user = DB::table("users")->where('user', $request->input('user'))->first();
+                    $old_user = DB::table("users")->where('user', strtolower($request->input('user')))->first();
                     $old_email = DB::table("users")->where('email', $request->input('email'))->first();
                     if ($old_user) {
                         return response()->json([
@@ -87,11 +87,6 @@ class UserController extends Controller
                     if ($request->file('avatar')) {
                         $time_avatar = time();
                     }
-                    /*
-                    * Si da error 500 para guardar la imagen, se debe cambiar el archivo php.ini del servidor
-                    * y cambiar la linea: ;extension=gd a: extension=gd
-                    * o: ;extension=gd2 a: extension=gd2
-                    */
                     $slug = Str::slug(Str::random(20));
                     while (DB::table("users")->where('slug', $slug)->first()) {
                         $slug = Str::random(20);
@@ -105,7 +100,7 @@ class UserController extends Controller
                             'slug' => $slug,
                             'firstname' => $request->input('firstname'),
                             'lastname' => $request->input('lastname'),
-                            'user' => strtoupper($request->input('user')),
+                            'user' => strtolower($request->input('user')),
                             'email' => $request->input('email'),
                             'password' => Hash::make($request->input('password')),
                             'type' => $user_type,
@@ -167,7 +162,7 @@ class UserController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
+            if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
                 $user = DB::table("users")->where("slug", $slug)->where("type", "0")->orWhere("type", "1")->first();
                 return response()->json($user);
             } else  return response()->json([]);
@@ -187,7 +182,7 @@ class UserController extends Controller
     {
         try {
             $auth_user = auth()->user();
-            if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
+            if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
                 $data = DB::table("users")->where("slug", $slug)->where('type', "0")->orWhere('type', '1')->first();
                 if (!$data) {
                     return response()->json([
@@ -205,7 +200,7 @@ class UserController extends Controller
                         'avatar_new' => ['bail', 'sometimes', 'boolean'],
                     ]);
                     if ($validator->fails()) {
-                        $old_user = DB::table("users")->where('user', $request->input('user'))->first();
+                        $old_user = DB::table("users")->where('user', strtolower($request->input('user')))->first();
                         $old_email = DB::table("users")->where('email', $request->input('email'))->first();
                         if ($data->id != $old_user->id) {
                             return response()->json([
@@ -276,7 +271,7 @@ class UserController extends Controller
                             if (DB::update("UPDATE users SET firstname = ?, lastname = ?, user = ?, email = ?, type = ?, avatar = ? WHERE id = ?", [
                                 $request->input('firstname'),
                                 $request->input('lastname'),
-                                strtoupper($request->input('user')),
+                                strtolower($request->input('user')),
                                 $request->input('email'),
                                 $type,
                                 $time_avatar,

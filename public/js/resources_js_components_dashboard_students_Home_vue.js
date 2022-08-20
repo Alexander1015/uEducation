@@ -243,6 +243,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.user = response.data;
+
+                  if (_this.user.type != "0") {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  }
                 })["catch"](function (error) {
                   console.log(error);
 
@@ -357,7 +363,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     data.append('status', type);
                     data.append('_method', "put");
 
-                    _this3.axios.post('/api/user/status/' + item, data).then(function (response) {
+                    _this3.axios.post('/api/student/status/' + item, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 

@@ -185,6 +185,9 @@ export default {
             await this.axios.get('/api/auth')
                 .then(response => {
                     this.user = response.data;
+                    if (this.user.type != "0") {
+                        this.$router.push({ name: "error" });
+                    }
                 }).catch((error) => {
                     console.log(error);
                     this.axios.post('/api/logout')
@@ -264,7 +267,7 @@ export default {
                         let data = new FormData();
                         data.append('status', type);
                         data.append('_method', "put");
-                        this.axios.post('/api/user/status/' + item, data)
+                        this.axios.post('/api/student/status/' + item, data)
                             .then(response => {
                                 let title = "Error";
                                 let icon = "error";

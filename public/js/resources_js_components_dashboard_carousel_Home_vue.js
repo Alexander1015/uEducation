@@ -233,6 +233,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this2.overlay = true;
                 _context2.next = 3;
+                return _this2.axios.get('/api/auth').then(function (response) {
+                  var user = response.data;
+
+                  if (user.type != "0") {
+                    _this2.$router.push({
+                      name: "error"
+                    });
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+
+                  _this2.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
+
+                    _this2.$router.push({
+                      name: "error"
+                    });
+                  });
+                });
+
+              case 3:
+                _context2.next = 5;
                 return _this2.axios.get('/api/carousel/').then(function (response) {
                   _this2.carousel = _this2.carousel_copy = response.data;
                   _this2.overlay = false;
@@ -241,7 +265,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.overlay = false;
                 });
 
-              case 3:
+              case 5:
               case "end":
                 return _context2.stop();
             }
