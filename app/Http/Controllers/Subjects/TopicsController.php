@@ -29,44 +29,52 @@ class TopicsController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    $validator = Validator::make($request->all(), [
-                        'topics' => ['bail', 'required'],
-                    ]);
-                    if ($validator->fails()) {
-                        return response()->json([
-                            'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
-                            'complete' => false,
+                    $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $data->id)->first();
+                    if ($auth_user->type == "0" || $review) {
+                        $validator = Validator::make($request->all(), [
+                            'topics' => ['bail', 'required'],
                         ]);
-                    } else {
-                        if (!is_array($request->input('topics')) || sizeof($request->input('topics')) < 1) {
+                        if ($validator->fails()) {
                             return response()->json([
-                                'message' => 'La lista proporcionada no posee el formato solicitado',
+                                'message' => 'Hay datos proporcionados que no siguen el formato solicitado',
                                 'complete' => false,
                             ]);
                         } else {
-                            $size = 1;
-                            $fail = 0;
-                            foreach ($request->input('topics') as $data) {
-                                if (!DB::update("UPDATE topics SET sequence = ? WHERE id = ?", [
-                                    $size,
-                                    $data
-                                ])) {
-                                    $fail++;
-                                }
-                                $size++;
-                            }
-                            if ($fail == ($size - 1)) {
+                            if (!is_array($request->input('topics')) || sizeof($request->input('topics')) < 1) {
                                 return response()->json([
-                                    'message' => 'La información proporcionada no modifica el tema, asi que no se ha actualizado',
+                                    'message' => 'La lista proporcionada no posee el formato solicitado',
                                     'complete' => false,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'Lista de la materia modificada exitosamente',
-                                    'complete' => true,
-                                ]);
+                                $size = 1;
+                                $fail = 0;
+                                foreach ($request->input('topics') as $data) {
+                                    if (!DB::update("UPDATE topics SET sequence = ? WHERE id = ?", [
+                                        $size,
+                                        $data
+                                    ])) {
+                                        $fail++;
+                                    }
+                                    $size++;
+                                }
+                                if ($fail == ($size - 1)) {
+                                    return response()->json([
+                                        'message' => 'La información proporcionada no modifica el tema, asi que no se ha actualizado',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Lista de la materia modificada exitosamente',
+                                        'complete' => true,
+                                    ]);
+                                }
                             }
                         }
+                    } else {
+                        return response()->json([
+                            'message' => 'El usuario actual no tiene los permisos necesarios',
+                            'complete' => false,
+                        ]);
                     }
                 }
             } else {

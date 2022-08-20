@@ -25,6 +25,7 @@ use App\Http\Controllers\Subjects\StatusSubjectController;
 use App\Http\Controllers\Subjects\TopicsController as GetTopicsController;
 use App\Http\Controllers\Subjects\UsersController as GetUsersController;
 use App\Http\Controllers\Subjects\StudentsController as GetStudentsController;
+use App\Http\Controllers\Subjects\UsersAccessController as SetUsersAccessController;
 // Tags
 use App\Http\Controllers\Tags\TagController;
 use App\Http\Controllers\Tags\StatusTagController;
@@ -75,6 +76,7 @@ Route::resource('subject/status', StatusSubjectController::class)->middleware('a
 Route::resource('subject/gettopics', GetTopicsController::class)->middleware('auth');
 Route::resource('getusr', GetUsersController::class)->middleware('auth');
 Route::resource('getstd', GetStudentsController::class)->middleware('auth');
+Route::resource('setacs', SetUsersAccessController::class)->middleware('auth');
 // Tags
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('tag/status', StatusTagController::class)->middleware('auth');

@@ -53,12 +53,14 @@
                         </v-icon>
                         Accesos
                     </v-tab>
-                    <v-tab>
-                        <v-icon left>
-                            local_library
-                        </v-icon>
-                        Otros
-                    </v-tab>
+                    <template v-if="login_user.type == '0' || subject.access == '1'">
+                        <v-tab>
+                            <v-icon left>
+                                local_library
+                            </v-icon>
+                            Otros
+                        </v-tab>
+                    </template>
                     <!-- Información de la materia -->
                     <v-tab-item>
                         <div class="px-4 py-4">
@@ -180,14 +182,16 @@
                                         <v-icon left>
                                             fact_check
                                         </v-icon>
-                                        Lista actual de docentes
+                                        Lista de los docentes suscritos
                                     </v-tab>
-                                    <v-tab class="caption">
-                                        <v-icon left>
-                                            group_add
-                                        </v-icon>
-                                        Suscribir docentes
-                                    </v-tab>
+                                    <template v-if="login_user.type == '0' || subject.access == '1'">
+                                        <v-tab class="caption">
+                                            <v-icon left>
+                                                group_add
+                                            </v-icon>
+                                            Suscribir docentes
+                                        </v-tab>
+                                    </template>
                                     <v-tab-item>
                                         <div class="px-4 py-4">
                                             <v-card-subtitle class="text-center">
@@ -241,7 +245,39 @@
                                                     </template>
                                                 </template>
                                                 <template v-slot:item.actions="{ item }">
-                                                    <template v-if="login_user.slug != item.slug">
+                                                    <template
+                                                        v-if="login_user.slug != item.slug && (login_user.type == '0' || subject.access == '1')">
+                                                        <template v-if="login_user.type == '0'">
+                                                            <template v-if="item.access == 0">
+                                                                <v-tooltip bottom>
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_red"
+                                                                            @click.stop="accessUser(item.slug, 1)">
+                                                                            <v-icon>
+                                                                                groups
+                                                                            </v-icon>
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <span>Convertir en coordinador</span>
+                                                                </v-tooltip>
+                                                            </template>
+                                                            <template v-else-if="item.access == 1">
+                                                                <v-tooltip bottom>
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_green"
+                                                                            @click.stop="accessUser(item.slug, 0)">
+                                                                            <v-icon>
+                                                                                person
+                                                                            </v-icon>
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <span>Quitar como coordinador</span>
+                                                                </v-tooltip>
+                                                            </template>
+                                                            <template v-else>
+                                                                <v-icon>indeterminate_check_box</v-icon>
+                                                            </template>
+                                                        </template>
                                                         <v-tooltip bottom>
                                                             <template v-slot:activator="{ on, attrs }">
                                                                 <v-btn icon class="txt_red"
@@ -262,99 +298,104 @@
                                             </v-data-table>
                                         </div>
                                     </v-tab-item>
-                                    <v-tab-item>
-                                        <div class="px-4 py-4">
-                                            <v-card-subtitle class="text-center">
-                                                Suscribir docentes a la materia seleccionada
-                                            </v-card-subtitle>
-                                            <v-row>
-                                                <v-col cols="12" md="9">
-                                                    <v-text-field v-model="search_all_users" class="my-1"
-                                                        prepend-icon="search" label="Buscar" tabindex="1" dense>
-                                                    </v-text-field>
-                                                </v-col>
-                                                <v-col cols="12" md="3">
-                                                    <template v-if="selected.length > 0">
-                                                        <v-tooltip bottom>
-                                                            <template v-slot:activator="{ on, attrs }">
-                                                                <v-btn class="bk_green txt_white width_100"
-                                                                    v-bind="attrs" v-on="on" @click.stop="suscribe()">
-                                                                    <v-icon left>playlist_add</v-icon>
-                                                                    Suscribir
-                                                                </v-btn>
-                                                            </template>
-                                                            <span>Suscribir docentes seleccionados</span>
-                                                        </v-tooltip>
-                                                    </template>
-                                                    <template v-else>
-                                                        <v-btn class="width_100" disabled>
-                                                            <v-icon left>playlist_add</v-icon>
-                                                            Suscribir
-                                                        </v-btn>
-                                                    </template>
-                                                </v-col>
-                                            </v-row>
-                                            <v-data-table class="mt-2" v-model="selected" :headers="headers_all_users"
-                                                :items="all_users" :items-per-page="10" :single-select="singleSelect"
-                                                item-key="id" show-select :footer-props="{
-                                                    showFirstLastPage: true,
-                                                    firstIcon: 'first_page',
-                                                    lastIcon: 'last_page',
-                                                    prevIcon: 'chevron_left',
-                                                    nextIcon: 'chevron_right'
-                                                }" :loading="overlay" loading-text="Obteniendo información"
-                                                no-data-text="No se ha obtenido información"
-                                                no-results-text="No se obtuvieron resultados" multi-sort
-                                                :search="search_all_users" align="center">
-                                                <template v-slot:header.data-table-select="{ props, on }">
-                                                    <v-checkbox :input-value="props.value"
-                                                        :indeterminate="props.indeterminate" @change="on.input"
-                                                        off-icon="check_box_outline_blank" on-icon="check_box"
-                                                        indeterminate-icon="indeterminate_check_box" hide-details>
-                                                    </v-checkbox>
-                                                </template>
-                                                <template v-slot:item.data-table-select="{ isSelected, select }">
-                                                    <v-checkbox :input-value="isSelected" @click="select(!isSelected)"
-                                                        off-icon="check_box_outline_blank" on-icon="check_box"
-                                                        indeterminate-icon="indeterminate_check_box" hide-details>
-                                                    </v-checkbox>
-                                                </template>
-                                                <template v-slot:item.avatar="{ item }">
-                                                    <template v-if="item.avatar">
-                                                        <v-list-item-avatar class="mx-auto">
-                                                            <v-img :src='"/img/users/" + item.avatar + "/index.png"'
-                                                                max-height='38' max-width="38"
-                                                                :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
-                                                                <template v-slot:placeholder>
-                                                                    <v-row class="fill-height ma-0" align="center"
-                                                                        justify="center">
-                                                                        <v-progress-circular indeterminate
-                                                                            color="grey lighten-5">
-                                                                        </v-progress-circular>
-                                                                    </v-row>
+                                    <template v-if="login_user.type == '0' || subject.access == '1'">
+                                        <v-tab-item>
+                                            <div class="px-4 py-4">
+                                                <v-card-subtitle class="text-center">
+                                                    Suscribir docentes a la materia seleccionada
+                                                </v-card-subtitle>
+                                                <v-row>
+                                                    <v-col cols="12" md="9">
+                                                        <v-text-field v-model="search_all_users" class="my-1"
+                                                            prepend-icon="search" label="Buscar" tabindex="1" dense>
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" md="3">
+                                                        <template v-if="selected.length > 0">
+                                                            <v-tooltip bottom>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn class="bk_green txt_white width_100"
+                                                                        v-bind="attrs" v-on="on"
+                                                                        @click.stop="suscribe()">
+                                                                        <v-icon left>playlist_add</v-icon>
+                                                                        Suscribir
+                                                                    </v-btn>
                                                                 </template>
-                                                            </v-img>
-                                                        </v-list-item-avatar>
+                                                                <span>Suscribir docentes seleccionados</span>
+                                                            </v-tooltip>
+                                                        </template>
+                                                        <template v-else>
+                                                            <v-btn class="width_100" disabled>
+                                                                <v-icon left>playlist_add</v-icon>
+                                                                Suscribir
+                                                            </v-btn>
+                                                        </template>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-data-table class="mt-2" v-model="selected"
+                                                    :headers="headers_all_users" :items="all_users" :items-per-page="10"
+                                                    :single-select="singleSelect" item-key="id" show-select
+                                                    :footer-props="{
+                                                        showFirstLastPage: true,
+                                                        firstIcon: 'first_page',
+                                                        lastIcon: 'last_page',
+                                                        prevIcon: 'chevron_left',
+                                                        nextIcon: 'chevron_right'
+                                                    }" :loading="overlay" loading-text="Obteniendo información"
+                                                    no-data-text="No se ha obtenido información"
+                                                    no-results-text="No se obtuvieron resultados" multi-sort
+                                                    :search="search_all_users" align="center">
+                                                    <template v-slot:header.data-table-select="{ props, on }">
+                                                        <v-checkbox :input-value="props.value"
+                                                            :indeterminate="props.indeterminate" @change="on.input"
+                                                            off-icon="check_box_outline_blank" on-icon="check_box"
+                                                            indeterminate-icon="indeterminate_check_box" hide-details>
+                                                        </v-checkbox>
                                                     </template>
-                                                    <template v-else>
-                                                        <v-list-item-avatar class="mx-auto">
-                                                            <v-img src="/img/users/blank.png" max-height="38"
-                                                                max-width="38" lazy-src="/img/users/blank_lazy.png">
-                                                                <template v-slot:placeholder>
-                                                                    <v-row class="fill-height ma-0" align="center"
-                                                                        justify="center">
-                                                                        <v-progress-circular indeterminate
-                                                                            color="grey lighten-5">
-                                                                        </v-progress-circular>
-                                                                    </v-row>
-                                                                </template>
-                                                            </v-img>
-                                                        </v-list-item-avatar>
+                                                    <template v-slot:item.data-table-select="{ isSelected, select }">
+                                                        <v-checkbox :input-value="isSelected"
+                                                            @click="select(!isSelected)"
+                                                            off-icon="check_box_outline_blank" on-icon="check_box"
+                                                            indeterminate-icon="indeterminate_check_box" hide-details>
+                                                        </v-checkbox>
                                                     </template>
-                                                </template>
-                                            </v-data-table>
-                                        </div>
-                                    </v-tab-item>
+                                                    <template v-slot:item.avatar="{ item }">
+                                                        <template v-if="item.avatar">
+                                                            <v-list-item-avatar class="mx-auto">
+                                                                <v-img :src='"/img/users/" + item.avatar + "/index.png"'
+                                                                    max-height='38' max-width="38"
+                                                                    :lazy-src='"/img/users/" + item.avatar + "/lazy.png"'>
+                                                                    <template v-slot:placeholder>
+                                                                        <v-row class="fill-height ma-0" align="center"
+                                                                            justify="center">
+                                                                            <v-progress-circular indeterminate
+                                                                                color="grey lighten-5">
+                                                                            </v-progress-circular>
+                                                                        </v-row>
+                                                                    </template>
+                                                                </v-img>
+                                                            </v-list-item-avatar>
+                                                        </template>
+                                                        <template v-else>
+                                                            <v-list-item-avatar class="mx-auto">
+                                                                <v-img src="/img/users/blank.png" max-height="38"
+                                                                    max-width="38" lazy-src="/img/users/blank_lazy.png">
+                                                                    <template v-slot:placeholder>
+                                                                        <v-row class="fill-height ma-0" align="center"
+                                                                            justify="center">
+                                                                            <v-progress-circular indeterminate
+                                                                                color="grey lighten-5">
+                                                                            </v-progress-circular>
+                                                                        </v-row>
+                                                                    </template>
+                                                                </v-img>
+                                                            </v-list-item-avatar>
+                                                        </template>
+                                                    </template>
+                                                </v-data-table>
+                                            </div>
+                                        </v-tab-item>
+                                    </template>
                                 </v-tabs>
                             </v-tab-item>
                             <!-- Estudiantes -->
@@ -365,7 +406,7 @@
                                         <v-icon left>
                                             fact_check
                                         </v-icon>
-                                        Lista actual de estudiantes
+                                        Lista de los estudiantes suscritos
                                     </v-tab>
                                     <v-tab class="caption">
                                         <v-icon left>
@@ -567,48 +608,50 @@
                             </v-tab-item>
                         </v-tabs>
                     </v-tab-item>
-                    <v-tab-item>
-                        <div class="px-4 py-4">
-                            <div>
-                                <v-card-subtitle class="text-justify">
-                                    Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra
-                                    ser
-                                    visualizado por parte del lector)
-                                </v-card-subtitle>
-                                <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
-                                    <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
-                                    <template
-                                        v-if="form_status.status != (subject.status == 1 ? 'Habilitado' : 'Deshabilitado')">
-                                        <v-btn class="txt_white bk_green" block type="submit">
-                                            <v-icon left>save</v-icon>
-                                            Guardar
-                                        </v-btn>
-                                    </template>
-                                    <template v-else>
-                                        <v-btn block disabled>
-                                            <v-icon left>save</v-icon>
-                                            Guardar
-                                        </v-btn>
-                                    </template>
-                                </v-form>
-                            </div>
-                            <template v-if="login_user.type == '0'">
-                                <v-divider class="mt-8 mb-4"></v-divider>
+                    <template v-if="login_user.type == '0' || subject.access == '1'">
+                        <v-tab-item>
+                            <div class="px-4 py-4">
                                 <div>
                                     <v-card-subtitle class="text-justify">
-                                        Elimine la materia seleccionada de la base de datos, esta opcion no se
-                                        puede
-                                        revertir
+                                        Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra
+                                        ser
+                                        visualizado por parte del lector)
                                     </v-card-subtitle>
-                                    <v-btn class="txt_white bk_red" block @click.stop="deleteSubject()">
-                                        <v-icon left>delete</v-icon>
-                                        Eliminar materia
-                                    </v-btn>
+                                    <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
+                                        <v-select class="width_100" v-model="form_status.status" :items="items_status"
+                                            label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        <template
+                                            v-if="form_status.status != (subject.status == 1 ? 'Habilitado' : 'Deshabilitado')">
+                                            <v-btn class="txt_white bk_green" block type="submit">
+                                                <v-icon left>save</v-icon>
+                                                Guardar
+                                            </v-btn>
+                                        </template>
+                                        <template v-else>
+                                            <v-btn block disabled>
+                                                <v-icon left>save</v-icon>
+                                                Guardar
+                                            </v-btn>
+                                        </template>
+                                    </v-form>
                                 </div>
-                            </template>
-                        </div>
-                    </v-tab-item>
+                                <template v-if="login_user.type == '0'">
+                                    <v-divider class="mt-8 mb-4"></v-divider>
+                                    <div>
+                                        <v-card-subtitle class="text-justify">
+                                            Elimine la materia seleccionada de la base de datos, esta opcion no se
+                                            puede
+                                            revertir
+                                        </v-card-subtitle>
+                                        <v-btn class="txt_white bk_red" block @click.stop="deleteSubject()">
+                                            <v-icon left>delete</v-icon>
+                                            Eliminar materia
+                                        </v-btn>
+                                    </div>
+                                </template>
+                            </div>
+                        </v-tab-item>
+                    </template>
                 </v-tabs>
             </v-card>
         </div>
@@ -722,53 +765,54 @@ export default {
     methods: {
         // Docentes
         async unsubscribe(slug) {
-            await this.$swal({
-                title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        data.append('user', slug);
-                        data.append('subject', this.address);
-                        this.axios.post('/api/getusr/', data)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
+            if (this.login_user.type == '0' || this.subject.access == '1') {
+                await this.$swal({
+                    title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            data.append('user', slug);
+                            data.append('subject', this.address);
+                            this.axios.post('/api/getusr/', data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.showSubject();
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
-                                    else this.overlay = false;
-                                });
-                            }).catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    console.log(error);
-                                    this.overlay = false;
-                                });
-                            })
-                    }
-                });
-
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        else this.overlay = false;
+                                    });
+                                }).catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
+                                    });
+                                })
+                        }
+                    });
+            }
         },
         async suscribe() {
-            if (this.selected.length > 0) {
+            if (this.selected.length > 0 && (this.login_user.type == '0' || this.subject.access == '1')) {
                 await this.$swal({
                     title: '¿Esta seguro de suscribir los docentes seleccionados?',
                     icon: 'warning',
@@ -1108,53 +1152,104 @@ export default {
                 });
         },
         async statusSubject() {
-            await this.$swal({
-                title: '¿Esta seguro de cambiar el estado de la materia?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        let type = 3;
-                        if (this.form_status.status == "Habilitado") type = 1;
-                        else if (this.form_status.status == "Deshabilitado") type = 0;
-                        data.append('status', type);
-                        data.append('_method', "put");
-                        this.axios.post('/api/subject/status/' + this.address, data)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
+            if (this.login_user.type == '0' || this.subject.access == '1') {
+                await this.$swal({
+                    title: '¿Esta seguro de cambiar el estado de la materia?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            let type = 3;
+                            if (this.form_status.status == "Habilitado") type = 1;
+                            else if (this.form_status.status == "Deshabilitado") type = 0;
+                            data.append('status', type);
+                            data.append('_method', "put");
+                            this.axios.post('/api/subject/status/' + this.address, data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
                                     if (response.data.complete) {
-                                        this.showSubject();
+                                        title = "Éxito"
+                                        icon = "success";
                                     }
-                                    this.overlay = false;
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        this.overlay = false;
+                                    });
+                                })
+                                .catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
+                                    });
                                 });
-                            })
-                            .catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    this.overlay = false;
-                                    console.log(error);
+                        }
+                    });
+            }
+        },
+        async accessUser(item, type) {
+            if (this.login_user.type == '0') {
+                await this.$swal({
+                    title: '¿Esta seguro de cambiar el acceso coordinador del usuario?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            data.append('user', item);
+                            data.append('type', type);
+                            data.append('_method', "put");
+                            this.axios.post('/api/setacs/' + this.address, data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            this.showSubject();
+                                        }
+                                        this.overlay = false;
+                                    });
+                                })
+                                .catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
+                                    });
                                 });
-                            });
-                    }
-                });
+                        }
+                    });
+            }
         },
         async deleteSubject() {
             if (this.login_user.type == '0') {

@@ -16,14 +16,17 @@
                     <span>Actualizar</span>
                 </v-tooltip>
                 <span class="text-h6">MATERIAS</span>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on" @click.stop="gotoNew()">
-                            <v-icon>add_box</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>Nuevo</span>
-                </v-tooltip>
+                <template v-if="user.type == '0'">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on"
+                                @click.stop="gotoNew()">
+                                <v-icon>add_box</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Nuevo</span>
+                    </v-tooltip>
+                </template>
             </div>
             <div class="mb-8">
                 <p>Listado de las materias existentes en la aplicación</p>
@@ -68,28 +71,44 @@
                 <template v-slot:item.status="{ item }">
                     <div>
                         <template v-if="item.status == 0">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusSubject(item.slug, 1)">
-                                        <v-icon>
-                                            check_box_outline_blank
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Habilitar</span>
-                            </v-tooltip>
+                            <template v-if="user.type == '0' || item.access == '1'">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon v-bind="attrs" v-on="on"
+                                            @click.stop="statusSubject(item.slug, 1, item.access)">
+                                            <v-icon>
+                                                check_box_outline_blank
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Habilitar</span>
+                                </v-tooltip>
+                            </template>
+                            <template v-else>
+                                <v-icon>
+                                    check_box_outline_blank
+                                </v-icon>
+                            </template>
                         </template>
                         <template v-else-if="item.status == 1">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon v-bind="attrs" v-on="on" @click.stop="statusSubject(item.slug, 0)">
-                                        <v-icon>
-                                            check_box
-                                        </v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Deshabilitar</span>
-                            </v-tooltip>
+                            <template v-if="user.type == '0' || item.access == '1'">
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon v-bind="attrs" v-on="on"
+                                            @click.stop="statusSubject(item.slug, 0, item.access)">
+                                            <v-icon>
+                                                check_box
+                                            </v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <span>Deshabilitar</span>
+                                </v-tooltip>
+                            </template>
+                            <template v-else>
+                                <v-icon>
+                                    check_box
+                                </v-icon>
+                            </template>
                         </template>
                         <template v-else>
                             <v-icon>indeterminate_check_box</v-icon>
@@ -183,94 +202,98 @@ export default {
                 })
         },
         async deleteSubject(item) {
-            await this.$swal({
-                title: '¿Esta seguro de eliminar la materia?',
-                text: "Esta acción no se puede revertir",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        this.axios.delete('/api/subject/' + item)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
-                                    this.overlay = false;
-                                    this.allSubjects();
+            if (this.user.type == "0") {
+                await this.$swal({
+                    title: '¿Esta seguro de eliminar la materia?',
+                    text: "Esta acción no se puede revertir",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            this.axios.delete('/api/subject/' + item)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        this.allSubjects();
+                                    })
                                 })
-                            })
-                            .catch(error => {
-                                this.sweet.title = "Error"
-                                this.sweet.icon = "error";
-                                this.$swal({
-                                    title: this.sweet.title,
-                                    icon: this.sweet.icon,
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    console.log(error);
-                                    this.overlay = false;
-                                    this.allSubjects();
+                                .catch(error => {
+                                    this.sweet.title = "Error"
+                                    this.sweet.icon = "error";
+                                    this.$swal({
+                                        title: this.sweet.title,
+                                        icon: this.sweet.icon,
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.overlay = false;
+                                        this.allSubjects();
+                                    });
                                 });
-                            });
-                    }
-                });
+                        }
+                    });
+            }
         },
-        async statusSubject(item, type) {
-            await this.$swal({
-                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la materia seleccionada?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        data.append('status', type);
-                        data.append('_method', "put");
-                        this.axios.post('/api/subject/status/' + item, data)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
-                                    this.allSubjects();
-                                    this.overlay = false;
+        async statusSubject(item, type, access) {
+            if (this.user.type == "0" || access == "1") {
+                await this.$swal({
+                    title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la materia seleccionada?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            data.append('status', type);
+                            data.append('_method', "put");
+                            this.axios.post('/api/subject/status/' + item, data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        this.allSubjects();
+                                        this.overlay = false;
+                                    })
                                 })
-                            })
-                            .catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    console.log(error);
-                                    this.allSubjects();
-                                    this.overlay = false;
+                                .catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        console.log(error);
+                                        this.allSubjects();
+                                        this.overlay = false;
+                                    });
                                 });
-                            });
-                    }
-                });
+                        }
+                    });
+            }
         }
     },
 }

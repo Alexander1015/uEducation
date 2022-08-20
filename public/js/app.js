@@ -6180,7 +6180,7 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
+        if (response.data.type == "1" || response.data.type == "2") {
           return next({
             name: 'error'
           });
