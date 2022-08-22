@@ -1136,7 +1136,7 @@ export default {
                                     if (response.data.complete) {
                                         this.showSubject();
                                     }
-                                    this.overlay = false;
+                                    else this.overlay = false;
                                 });
                             }).catch(error => {
                                 this.$swal({

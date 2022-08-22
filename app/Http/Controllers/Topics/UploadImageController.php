@@ -30,31 +30,39 @@ class UploadImageController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    if ($request->file('image')) {
-                        //Direccion de la imagen
-                        $new_img = time() . '.' . $request->file('image')->getClientOriginalExtension();
-                        $img = $request->file('image');
-                        $size = Image::make($img->getRealPath())->width();
-                        $address = public_path('/data') . "/" . $data->body . "/img"; // Direccion de la imagen
-                        if (!File::isDirectory($address)) {
-                            File::makeDirectory($address, 0777, true, true);
-                        }
-                        $img = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
-                        $img->save($address . '/' . $new_img, 100);
-                        DB::table("images")
-                            ->insert([
-                                'topic_id' => $data->id,
-                                'image' => $new_img,
+                    $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $data->subject_id)->first();
+                    if ($auth_user->type == "0" || $review) {
+                        if ($request->file('image')) {
+                            //Direccion de la imagen
+                            $new_img = time() . '.' . $request->file('image')->getClientOriginalExtension();
+                            $img = $request->file('image');
+                            $size = Image::make($img->getRealPath())->width();
+                            $address = public_path('/data') . "/" . $data->body . "/img"; // Direccion de la imagen
+                            if (!File::isDirectory($address)) {
+                                File::makeDirectory($address, 0777, true, true);
+                            }
+                            $img = Image::make($img->getRealPath())->resize($size, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                            });
+                            $img->save($address . '/' . $new_img, 100);
+                            DB::table("images")
+                                ->insert([
+                                    'topic_id' => $data->id,
+                                    'image' => $new_img,
+                                ]);
+                            return response()->json([
+                                'url' => '/data/' . $data->body . '/img/' . $new_img,
+                                'message' => "Se ha subido exitosamente la imagen al servidor.",
                             ]);
-                        return response()->json([
-                            'url' => '/data/' . $data->body . '/img/' . $new_img,
-                            'message' => "Se ha subido exitosamente la imagen al servidor.",
-                        ]);
+                        } else {
+                            return response()->json([
+                                'message' => "No se ha obtenido ninguna imagen",
+                            ]);
+                        }
                     } else {
                         return response()->json([
-                            'message' => "No se ha obtenido ninguna imagen",
+                            'message' => 'El usuario actual no tiene los permisos necesarios',
+                            'complete' => false,
                         ]);
                     }
                 }

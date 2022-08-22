@@ -30,52 +30,60 @@ class StatusTopicController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    $validator = Validator::make($request->all(), [
-                        'status' => ['bail', 'required', 'in:0,1'],
-                    ]);
-                    if ($validator->fails()) {
-                        return response()->json([
-                            'message' => 'Ha ocurrido un error con el envío de información',
-                            'complete' => false,
+                    $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $data->subject_id)->first();
+                    if ($auth_user->type == "0" || $review) {
+                        $validator = Validator::make($request->all(), [
+                            'status' => ['bail', 'required', 'in:0,1'],
                         ]);
-                    } else {
-                        $file = public_path('data') . "/" . $data->body . "/body.html";
-                        if (!file_exists($file)) {
-                            $path = public_path('data');
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path .= "/" . $data->body;
-                            if (!File::isDirectory($path)) {
-                                mkdir($path, 0777, true);
-                            }
-                            $path .= "/body.html";
-                            fopen($path, "w");
-                        }
-                        if ($data->status == "0" && $request->input('status') == "1" && trim(file_get_contents($file)) == "") {
+                        if ($validator->fails()) {
                             return response()->json([
-                                'message' => 'No se puede activar el tema, debido a que no tiene contenido para mostrar',
+                                'message' => 'Ha ocurrido un error con el envío de información',
                                 'complete' => false,
                             ]);
                         } else {
-                            if (DB::update("UPDATE topics SET status = ? WHERE id = ?", [
-                                $request->input('status'),
-                                $data->id,
-                            ])) {
-                                $message = "";
-                                if ($request->input('status') == 0) $message = "El estado del tema seleccionado se ha cambiado a borrador exitosamente";
-                                else if ($request->input('status') == 1) $message = "Se ha activado el tema exitosamente";
+                            $file = public_path('data') . "/" . $data->body . "/body.html";
+                            if (!file_exists($file)) {
+                                $path = public_path('data');
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path .= "/" . $data->body;
+                                if (!File::isDirectory($path)) {
+                                    mkdir($path, 0777, true);
+                                }
+                                $path .= "/body.html";
+                                fopen($path, "w");
+                            }
+                            if ($data->status == "0" && $request->input('status') == "1" && trim(file_get_contents($file)) == "") {
                                 return response()->json([
-                                    'message' => $message,
-                                    'complete' => true,
-                                ]);
-                            } else {
-                                return response()->json([
-                                    'message' => 'Ha ocurrido un error al momento de cambiar el estado del tema',
+                                    'message' => 'No se puede activar el tema, debido a que no tiene contenido para mostrar',
                                     'complete' => false,
                                 ]);
+                            } else {
+                                if (DB::update("UPDATE topics SET status = ? WHERE id = ?", [
+                                    $request->input('status'),
+                                    $data->id,
+                                ])) {
+                                    $message = "";
+                                    if ($request->input('status') == 0) $message = "El estado del tema seleccionado se ha cambiado a borrador exitosamente";
+                                    else if ($request->input('status') == 1) $message = "Se ha activado el tema exitosamente";
+                                    return response()->json([
+                                        'message' => $message,
+                                        'complete' => true,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'Ha ocurrido un error al momento de cambiar el estado del tema',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
+                    } else {
+                        return response()->json([
+                            'message' => 'El usuario actual no tiene los permisos necesarios',
+                            'complete' => false,
+                        ]);
                     }
                 }
             } else {

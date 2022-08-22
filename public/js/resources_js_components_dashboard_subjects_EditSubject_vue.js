@@ -1429,9 +1429,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }).then(function () {
                         if (response.data.complete) {
                           _this7.showSubject();
-                        }
-
-                        _this7.overlay = false;
+                        } else _this7.overlay = false;
                       });
                     })["catch"](function (error) {
                       _this7.$swal({

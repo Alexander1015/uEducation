@@ -389,7 +389,6 @@ class SubjectController extends Controller
                         'complete' => false,
                     ]);
                 } else {
-                    $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $data->id)->first();
                     if ($auth_user->type == "0") {
                         // Sacamos los temas atribuidos a la materia
                         $topics = DB::table("topics")->where("subject_id", $data->id)->get();
