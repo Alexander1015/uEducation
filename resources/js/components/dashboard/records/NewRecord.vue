@@ -23,7 +23,7 @@
                             Regresar
                         </v-btn>
                         <v-card-title class="text-h5">
-                            <p class="mx-auto">NUEVOS REGISTROS</p>
+                            <p class="mx-auto">GENERAR REGISTROS</p>
                         </v-card-title>
                         <v-card-subtitle class="text-center">
                             Genere la bitacora del ciclo actual según su especificación<br />

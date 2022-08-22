@@ -861,7 +861,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("v-card-title", { staticClass: "text-h5" }, [
                       _c("p", { staticClass: "mx-auto" }, [
-                        _vm._v("NUEVOS REGISTROS"),
+                        _vm._v("GENERAR REGISTROS"),
                       ]),
                     ]),
                     _vm._v(" "),
