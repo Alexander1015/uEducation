@@ -32,16 +32,10 @@ class GetTagsSubjectsController extends Controller
                     'tags' => $tags,
                 ]);
             } else {
-                return response()->json([
-                    'subjects' => [],
-                    'tags' => [],
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                'subjects' => [],
-                'tags' => [],
-            ]);
+            return response()->json([]);
         }
     }
 }

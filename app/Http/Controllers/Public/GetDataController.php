@@ -93,7 +93,7 @@ class GetDataController extends Controller
                     // Corto
                     $subjects = DB::select(
                         'SELECT
-                            T.id, T.name, S.name AS subject
+                            T.id, T.name, S.subject_id, S.name AS subject
                         FROM 
                             topics AS T
                         LEFT JOIN subjects AS S ON T.subject_id = S.id
@@ -108,7 +108,7 @@ class GetDataController extends Controller
                     );
                     $data = array();
                     foreach ($subjects as $item) {
-                        $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $item->id)->first();
+                        $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $item->subject_id)->first();
                         if ($auth_user->type == "0" || $review) {
                             array_push($data, $item);
                         }
@@ -116,7 +116,7 @@ class GetDataController extends Controller
                     // Completo
                     $subjects_all = DB::select(
                         'SELECT
-                            T.id, T.name, T.slug, T.abstract, T.img, T.status, S.name AS subject, S.slug AS subject_slug
+                            T.id, T.name, T.slug, T.abstract, T.img, T.status, T.subject_id ,S.name AS subject, S.slug AS subject_slug
                         FROM 
                             topics AS T
                         LEFT JOIN subjects AS S ON T.subject_id = S.id
@@ -131,7 +131,7 @@ class GetDataController extends Controller
                     );
                     $data_all = array();
                     foreach ($subjects_all as $item) {
-                        $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $item->id)->first();
+                        $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $item->subject_id)->first();
                         if ($auth_user->type == "0" || $review) {
                             array_push($data_all, $item);
                         }
@@ -225,40 +225,39 @@ class GetDataController extends Controller
             if ($auth_user && $auth_user->status == 1) {
                 // Obtenemos el subject
                 $subject = DB::table("subjects")->where("slug", $slug)->where("status", 1)->first();
-                //Obtenemos los topics atribuidos
-                $topics = DB::select(
-                    'SELECT
-                    id, name, slug, sequence
-                FROM 
-                    topics
-                WHERE
-                    subject_id = ? AND status = ?
-                ORDER BY sequence ASC',
-                    [
-                        $subject->id,
-                        1
-                    ]
-                );
-                $size = 1;
-                foreach ($topics as $data) {
-                    $data->key = $size;
-                    $size++;
+                $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $subject->id)->first();
+                if ($auth_user->type == "0" || $review) {
+                    //Obtenemos los topics atribuidos
+                    $topics = DB::select(
+                        'SELECT
+                        id, name, slug, sequence
+                    FROM 
+                        topics
+                    WHERE
+                        subject_id = ? AND status = ?
+                    ORDER BY sequence ASC',
+                        [
+                            $subject->id,
+                            1
+                        ]
+                    );
+                    $size = 1;
+                    foreach ($topics as $data) {
+                        $data->key = $size;
+                        $size++;
+                    }
+                    return response()->json([
+                        'subject' => $subject,
+                        'topics' => $topics,
+                    ]);
+                } else {
+                    return response()->json([]);
                 }
-                return response()->json([
-                    'subject' => $subject,
-                    'topics' => $topics,
-                ]);
             } else {
-                return response()->json([
-                    'subject' => [],
-                    'topics' => [],
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                'subject' => [],
-                'topics' => [],
-            ]);
+            return response()->json([]);
         }
     }
 }

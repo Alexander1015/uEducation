@@ -29,6 +29,9 @@ const EditTag = () => import ('./components/dashboard/tags/EditTag.vue')
 const DashboardTopics = () => import ('./components/dashboard/topics/Home.vue')
 const NewTopic = () => import ('./components/dashboard/topics/NewTopic.vue')
 const EditTopic = () => import ('./components/dashboard/topics/EditTopic.vue')
+// Recors
+const DashboardRecords = () => import ('./components/dashboard/records/Home.vue')
+const NewRecord = () => import ('./components/dashboard/records/NewRecord.vue')
 // Profile
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
 // Error 404
@@ -365,6 +368,44 @@ export const routes = [
         name: 'editTag',
         path: '/dashboard/tags/edit/:slug',
         component: EditTag,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'records',
+        path: '/dashboard/records',
+        component: DashboardRecords,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "2") {
+                        return next({name: 'error'})
+                    } else {
+                        next()
+                    }
+                }).catch((error) => {
+                    return next({name: 'error'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'newRecord',
+        path: '/dashboard/records/new',
+        component: NewRecord,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa

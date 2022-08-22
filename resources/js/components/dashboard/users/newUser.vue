@@ -72,7 +72,7 @@
                                             required>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm=12>
+                                    <v-col cols="12" sm="12">
                                         <v-autocomplete v-model="form.type" :rules="typeRules" :items="data_type"
                                             clearable clear-icon="cancel" label="Tipo de Usuario *" tabindex="7" dense
                                             no-data-text="No se encuentra información para mostrar"

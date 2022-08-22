@@ -130,28 +130,16 @@ class StudentsController extends Controller
                             "subject_students" => $data_subject
                         ]);
                     } else {
-                        return response()->json([
-                            "all_students" => [],
-                            "subject_students" => []
-                        ]);
+                        return response()->json([]);
                     }
                 } else {
-                    return response()->json([
-                        "all_students" => [],
-                        "subject_students" => []
-                    ]);
+                    return response()->json([]);
                 }
             } else {
-                return response()->json([
-                    "all_students" => [],
-                    "subject_students" => []
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                "all_students" => [],
-                "subject_students" => []
-            ]);
+            return response()->json([]);
         }
     }
 

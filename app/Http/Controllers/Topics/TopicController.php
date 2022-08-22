@@ -337,25 +337,13 @@ class TopicController extends Controller
                         'tags' => $tags,
                     ]);
                 } else {
-                    return response()->json([
-                        'topic' => [],
-                        'subject' => [],
-                        'tags' => [],
-                    ]);
+                    return response()->json([]);
                 }
             } else {
-                return response()->json([
-                    'topic' => [],
-                    'subject' => [],
-                    'tags' => [],
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                'topic' => [],
-                'subject' => [],
-                'tags' => [],
-            ]);
+            return response()->json([]);
         }
     }
 

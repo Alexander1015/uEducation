@@ -94,8 +94,8 @@ class UsersController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                'message' => $ex->getMessage(),
-                // 'message' => "Ha ocurrido un error en la aplicación",
+                // 'message' => $ex->getMessage(),
+                'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
@@ -136,36 +136,23 @@ class UsersController extends Controller
                                 "all_users" => $data_all,
                                 "subject_users" => $data_subject
                             ]);
-                        }
-                        else {
+                        } else {
                             return response()->json([
                                 "all_users" => [],
                                 "subject_users" => $data_subject
                             ]);
                         }
                     } else {
-                        return response()->json([
-                            "all_users" => [],
-                            "subject_users" => []
-                        ]);
+                        return response()->json([]);
                     }
                 } else {
-                    return response()->json([
-                        "all_users" => [],
-                        "subject_users" => []
-                    ]);
+                    return response()->json([]);
                 }
             } else {
-                return response()->json([
-                    "all_users" => [],
-                    "subject_users" => []
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                "all_users" => [],
-                "subject_users" => []
-            ]);
+            return response()->json([]);
         }
     }
 

@@ -277,6 +277,14 @@ class UserController extends Controller
                                 $time_avatar,
                                 $data->id,
                             ])) {
+                                // Si tiene algun record actualizamos los nombres y el usuario si es posible
+                                DB::update("UPDATE records SET firstname = ?, lastname = ?, user = ? WHERE user = ? AND status_user = ?", [
+                                    $request->input('firstname'),
+                                    $request->input('lastname'),
+                                    strtolower($request->input('user')),
+                                    $data->user,
+                                    "1"
+                                ]);
                                 // Verificamos si no se ha eliminado el avatar que ya tenia el usuario
                                 if ($request->file('avatar')) {
                                     $directory = public_path('img/users') . "/" . $time_avatar;
@@ -395,6 +403,12 @@ class UserController extends Controller
                                     DB::table("user_subject")->where("user_id", $data->id)->delete();
                                 }
                                 if (DB::table("users")->delete($data->id)) {
+                                    // Si tiene algun record actualizamos el usuario si es posible
+                                    DB::update("UPDATE records SET status_user = ? WHERE user = ? AND status_user = ?", [
+                                        "0",
+                                        $data->user,
+                                        "1",
+                                    ]);
                                     if ($data->avatar) {
                                         // Eliminamos las imagenes del user
                                         $directory = public_path('img/users') . "/" . $data->avatar;

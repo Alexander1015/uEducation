@@ -40,91 +40,86 @@ class GetTopicController extends Controller
                         1
                     ]
                 );
-                // Verificamos que existe la carpeta para mostrar el body
-                $file = public_path('data') . "/" . $topic[0]->body . "/body.html";
-                if (!file_exists($file)) {
-                    $path = public_path('data');
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
+                $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $topic[0]->subject_id)->first();
+                if ($auth_user->type == "0" || $review) {
+                    // Verificamos que existe la carpeta para mostrar el body
+                    $file = public_path('data') . "/" . $topic[0]->body . "/body.html";
+                    if (!file_exists($file)) {
+                        $path = public_path('data');
+                        if (!File::isDirectory($path)) {
+                            mkdir($path, 0777, true);
+                        }
+                        $path .= "/" . $topic[0]->body;
+                        if (!File::isDirectory($path)) {
+                            mkdir($path, 0777, true);
+                        }
+                        $path .= "/body.html";
+                        fopen($path, "w");
                     }
-                    $path .= "/" . $topic[0]->body;
-                    if (!File::isDirectory($path)) {
-                        mkdir($path, 0777, true);
-                    }
-                    $path .= "/body.html";
-                    fopen($path, "w");
-                }
-                $topic[0]->data = file_get_contents($file);
-                // Obtenemos el anterior y el siguiente
-                $all_topics = DB::select(
-                    'SELECT
-                    id, name, slug, status, subject_id
-                FROM 
-                    topics AS T
-                WHERE
-                    subject_id = ? AND status = ?
-                ORDER BY sequence ASC',
-                    [
-                        $topic[0]->subject_id,
-                        1
-                    ]
-                );
-                $previous = array();
-                $next = array();
-                $total = sizeof($all_topics);
-                for ($x = 0; $x < $total; $x++) {
-                    if ($all_topics[$x]->id == $topic[0]->id) {
-                        if ($x == 0 && $total == 1) {
-                            break;
-                        } else if ($x == 0 && $total > 1) {
-                            array_push($next, $all_topics[$x + 1]);
-                            break;
-                        } else if ($x == ($total - 1)) {
-                            array_push($previous, $all_topics[$x - 1]);
-                            break;
-                        } else {
-                            array_push($previous, $all_topics[$x - 1]);
-                            array_push($next, $all_topics[$x + 1]);
-                            break;
+                    $topic[0]->data = file_get_contents($file);
+                    // Obtenemos el anterior y el siguiente
+                    $all_topics = DB::select(
+                        'SELECT
+                        id, name, slug, status, subject_id
+                    FROM 
+                        topics AS T
+                    WHERE
+                        subject_id = ? AND status = ?
+                    ORDER BY sequence ASC',
+                        [
+                            $topic[0]->subject_id,
+                            1
+                        ]
+                    );
+                    $previous = array();
+                    $next = array();
+                    $total = sizeof($all_topics);
+                    for ($x = 0; $x < $total; $x++) {
+                        if ($all_topics[$x]->id == $topic[0]->id) {
+                            if ($x == 0 && $total == 1) {
+                                break;
+                            } else if ($x == 0 && $total > 1) {
+                                array_push($next, $all_topics[$x + 1]);
+                                break;
+                            } else if ($x == ($total - 1)) {
+                                array_push($previous, $all_topics[$x - 1]);
+                                break;
+                            } else {
+                                array_push($previous, $all_topics[$x - 1]);
+                                array_push($next, $all_topics[$x + 1]);
+                                break;
+                            }
                         }
                     }
+                    // Tags
+                    $tags = DB::select(
+                        'SELECT
+                        Ta.id, Ta.slug, Ta.name, Ta.background_color, Ta.text_color, Ta.status
+                    FROM 
+                        topic_tag AS Tt
+                    LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
+                    WHERE
+                        Tt.topic_id = ? AND Ta.status = ?
+                    ORDER BY Ta.name ASC',
+                        [
+                            $topic[0]->id,
+                            1
+                        ]
+                    );
+                    return response()->json([
+                        'topic' => $topic[0],
+                        'previous' => sizeof($previous) == 1 ? $previous[0] : $previous,
+                        'next' => sizeof($next) == 1 ? $next[0] : $next,
+                        'tags' => $tags,
+                    ]);
+                } else {
+                    return response()->json([]);
                 }
-                // Tags
-                $tags = DB::select(
-                    'SELECT
-                    Ta.id, Ta.slug, Ta.name, Ta.background_color, Ta.text_color, Ta.status
-                FROM 
-                    topic_tag AS Tt
-                LEFT JOIN tags AS Ta ON Tt.tag_id = Ta.id
-                WHERE
-                    Tt.topic_id = ? AND Ta.status = ?
-                ORDER BY Ta.name ASC',
-                    [
-                        $topic[0]->id,
-                        1
-                    ]
-                );
-                return response()->json([
-                    'topic' => $topic[0],
-                    'previous' => sizeof($previous) == 1 ? $previous[0] : $previous,
-                    'next' => sizeof($next) == 1 ? $next[0] : $next,
-                    'tags' => $tags,
-                ]);
             } else {
-                return response()->json([
-                    'topic' => [],
-                    'previous' => [],
-                    'next' => [],
-                    'tags' => [],
-                ]);
+                return response()->json([]);
             }
         } catch (Exception $ex) {
-            return response()->json([
-                'topic' => [],
-                'previous' => [],
-                'next' => [],
-                'tags' => [],
-            ]);
+            return response()->json([]);
         }
     }
 }

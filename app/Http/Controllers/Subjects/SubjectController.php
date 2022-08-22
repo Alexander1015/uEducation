@@ -294,6 +294,12 @@ class SubjectController extends Controller
                                 $time_img,
                                 $data->id,
                             ])) {
+                                // Si tiene algun record actualizamos la materia si es posible
+                                DB::update("UPDATE records SET subject = ? WHERE subject = ? AND status_subject = ?", [
+                                    $request->input('name'),
+                                    $data->name,
+                                    "1"
+                                ]);
                                 // Verificamos si no se ha eliminado el img que ya tenia el tema
                                 if ($request->file('img')) {
                                     $directory = public_path('img/subjects') . "/" . $time_img;
@@ -404,6 +410,12 @@ class SubjectController extends Controller
                             DB::table("user_subject")->where("subject_id", $data->id)->delete();
                         }
                         if (DB::table("subjects")->delete($data->id)) {
+                            // Si tiene algun record actualizamos la materia si es posible
+                            DB::update("UPDATE records SET status_subject = ? WHERE subject = ? AND status_subject = ?", [
+                                "0",
+                                $data->name,
+                                "1",
+                            ]);
                             if ($data->img) {
                                 // Eliminamos las imagenes del user
                                 $directory = public_path('img/subjects') . "/" . $data->img;

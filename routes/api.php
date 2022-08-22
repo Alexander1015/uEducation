@@ -29,12 +29,14 @@ use App\Http\Controllers\Subjects\UsersAccessController as SetUsersAccessControl
 // Tags
 use App\Http\Controllers\Tags\TagController;
 use App\Http\Controllers\Tags\StatusTagController;
-//Topics
+// Topics
 use App\Http\Controllers\Topics\TopicController;
 use App\Http\Controllers\Topics\StatusTopicController;
 use App\Http\Controllers\Topics\BodyController;
 use App\Http\Controllers\Topics\GetTagsSubjectsController;
 use App\Http\Controllers\Topics\UploadImageController;
+// Record
+use App\Http\Controllers\Record\RecordController;
 //Public
 use App\Http\Controllers\Public\GetDataController as PublicDataController;
 use App\Http\Controllers\Public\GetTopicController as PublicTopicController;
@@ -86,3 +88,5 @@ Route::resource('topic/status', StatusTopicController::class)->middleware('auth'
 Route::resource('topic/body', BodyController::class)->middleware('auth');
 Route::resource('getts', GetTagsSubjectsController::class)->middleware('auth');
 Route::resource('topic/upload', UploadImageController::class)->middleware('auth');
+// Records
+Route::resource('record', RecordController::class)->middleware('auth');
