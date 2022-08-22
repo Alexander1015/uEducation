@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('user')->default("");
             $table->boolean('status_user')->default(1);
             $table->string('subject')->default("");
+            $table->string('code')->default("");
             $table->boolean('status_subject')->default(1);
             $table->string('period')->default("");
             $table->integer('year')->default(0);

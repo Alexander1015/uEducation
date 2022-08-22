@@ -178,6 +178,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         align: 'center',
         sortable: false
       }, {
+        text: 'Código',
+        value: 'code',
+        align: 'center'
+      }, {
         text: 'Titulo',
         value: 'name',
         align: 'center'

@@ -77,6 +77,12 @@
                                             prepend-icon="collections_bookmark" required>
                                         </v-text-field>
                                     </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form_information.code" tabindex="2"
+                                            :rules="info.codeRules" label="Código *" dense prepend-icon="person"
+                                            clearable clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
@@ -110,6 +116,7 @@
                                 </v-row>
                                 <template v-if="
                                     form_information.name != subject.name ||
+                                    form_information.code != subject.code ||
                                     form_information.img != null ||
                                     form_information.img_new != 0
                                 ">
@@ -251,7 +258,8 @@
                                                             <template v-if="item.access == 0">
                                                                 <v-tooltip bottom>
                                                                     <template v-slot:activator="{ on, attrs }">
-                                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_red"
+                                                                        <v-btn icon v-bind="attrs" v-on="on"
+                                                                            class="txt_red"
                                                                             @click.stop="accessUser(item.slug, 1)">
                                                                             <v-icon>
                                                                                 groups
@@ -264,7 +272,8 @@
                                                             <template v-else-if="item.access == 1">
                                                                 <v-tooltip bottom>
                                                                     <template v-slot:activator="{ on, attrs }">
-                                                                        <v-btn icon v-bind="attrs" v-on="on" class="txt_green"
+                                                                        <v-btn icon v-bind="attrs" v-on="on"
+                                                                            class="txt_green"
                                                                             @click.stop="accessUser(item.slug, 0)">
                                                                             <v-icon>
                                                                                 person
@@ -672,6 +681,7 @@ export default {
         drag: false,
         form_information: {
             name: "",
+            code: "",
             img: null,
             img_new: 0,
         },
@@ -691,6 +701,10 @@ export default {
             nameRules: [
                 v => !!v || 'El titulo de la materia es requerido',
                 v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
+            ],
+            codeRules: [
+                v => !!v || 'El códigp es requerido',
+                v => (v && v.length <= 50) || 'El código debe tener menos de 50 carácteres',
             ],
             imgRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -1019,6 +1033,7 @@ export default {
                             // Subject
                             this.subject = item.subject;
                             this.form_information.name = this.subject.name;
+                            this.form_information.code = this.subject.code;
                             if (this.subject.img) {
                                 this.prev_img.url_img = "/img/subjects/" + this.subject.img + "/index.png";
                                 this.prev_img.lazy_img = "/img/subjects/" + this.subject.img + "/lazy.png";
@@ -1058,6 +1073,7 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('name', this.form_information.name);
+                            data.append('code', this.form_information.code);
                             if (this.form_information.img) {
                                 data.append('img', this.form_information.img);
                             }

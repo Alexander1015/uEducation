@@ -37,6 +37,11 @@
                                             clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="form.code" tabindex="2" dense prepend-icon="person"
+                                            :rules="codeRules" label="Código *" clearable clear-icon="cancel" required>
+                                        </v-text-field>
+                                    </v-col>
                                     <v-col cols="12" sm="12" md="6">
                                         <v-btn class="bk_brown txt_white mb-2" block @click.stop="handleFileImport()">
                                             <v-icon left>file_upload</v-icon>
@@ -67,7 +72,7 @@
                                         </v-img>
                                     </v-col>
                                 </v-row>
-                                <template v-if="form.name != ''">
+                                <template v-if="form.name != '' && form.user != ''">
                                     <v-btn class="txt_white bk_green mt-2" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
@@ -101,10 +106,15 @@ export default {
         form: {
             name: "",
             img: null,
+            code: "",
         },
         nameRules: [
             v => !!v || 'El titulo de la materia es requerido',
             v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
+        ],
+        codeRules: [
+            v => !!v || 'El codigo es requerido',
+            v => (v && v.length <= 50) || 'El código debe tener menos de 50 carácteres',
         ],
         imgRules: [
             v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -140,6 +150,7 @@ export default {
                             this.overlay = true;
                             let data = new FormData();
                             data.append('name', this.form.name);
+                            data.append('code', this.form.code);
                             this.form.img = document.querySelector('#img').files[0];
                             if (this.form.img) {
                                 data.append('img', this.form.img);

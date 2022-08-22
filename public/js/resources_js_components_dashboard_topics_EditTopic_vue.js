@@ -666,7 +666,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this2.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this2.form_information.subject.name);
+                    data.append('subject', _this2.form_information.subject);
 
                     if (_this2.form_information.tags.length > 0) {
                       var _iterator = _createForOfIteratorHelper(_this2.form_information.tags),
@@ -2179,6 +2179,7 @@ var render = function () {
                                                 tabindex: "3",
                                                 dense: "",
                                                 loading: _vm.loading_subjects,
+                                                "item-text": "name",
                                                 "no-data-text":
                                                   "No se encuentra información para mostrar",
                                                 "prepend-icon":
@@ -2270,7 +2271,11 @@ var render = function () {
                                                                 _vm._s(
                                                                   data.item.name
                                                                 ) +
-                                                                "\n                                                    "
+                                                                " [" +
+                                                                _vm._s(
+                                                                  data.item.code
+                                                                ) +
+                                                                "]\n                                                    "
                                                             ),
                                                           ]
                                                         : [
@@ -2279,7 +2284,11 @@ var render = function () {
                                                                 _vm._s(
                                                                   data.item.name
                                                                 ) +
-                                                                "\n                                                    "
+                                                                " [" +
+                                                                _vm._s(
+                                                                  data.item.code
+                                                                ) +
+                                                                "]\n                                                    "
                                                             ),
                                                           ],
                                                     ]

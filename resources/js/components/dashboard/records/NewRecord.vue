@@ -29,7 +29,9 @@
                             Genere la bitacora del ciclo actual según su especificación<br />
                             <small class="text-center font-italic txt_red">
                                 Advertencia: Al generar la bitacora se eliminarán todas las suscripciones actuales de
-                                los estudiantes; pero la de los docentes seguirá activa.
+                                los estudiantes; pero la de los docentes seguirá activa. Además este proceso puede durar
+                                varios minutos dependiendo de la información
+                                almacenada
                             </small>
                         </v-card-subtitle>
                         <div class="px-2 pb-2">
@@ -39,17 +41,15 @@
                                     <v-col cols="12" sm="6">
                                         <v-autocomplete v-model="form.period" :rules="periodRules" :items="data_period"
                                             clearable clear-icon="cancel" label="Ciclo de estudio" tabindex="1" dense
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="today" append-icon="arrow_drop_down"
-                                            hide-selected required>
+                                            no-data-text="No se encuentra información para mostrar" prepend-icon="today"
+                                            append-icon="arrow_drop_down" hide-selected required>
                                         </v-autocomplete>
                                     </v-col>
                                     <v-col cols="12" sm="6">
                                         <v-autocomplete v-model="form.year" :rules="yearRules" :items="data_year"
                                             clearable clear-icon="cancel" label="Año" tabindex="2" dense
-                                            no-data-text="No se encuentra información para mostrar"
-                                            prepend-icon="event" append-icon="arrow_drop_down"
-                                            hide-selected required>
+                                            no-data-text="No se encuentra información para mostrar" prepend-icon="event"
+                                            append-icon="arrow_drop_down" hide-selected required>
                                         </v-autocomplete>
                                     </v-col>
                                 </v-row>

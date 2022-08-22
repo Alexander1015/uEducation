@@ -27,7 +27,7 @@ class TopicController extends Controller
             if ($auth_user && $auth_user->status == 1 && ($auth_user->type == 0 || $auth_user->type == 1)) {
                 $topics = DB::select(
                     'SELECT
-                    T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.id AS subject_id, S.name AS subject, S.status AS subject_status, T.created_at, T.updated_at
+                    T.id, T.name, T.slug, T.img, T.status, T.sequence, Uc.user AS user, Uu.user AS user_update, S.id AS subject_id, S.code AS subject, S.status AS subject_status, T.created_at, T.updated_at
                 FROM 
                     topics AS T
                 LEFT JOIN subjects AS S ON T.subject_id = S.id

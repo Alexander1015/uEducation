@@ -85,7 +85,7 @@
                                             </v-img>
                                             <v-card-text class="bk_blue txt_white">
                                                 <span class="subtitle-2 text-uppercase font-weight-bold mx-auto">
-                                                    {{ item.name }}
+                                                    [{{ item.code }}] {{ item.name }}
                                                 </span>
                                             </v-card-text>
                                         </v-card>
@@ -128,7 +128,7 @@
                                                 <br />
                                                 <small class="caption text-uppercase font-weight-bold mx-auto">
                                                     <small>
-                                                        {{ item.subject }}
+                                                        [{{ item.code }}] {{ item.subject }}
                                                     </small>
                                                 </small>
                                                 <!-- Abstract -->

@@ -18,7 +18,7 @@
                         </v-img>
                     </v-list-item-avatar>
                     <v-list-item-title class="white_space caption text-uppercase font-weight-black">
-                        {{ subject.name }}
+                        [{{ subject.code }}] {{ subject.name }}
                     </v-list-item-title>
                 </v-list-item>
             </v-list>
@@ -37,7 +37,7 @@
             <v-list nav dense>
                 <template v-for="item in topics">
                     <v-list-item link :to='{ name: "publicTopic", params: { topic: item.slug } }'
-                        @click.stop="overlay = true">
+                        @click.stop="$route.params.topic != item.slug ? overlay = true : ''">
                         <v-list-item-icon>
                             <v-avatar size="25" class="caption bk_tags txt_white">
                                 {{ item.key }}
@@ -63,6 +63,7 @@ export default {
     data: () => ({
         subject: {
             name: "",
+            code: "",
             img: "",
             lazy_img: "",
         },
@@ -99,6 +100,7 @@ export default {
                         }
                         else {
                             this.subject.name = item.subject.name;
+                            this.subject.code = item.subject.code;
                             this.topics = item.topics;
                             if (item.subject.img) {
                                 this.subject.img = "/img/subjects/" + item.subject.img + "/index.png";

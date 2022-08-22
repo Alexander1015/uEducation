@@ -84,6 +84,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       subject: {
         name: "",
+        code: "",
         img: "",
         lazy_img: ""
       },
@@ -137,6 +138,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     });
                   } else {
                     _this.subject.name = item.subject.name;
+                    _this.subject.code = item.subject.code;
                     _this.topics = item.topics;
 
                     if (item.subject.img) {
@@ -328,7 +330,9 @@ var render = function () {
                     },
                     [
                       _vm._v(
-                        "\n                    " +
+                        "\n                    [" +
+                          _vm._s(_vm.subject.code) +
+                          "] " +
                           _vm._s(_vm.subject.name) +
                           "\n                "
                       ),
@@ -398,7 +402,9 @@ var render = function () {
                       on: {
                         click: function ($event) {
                           $event.stopPropagation()
-                          _vm.overlay = true
+                          _vm.$route.params.topic != item.slug
+                            ? (_vm.overlay = true)
+                            : ""
                         },
                       },
                     },

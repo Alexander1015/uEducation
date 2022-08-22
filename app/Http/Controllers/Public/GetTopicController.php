@@ -23,7 +23,7 @@ class GetTopicController extends Controller
                 // Topic
                 $topic = DB::select(
                     'SELECT
-                    T.id, T.name, T.slug, T.abstract, T.img, T.status, T.sequence, T.body, CONCAT(Uc.firstname, " ", Uc.lastname) AS user, Uc.email As user_email, Uc.avatar AS user_avatar, Uc.status AS user_status, CONCAT(Uu.firstname, " ", Uu.lastname) AS user_update, Uu.email As user_update_email, Uu.avatar AS user_update_avatar, Uu.status AS user_update_status, S.name AS subject, T.subject_id, S.slug AS subject_slug, T.created_at, T.updated_at
+                    T.id, T.name, T.slug, T.abstract, T.img, T.status, T.sequence, T.body, CONCAT(Uc.firstname, " ", Uc.lastname) AS user, Uc.email As user_email, Uc.avatar AS user_avatar, Uc.status AS user_status, CONCAT(Uu.firstname, " ", Uu.lastname) AS user_update, Uu.email As user_update_email, Uu.avatar AS user_update_avatar, Uu.status AS user_update_status, S.name AS subject, S.code, T.subject_id, S.slug AS subject_slug, T.created_at, T.updated_at
                 FROM 
                     topics AS T
                 LEFT JOIN subjects AS S ON T.subject_id = S.id

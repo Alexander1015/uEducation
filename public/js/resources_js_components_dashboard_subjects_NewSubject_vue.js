@@ -109,6 +109,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewSubject",
   data: function data() {
@@ -121,12 +126,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       overlay: false,
       form: {
         name: "",
-        img: null
+        img: null,
+        code: ""
       },
       nameRules: [function (v) {
         return !!v || 'El titulo de la materia es requerido';
       }, function (v) {
         return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
+      }],
+      codeRules: [function (v) {
+        return !!v || 'El codigo es requerido';
+      }, function (v) {
+        return v && v.length <= 50 || 'El código debe tener menos de 50 carácteres';
       }],
       imgRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -181,6 +192,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this.overlay = true;
                     var data = new FormData();
                     data.append('name', _this.form.name);
+                    data.append('code', _this.form.code);
                     _this.form.img = document.querySelector('#img').files[0];
 
                     if (_this.form.img) {
@@ -827,6 +839,33 @@ var render = function () {
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        tabindex: "2",
+                                        dense: "",
+                                        "prepend-icon": "person",
+                                        rules: _vm.codeRules,
+                                        label: "Código *",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form.code,
+                                        callback: function ($$v) {
+                                          _vm.$set(_vm.form, "code", $$v)
+                                        },
+                                        expression: "form.code",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c(
@@ -963,7 +1002,7 @@ var render = function () {
                               1
                             ),
                             _vm._v(" "),
-                            _vm.form.name != ""
+                            _vm.form.name != "" && _vm.form.user != ""
                               ? [
                                   _c(
                                     "v-btn",

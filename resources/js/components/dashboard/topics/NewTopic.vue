@@ -43,7 +43,7 @@
                                             <v-col>
                                                 <v-autocomplete v-model="form.subject" :rules="subjectRules"
                                                     :items="data_subject" clearable clear-icon="cancel" label="Curso *"
-                                                    tabindex="3" dense :loading="loading_subjects"
+                                                    tabindex="3" dense :loading="loading_subjects" item-text="name"
                                                     no-data-text="No se encuentra información para mostrar"
                                                     prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
                                                     hide-selected required>
@@ -63,10 +63,10 @@
                                                                     por el lector.
                                                                 </span>
                                                             </v-tooltip>
-                                                            {{ data.item.name }}
+                                                            {{ data.item.name }} [{{ data.item.code }}]
                                                         </template>
                                                         <template v-else>
-                                                            {{ data.item.name }}
+                                                            {{ data.item.name }} [{{ data.item.code }}]
                                                         </template>
                                                     </template>
                                                     <template v-slot:item="data">
@@ -358,7 +358,7 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
-                            data.append('subject', this.form.subject.name);
+                            data.append('subject', this.form.subject);
                             if (this.form.tags.length > 0) {
                                 for (let tag of this.form.tags) {
                                     data.append('tags[]', tag);

@@ -1540,7 +1540,11 @@ var render = function () {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                " +
+                                                                      "\n                                                [" +
+                                                                        _vm._s(
+                                                                          item.code
+                                                                        ) +
+                                                                        "] " +
                                                                         _vm._s(
                                                                           item.name
                                                                         ) +
@@ -1790,7 +1794,11 @@ var render = function () {
                                                                       "small",
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                    " +
+                                                                          "\n                                                    [" +
+                                                                            _vm._s(
+                                                                              item.code
+                                                                            ) +
+                                                                            "] " +
                                                                             _vm._s(
                                                                               item.subject
                                                                             ) +
@@ -1939,7 +1947,7 @@ var render = function () {
                         ],
                         null,
                         false,
-                        2472578913
+                        2299264257
                       ),
                     }),
                     _vm._v(" "),

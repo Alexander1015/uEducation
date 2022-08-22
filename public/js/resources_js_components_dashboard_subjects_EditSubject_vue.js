@@ -687,6 +687,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -700,6 +709,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       drag: false,
       form_information: {
         name: "",
+        code: "",
         img: null,
         img_new: 0
       },
@@ -720,6 +730,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return !!v || 'El titulo de la materia es requerido';
         }, function (v) {
           return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
+        }],
+        codeRules: [function (v) {
+          return !!v || 'El códigp es requerido';
+        }, function (v) {
+          return v && v.length <= 50 || 'El código debe tener menos de 50 carácteres';
         }],
         imgRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -1246,6 +1261,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     // Subject
                     _this5.subject = item.subject;
                     _this5.form_information.name = _this5.subject.name;
+                    _this5.form_information.code = _this5.subject.code;
 
                     if (_this5.subject.img) {
                       _this5.prev_img.url_img = "/img/subjects/" + _this5.subject.img + "/index.png";
@@ -1312,6 +1328,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this6.overlay = true;
                     var data = new FormData();
                     data.append('name', _this6.form_information.name);
+                    data.append('code', _this6.form_information.code);
 
                     if (_this6.form_information.img) {
                       data.append('img', _this6.form_information.img);
@@ -6782,6 +6799,37 @@ var render = function () {
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        tabindex: "2",
+                                        rules: _vm.info.codeRules,
+                                        label: "Código *",
+                                        dense: "",
+                                        "prepend-icon": "person",
+                                        clearable: "",
+                                        "clear-icon": "cancel",
+                                        required: "",
+                                      },
+                                      model: {
+                                        value: _vm.form_information.code,
+                                        callback: function ($$v) {
+                                          _vm.$set(
+                                            _vm.form_information,
+                                            "code",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "form_information.code",
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
                                   { attrs: { cols: "12", sm: "12", md: "6" } },
                                   [
                                     _c(
@@ -6923,6 +6971,7 @@ var render = function () {
                             ),
                             _vm._v(" "),
                             _vm.form_information.name != _vm.subject.name ||
+                            _vm.form_information.code != _vm.subject.code ||
                             _vm.form_information.img != null ||
                             _vm.form_information.img_new != 0
                               ? [

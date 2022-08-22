@@ -876,7 +876,7 @@ var render = function () {
                         { staticClass: "text-center font-italic txt_red" },
                         [
                           _vm._v(
-                            "\n                            Advertencia: Al generar la bitacora se eliminarán todas las suscripciones actuales de\n                            los estudiantes; pero la de los docentes seguirá activa.\n                        "
+                            "\n                            Advertencia: Al generar la bitacora se eliminarán todas las suscripciones actuales de\n                            los estudiantes; pero la de los docentes seguirá activa. Además este proceso puede durar\n                            varios minutos dependiendo de la información\n                            almacenada\n                        "
                           ),
                         ]
                       ),

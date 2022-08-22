@@ -53,6 +53,7 @@ class SubjectController extends Controller
                 if ($auth_user->type == "0") {
                     $validator = Validator::make($request->all(), [
                         'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name'],
+                        'code' => ['bail', 'required', 'string', 'max:50', 'unique:subjects,code'],
                         'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                     ]);
                     if ($validator->fails()) {
@@ -63,7 +64,7 @@ class SubjectController extends Controller
                                 'complete' => false,
                             ]);
                         } else {
-                            $slug = Str::slug($request->input('name'));
+                            $slug = Str::slug($request->input('code'));
                             $old_slug = DB::table("subjects")->where('slug', $slug)->first();
                             if ($old_slug) {
                                 return response()->json([
@@ -71,10 +72,18 @@ class SubjectController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                return response()->json([
-                                    'message' => 'El dato proporcionado no sigue el formato solicitado',
-                                    'complete' => false,
-                                ]);
+                                $old_code = DB::table("subjects")->where('code', $request->input('code'))->first();
+                                if ($old_code) {
+                                    return response()->json([
+                                        'message' => 'El código ingresado ya existe',
+                                        'complete' => false,
+                                    ]);
+                                } else {
+                                    return response()->json([
+                                        'message' => 'El dato proporcionado no sigue el formato solicitado',
+                                        'complete' => false,
+                                    ]);
+                                }
                             }
                         }
                     } else {
@@ -87,10 +96,11 @@ class SubjectController extends Controller
                         * y cambiar la linea: ;extension=gd a: extension=gd
                         * o: ;extension=gd2 a: extension=gd2
                         */
-                        $slug = Str::slug($request->input('name'));
+                        $slug = Str::slug($request->input('code'));
                         if (DB::table("subjects")
                             ->insert([
                                 'name' => $request->input('name'),
+                                'code' => strtoupper($request->input('code')),
                                 'slug' => $slug,
                                 'img' => $time_img,
                             ])
@@ -228,6 +238,7 @@ class SubjectController extends Controller
                     if ($auth_user->type == "0" || $review) {
                         $validator = Validator::make($request->all(), [
                             'name' => ['bail', 'required', 'string', 'max:100', 'unique:subjects,name,' . $data->id],
+                            'code' => ['bail', 'required', 'string', 'max:50', 'unique:subjects,code,' . $data->id],
                             'img' => ['bail', 'sometimes', 'image', 'mimes:jpeg,jpg,png,gif,svg', 'max:25600'],
                             'img_new' => ['bail', 'sometimes', 'boolean'],
                         ]);
@@ -239,7 +250,7 @@ class SubjectController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                $slug = Str::slug($request->input('name'));
+                                $slug = Str::slug($request->input('code'));
                                 $old_slug = DB::table("subjects")->where('slug', $slug)->first();
                                 if ($data->id != $old_slug->id) {
                                     return response()->json([
@@ -247,10 +258,18 @@ class SubjectController extends Controller
                                         'complete' => false,
                                     ]);
                                 } else {
-                                    return response()->json([
-                                        'message' => 'El dato proporcionado no sigue el formato solicitado',
-                                        'complete' => false,
-                                    ]);
+                                    $old_code = DB::table("subjects")->where('code', $request->input('code'))->first();
+                                    if ($data->id != $old_code->id) {
+                                        return response()->json([
+                                            'message' => 'El código ingresado ya existe',
+                                            'complete' => false,
+                                        ]);
+                                    } else {
+                                        return response()->json([
+                                            'message' => 'El dato proporcionado no sigue el formato solicitado',
+                                            'complete' => false,
+                                        ]);
+                                    }
                                 }
                             }
                         } else {
@@ -287,17 +306,19 @@ class SubjectController extends Controller
                                 }
                                 $time_img = time();
                             }
-                            $slug = Str::slug($request->input('name'));
-                            if (DB::update("UPDATE subjects SET slug = ?, name = ?, img = ? WHERE id = ?", [
+                            $slug = Str::slug($request->input('code'));
+                            if (DB::update("UPDATE subjects SET slug = ?, name = ?, code = ?, img = ? WHERE id = ?", [
                                 $slug,
                                 $request->input('name'),
+                                strtoupper($request->input('code')),
                                 $time_img,
                                 $data->id,
                             ])) {
                                 // Si tiene algun record actualizamos la materia si es posible
-                                DB::update("UPDATE records SET subject = ? WHERE subject = ? AND status_subject = ?", [
+                                DB::update("UPDATE records SET subject = ?, code = ? WHERE code = ? AND status_subject = ?", [
                                     $request->input('name'),
-                                    $data->name,
+                                    $request->input('code'),
+                                    $data->code,
                                     "1"
                                 ]);
                                 // Verificamos si no se ha eliminado el img que ya tenia el tema
@@ -411,9 +432,9 @@ class SubjectController extends Controller
                         }
                         if (DB::table("subjects")->delete($data->id)) {
                             // Si tiene algun record actualizamos la materia si es posible
-                            DB::update("UPDATE records SET status_subject = ? WHERE subject = ? AND status_subject = ?", [
+                            DB::update("UPDATE records SET status_subject = ? WHERE code = ? AND status_subject = ?", [
                                 "0",
-                                $data->name,
+                                $data->code,
                                 "1",
                             ]);
                             if ($data->img) {

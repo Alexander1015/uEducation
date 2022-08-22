@@ -34,7 +34,8 @@ class RecordController extends Controller
                     if ($request->input("period") == "01" || $request->input("period") == "02" || $request->input("period") == "03") {
                         if ((is_int($request->input("year")) || ctype_digit($request->input("year"))) && strlen($request->input("year")) == 4) {
                             $records = DB::table("user_subject")->get();
-                            if (sizeof($records) > 0) {
+                            $last = sizeof($records);
+                            if ($last > 0) {
                                 $total = 0;
                                 foreach ($records as $rec) {
                                     $user = DB::table("users")->where("id", $rec->user_id)->first();
@@ -47,13 +48,16 @@ class RecordController extends Controller
                                                 'user' => $user->user,
                                                 'status_user' => "1",
                                                 'subject' => $subject->name,
+                                                'code' => $subject->code,
                                                 'status_subject' => "1",
                                                 'period' => $request->input("period"),
                                                 'year' => $request->input("year")
-                                            ])) {
+                                            ])
+                                        ) {
+                                            if ($user->type == "2") {
                                                 DB::table("user_subject")->delete($rec->id);
                                             }
-                                            else $total++;
+                                        } else $total++;
                                     } else $total++;
                                 }
                                 if (sizeof($records) == $total) {
@@ -61,14 +65,12 @@ class RecordController extends Controller
                                         'message' => 'No se pudieron crear exitosamente todos los registros de las suscripciones',
                                         'complete' => false,
                                     ]);
-                                }
-                                else if (sizeof($records) > $total && $total > 0) {
+                                } else if (sizeof($records) > $total && $total > 0) {
                                     return response()->json([
                                         'message' => 'No todos los registros de las suscripciones se pudieron crear exitosamente',
                                         'complete' => true,
                                     ]);
-                                }
-                                else if ($total == 0) {
+                                } else if ($total == 0) {
                                     return response()->json([
                                         'message' => 'Se crearon exitosamente todos los registros de las suscripciones',
                                         'complete' => true,

@@ -37,7 +37,7 @@ class GetDataController extends Controller
                     //Corto
                     $subjects = DB::select(
                         'SELECT
-                            id, name
+                            id, name, code
                         FROM 
                             subjects AS T
                         WHERE
@@ -93,7 +93,7 @@ class GetDataController extends Controller
                     // Corto
                     $subjects = DB::select(
                         'SELECT
-                            T.id, T.name, S.subject_id, S.name AS subject
+                            T.id, T.name, T.subject_id, S.name AS subject, S.code
                         FROM 
                             topics AS T
                         LEFT JOIN subjects AS S ON T.subject_id = S.id
@@ -116,7 +116,7 @@ class GetDataController extends Controller
                     // Completo
                     $subjects_all = DB::select(
                         'SELECT
-                            T.id, T.name, T.slug, T.abstract, T.img, T.status, T.subject_id ,S.name AS subject, S.slug AS subject_slug
+                            T.id, T.name, T.slug, T.abstract, T.img, T.status, T.subject_id ,S.name AS subject, S.code, S.slug AS subject_slug
                         FROM 
                             topics AS T
                         LEFT JOIN subjects AS S ON T.subject_id = S.id
