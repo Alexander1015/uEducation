@@ -34,8 +34,9 @@ const DashboardRecords = () => import ('./components/dashboard/records/Home.vue'
 const NewRecord = () => import ('./components/dashboard/records/NewRecord.vue')
 // Profile
 const Profile = () => import ('./components/dashboard/profile/Home.vue')
-// Error 404
-const Error = () => import ('./components/error/Home.vue')
+// Error
+const Error404 = () => import ('./components/error/404.vue')
+const Error403 = () => import ('./components/error/403.vue')
 
 
 export const routes = [
@@ -86,13 +87,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -105,13 +106,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -124,13 +125,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -143,13 +144,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -162,13 +163,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -181,13 +182,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -200,13 +201,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -219,13 +220,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -238,13 +239,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "1" || response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -257,13 +258,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -276,13 +277,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -295,13 +296,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -314,13 +315,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -333,13 +334,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -352,13 +353,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -371,13 +372,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0" || response.data.type == "1") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -390,13 +391,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -409,13 +410,13 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
-                    if (response.data.type == "2") {
-                        return next({name: 'error'})
-                    } else {
+                    if (response.data.type == "0") {
                         next()
+                    } else {
+                        return next({name: 'forbiden'})
                     }
                 }).catch((error) => {
-                    return next({name: 'error'})
+                    return next({name: 'forbiden'})
                 });
             }).catch((error) => {
                 return next({name: 'auth'})
@@ -433,10 +434,16 @@ export const routes = [
             });
         }
     },
+    // Error 403
+    {
+        name: 'forbiden',
+        path: '/forbiden',
+        component: Error403
+    },
     // Error 404
     {
         name: 'error',
         path: '*',
-        component: Error
+        component: Error404
     }
 ]

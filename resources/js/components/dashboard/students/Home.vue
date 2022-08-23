@@ -186,7 +186,7 @@ export default {
                 .then(response => {
                     this.user = response.data;
                     if (this.user.type != "0") {
-                        this.$router.push({ name: "error" });
+                        this.$router.push({ name: "forbiden" });
                     }
                 }).catch((error) => {
                     console.log(error);

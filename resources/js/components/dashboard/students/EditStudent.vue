@@ -321,7 +321,7 @@ export default {
                     .then(response => {
                         this.login_user = response.data;
                         if (this.login_user.type != "0") {
-                            this.$router.push({ name: "error" });
+                            this.$router.push({ name: "forbiden" });
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -330,7 +330,7 @@ export default {
                                 window.location.href = "/auth"
                             }).catch((error) => {
                                 console.log(error);
-                                this.$router.push({ name: "error" });
+                                this.$router.push({ name: "forbiden" });
                             });
                     });
                 await this.axios.get('/api/student/' + this.$route.params.slug)

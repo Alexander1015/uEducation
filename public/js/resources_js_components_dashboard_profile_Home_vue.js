@@ -300,7 +300,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     console.log(error);
 
                     _this.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   });
                 });

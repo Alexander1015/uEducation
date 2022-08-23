@@ -38,7 +38,7 @@
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="form.code" tabindex="2" dense prepend-icon="person"
+                                        <v-text-field v-model="form.code" tabindex="2" dense prepend-icon="source"
                                             :rules="codeRules" label="Código *" clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>

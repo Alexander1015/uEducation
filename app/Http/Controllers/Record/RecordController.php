@@ -11,6 +11,34 @@ use Exception;
 class RecordController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        try {
+            $auth_user = auth()->user();
+            if ($auth_user && $auth_user->status == 1 && $auth_user->type == 0) {
+                $years = DB::select(
+                    'SELECT
+                        year
+                    FROM 
+                        records
+                    ORDER BY year ASC'
+                );
+                $data_year = array();
+                foreach($years as $item) {
+                    array_push($data_year, $item->year);
+                }
+                return response()->json($data_year);
+            } else return response()->json([]);
+        } catch (Exception $ex) {
+            return response()->json([]);
+        }
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,6 +74,7 @@ class RecordController extends Controller
                                                 'firstname' => $user->firstname,
                                                 'lastname' => $user->lastname,
                                                 'user' => $user->user,
+                                                'type' => $user->type == "1" ? "Docente" : "Estudiante",
                                                 'status_user' => "1",
                                                 'subject' => $subject->name,
                                                 'code' => $subject->code,
@@ -108,17 +137,5 @@ class RecordController extends Controller
                 'complete' => false,
             ]);
         }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 }

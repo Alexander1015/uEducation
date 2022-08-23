@@ -108,7 +108,7 @@ export default {
         async registerRecord() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear la bitacora del ciclo actual especificado?',
+                    title: '¿Esta seguro de crear la bitacora del ciclo actual especificado, esta acción es irreversible?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

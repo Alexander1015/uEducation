@@ -79,7 +79,7 @@
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field v-model="form_information.code" tabindex="2"
-                                            :rules="info.codeRules" label="Código *" dense prepend-icon="person"
+                                            :rules="info.codeRules" label="Código *" dense prepend-icon="source"
                                             clearable clear-icon="cancel" required>
                                         </v-text-field>
                                     </v-col>
@@ -777,6 +777,188 @@ export default {
         }
     },
     methods: {
+        returnSubjects() {
+            this.overlay = true;
+            this.$router.push({ name: "subjects" });
+        },
+        async showSubject() {
+            this.overlay = true;
+            if (this.address) {
+                // Obtenemos el usuario ingresado
+                await this.axios.get('/api/auth')
+                    .then(response => {
+                        this.login_user = response.data;
+                    }).catch((error) => {
+                        console.log(error);
+                        this.axios.post('/api/logout')
+                            .then(response => {
+                                window.location.href = "/auth"
+                            }).catch((error) => {
+                                console.log(error);
+                                this.$router.push({ name: "forbiden" });
+                            });
+                    });
+                // Obtenemos todos los docentes
+                await this.axios.get('/api/getusr/' + this.address)
+                    .then(response => {
+                        this.all_users = response.data.all_users;
+                        this.subject_users = response.data.subject_users;
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                // Obtenemos todos los estudiantes
+                await this.axios.get('/api/getstd/' + this.address)
+                    .then(response => {
+                        this.all_students = response.data.all_students;
+                        this.subject_students = response.data.subject_students;
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                // Obtenemos los datos del subject
+                await this.axios.get('/api/subject/' + this.address)
+                    .then(response => {
+                        const item = response.data;
+                        if (!item.subject.name) {
+                            this.$router.push({ name: "error" });
+                        }
+                        else {
+                            // Subject
+                            this.subject = item.subject;
+                            this.form_information.name = this.subject.name;
+                            this.form_information.code = this.subject.code;
+                            if (this.subject.img) {
+                                this.prev_img.url_img = "/img/subjects/" + this.subject.img + "/index.png";
+                                this.prev_img.lazy_img = "/img/subjects/" + this.subject.img + "/lazy.png";
+                            }
+                            else {
+                                this.prev_img.url_img = "/img/subjects/blank.png";
+                                this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
+                            }
+                            this.form_information.img = null;
+                            this.form_information.img_new = 0;
+                            if (this.subject.status == 0) this.form_status.status = "Deshabilitado";
+                            else if (this.subject.status == 1) this.form_status.status = "Habilitado";
+                            // Topics
+                            this.topics = this.topics_copy = item.topics;
+                            this.overlay = false
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                        this.$router.push({ name: "error" });
+                    });
+            }
+            else {
+                this.$router.push({ name: "error" });
+            }
+        },
+        async editSubject() {
+            if (this.$refs.form_information.validate()) {
+                await this.$swal({
+                    title: '¿Esta seguro de modificar la información de la materia?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'Cancelar',
+                })
+                    .then(result => {
+                        if (result.isConfirmed) {
+                            this.overlay = true;
+                            let data = new FormData();
+                            data.append('name', this.form_information.name);
+                            data.append('code', this.form_information.code);
+                            if (this.form_information.img) {
+                                data.append('img', this.form_information.img);
+                            }
+                            data.append('img_new', this.form_information.img_new);
+                            data.append('_method', "put");
+                            this.axios.post('/api/subject/' + this.address, data)
+                                .then(response => {
+                                    let title = "Error";
+                                    let icon = "error";
+                                    if (response.data.complete) {
+                                        title = "Éxito"
+                                        icon = "success";
+                                    }
+                                    this.$swal({
+                                        title: title,
+                                        icon: icon,
+                                        text: response.data.message,
+                                    }).then(() => {
+                                        if (response.data.complete) {
+                                            if (response.data.reload) {
+                                                this.$router.push({ name: "editSubject", params: { slug: response.data.reload } });
+                                            }
+                                            else {
+                                                this.showSubject();
+                                                this.overlay = false;
+                                            }
+                                        }
+                                        else this.overlay = false;
+                                    });
+                                }).catch(error => {
+                                    this.$swal({
+                                        title: "Error",
+                                        icon: "error",
+                                        text: "Ha ocurrido un error en la aplicación",
+                                    }).then(() => {
+                                        this.overlay = false;
+                                        console.log(error);
+                                    });
+                                })
+                        }
+                    });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
+        async saveListTopics() {
+            await this.$swal({
+                title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        let data = new FormData();
+                        for (let item of this.topics) {
+                            data.append('topics[]', item.id);
+                        }
+                        data.append('_method', "put");
+                        this.axios.post('/api/subject/gettopics/' + this.address, data)
+                            .then(response => {
+                                let title = "Error";
+                                let icon = "error";
+                                if (response.data.complete) {
+                                    title = "Éxito"
+                                    icon = "success";
+                                }
+                                this.$swal({
+                                    title: title,
+                                    icon: icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.showSubject();
+                                    }
+                                    else this.overlay = false;
+                                });
+                            }).catch(error => {
+                                this.$swal({
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    this.overlay = false;
+                                    console.log(error);
+                                });
+                            });
+                    }
+                });
+        },
         // Docentes
         async unsubscribe(slug) {
             if (this.login_user.type == '0' || this.subject.access == '1') {
@@ -984,188 +1166,6 @@ export default {
         },
         handleFileImport() {
             this.$refs.uploader.$refs.input.click()
-        },
-        returnSubjects() {
-            this.overlay = true;
-            this.$router.push({ name: "subjects" });
-        },
-        async showSubject() {
-            this.overlay = true;
-            if (this.address) {
-                // Obtenemos el usuario ingresado
-                await this.axios.get('/api/auth')
-                    .then(response => {
-                        this.login_user = response.data;
-                    }).catch((error) => {
-                        console.log(error);
-                        this.axios.post('/api/logout')
-                            .then(response => {
-                                window.location.href = "/auth"
-                            }).catch((error) => {
-                                console.log(error);
-                                this.$router.push({ name: "error" });
-                            });
-                    });
-                // Obtenemos todos los docentes
-                await this.axios.get('/api/getusr/' + this.address)
-                    .then(response => {
-                        this.all_users = response.data.all_users;
-                        this.subject_users = response.data.subject_users;
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                // Obtenemos todos los estudiantes
-                await this.axios.get('/api/getstd/' + this.address)
-                    .then(response => {
-                        this.all_students = response.data.all_students;
-                        this.subject_students = response.data.subject_students;
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                // Obtenemos los datos del subject
-                await this.axios.get('/api/subject/' + this.address)
-                    .then(response => {
-                        const item = response.data;
-                        if (!item.subject.name) {
-                            this.$router.push({ name: "error" });
-                        }
-                        else {
-                            // Subject
-                            this.subject = item.subject;
-                            this.form_information.name = this.subject.name;
-                            this.form_information.code = this.subject.code;
-                            if (this.subject.img) {
-                                this.prev_img.url_img = "/img/subjects/" + this.subject.img + "/index.png";
-                                this.prev_img.lazy_img = "/img/subjects/" + this.subject.img + "/lazy.png";
-                            }
-                            else {
-                                this.prev_img.url_img = "/img/subjects/blank.png";
-                                this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
-                            }
-                            this.form_information.img = null;
-                            this.form_information.img_new = 0;
-                            if (this.subject.status == 0) this.form_status.status = "Deshabilitado";
-                            else if (this.subject.status == 1) this.form_status.status = "Habilitado";
-                            // Topics
-                            this.topics = this.topics_copy = item.topics;
-                            this.overlay = false
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                        this.$router.push({ name: "error" });
-                    });
-            }
-            else {
-                this.$router.push({ name: "error" });
-            }
-        },
-        async editSubject() {
-            if (this.$refs.form_information.validate()) {
-                await this.$swal({
-                    title: '¿Esta seguro de modificar la información de la materia?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Si',
-                    cancelButtonText: 'Cancelar',
-                })
-                    .then(result => {
-                        if (result.isConfirmed) {
-                            this.overlay = true;
-                            let data = new FormData();
-                            data.append('name', this.form_information.name);
-                            data.append('code', this.form_information.code);
-                            if (this.form_information.img) {
-                                data.append('img', this.form_information.img);
-                            }
-                            data.append('img_new', this.form_information.img_new);
-                            data.append('_method', "put");
-                            this.axios.post('/api/subject/' + this.address, data)
-                                .then(response => {
-                                    let title = "Error";
-                                    let icon = "error";
-                                    if (response.data.complete) {
-                                        title = "Éxito"
-                                        icon = "success";
-                                    }
-                                    this.$swal({
-                                        title: title,
-                                        icon: icon,
-                                        text: response.data.message,
-                                    }).then(() => {
-                                        if (response.data.complete) {
-                                            if (response.data.reload) {
-                                                this.$router.push({ name: "editSubject", params: { slug: response.data.reload } });
-                                            }
-                                            else {
-                                                this.showSubject();
-                                                this.overlay = false;
-                                            }
-                                        }
-                                        else this.overlay = false;
-                                    });
-                                }).catch(error => {
-                                    this.$swal({
-                                        title: "Error",
-                                        icon: "error",
-                                        text: "Ha ocurrido un error en la aplicación",
-                                    }).then(() => {
-                                        this.overlay = false;
-                                        console.log(error);
-                                    });
-                                })
-                        }
-                    });
-            }
-            else {
-                this.overlay = false;
-            }
-        },
-        async saveListTopics() {
-            await this.$swal({
-                title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            })
-                .then(result => {
-                    if (result.isConfirmed) {
-                        this.overlay = true;
-                        let data = new FormData();
-                        for (let item of this.topics) {
-                            data.append('topics[]', item.id);
-                        }
-                        data.append('_method', "put");
-                        this.axios.post('/api/subject/gettopics/' + this.address, data)
-                            .then(response => {
-                                let title = "Error";
-                                let icon = "error";
-                                if (response.data.complete) {
-                                    title = "Éxito"
-                                    icon = "success";
-                                }
-                                this.$swal({
-                                    title: title,
-                                    icon: icon,
-                                    text: response.data.message,
-                                }).then(() => {
-                                    if (response.data.complete) {
-                                        this.showSubject();
-                                    }
-                                    else this.overlay = false;
-                                });
-                            }).catch(error => {
-                                this.$swal({
-                                    title: "Error",
-                                    icon: "error",
-                                    text: "Ha ocurrido un error en la aplicación",
-                                }).then(() => {
-                                    this.overlay = false;
-                                    console.log(error);
-                                });
-                            });
-                    }
-                });
         },
         async statusSubject() {
             if (this.login_user.type == '0' || this.subject.access == '1') {

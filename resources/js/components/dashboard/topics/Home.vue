@@ -31,14 +31,25 @@
             <v-row class="mb-1">
                 <!-- Search -->
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="search" tabindex="1" prepend-icon="search" label="Buscar" dense>
+                    <v-text-field v-model="search" tabindex="1" prepend-icon="search" label="Búsqueda general" dense>
                     </v-text-field>
                 </v-col>
                 <!-- Subjects -->
                 <v-col cols="12" sm="6">
-                    <v-text-field v-model="subjects" tabindex="2" prepend-icon="collections_bookmark"
-                        label="Buscar por cursos" dense>
-                    </v-text-field>
+                    <v-autocomplete v-model="subjects" :items="data_subject" clearable clear-icon="cancel"
+                        label="Buscar por código del curso" tabindex="2" dense :loading="loading_table" item-text="code"
+                        no-data-text="No se encuentra información para mostrar" prepend-icon="collections_bookmark"
+                        append-icon="arrow_drop_down" hide-selected required>
+                        <template v-slot:selection="data">
+                            {{ data.item.code }} ({{ data.item.name }})
+                        </template>
+                        <template v-slot:item="data">
+                            <v-list-item-content>
+                                {{ data.item.code }} ({{ data.item.name }})
+                            </v-list-item-content>
+                        </template>
+                    </v-autocomplete>
+                    <!--  -->
                 </v-col>
             </v-row>
             <!-- Tabla -->
@@ -54,8 +65,7 @@
                 <template v-slot:item.img="{ item }">
                     <template v-if="item.img">
                         <v-img class="mx-auto" :src='"/img/topics/" + item.img + "/index.png"'
-                            :lazy-src='"/img/topics/" + item.img + "/lazy.png"' max-height="40"
-                            max-width="60" contain>
+                            :lazy-src='"/img/topics/" + item.img + "/lazy.png"' max-height="40" max-width="60" contain>
                             <template v-slot:placeholder>
                                 <v-row class="fill-height ma-0" align="center" justify="center">
                                     <v-progress-circular indeterminate color="grey lighten-5">
@@ -201,6 +211,7 @@ export default {
         search: '',
         subjects: '',
         data: [],
+        data_subject: [],
     }),
     computed: {
         headers() {
@@ -210,7 +221,7 @@ export default {
                 {
                     text: 'Curso', value: 'subject', align: 'center',
                     filter: value => {
-                        return value.toString().toLowerCase().includes(this.subjects.toLowerCase())
+                        return value.toString().toLowerCase().includes((this.subjects ? this.subjects : "").toLowerCase())
                     },
                 },
                 { text: 'Creado por', value: 'user', align: 'center' },
@@ -240,7 +251,9 @@ export default {
             this.data = [];
             await this.axios.get('/api/topic')
                 .then(response => {
-                    this.data = response.data;
+                    const item = response.data;
+                    this.data = item.data;
+                    this.data_subject = item.subjects;
                     this.loading_table = false;
                     this.overlay = false;
                 })

@@ -37,6 +37,7 @@ use App\Http\Controllers\Topics\GetTagsSubjectsController;
 use App\Http\Controllers\Topics\UploadImageController;
 // Record
 use App\Http\Controllers\Record\RecordController;
+use App\Http\Controllers\Record\ListRecordController;
 //Public
 use App\Http\Controllers\Public\GetDataController as PublicDataController;
 use App\Http\Controllers\Public\GetTopicController as PublicTopicController;
@@ -90,3 +91,4 @@ Route::resource('getts', GetTagsSubjectsController::class)->middleware('auth');
 Route::resource('topic/upload', UploadImageController::class)->middleware('auth');
 // Records
 Route::resource('record', RecordController::class)->middleware('auth');
+Route::resource('record/list', ListRecordController::class)->middleware('auth');

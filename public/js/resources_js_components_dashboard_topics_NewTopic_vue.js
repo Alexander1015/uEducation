@@ -1413,11 +1413,11 @@ var render = function () {
                                                 items: _vm.data_subject,
                                                 clearable: "",
                                                 "clear-icon": "cancel",
-                                                label: "Curso *",
+                                                label: "Código del curso *",
                                                 tabindex: "3",
                                                 dense: "",
                                                 loading: _vm.loading_subjects,
-                                                "item-text": "name",
+                                                "item-text": "code",
                                                 "no-data-text":
                                                   "No se encuentra información para mostrar",
                                                 "prepend-icon":
@@ -1507,26 +1507,26 @@ var render = function () {
                                                             _vm._v(
                                                               "\n                                                        " +
                                                                 _vm._s(
-                                                                  data.item.name
-                                                                ) +
-                                                                " [" +
-                                                                _vm._s(
                                                                   data.item.code
                                                                 ) +
-                                                                "]\n                                                    "
+                                                                " (" +
+                                                                _vm._s(
+                                                                  data.item.name
+                                                                ) +
+                                                                ")\n                                                    "
                                                             ),
                                                           ]
                                                         : [
                                                             _vm._v(
                                                               "\n                                                        " +
                                                                 _vm._s(
-                                                                  data.item.name
-                                                                ) +
-                                                                " [" +
-                                                                _vm._s(
                                                                   data.item.code
                                                                 ) +
-                                                                "]\n                                                    "
+                                                                " (" +
+                                                                _vm._s(
+                                                                  data.item.name
+                                                                ) +
+                                                                ")\n                                                    "
                                                             ),
                                                           ],
                                                     ]
@@ -1631,9 +1631,15 @@ var render = function () {
                                                                         _vm._s(
                                                                           data
                                                                             .item
+                                                                            .code
+                                                                        ) +
+                                                                        " (" +
+                                                                        _vm._s(
+                                                                          data
+                                                                            .item
                                                                             .name
                                                                         ) +
-                                                                        "\n                                                            "
+                                                                        ")\n                                                            "
                                                                     ),
                                                                   ],
                                                                   1
@@ -1644,9 +1650,14 @@ var render = function () {
                                                                   "\n                                                            " +
                                                                     _vm._s(
                                                                       data.item
+                                                                        .code
+                                                                    ) +
+                                                                    " (" +
+                                                                    _vm._s(
+                                                                      data.item
                                                                         .name
                                                                     ) +
-                                                                    "\n                                                        "
+                                                                    ")\n                                                        "
                                                                 ),
                                                               ],
                                                         ],

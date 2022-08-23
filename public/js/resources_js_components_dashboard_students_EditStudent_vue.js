@@ -366,7 +366,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (_this.login_user.type != "0") {
                     _this.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   }
                 })["catch"](function (error) {
@@ -378,7 +378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     console.log(error);
 
                     _this.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   });
                 });

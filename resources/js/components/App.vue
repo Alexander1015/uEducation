@@ -156,8 +156,8 @@ export default {
             { type: 4, header: true, visible: false },
             { type: 4, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
             { type: 4, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
-            { type: 3, header: true, visible: false },
-            { type: 3, title: "Registros", icon: "folder", to: { name: "records" }, visible: false },
+            { type: 4, header: true, visible: false },
+            { type: 4, title: "Registros", icon: "folder", to: { name: "records" }, visible: false },
         ],
         to: {
             profile: { name: "profile" },

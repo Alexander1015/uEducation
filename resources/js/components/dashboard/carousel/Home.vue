@@ -181,7 +181,7 @@ export default {
                 .then(response => {
                     let user = response.data;
                     if (user.type != "0") {
-                        this.$router.push({ name: "error" });
+                        this.$router.push({ name: "forbiden" });
                     }
                 }).catch((error) => {
                     console.log(error);
@@ -190,7 +190,7 @@ export default {
                             window.location.href = "/auth"
                         }).catch((error) => {
                             console.log(error);
-                            this.$router.push({ name: "error" });
+                            this.$router.push({ name: "forbiden" });
                         });
                 });
             await this.axios.get('/api/carousel/')

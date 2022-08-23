@@ -860,8 +860,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    // Docentes
-    unsubscribe: function unsubscribe(slug) {
+    returnSubjects: function returnSubjects() {
+      this.overlay = true;
+      this.$router.push({
+        name: "subjects"
+      });
+    },
+    showSubject: function showSubject() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -869,57 +874,96 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.login_user.type == '0' || _this.subject.access == '1')) {
-                  _context.next = 3;
+                _this.overlay = true;
+
+                if (!_this.address) {
+                  _context.next = 12;
                   break;
                 }
 
-                _context.next = 3;
-                return _this.$swal({
-                  title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonText: 'Si',
-                  cancelButtonText: 'Cancelar'
-                }).then(function (result) {
-                  if (result.isConfirmed) {
-                    _this.overlay = true;
-                    var data = new FormData();
-                    data.append('user', slug);
-                    data.append('subject', _this.address);
+                _context.next = 4;
+                return _this.axios.get('/api/auth').then(function (response) {
+                  _this.login_user = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
 
-                    _this.axios.post('/api/getusr/', data).then(function (response) {
-                      var title = "Error";
-                      var icon = "error";
+                  _this.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
 
-                      if (response.data.complete) {
-                        title = "Éxito";
-                        icon = "success";
-                      }
-
-                      _this.$swal({
-                        title: title,
-                        icon: icon,
-                        text: response.data.message
-                      }).then(function () {
-                        if (response.data.complete) {
-                          _this.showSubject();
-                        } else _this.overlay = false;
-                      });
-                    })["catch"](function (error) {
-                      _this.$swal({
-                        title: "Error",
-                        icon: "error",
-                        text: "Ha ocurrido un error en la aplicación"
-                      }).then(function () {
-                        console.log(error);
-                        _this.overlay = false;
-                      });
+                    _this.$router.push({
+                      name: "forbiden"
                     });
-                  }
+                  });
                 });
 
-              case 3:
+              case 4:
+                _context.next = 6;
+                return _this.axios.get('/api/getusr/' + _this.address).then(function (response) {
+                  _this.all_users = response.data.all_users;
+                  _this.subject_users = response.data.subject_users;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 6:
+                _context.next = 8;
+                return _this.axios.get('/api/getstd/' + _this.address).then(function (response) {
+                  _this.all_students = response.data.all_students;
+                  _this.subject_students = response.data.subject_students;
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 8:
+                _context.next = 10;
+                return _this.axios.get('/api/subject/' + _this.address).then(function (response) {
+                  var item = response.data;
+
+                  if (!item.subject.name) {
+                    _this.$router.push({
+                      name: "error"
+                    });
+                  } else {
+                    // Subject
+                    _this.subject = item.subject;
+                    _this.form_information.name = _this.subject.name;
+                    _this.form_information.code = _this.subject.code;
+
+                    if (_this.subject.img) {
+                      _this.prev_img.url_img = "/img/subjects/" + _this.subject.img + "/index.png";
+                      _this.prev_img.lazy_img = "/img/subjects/" + _this.subject.img + "/lazy.png";
+                    } else {
+                      _this.prev_img.url_img = "/img/subjects/blank.png";
+                      _this.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
+                    }
+
+                    _this.form_information.img = null;
+                    _this.form_information.img_new = 0;
+                    if (_this.subject.status == 0) _this.form_status.status = "Deshabilitado";else if (_this.subject.status == 1) _this.form_status.status = "Habilitado"; // Topics
+
+                    _this.topics = _this.topics_copy = item.topics;
+                    _this.overlay = false;
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+
+                  _this.$router.push({
+                    name: "error"
+                  });
+                });
+
+              case 10:
+                _context.next = 13;
+                break;
+
+              case 12:
+                _this.$router.push({
+                  name: "error"
+                });
+
+              case 13:
               case "end":
                 return _context.stop();
             }
@@ -927,7 +971,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    suscribe: function suscribe() {
+    editSubject: function editSubject() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -935,14 +979,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this2.selected.length > 0 && (_this2.login_user.type == '0' || _this2.subject.access == '1'))) {
+                if (!_this2.$refs.form_information.validate()) {
                   _context2.next = 5;
                   break;
                 }
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de suscribir los docentes seleccionados?',
+                  title: '¿Esta seguro de modificar la información de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -951,24 +995,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this2.overlay = true;
                     var data = new FormData();
+                    data.append('name', _this2.form_information.name);
+                    data.append('code', _this2.form_information.code);
 
-                    var _iterator = _createForOfIteratorHelper(_this2.selected),
-                        _step;
-
-                    try {
-                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                        var user = _step.value;
-                        data.append('users[]', user.slug);
-                      }
-                    } catch (err) {
-                      _iterator.e(err);
-                    } finally {
-                      _iterator.f();
+                    if (_this2.form_information.img) {
+                      data.append('img', _this2.form_information.img);
                     }
 
+                    data.append('img_new', _this2.form_information.img_new);
                     data.append('_method', "put");
 
-                    _this2.axios.post('/api/getusr/' + _this2.address, data).then(function (response) {
+                    _this2.axios.post('/api/subject/' + _this2.address, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -983,7 +1020,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          _this2.showSubject();
+                          if (response.data.reload) {
+                            _this2.$router.push({
+                              name: "editSubject",
+                              params: {
+                                slug: response.data.reload
+                              }
+                            });
+                          } else {
+                            _this2.showSubject();
+
+                            _this2.overlay = false;
+                          }
                         } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
@@ -992,8 +1040,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
-                        console.log(error);
                         _this2.overlay = false;
+                        console.log(error);
                       });
                     });
                   }
@@ -1014,8 +1062,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    // Estudiantes
-    unsubscribe_students: function unsubscribe_students() {
+    saveListTopics: function saveListTopics() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -1023,14 +1070,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(_this3.selected_subject_students.length > 0)) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                _context3.next = 3;
+                _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de desuscribir al estudiante seleccionado de la materia actual?',
+                  title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1040,23 +1082,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this3.overlay = true;
                     var data = new FormData();
 
-                    var _iterator2 = _createForOfIteratorHelper(_this3.selected_subject_students),
-                        _step2;
+                    var _iterator = _createForOfIteratorHelper(_this3.topics),
+                        _step;
 
                     try {
-                      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                        var student = _step2.value;
-                        data.append('students[]', student.slug);
+                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                        var item = _step.value;
+                        data.append('topics[]', item.id);
                       }
                     } catch (err) {
-                      _iterator2.e(err);
+                      _iterator.e(err);
                     } finally {
-                      _iterator2.f();
+                      _iterator.f();
                     }
 
-                    data.append('subject', _this3.address);
+                    data.append('_method', "put");
 
-                    _this3.axios.post('/api/getstd/', data).then(function (response) {
+                    _this3.axios.post('/api/subject/gettopics/' + _this3.address, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -1080,21 +1122,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
-                        console.log(error);
                         _this3.overlay = false;
+                        console.log(error);
                       });
                     });
                   }
                 });
 
-              case 3:
-                _context3.next = 6;
-                break;
-
-              case 5:
-                _this3.overlay = false;
-
-              case 6:
+              case 2:
               case "end":
                 return _context3.stop();
             }
@@ -1102,7 +1137,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    suscribe_students: function suscribe_students() {
+    // Docentes
+    unsubscribe: function unsubscribe(slug) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -1110,14 +1146,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (!(_this4.selected_students.length > 0)) {
-                  _context4.next = 5;
+                if (!(_this4.login_user.type == '0' || _this4.subject.access == '1')) {
+                  _context4.next = 3;
                   break;
                 }
 
                 _context4.next = 3;
                 return _this4.$swal({
-                  title: '¿Esta seguro de suscribir los estudiantes seleccionados?',
+                  title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1126,24 +1162,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this4.overlay = true;
                     var data = new FormData();
+                    data.append('user', slug);
+                    data.append('subject', _this4.address);
 
-                    var _iterator3 = _createForOfIteratorHelper(_this4.selected_students),
-                        _step3;
-
-                    try {
-                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                        var student = _step3.value;
-                        data.append('students[]', student.slug);
-                      }
-                    } catch (err) {
-                      _iterator3.e(err);
-                    } finally {
-                      _iterator3.f();
-                    }
-
-                    data.append('_method', "put");
-
-                    _this4.axios.post('/api/getstd/' + _this4.address, data).then(function (response) {
+                    _this4.axios.post('/api/getusr/', data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -1175,13 +1197,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 3:
-                _context4.next = 6;
-                break;
-
-              case 5:
-                _this4.overlay = false;
-
-              case 6:
               case "end":
                 return _context4.stop();
             }
@@ -1189,16 +1204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    handleFileImport: function handleFileImport() {
-      this.$refs.uploader.$refs.input.click();
-    },
-    returnSubjects: function returnSubjects() {
-      this.overlay = true;
-      this.$router.push({
-        name: "subjects"
-      });
-    },
-    showSubject: function showSubject() {
+    suscribe: function suscribe() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
@@ -1206,96 +1212,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this5.overlay = true;
-
-                if (!_this5.address) {
-                  _context5.next = 12;
+                if (!(_this5.selected.length > 0 && (_this5.login_user.type == '0' || _this5.subject.access == '1'))) {
+                  _context5.next = 5;
                   break;
                 }
 
-                _context5.next = 4;
-                return _this5.axios.get('/api/auth').then(function (response) {
-                  _this5.login_user = response.data;
-                })["catch"](function (error) {
-                  console.log(error);
+                _context5.next = 3;
+                return _this5.$swal({
+                  title: '¿Esta seguro de suscribir los docentes seleccionados?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Si',
+                  cancelButtonText: 'Cancelar'
+                }).then(function (result) {
+                  if (result.isConfirmed) {
+                    _this5.overlay = true;
+                    var data = new FormData();
 
-                  _this5.axios.post('/api/logout').then(function (response) {
-                    window.location.href = "/auth";
-                  })["catch"](function (error) {
-                    console.log(error);
+                    var _iterator2 = _createForOfIteratorHelper(_this5.selected),
+                        _step2;
 
-                    _this5.$router.push({
-                      name: "error"
-                    });
-                  });
-                });
-
-              case 4:
-                _context5.next = 6;
-                return _this5.axios.get('/api/getusr/' + _this5.address).then(function (response) {
-                  _this5.all_users = response.data.all_users;
-                  _this5.subject_users = response.data.subject_users;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 6:
-                _context5.next = 8;
-                return _this5.axios.get('/api/getstd/' + _this5.address).then(function (response) {
-                  _this5.all_students = response.data.all_students;
-                  _this5.subject_students = response.data.subject_students;
-                })["catch"](function (error) {
-                  console.log(error);
-                });
-
-              case 8:
-                _context5.next = 10;
-                return _this5.axios.get('/api/subject/' + _this5.address).then(function (response) {
-                  var item = response.data;
-
-                  if (!item.subject.name) {
-                    _this5.$router.push({
-                      name: "error"
-                    });
-                  } else {
-                    // Subject
-                    _this5.subject = item.subject;
-                    _this5.form_information.name = _this5.subject.name;
-                    _this5.form_information.code = _this5.subject.code;
-
-                    if (_this5.subject.img) {
-                      _this5.prev_img.url_img = "/img/subjects/" + _this5.subject.img + "/index.png";
-                      _this5.prev_img.lazy_img = "/img/subjects/" + _this5.subject.img + "/lazy.png";
-                    } else {
-                      _this5.prev_img.url_img = "/img/subjects/blank.png";
-                      _this5.prev_img.lazy_img = "/img/subjects/blank_lazy.png";
+                    try {
+                      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                        var user = _step2.value;
+                        data.append('users[]', user.slug);
+                      }
+                    } catch (err) {
+                      _iterator2.e(err);
+                    } finally {
+                      _iterator2.f();
                     }
 
-                    _this5.form_information.img = null;
-                    _this5.form_information.img_new = 0;
-                    if (_this5.subject.status == 0) _this5.form_status.status = "Deshabilitado";else if (_this5.subject.status == 1) _this5.form_status.status = "Habilitado"; // Topics
+                    data.append('_method', "put");
 
-                    _this5.topics = _this5.topics_copy = item.topics;
-                    _this5.overlay = false;
+                    _this5.axios.post('/api/getusr/' + _this5.address, data).then(function (response) {
+                      var title = "Error";
+                      var icon = "error";
+
+                      if (response.data.complete) {
+                        title = "Éxito";
+                        icon = "success";
+                      }
+
+                      _this5.$swal({
+                        title: title,
+                        icon: icon,
+                        text: response.data.message
+                      }).then(function () {
+                        if (response.data.complete) {
+                          _this5.showSubject();
+                        } else _this5.overlay = false;
+                      });
+                    })["catch"](function (error) {
+                      _this5.$swal({
+                        title: "Error",
+                        icon: "error",
+                        text: "Ha ocurrido un error en la aplicación"
+                      }).then(function () {
+                        console.log(error);
+                        _this5.overlay = false;
+                      });
+                    });
                   }
-                })["catch"](function (error) {
-                  console.log(error);
-
-                  _this5.$router.push({
-                    name: "error"
-                  });
                 });
 
-              case 10:
-                _context5.next = 13;
+              case 3:
+                _context5.next = 6;
                 break;
 
-              case 12:
-                _this5.$router.push({
-                  name: "error"
-                });
+              case 5:
+                _this5.overlay = false;
 
-              case 13:
+              case 6:
               case "end":
                 return _context5.stop();
             }
@@ -1303,7 +1291,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    editSubject: function editSubject() {
+    // Estudiantes
+    unsubscribe_students: function unsubscribe_students() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
@@ -1311,14 +1300,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!_this6.$refs.form_information.validate()) {
+                if (!(_this6.selected_subject_students.length > 0)) {
                   _context6.next = 5;
                   break;
                 }
 
                 _context6.next = 3;
                 return _this6.$swal({
-                  title: '¿Esta seguro de modificar la información de la materia?',
+                  title: '¿Esta seguro de desuscribir al estudiante seleccionado de la materia actual?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1327,17 +1316,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this6.overlay = true;
                     var data = new FormData();
-                    data.append('name', _this6.form_information.name);
-                    data.append('code', _this6.form_information.code);
 
-                    if (_this6.form_information.img) {
-                      data.append('img', _this6.form_information.img);
+                    var _iterator3 = _createForOfIteratorHelper(_this6.selected_subject_students),
+                        _step3;
+
+                    try {
+                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                        var student = _step3.value;
+                        data.append('students[]', student.slug);
+                      }
+                    } catch (err) {
+                      _iterator3.e(err);
+                    } finally {
+                      _iterator3.f();
                     }
 
-                    data.append('img_new', _this6.form_information.img_new);
-                    data.append('_method', "put");
+                    data.append('subject', _this6.address);
 
-                    _this6.axios.post('/api/subject/' + _this6.address, data).then(function (response) {
+                    _this6.axios.post('/api/getstd/', data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -1352,18 +1348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          if (response.data.reload) {
-                            _this6.$router.push({
-                              name: "editSubject",
-                              params: {
-                                slug: response.data.reload
-                              }
-                            });
-                          } else {
-                            _this6.showSubject();
-
-                            _this6.overlay = false;
-                          }
+                          _this6.showSubject();
                         } else _this6.overlay = false;
                       });
                     })["catch"](function (error) {
@@ -1372,8 +1357,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
-                        _this6.overlay = false;
                         console.log(error);
+                        _this6.overlay = false;
                       });
                     });
                   }
@@ -1394,7 +1379,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6);
       }))();
     },
-    saveListTopics: function saveListTopics() {
+    suscribe_students: function suscribe_students() {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
@@ -1402,9 +1387,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _context7.next = 2;
+                if (!(_this7.selected_students.length > 0)) {
+                  _context7.next = 5;
+                  break;
+                }
+
+                _context7.next = 3;
                 return _this7.$swal({
-                  title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                  title: '¿Esta seguro de suscribir los estudiantes seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1414,13 +1404,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this7.overlay = true;
                     var data = new FormData();
 
-                    var _iterator4 = _createForOfIteratorHelper(_this7.topics),
+                    var _iterator4 = _createForOfIteratorHelper(_this7.selected_students),
                         _step4;
 
                     try {
                       for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                        var item = _step4.value;
-                        data.append('topics[]', item.id);
+                        var student = _step4.value;
+                        data.append('students[]', student.slug);
                       }
                     } catch (err) {
                       _iterator4.e(err);
@@ -1430,7 +1420,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     data.append('_method', "put");
 
-                    _this7.axios.post('/api/subject/gettopics/' + _this7.address, data).then(function (response) {
+                    _this7.axios.post('/api/getstd/' + _this7.address, data).then(function (response) {
                       var title = "Error";
                       var icon = "error";
 
@@ -1454,20 +1444,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         icon: "error",
                         text: "Ha ocurrido un error en la aplicación"
                       }).then(function () {
-                        _this7.overlay = false;
                         console.log(error);
+                        _this7.overlay = false;
                       });
                     });
                   }
                 });
 
-              case 2:
+              case 3:
+                _context7.next = 6;
+                break;
+
+              case 5:
+                _this7.overlay = false;
+
+              case 6:
               case "end":
                 return _context7.stop();
             }
           }
         }, _callee7);
       }))();
+    },
+    handleFileImport: function handleFileImport() {
+      this.$refs.uploader.$refs.input.click();
     },
     statusSubject: function statusSubject() {
       var _this8 = this;
@@ -6807,7 +6807,7 @@ var render = function () {
                                         rules: _vm.info.codeRules,
                                         label: "Código *",
                                         dense: "",
-                                        "prepend-icon": "person",
+                                        "prepend-icon": "source",
                                         clearable: "",
                                         "clear-icon": "cancel",
                                         required: "",

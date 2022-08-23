@@ -238,7 +238,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (user.type != "0") {
                     _this2.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   }
                 })["catch"](function (error) {
@@ -250,7 +250,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     console.log(error);
 
                     _this2.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   });
                 });

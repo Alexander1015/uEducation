@@ -845,7 +845,7 @@ var render = function () {
                                       attrs: {
                                         tabindex: "2",
                                         dense: "",
-                                        "prepend-icon": "person",
+                                        "prepend-icon": "source",
                                         rules: _vm.codeRules,
                                         label: "Código *",
                                         clearable: "",

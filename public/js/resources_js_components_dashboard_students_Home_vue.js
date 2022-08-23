@@ -246,7 +246,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                   if (_this.user.type != "0") {
                     _this.$router.push({
-                      name: "error"
+                      name: "forbiden"
                     });
                   }
                 })["catch"](function (error) {

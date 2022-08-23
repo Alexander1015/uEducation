@@ -72,8 +72,8 @@
                                             <v-col>
                                                 <v-autocomplete v-model="form_information.subject"
                                                     :rules="info.subjectRules" :items="data_subject" clearable
-                                                    clear-icon="cancel" label="Curso *" tabindex="3" dense
-                                                    :loading="loading_subjects" item-text="name"
+                                                    clear-icon="cancel" label="Código del curso *" tabindex="3" dense
+                                                    :loading="loading_subjects" item-text="code"
                                                     no-data-text="No se encuentra información para mostrar"
                                                     prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
                                                     hide-selected required>
@@ -93,10 +93,10 @@
                                                                     por el lector.
                                                                 </span>
                                                             </v-tooltip>
-                                                            {{ data.item.name }} [{{ data.item.code }}]
+                                                            {{ data.item.code }} ({{ data.item.name }})
                                                         </template>
                                                         <template v-else>
-                                                            {{ data.item.name }} [{{ data.item.code }}]
+                                                            {{ data.item.code }} ({{ data.item.name }})
                                                         </template>
                                                     </template>
                                                     <template v-slot:item="data">
@@ -119,11 +119,11 @@
                                                                             por el lector.
                                                                         </span>
                                                                     </v-tooltip>
-                                                                    {{ data.item.name }}
+                                                                    {{ data.item.code }} ({{ data.item.name }})
                                                                 </span>
                                                             </template>
                                                             <template v-else>
-                                                                {{ data.item.name }}
+                                                                {{ data.item.code }} ({{ data.item.name }})
                                                             </template>
                                                         </v-list-item-content>
                                                     </template>

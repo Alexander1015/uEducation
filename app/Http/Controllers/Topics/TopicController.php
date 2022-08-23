@@ -46,7 +46,20 @@ class TopicController extends Controller
                         array_push($data, $item);
                     }
                 }
-                return response()->json($data);
+                $subjects = array();
+                $review = DB::table("user_subject")->where("user_id", $auth_user->id)->get();
+                if ($auth_user->type == "0") {
+                    $subjects = DB::table("subjects")->get();
+                }
+                else {
+                    foreach($review as $item) {
+                        array_push($subjects, DB::table("subjects")->where("id", $item->subject_id)->first());
+                    }
+                }
+                return response()->json([
+                    'data' =>$data,
+                    'subjects' => $subjects
+                ]);
             } else return response()->json([]);
         } catch (Exception $ex) {
             return response()->json([]);
@@ -105,7 +118,7 @@ class TopicController extends Controller
                             'complete' => false,
                         ]);
                     } else {
-                        $exist_subject = DB::table("subjects")->where("name", $request->input('subject'))->first();
+                        $exist_subject = DB::table("subjects")->where("code", $request->input('subject'))->first();
                         if (!$exist_subject) {
                             return response()->json([
                                 'message' => 'El curso seleccionado para el tema no existe',
@@ -410,7 +423,7 @@ class TopicController extends Controller
                                     'complete' => false,
                                 ]);
                             } else {
-                                $exist_subject = DB::table("subjects")->where("name", $request->input('subject'))->first();
+                                $exist_subject = DB::table("subjects")->where("code", $request->input('subject'))->first();
                                 if (!$exist_subject) {
                                     return response()->json([
                                         'message' => 'El curso seleccionado para el tema no existe',

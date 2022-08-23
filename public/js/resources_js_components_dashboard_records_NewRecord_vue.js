@@ -133,7 +133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear la bitacora del ciclo actual especificado?',
+                  title: '¿Esta seguro de crear la bitacora del ciclo actual especificado, esta acción es irreversible?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('firstname')->default("");
             $table->string('lastname')->default("");
             $table->string('user')->default("");
+            $table->string('type')->default("");
             $table->boolean('status_user')->default(1);
             $table->string('subject')->default("");
             $table->string('code')->default("");

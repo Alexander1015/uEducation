@@ -5615,11 +5615,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         visible: false
       }, {
-        type: 3,
+        type: 4,
         header: true,
         visible: false
       }, {
-        type: 3,
+        type: 4,
         title: "Registros",
         icon: "folder",
         to: {
@@ -5939,11 +5939,15 @@ var NewRecord = function NewRecord() {
 
 var Profile = function Profile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_profile_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/profile/Home.vue */ "./resources/js/components/dashboard/profile/Home.vue"));
-}; // Error 404
+}; // Error
 
 
-var Error = function Error() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_error_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/error/Home.vue */ "./resources/js/components/error/Home.vue"));
+var Error404 = function Error404() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_error_404_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/error/404.vue */ "./resources/js/components/error/404.vue"));
+};
+
+var Error403 = function Error403() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_error_403_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/error/403.vue */ "./resources/js/components/error/403.vue"));
 };
 
 var routes = [{
@@ -5993,16 +5997,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6019,16 +6023,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6045,16 +6049,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6071,16 +6075,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6097,16 +6101,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6123,16 +6127,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6149,16 +6153,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6175,16 +6179,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6201,16 +6205,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "1" || response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6227,16 +6231,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6253,16 +6257,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6279,16 +6283,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6305,16 +6309,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6331,16 +6335,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6357,16 +6361,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6383,16 +6387,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0" || response.data.type == "1") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6409,16 +6413,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6435,16 +6439,16 @@ var routes = [{
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
-        if (response.data.type == "2") {
-          return next({
-            name: 'error'
-          });
-        } else {
+        if (response.data.type == "0") {
           next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
         }
       })["catch"](function (error) {
         return next({
-          name: 'error'
+          name: 'forbiden'
         });
       });
     })["catch"](function (error) {
@@ -6466,11 +6470,16 @@ var routes = [{
       });
     });
   }
+}, // Error 403
+{
+  name: 'forbiden',
+  path: '/forbiden',
+  component: Error403
 }, // Error 404
 {
   name: 'error',
   path: '*',
-  component: Error
+  component: Error404
 }];
 
 /***/ }),
@@ -58600,7 +58609,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_carousel_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_students_Home_vue":1,"resources_js_components_dashboard_students_NewStudent_vue":1,"resources_js_components_dashboard_students_EditStudent_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_records_Home_vue":1,"resources_js_components_dashboard_records_NewRecord_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_Home_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_carousel_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_students_Home_vue":1,"resources_js_components_dashboard_students_NewStudent_vue":1,"resources_js_components_dashboard_students_EditStudent_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_records_Home_vue":1,"resources_js_components_dashboard_records_NewRecord_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_404_vue":1,"resources_js_components_error_403_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
