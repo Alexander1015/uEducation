@@ -104,7 +104,7 @@ var render = function () {
           _c("v-divider"),
           _vm._v(" "),
           _c("p", { staticClass: "text-h5 text-center my-4" }, [
-            _vm._v("\n            (Forbiden) Acceso denegado\n        "),
+            _vm._v("\n            (Forbidden) Acceso denegado\n        "),
           ]),
           _vm._v(" "),
           _c("v-img", {

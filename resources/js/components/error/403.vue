@@ -6,7 +6,7 @@
             </p>
             <v-divider></v-divider>
             <p class="text-h5 text-center my-4">
-                (Forbiden) Acceso denegado
+                (Forbidden) Acceso denegado
             </p>
             <v-img class="mx-auto" src="/img/logo/logo_letters.png"
                 lazy-src="/img/logo/logo_letters_lazy.png" height="200" contain>
