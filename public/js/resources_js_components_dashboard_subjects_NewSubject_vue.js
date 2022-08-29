@@ -118,7 +118,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: "NewSubject",
   data: function data() {
     return {
-      dialog: true,
       banner: {
         img: "/img/banner/subject.jpg",
         lazy: "/img/banner/subject_lazy.jpg"

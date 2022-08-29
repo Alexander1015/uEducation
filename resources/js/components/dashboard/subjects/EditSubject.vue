@@ -23,7 +23,7 @@
                                 <span>Actualizar</span>
                             </v-tooltip>
                             <span>
-                                {{ subject.name.toUpperCase() }}
+                                {{  subject.name.toUpperCase()  }}
                             </span>
                         </template>
                         <template v-else>
@@ -146,7 +146,7 @@
                                     <transition-group type="transition" :name="!drag ? 'flip-list' : null">
                                         <li id="topic_drag" class="cursor bk_brown txt_white my-1 mr-5 pa-2"
                                             v-for="item in topics" :key="item.key">
-                                            {{ item.key }} - {{ item.name }}
+                                            {{  item.key  }} - {{  item.name  }}
                                             <v-icon class="topic_drag_icon txt_white">view_list</v-icon>
                                         </li>
                                     </transition-group>
@@ -623,8 +623,7 @@
                                 <div>
                                     <v-card-subtitle class="text-justify">
                                         Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra
-                                        ser
-                                        visualizado por parte del lector)
+                                        ser visualizado por parte del lector)
                                     </v-card-subtitle>
                                     <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
                                         <v-select class="width_100" v-model="form_status.status" :items="items_status"

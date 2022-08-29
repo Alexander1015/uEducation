@@ -24,6 +24,14 @@
                     </template>
                     <span>Nuevo</span>
                 </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn class="ml-4 mt-n2 bk_blue txt_white" v-bind="attrs" v-on="on" @click.stop="gotoLoad()">
+                            <v-icon>upload_file</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Cargar información de estudiantes no ingresados</span>
+                </v-tooltip>
             </div>
             <div class="mb-8">
                 <p>Listado de los estudiantes existentes en la aplicación</p>
@@ -177,6 +185,10 @@ export default {
         gotoNew() {
             this.overlay = true;
             this.$router.push({ name: "newStudent" });
+        },
+        gotoLoad() {
+            this.overlay = true;
+            this.$router.push({ name: "loadStudents" });
         },
         async allUsers() {
             this.overlay = true;

@@ -97,7 +97,6 @@
 export default {
     name: "NewSubject",
     data: () => ({
-        dialog: true,
         banner: {
             img: "/img/banner/subject.jpg",
             lazy: "/img/banner/subject_lazy.jpg",

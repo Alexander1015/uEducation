@@ -13,14 +13,18 @@ const DashboardCarousel = () => import ('./components/dashboard/carousel/Home.vu
 const DashboardUsers = () => import ('./components/dashboard/users/Home.vue')
 const NewUser = () => import ('./components/dashboard/users/NewUser.vue')
 const EditUser = () => import ('./components/dashboard/users/EditUser.vue')
+const LoadUsers = () => import ('./components/dashboard/users/LoadUsers.vue')
 // Students
 const DashboardStudents = () => import ('./components/dashboard/students/Home.vue')
 const NewStudent = () => import ('./components/dashboard/students/NewStudent.vue')
 const EditStudent = () => import ('./components/dashboard/students/EditStudent.vue')
+const LoadStudents = () => import ('./components/dashboard/students/LoadStudents.vue')
 // Subjects
 const DashboardSubjects = () => import ('./components/dashboard/subjects/Home.vue')
 const NewSubject = () => import ('./components/dashboard/subjects/NewSubject.vue')
 const EditSubject = () => import ('./components/dashboard/subjects/EditSubject.vue')
+const LoadSubjects = () => import ('./components/dashboard/subjects/LoadSubjects.vue')
+const LoadRelations = () => import ('./components/dashboard/subjects/LoadRelations.vue')
 // Tags
 const DashboardTags = () => import ('./components/dashboard/tags/Home.vue')
 const NewTag = () => import ('./components/dashboard/tags/NewTag.vue')
@@ -157,6 +161,25 @@ export const routes = [
             });
         }
     }, {
+        name: 'loadUsers',
+        path: '/dashboard/users/load',
+        component: LoadUsers,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "0") {
+                        next()
+                    } else {
+                        return next({name: 'forbiden'})
+                    }
+                }).catch((error) => {
+                    return next({name: 'forbiden'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
         name: 'students',
         path: '/dashboard/students',
         component: DashboardStudents,
@@ -198,6 +221,25 @@ export const routes = [
         name: 'editStudent',
         path: '/dashboard/students/edit/:slug',
         component: EditStudent,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "0") {
+                        next()
+                    } else {
+                        return next({name: 'forbiden'})
+                    }
+                }).catch((error) => {
+                    return next({name: 'forbiden'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'loadStudents',
+        path: '/dashboard/students/load',
+        component: LoadStudents,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
@@ -259,6 +301,44 @@ export const routes = [
             axios.get('/api/authenticated').then(response => {
                 axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
                     if (response.data.type == "0" || response.data.type == "1") {
+                        next()
+                    } else {
+                        return next({name: 'forbiden'})
+                    }
+                }).catch((error) => {
+                    return next({name: 'forbiden'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'loadSubjects',
+        path: '/dashboard/subjects/load',
+        component: LoadSubjects,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "0") {
+                        next()
+                    } else {
+                        return next({name: 'forbiden'})
+                    }
+                }).catch((error) => {
+                    return next({name: 'forbiden'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    }, {
+        name: 'loadRelations',
+        path: '/dashboard/subjects/load/relations',
+        component: LoadRelations,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "0") {
                         next()
                     } else {
                         return next({name: 'forbiden'})

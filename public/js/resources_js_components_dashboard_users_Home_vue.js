@@ -197,6 +197,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeUser",
   data: function data() {
@@ -263,6 +271,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.overlay = true;
       this.$router.push({
         name: "newUser"
+      });
+    },
+    gotoLoad: function gotoLoad() {
+      this.overlay = true;
+      this.$router.push({
+        name: "loadUsers"
       });
     },
     allUsers: function allUsers() {
@@ -1284,7 +1298,7 @@ var render = function () {
                 [_vm._v(" "), _c("span", [_vm._v("Actualizar")])]
               ),
               _vm._v(" "),
-              _c("span", { staticClass: "text-h6" }, [_vm._v("USUARIOS")]),
+              _c("span", { staticClass: "text-h6" }, [_vm._v("DOCENTES")]),
               _vm._v(" "),
               _c(
                 "v-tooltip",
@@ -1326,13 +1340,59 @@ var render = function () {
                 },
                 [_vm._v(" "), _c("span", [_vm._v("Nuevo")])]
               ),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function (ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  staticClass: "ml-4 mt-n2 bk_blue txt_white",
+                                  on: {
+                                    click: function ($event) {
+                                      $event.stopPropagation()
+                                      return _vm.gotoLoad()
+                                    },
+                                  },
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("upload_file")])],
+                            1
+                          ),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v("Cargar información de docentes no ingresados"),
+                  ]),
+                ]
+              ),
             ],
             1
           ),
           _vm._v(" "),
           _c("div", { staticClass: "mb-8" }, [
             _c("p", [
-              _vm._v("Listado de los usuarios existentes en la aplicación"),
+              _vm._v("Listado de los docentes existentes en la aplicación"),
             ]),
           ]),
           _vm._v(" "),

@@ -154,7 +154,7 @@ export default {
             { type: 3, title: "Etiquetas", icon: "local_offer", to: { name: "tags" }, visible: false },
             { type: 3, title: "Temas", icon: "library_books", to: { name: "topics" }, visible: false },
             { type: 4, header: true, visible: false },
-            { type: 4, title: "Usuarios", icon: "people", to: { name: "users" }, visible: false },
+            { type: 4, title: "Docentes", icon: "people", to: { name: "users" }, visible: false },
             { type: 4, title: "Estudiantes", icon: "badge", to: { name: "students" }, visible: false },
             { type: 4, header: true, visible: false },
             { type: 4, title: "Registros", icon: "folder", to: { name: "records" }, visible: false },

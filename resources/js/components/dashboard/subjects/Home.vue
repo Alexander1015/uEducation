@@ -26,6 +26,24 @@
                         </template>
                         <span>Nuevo</span>
                     </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn class="ml-4 mt-n2 bk_blue txt_white" v-bind="attrs" v-on="on"
+                                @click.stop="gotoLoad()">
+                                <v-icon>upload_file</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Cargar información de materias no ingresadas</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn class="ml-4 mt-n2 bk_blue txt_white" v-bind="attrs" v-on="on"
+                                @click.stop="gotoRelations()">
+                                <v-icon>subscriptions</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Cargar información de las suscripciones de usuarios</span>
+                    </v-tooltip>
                 </template>
             </div>
             <div class="mb-8">
@@ -173,6 +191,14 @@ export default {
         gotoNew() {
             this.overlay = true;
             this.$router.push({ name: "newSubject" });
+        },
+        gotoLoad() {
+            this.overlay = true;
+            this.$router.push({ name: "loadSubjects" });
+        },
+        gotoRelations() {
+            this.overlay = true;
+            this.$router.push({ name: "loadRelations" });
         },
         async allSubjects() {
             this.overlay = true;

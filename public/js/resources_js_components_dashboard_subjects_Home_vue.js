@@ -166,6 +166,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeSubject",
   data: function data() {
@@ -217,6 +235,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.overlay = true;
       this.$router.push({
         name: "newSubject"
+      });
+    },
+    gotoLoad: function gotoLoad() {
+      this.overlay = true;
+      this.$router.push({
+        name: "loadSubjects"
+      });
+    },
+    gotoRelations: function gotoRelations() {
+      this.overlay = true;
+      this.$router.push({
+        name: "loadRelations"
       });
     },
     allSubjects: function allSubjects() {
@@ -1294,6 +1324,114 @@ var render = function () {
                         ),
                       },
                       [_vm._v(" "), _c("span", [_vm._v("Nuevo")])]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function (ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass:
+                                            "ml-4 mt-n2 bk_blue txt_white",
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.gotoLoad()
+                                            },
+                                          },
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [_c("v-icon", [_vm._v("upload_file")])],
+                                    1
+                                  ),
+                                ]
+                              },
+                            },
+                          ],
+                          null,
+                          false,
+                          1026149087
+                        ),
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Cargar información de materias no ingresadas"
+                          ),
+                        ]),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function (ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass:
+                                            "ml-4 mt-n2 bk_blue txt_white",
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.gotoRelations()
+                                            },
+                                          },
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [_c("v-icon", [_vm._v("subscriptions")])],
+                                    1
+                                  ),
+                                ]
+                              },
+                            },
+                          ],
+                          null,
+                          false,
+                          2443627526
+                        ),
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Cargar información de las suscripciones de usuarios"
+                          ),
+                        ]),
+                      ]
                     ),
                   ]
                 : _vm._e(),

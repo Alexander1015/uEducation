@@ -23,9 +23,9 @@
                             Regresar
                         </v-btn>
                         <v-card-title class="text-h5">
-                            <p class="mx-auto">NUEVO USUARIO</p>
+                            <p class="mx-auto">NUEVO DOCENTE</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">Cree un usuario nuevo</v-card-subtitle>
+                        <v-card-subtitle class="text-center">Cree un docente nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
                             <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser()">

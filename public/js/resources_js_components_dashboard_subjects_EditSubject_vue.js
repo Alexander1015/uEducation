@@ -695,7 +695,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -9096,7 +9095,7 @@ var render = function () {
                                     { staticClass: "text-justify" },
                                     [
                                       _vm._v(
-                                        "\n                                    Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra\n                                    ser\n                                    visualizado por parte del lector)\n                                "
+                                        "\n                                    Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra\n                                    ser visualizado por parte del lector)\n                                "
                                       ),
                                     ]
                                   ),

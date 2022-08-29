@@ -15,7 +15,7 @@
                     </template>
                     <span>Actualizar</span>
                 </v-tooltip>
-                <span class="text-h6">USUARIOS</span>
+                <span class="text-h6">DOCENTES</span>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on" @click.stop="gotoNew()">
@@ -24,9 +24,17 @@
                     </template>
                     <span>Nuevo</span>
                 </v-tooltip>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn class="ml-4 mt-n2 bk_blue txt_white" v-bind="attrs" v-on="on" @click.stop="gotoLoad()">
+                            <v-icon>upload_file</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>Cargar información de docentes no ingresados</span>
+                </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de los usuarios existentes en la aplicación</p>
+                <p>Listado de los docentes existentes en la aplicación</p>
             </div>
             <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" dense>
             </v-text-field>
@@ -210,6 +218,10 @@ export default {
         gotoNew() {
             this.overlay = true;
             this.$router.push({ name: "newUser" });
+        },
+        gotoLoad() {
+            this.overlay = true;
+            this.$router.push({ name: "loadUsers" });
         },
         async allUsers() {
             this.overlay = true;

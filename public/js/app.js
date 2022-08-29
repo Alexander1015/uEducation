@@ -5600,7 +5600,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         visible: false
       }, {
         type: 4,
-        title: "Usuarios",
+        title: "Docentes",
         icon: "people",
         to: {
           name: "users"
@@ -5873,6 +5873,10 @@ var NewUser = function NewUser() {
 
 var EditUser = function EditUser() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_EditUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/EditUser.vue */ "./resources/js/components/dashboard/users/EditUser.vue"));
+};
+
+var LoadUsers = function LoadUsers() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_users_LoadUsers_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/users/LoadUsers.vue */ "./resources/js/components/dashboard/users/LoadUsers.vue"));
 }; // Students
 
 
@@ -5886,6 +5890,10 @@ var NewStudent = function NewStudent() {
 
 var EditStudent = function EditStudent() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_students_EditStudent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/students/EditStudent.vue */ "./resources/js/components/dashboard/students/EditStudent.vue"));
+};
+
+var LoadStudents = function LoadStudents() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_students_LoadStudents_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/students/LoadStudents.vue */ "./resources/js/components/dashboard/students/LoadStudents.vue"));
 }; // Subjects
 
 
@@ -5899,6 +5907,14 @@ var NewSubject = function NewSubject() {
 
 var EditSubject = function EditSubject() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_subjects_EditSubject_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/subjects/EditSubject.vue */ "./resources/js/components/dashboard/subjects/EditSubject.vue"));
+};
+
+var LoadSubjects = function LoadSubjects() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_subjects_LoadSubjects_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/subjects/LoadSubjects.vue */ "./resources/js/components/dashboard/subjects/LoadSubjects.vue"));
+};
+
+var LoadRelations = function LoadRelations() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_subjects_LoadRelations_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/subjects/LoadRelations.vue */ "./resources/js/components/dashboard/subjects/LoadRelations.vue"));
 }; // Tags
 
 
@@ -6094,6 +6110,32 @@ var routes = [{
     });
   }
 }, {
+  name: 'loadUsers',
+  path: '/dashboard/users/load',
+  component: LoadUsers,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "0") {
+          next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'forbiden'
+        });
+      });
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
   name: 'students',
   path: '/dashboard/students',
   component: DashboardStudents,
@@ -6149,6 +6191,32 @@ var routes = [{
   name: 'editStudent',
   path: '/dashboard/students/edit/:slug',
   component: EditStudent,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "0") {
+          next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'forbiden'
+        });
+      });
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'loadStudents',
+  path: '/dashboard/students/load',
+  component: LoadStudents,
   beforeEnter: function beforeEnter(to, from, next) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
@@ -6232,6 +6300,58 @@ var routes = [{
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
         // Verificamos el tipo de usuario que ingresa
         if (response.data.type == "0" || response.data.type == "1") {
+          next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'forbiden'
+        });
+      });
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'loadSubjects',
+  path: '/dashboard/subjects/load',
+  component: LoadSubjects,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "0") {
+          next();
+        } else {
+          return next({
+            name: 'forbiden'
+          });
+        }
+      })["catch"](function (error) {
+        return next({
+          name: 'forbiden'
+        });
+      });
+    })["catch"](function (error) {
+      return next({
+        name: 'auth'
+      });
+    });
+  }
+}, {
+  name: 'loadRelations',
+  path: '/dashboard/subjects/load/relations',
+  component: LoadRelations,
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/authenticated').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/auth').then(function (response) {
+        // Verificamos el tipo de usuario que ingresa
+        if (response.data.type == "0") {
           next();
         } else {
           return next({
@@ -58609,7 +58729,7 @@ function mixins(...args) {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_carousel_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_students_Home_vue":1,"resources_js_components_dashboard_students_NewStudent_vue":1,"resources_js_components_dashboard_students_EditStudent_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_records_Home_vue":1,"resources_js_components_dashboard_records_NewRecord_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_404_vue":1,"resources_js_components_error_403_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_public_Home_vue":1,"resources_js_components_public_Contents_vue":1,"resources_js_components_public_Subject_vue":1,"resources_js_components_public_Topic_vue":1,"resources_js_components_auth_Home_vue":1,"resources_js_components_dashboard_carousel_Home_vue":1,"resources_js_components_dashboard_users_Home_vue":1,"resources_js_components_dashboard_users_NewUser_vue":1,"resources_js_components_dashboard_users_EditUser_vue":1,"resources_js_components_dashboard_users_LoadUsers_vue":1,"resources_js_components_dashboard_students_Home_vue":1,"resources_js_components_dashboard_students_NewStudent_vue":1,"resources_js_components_dashboard_students_EditStudent_vue":1,"resources_js_components_dashboard_students_LoadStudents_vue":1,"resources_js_components_dashboard_subjects_Home_vue":1,"resources_js_components_dashboard_subjects_NewSubject_vue":1,"resources_js_components_dashboard_subjects_EditSubject_vue":1,"resources_js_components_dashboard_subjects_LoadSubjects_vue":1,"resources_js_components_dashboard_subjects_LoadRelations_vue":1,"resources_js_components_dashboard_tags_Home_vue":1,"resources_js_components_dashboard_tags_NewTag_vue":1,"resources_js_components_dashboard_tags_EditTag_vue":1,"resources_js_components_dashboard_topics_Home_vue":1,"resources_js_components_dashboard_topics_NewTopic_vue":1,"resources_js_components_dashboard_topics_EditTopic_vue":1,"resources_js_components_dashboard_records_Home_vue":1,"resources_js_components_dashboard_records_NewRecord_vue":1,"resources_js_components_dashboard_profile_Home_vue":1,"resources_js_components_error_404_vue":1,"resources_js_components_error_403_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

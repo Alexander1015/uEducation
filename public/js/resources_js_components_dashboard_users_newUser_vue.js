@@ -1067,12 +1067,12 @@ var render = function () {
                     _vm._v(" "),
                     _c("v-card-title", { staticClass: "text-h5" }, [
                       _c("p", { staticClass: "mx-auto" }, [
-                        _vm._v("NUEVO USUARIO"),
+                        _vm._v("NUEVO DOCENTE"),
                       ]),
                     ]),
                     _vm._v(" "),
                     _c("v-card-subtitle", { staticClass: "text-center" }, [
-                      _vm._v("Cree un usuario nuevo"),
+                      _vm._v("Cree un docente nuevo"),
                     ]),
                     _vm._v(" "),
                     _c(
