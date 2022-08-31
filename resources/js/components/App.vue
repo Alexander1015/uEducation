@@ -37,7 +37,19 @@
                                         </template>
                                     </v-img>
                                 </v-list-item-avatar>
-                                <span class="mx-1">{{ user.user }}</span>
+                                <span class="mx-1 caption">
+                                    <template v-if="user.firstname || user.lastname">
+                                        <template v-if="user.firstname">
+                                            {{  user.firstname  }}
+                                        </template>
+                                        <template v-if="user.lastname">
+                                            {{  user.lastname  }}
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <v-icon>remove</v-icon>
+                                    </template>
+                                </span>
                                 <v-icon>keyboard_arrow_down</v-icon>
                             </v-btn>
                         </template>
@@ -46,7 +58,7 @@
                                 <v-btn text :to="to.profile" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="text-center mt-1">
-                                            <span>Perfil</span>
+                                            <span>Perfil de la cuenta</span>
                                         </v-col>
                                         <v-col cols="4" class="text-center">
                                             <v-icon>account_circle</v-icon>
@@ -58,7 +70,7 @@
                                 <v-btn text @click.prevent="logout" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="mx-auto mt-1">
-                                            <span>Salir</span>
+                                            <span>Salir de la sesión</span>
                                         </v-col>
                                         <v-col cols="4" class="mx-auto">
                                             <v-icon>logout</v-icon>
@@ -91,9 +103,9 @@
                         <template v-if="link.title">
                             <v-list-item v-if="link.visible" link :to="link.to" class="my-1">
                                 <v-list-item-icon>
-                                    <v-icon>{{ link.icon }}</v-icon>
+                                    <v-icon>{{  link.icon  }}</v-icon>
                                 </v-list-item-icon>
-                                <v-list-item-title>{{ link.title }}</v-list-item-title>
+                                <v-list-item-title>{{  link.title  }}</v-list-item-title>
                             </v-list-item>
                         </template>
                         <template v-else-if="link.header && link.visible">
@@ -112,7 +124,7 @@
                     <v-card-text class="pt-1 pb-0 text-center txt_white caption">
                         <strong>Edgard Alexander Barrera Flamenco</strong>
                         <template v-if="today !== 2022">
-                            <span>(2022 - {{ today }})</span>
+                            <span>(2022 - {{  today  }})</span>
                         </template>
                         <template v-else>
                             <span> - 2022</span>

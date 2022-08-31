@@ -76,7 +76,7 @@ class BodyController extends Controller
                                 // Eliminamos de la BD las imagenes que se eliminaron
                                 $images_db = DB::table("images")->where("topic_id", $data->id)->get();
                                 foreach ($images_db as $db) {
-                                    $txtimg = "src=\"/data/" . $data->body . "/img/" . $db->image . "\"";
+                                    $txtimg = "src=\"/data/" . $data->body . "/img/" . $db->img . "\"";
                                     if (!Str::contains($request->input('body'), $txtimg)) {
                                         DB::table("images")->delete($db->id);
                                     }
@@ -94,7 +94,7 @@ class BodyController extends Controller
                                     for ($x = 0; $x < sizeof($images_db); $x++) {
                                         $exist = false;
                                         for ($y = 0; $y < sizeof($files); $y++) {
-                                            if ($images_db[$x]->image === $files[$y]) {
+                                            if ($images_db[$x]->img === $files[$y]) {
                                                 $exist = true;
                                                 break;
                                             }
@@ -107,7 +107,7 @@ class BodyController extends Controller
                                     for ($y = 0; $y < sizeof($files); $y++) {
                                         $exist = false;
                                         for ($x = 0; $x < sizeof($images_db); $x++) {
-                                            if ($images_db[$x]->image == $files[$y]) {
+                                            if ($images_db[$x]->img == $files[$y]) {
                                                 $exist = true;
                                                 break;
                                             }

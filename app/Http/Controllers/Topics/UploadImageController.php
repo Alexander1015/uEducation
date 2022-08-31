@@ -32,10 +32,10 @@ class UploadImageController extends Controller
                 } else {
                     $review = DB::table("user_subject")->where("user_id", $auth_user->id)->where("subject_id", $data->subject_id)->first();
                     if ($auth_user->type == "0" || $review) {
-                        if ($request->file('image')) {
+                        if ($request->file('img')) {
                             //Direccion de la imagen
-                            $new_img = time() . '.' . $request->file('image')->getClientOriginalExtension();
-                            $img = $request->file('image');
+                            $new_img = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                            $img = $request->file('img');
                             $size = Image::make($img->getRealPath())->width();
                             $address = public_path('/data') . "/" . $data->body . "/img"; // Direccion de la imagen
                             if (!File::isDirectory($address)) {
@@ -48,7 +48,7 @@ class UploadImageController extends Controller
                             DB::table("images")
                                 ->insert([
                                     'topic_id' => $data->id,
-                                    'image' => $new_img,
+                                    'img' => $new_img,
                                 ]);
                             return response()->json([
                                 'url' => '/data/' . $data->body . '/img/' . $new_img,

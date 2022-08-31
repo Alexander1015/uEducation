@@ -772,7 +772,7 @@ export class UploadAdapter {
             .then(uploadedFile => {
                 return new Promise((resolve, reject) => {
                     let data = new FormData();
-                    data.append('image', uploadedFile);
+                    data.append('img', uploadedFile);
                     data.append('_method', "put");
                     let url = window.location.href;
                     const slug = url.substring(url.lastIndexOf("/") + 1);

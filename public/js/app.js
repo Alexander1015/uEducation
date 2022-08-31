@@ -5526,6 +5526,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App",
   data: function data() {
@@ -31196,9 +31208,45 @@ var render = function () {
                                         1
                                       ),
                                       _vm._v(" "),
-                                      _c("span", { staticClass: "mx-1" }, [
-                                        _vm._v(_vm._s(_vm.user.user)),
-                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "mx-1 caption" },
+                                        [
+                                          _vm.user.firstname ||
+                                          _vm.user.lastname
+                                            ? [
+                                                _vm.user.firstname
+                                                  ? [
+                                                      _vm._v(
+                                                        "\n                                        " +
+                                                          _vm._s(
+                                                            _vm.user.firstname
+                                                          ) +
+                                                          "\n                                    "
+                                                      ),
+                                                    ]
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                _vm.user.lastname
+                                                  ? [
+                                                      _vm._v(
+                                                        "\n                                        " +
+                                                          _vm._s(
+                                                            _vm.user.lastname
+                                                          ) +
+                                                          "\n                                    "
+                                                      ),
+                                                    ]
+                                                  : _vm._e(),
+                                              ]
+                                            : [
+                                                _c("v-icon", [
+                                                  _vm._v("remove"),
+                                                ]),
+                                              ],
+                                        ],
+                                        2
+                                      ),
                                       _vm._v(" "),
                                       _c("v-icon", [
                                         _vm._v("keyboard_arrow_down"),
@@ -31212,7 +31260,7 @@ var render = function () {
                           ],
                           null,
                           false,
-                          536899226
+                          2639114260
                         ),
                       },
                       [
@@ -31237,7 +31285,11 @@ var render = function () {
                                           staticClass: "text-center mt-1",
                                           attrs: { cols: "8" },
                                         },
-                                        [_c("span", [_vm._v("Perfil")])]
+                                        [
+                                          _c("span", [
+                                            _vm._v("Perfil de la cuenta"),
+                                          ]),
+                                        ]
                                       ),
                                       _vm._v(" "),
                                       _c(
@@ -31288,7 +31340,11 @@ var render = function () {
                                           staticClass: "mx-auto mt-1",
                                           attrs: { cols: "8" },
                                         },
-                                        [_c("span", [_vm._v("Salir")])]
+                                        [
+                                          _c("span", [
+                                            _vm._v("Salir de la sesión"),
+                                          ]),
+                                        ]
                                       ),
                                       _vm._v(" "),
                                       _c(

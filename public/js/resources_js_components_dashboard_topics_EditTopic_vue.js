@@ -974,7 +974,7 @@ var UploadAdapter = /*#__PURE__*/function () {
       return this.loader.file.then(function (uploadedFile) {
         return new Promise(function (resolve, reject) {
           var data = new FormData();
-          data.append('image', uploadedFile);
+          data.append('img', uploadedFile);
           data.append('_method', "put");
           var url = window.location.href;
           var slug = url.substring(url.lastIndexOf("/") + 1);

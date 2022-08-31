@@ -308,7 +308,7 @@ class TopicController extends Controller
                         // Obtenemos todos los datos
                         $images_db = DB::table("images")->where("topic_id", $topic->id)->get();
                         foreach ($images_db as $db) {
-                            $txtimg = "src=\"/data/" . $topic->body . "/img/" . $db->image . "\"";
+                            $txtimg = "src=\"/data/" . $topic->body . "/img/" . $db->img . "\"";
                             if (!Str::contains($topic->data, $txtimg)) {
                                 DB::table("images")->delete($db->id);
                             }
@@ -321,7 +321,7 @@ class TopicController extends Controller
                         for ($x = 0; $x < sizeof($images_db); $x++) {
                             $exist = false;
                             for ($y = 0; $y < sizeof($files); $y++) {
-                                if ($images_db[$x]->image === $files[$y]) {
+                                if ($images_db[$x]->img === $files[$y]) {
                                     $exist = true;
                                     break;
                                 }
@@ -334,7 +334,7 @@ class TopicController extends Controller
                         for ($y = 0; $y < sizeof($files); $y++) {
                             $exist = false;
                             for ($x = 0; $x < sizeof($images_db); $x++) {
-                                if ($images_db[$x]->image == $files[$y]) {
+                                if ($images_db[$x]->img == $files[$y]) {
                                     $exist = true;
                                     break;
                                 }
@@ -433,7 +433,7 @@ class TopicController extends Controller
                                     $time_img = "";
                                     if (!$request->file('img')) {
                                         if ($request->input('img_new') && trim($data->img) != "") {
-                                            // Eliminamos las imagenes del user no usadas
+                                            // Eliminamos las imagenes del topic no usadas
                                             $directory = public_path('img/topics') . "/" . $data->img;
                                             if (File::isDirectory($directory)) {
                                                 $imgs = File::allFiles($directory);
@@ -448,7 +448,7 @@ class TopicController extends Controller
                                         } else $time_img = $data->img;
                                     } else {
                                         if (trim($data->img) != "") {
-                                            // Eliminamos las imagenes del user antiguas
+                                            // Eliminamos las imagenes del topic antiguas
                                             $directory = public_path('img/topics') . "/" . $data->img;
                                             if (File::isDirectory($directory)) {
                                                 $imgs = File::allFiles($directory);
@@ -674,7 +674,7 @@ class TopicController extends Controller
                         }
                         if (DB::table("topics")->delete($data->id)) {
                             if ($data->img) {
-                                // Eliminamos las imagenes del user
+                                // Eliminamos las imagenes del topic
                                 $directory = public_path('img/topics') . "/" . $data->img;
                                 if (File::isDirectory($directory)) {
                                     $imgs = File::allFiles($directory);
