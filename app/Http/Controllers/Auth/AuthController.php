@@ -52,7 +52,7 @@ class AuthController extends Controller
                     "password" => $request->input("password")
                 ];
                 $user_state = DB::table('users')->where('user', $input["user"])->first();
-                if ($user_state->user) {
+                if ($user_state) {
                     if ($user_state->status == 1) {
                         if (Auth::attempt($input)) {
                             return response()->json([
