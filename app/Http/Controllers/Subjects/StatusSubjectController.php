@@ -58,8 +58,7 @@ class StatusSubjectController extends Controller
                                 ]);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         return response()->json([
                             'message' => 'El usuario actual no tiene los permisos necesarios',
                             'complete' => false,

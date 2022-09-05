@@ -30,11 +30,11 @@
                             <v-icon>upload_file</v-icon>
                         </v-btn>
                     </template>
-                    <span>Cargar información de estudiantes no ingresados</span>
+                    <span>Cargar información de nuevos estudiantes</span>
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de los estudiantes existentes en la aplicación</p>
+                <p class="text-justify">Listado de los estudiantes existentes en la aplicación</p>
             </div>
             <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" dense>
             </v-text-field>
@@ -77,7 +77,7 @@
                         </v-list-item-avatar>
                     </template>
                 </template>
-                <!-- Estado -->
+                <!-- Estádo -->
                 <template v-slot:item.status="{ item }">
                     <div>
                         <template v-if="item.status == 0">
@@ -164,7 +164,7 @@ export default {
             { text: 'Apellidos', value: 'lastname', align: 'center' },
             { text: 'Correo electrónico', value: 'email', align: 'center' },
             { text: 'Usuario', value: 'user', align: 'center' },
-            { text: 'Estado', value: 'status', align: 'center' },
+            { text: 'Estádo', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',
@@ -224,8 +224,8 @@ export default {
         },
         async deleteUser(item) {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el usuario?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar el usuario?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -267,7 +267,7 @@ export default {
         },
         async statusUser(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el usuario seleccionado?',
+                title: '¿Está seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el usuario seleccionado?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

@@ -37,7 +37,7 @@
                 </v-tab>
                 <v-tab-item>
                     <div class="px-4 py-4">
-                        <v-card-subtitle class="text-center">
+                        <v-card-subtitle class="text-justify">
                             Su información almacenada en el sistema
                         </v-card-subtitle>
                         <!-- Formulario de ingreso -->
@@ -86,7 +86,7 @@
                                         Subir avatar
                                     </v-btn>
                                     <v-file-input ref="uploader" v-model="form.avatar" @change="preview_img"
-                                        label="Haz clic(k) aquí para subir una imágen" id="avatar" class="d-none"
+                                        label="Haz clic(k) aquí para subir una imagen" id="avatar" class="d-none"
                                         prepend-icon="photo_camera" :rules="avatarRules"
                                         accept="image/jpeg, image/jpg, image/png, image/gif, image/svg" show-size dense>
                                     </v-file-input>
@@ -133,7 +133,7 @@
                 </v-tab-item>
                 <v-tab-item>
                     <div class="px-4 py-4">
-                        <v-card-subtitle class="text-center">
+                        <v-card-subtitle class="text-justify">
                             Cambie su contraseña
                         </v-card-subtitle>
                         <!-- Formulario de ingreso -->
@@ -141,20 +141,20 @@
                             <small class="font-italic txt_red">Obligatorio *</small>
                             <v-row class="mt-2">
                                 <v-col cols="12">
-                                    <v-text-field v-model="form_password.password" type="password"
-                                        :rules="passwordRules" label="Contraseña *" tabindex="1" prepend-icon="lock"
-                                        dense :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'"
-                                        :type="form_password.show1 ? 'text' : 'password'" clearable clear-icon="cancel"
+                                    <v-text-field v-model="form_password.password" :rules="passwordRules"
+                                        label="Contraseña *" tabindex="1" prepend-icon="lock" dense
+                                        :append-icon="form_password.show1 ? 'visibility' : 'visibility_off'" clearable
+                                        clear-icon="cancel" :type="form_password.show1 ? 'text' : 'password'"
                                         @click:append="form_password.show1 = !form_password.show1" required>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-text-field v-model="form_password.password_confirmation" type="password"
+                                    <v-text-field v-model="form_password.password_confirmation"
                                         :rules="passwordconfirmRules" label="Repita la contraseña *" tabindex="2"
-                                        prepend-icon="lock" dense
-                                        :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'"
-                                        :type="form_password.show2 ? 'text' : 'password'" clearable clear-icon="cancel"
-                                        @click:append="form_password.show2 = !form_password.show2" required>
+                                        prepend-icon="lock" dense :type="form_password.show2 ? 'text' : 'password'"
+                                        :append-icon="form_password.show2 ? 'visibility' : 'visibility_off'" clearable
+                                        clear-icon="cancel" @click:append="form_password.show2 = !form_password.show2"
+                                        required>
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -203,28 +203,28 @@ export default {
         },
         firstnameRules: [
             v => !!v || 'Los nombres son requeridos',
-            v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 caracteres',
         ],
         lastnameRules: [
             v => !!v || 'Los apellidos son requeridos',
-            v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 caracteres',
         ],
         emailRules: [
             v => !!v || 'El correo electrónico es requerido',
-            v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
+            v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 caracteres',
             v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
         ],
         userRules: [
             v => !!v || 'El usuario es requerido',
-            v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 caracteres',
         ],
         avatarRules: [
-            v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
+            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
         ],
         passwordRules: [
             v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
-            v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
+            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres',
+            v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || 'La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
         ],
         passwordconfirmRules: [
             v => !!v || 'El repetir la contraseña es requerido',
@@ -268,7 +268,7 @@ export default {
         async editUser() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de actualizar su información?',
+                    title: '¿Está seguro de actualizar su información?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -277,7 +277,7 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            //Mostramos los datos asi por la imágen
+                            //Mostramos los datos asi por la imagen
                             let data = new FormData();
                             data.append('firstname', this.form.firstname);
                             data.append('lastname', this.form.lastname);
@@ -308,7 +308,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/dashboard/profile"
+                                            this.$router.push({ name: "public", params: { session: true } });
                                         }
                                         else this.overlay = false;
                                     });
@@ -332,7 +332,7 @@ export default {
         async editPassword() {
             if (this.$refs.form_password.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de actualizar su contraseña?',
+                    title: '¿Está seguro de actualizar su contraseña?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -341,7 +341,7 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            //Mostramos los datos asi por la imágen
+                            //Mostramos los datos asi por la imagen
                             let data = new FormData();
                             data.append('password', this.form_password.password);
                             data.append('password_confirmation', this.form_password.password_confirmation);
@@ -359,7 +359,7 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            window.location.href = "/dashboard/profile"
+                                            this.$router.push({ name: "public", params: { session: true } });
                                         }
                                         else this.overlay = false;
                                     });

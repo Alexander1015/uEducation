@@ -26,7 +26,7 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">NUEVO TEMA</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">Cree un tema nuevo</v-card-subtitle>
+                        <v-card-subtitle class="text-justify">Cree un tema nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
                             <v-form ref="form" @submit.prevent="registerTopic()" lazy-validation>
@@ -42,8 +42,9 @@
                                         <v-row>
                                             <v-col>
                                                 <v-autocomplete v-model="form.subject" :rules="subjectRules"
-                                                    :items="data_subject" clearable clear-icon="cancel" label="Código del curso *"
-                                                    tabindex="3" dense :loading="loading_subjects" item-text="code"
+                                                    :items="data_subject" clearable clear-icon="cancel"
+                                                    label="Código del curso *" tabindex="3" dense
+                                                    :loading="loading_subjects" item-text="code"
                                                     no-data-text="No se encuentra información para mostrar"
                                                     prepend-icon="collections_bookmark" append-icon="arrow_drop_down"
                                                     hide-selected required>
@@ -59,7 +60,7 @@
                                                                 <span>
                                                                     Esta materia esta deshabilitada. <br />
                                                                     Aunque se pueda seleccionar, todo tema <br />
-                                                                    atribuido a este no podra ser accedido <br />
+                                                                    atribuido a este no podrá ser accedido <br />
                                                                     por el lector.
                                                                 </span>
                                                             </v-tooltip>
@@ -84,7 +85,7 @@
                                                                             Esta materia esta deshabilitada. <br />
                                                                             Aunque se pueda seleccionar, todo tema
                                                                             <br />
-                                                                            atribuido a este no podra ser accedido
+                                                                            atribuido a este no podrá ser accedido
                                                                             <br />
                                                                             por el lector.
                                                                         </span>
@@ -139,7 +140,7 @@
                                                                     <span>
                                                                         Esta etiqueta esta deshabilitada. <br />
                                                                         Aunque se pueda seleccionar, el lector no <br />
-                                                                        podra verla.
+                                                                        podrá verla.
                                                                     </span>
                                                                 </v-tooltip>
                                                                 {{ data.item.name }}
@@ -155,8 +156,8 @@
                                                                 <span>
                                                                     <v-tooltip bottom color="error">
                                                                         <template v-slot:activator="{ on, attrs }">
-                                                                            <v-icon class="mr-2 hand txt_red" v-bind="attrs"
-                                                                                v-on="on">
+                                                                            <v-icon class="mr-2 hand txt_red"
+                                                                                v-bind="attrs" v-on="on">
                                                                                 warning
                                                                             </v-icon>
                                                                         </template>
@@ -164,7 +165,7 @@
                                                                             Esta etiqueta esta deshabilitada. <br />
                                                                             Aunque se pueda seleccionar, el lector no
                                                                             <br />
-                                                                            podra verla.
+                                                                            podrá verla.
                                                                         </span>
                                                                     </v-tooltip>
                                                                     {{ data.item.name }}
@@ -226,9 +227,9 @@
                                     </v-col>
                                 </v-row>
                                 <template v-if="
-                                    form.name != '' &&
-                                    form.subject != '' &&
-                                    form.tags.length > 0
+    form.name != '' &&
+    form.subject != '' &&
+    form.tags.length > 0
                                 ">
                                     <v-btn class="txt_white bk_green mt-4" block type="submit">
                                         <v-icon left>save</v-icon>
@@ -279,10 +280,10 @@ export default {
         ],
         nameRules: [
             v => !!v || 'El titulo es requerido',
-            v => (v && v.length <= 100) || 'El titulo debe tener menos de 100 carácteres',
+            v => (v && v.length <= 100) || 'El titulo debe tener menos de 100 caracteres',
         ],
         abstractRules: [
-            v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 carácteres',
+            v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 caracteres',
         ],
         imgRules: [
             v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -348,7 +349,7 @@ export default {
         async registerTopic() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear el tema?',
+                    title: '¿Está seguro de crear el tema?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

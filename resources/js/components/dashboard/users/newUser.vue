@@ -25,7 +25,7 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">NUEVO DOCENTE</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">Cree un docente nuevo</v-card-subtitle>
+                        <v-card-subtitle class="text-justify">Cree un docente nuevo</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
                             <v-form ref="form" enctype="multipart/form-data" @submit.prevent="registerUser()">
@@ -112,13 +112,13 @@
                                     </v-col>
                                 </v-row>
                                 <template v-if="
-                                    form.firstname != '' &&
-                                    form.lastname != '' &&
-                                    form.email != '' &&
-                                    form.user != '' &&
-                                    form.password != '' &&
-                                    form.password_confirmation != '' &&
-                                    form.type != ''
+    form.firstname != '' &&
+    form.lastname != '' &&
+    form.email != '' &&
+    form.user != '' &&
+    form.password != '' &&
+    form.password_confirmation != '' &&
+    form.type != ''
                                 ">
                                     <v-btn class="txt_white bk_green mt-4" block type="submit">
                                         <v-icon left>save</v-icon>
@@ -168,24 +168,24 @@ export default {
         ],
         firstnameRules: [
             v => !!v || 'Los nombres son requeridos',
-            v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 caracteres',
         ],
         lastnameRules: [
             v => !!v || 'Los apellidos son requeridos',
-            v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 caracteres',
         ],
         emailRules: [
             v => !!v || 'El correo electrónico es requerido',
-            v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
+            v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 caracteres',
             v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
         ],
         userRules: [
             v => !!v || 'El usuario es requerido',
-            v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 caracteres',
         ],
         passwordRules: [
             v => !!v || 'La contraseña es requerida',
-            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+            v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres',
             v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
         ],
         passwordconfirmRules: [
@@ -215,7 +215,7 @@ export default {
         async registerUser() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear el usuario?',
+                    title: '¿Está seguro de crear el usuario?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

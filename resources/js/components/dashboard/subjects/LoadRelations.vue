@@ -33,14 +33,13 @@
                         <v-stepper-content step="1">
                             <div class="mt-2 mb-4">
                                 <p class="text-justify">
-                                    En este apartado puede subir la informacion de las suscipciones entre docentes (No
+                                    En este apartado puede subir la información de las suscripciones entre docentes (No
                                     administradores), usuarios y las materias asignadas; para cargar dicha información
-                                    proporcione un archivo de excel teniendo en cuenta el siguiente
-                                    formato:
+                                    proporcione un archivo de Excel teniendo en cuenta el siguiente formato:
                                 </p>
-                                <p class="text-center">
+                                <p class="text-justify">
                                     <small class="font-italic txt_red">
-                                        Importante: El documento de excel no debe poseer cabeceras
+                                        Importante: El documento de Excel no debe poseer cabeceras
                                     </small>
                                 </p>
                                 <v-img class="my-2 mx-auto" :src="banner.img" :lazy-src='banner.lazy'
@@ -123,7 +122,7 @@
                         <v-stepper-content step="3">
                             <div class="mb-4">
                                 <p class="text-justify">
-                                    {{  message  }}
+                                    {{ message }}
                                 </p>
                             </div>
                             <template v-if="data_fail.length > 0">
@@ -255,7 +254,7 @@ export default {
         async loadRelations() {
             if (this.data.length > 0 && this.login_user.type == '0') {
                 await this.$swal({
-                    title: '¿Esta seguro de subir estas suscripciones?',
+                    title: '¿Está seguro de subir estas suscripciones?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

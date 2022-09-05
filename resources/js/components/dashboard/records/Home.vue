@@ -22,11 +22,13 @@
                             <v-icon>folder_copy</v-icon>
                         </v-btn>
                     </template>
-                    <span>Generar la bitacora del ciclo</span>
+                    <span>Generar la bitácora del ciclo</span>
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Bitacora de registros de las suscripciones de docentes y estudiantes.</p>
+                <p class="text-justify">
+                    Bitácora de registros de las suscripciones de docentes y estudiantes.
+                </p>
                 <!-- Formulario -->
                 <v-form ref="form" @submit.prevent="searchRecord()" lazy-validation>
                     <v-row class="mb-1">
@@ -121,7 +123,7 @@ export default {
         ],
         data_year: [],
         periodRules: [
-            v => !!v || 'El ciclo requerido',
+            v => !!v || 'El ciclo es requerido',
         ],
         yearRules: [
             v => !!v || 'El año es requerido',

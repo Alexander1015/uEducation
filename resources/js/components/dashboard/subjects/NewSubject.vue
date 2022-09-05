@@ -25,7 +25,7 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">NUEVO MATERIA</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">Cree una materia nueva</v-card-subtitle>
+                        <v-card-subtitle class="text-justify">Cree una materia nueva</v-card-subtitle>
                         <div class="px-2 pb-2">
                             <!-- Formulario -->
                             <v-form ref="form" @submit.prevent="registerSubject()" lazy-validation>
@@ -109,11 +109,11 @@ export default {
         },
         nameRules: [
             v => !!v || 'El titulo de la materia es requerido',
-            v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
+            v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 caracteres',
         ],
         codeRules: [
             v => !!v || 'El codigo es requerido',
-            v => (v && v.length <= 50) || 'El código debe tener menos de 50 carácteres',
+            v => (v && v.length <= 50) || 'El código debe tener menos de 50 caracteres',
         ],
         imgRules: [
             v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -138,7 +138,7 @@ export default {
         async registerSubject() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear la materia?',
+                    title: '¿Está seguro de crear la materia?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

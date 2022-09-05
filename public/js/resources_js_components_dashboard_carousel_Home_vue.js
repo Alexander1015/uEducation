@@ -122,6 +122,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HomePublic',
@@ -134,7 +136,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       img: null,
       drag: false,
       imgRules: [function (v) {
-        return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
+        return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
       }],
       carousel: [],
       carousel_copy: []
@@ -209,7 +211,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$swal({
                     title: "Error",
                     icon: "error",
-                    text: "No se ha cargado la imágen al servidor"
+                    text: "No se ha cargado la imagen al servidor"
                   }).then(function () {
                     _this.overlay = false;
                   });
@@ -233,30 +235,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this2.overlay = true;
                 _context2.next = 3;
-                return _this2.axios.get('/api/auth').then(function (response) {
-                  var user = response.data;
-
-                  if (user.type != "0") {
-                    _this2.$router.push({
-                      name: "forbiden"
-                    });
-                  }
-                })["catch"](function (error) {
-                  console.log(error);
-
-                  _this2.axios.post('/api/logout').then(function (response) {
-                    window.location.href = "/auth";
-                  })["catch"](function (error) {
-                    console.log(error);
-
-                    _this2.$router.push({
-                      name: "forbiden"
-                    });
-                  });
-                });
-
-              case 3:
-                _context2.next = 5;
                 return _this2.axios.get('/api/carousel/').then(function (response) {
                   _this2.carousel = _this2.carousel_copy = response.data;
                   _this2.overlay = false;
@@ -265,7 +243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.overlay = false;
                 });
 
-              case 5:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -4699,7 +4677,7 @@ var render = function () {
               ),
               _vm._v(" "),
               _c("span", { staticClass: "text-h6" }, [
-                _vm._v("IMÁGENES DEL CAROUSEL"),
+                _vm._v("IMÁGENES DEL CARRUSEL"),
               ]),
               _vm._v(" "),
               _c(
@@ -4740,7 +4718,7 @@ var render = function () {
                     },
                   ]),
                 },
-                [_vm._v(" "), _c("span", [_vm._v("Agregar nueva imágen")])]
+                [_vm._v(" "), _c("span", [_vm._v("Agregar nueva imagen")])]
               ),
             ],
             1
@@ -4749,7 +4727,7 @@ var render = function () {
           _c("div", { staticClass: "mb-8" }, [
             _c("p", [
               _vm._v(
-                "Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las\n                imágenes para reordenarlas"
+                "\n                Listado de las imágenes/noticias mostradas en el carrusel de la pantalla principal, arrastre las\n                imágenes para reordenarlas\n            "
               ),
             ]),
           ]),

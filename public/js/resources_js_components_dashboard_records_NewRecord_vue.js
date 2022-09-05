@@ -103,7 +103,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data_period: ["01", "02", "03"],
       data_year: [new Date().getFullYear(), new Date().getFullYear() - 1, new Date().getFullYear() - 2, new Date().getFullYear() - 3, new Date().getFullYear() - 4, new Date().getFullYear() - 5],
       periodRules: [function (v) {
-        return !!v || 'El ciclo requerido';
+        return !!v || 'El ciclo es requerido';
       }],
       yearRules: [function (v) {
         return !!v || 'El año es requerido';
@@ -133,7 +133,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear la bitacora del ciclo actual especificado, esta acción es irreversible?',
+                  title: '¿Está seguro de crear la bitácora del ciclo actual especificado, esta acción es irreversible?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -865,18 +865,18 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v(
-                        "\n                        Genere la bitacora del ciclo actual según su especificación"
+                        "\n                        Genere la bitácora del ciclo actual según su especificación"
                       ),
                       _c("br"),
                       _vm._v(" "),
                       _c(
                         "small",
-                        { staticClass: "text-center font-italic txt_red" },
+                        { staticClass: "text-justify font-italic txt_red" },
                         [
                           _vm._v(
-                            "\n                            Advertencia: Al generar la bitacora se eliminarán todas las suscripciones actuales de\n                            los estudiantes; pero la de los docentes seguirá activa. Además este proceso puede durar\n                            varios minutos dependiendo de la información\n                            almacenada\n                        "
+                            "\n                            Advertencia: Al generar la bitácora se eliminarán todas las suscripciones actuales de\n                            los estudiantes; pero la de los docentes seguirá activa. Además este proceso puede durar\n                            varios minutos dependiendo de la información\n                            almacenada\n                        "
                           ),
                         ]
                       ),
@@ -981,7 +981,7 @@ var render = function () {
                                   _vm._v("drive_file_move"),
                                 ]),
                                 _vm._v(
-                                  "\n                                Generar bitacora\n                            "
+                                  "\n                                Generar bitácora\n                            "
                                 ),
                               ],
                               1

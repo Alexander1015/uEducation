@@ -24,6 +24,17 @@
                     </template>
                     <span>Nuevo</span>
                 </v-tooltip>
+                <template v-if="user.type == '0'">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn class="ml-4 mt-n2 bk_blue txt_white" v-bind="attrs" v-on="on"
+                                @click.stop="gotoLoad()">
+                                <v-icon>upload_file</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>Cargar información de nuevas etiquetas</span>
+                    </v-tooltip>
+                </template>
             </div>
             <div class="mb-8">
                 <p>Listado de las etiquetas existentes en la aplicación</p>
@@ -121,11 +132,12 @@ export default {
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Color del fondo', value: 'background_color', align: 'center' },
             { text: 'Color del texto', value: 'text_color', align: 'center' },
-            { text: 'Estado', value: 'status', align: 'center' },
+            { text: 'Estádo', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',
         data: [],
+        user: {},
     }),
     mounted() {
         this.allTags();
@@ -139,9 +151,25 @@ export default {
             this.overlay = true;
             this.$router.push({ name: "newTag" });
         },
+        gotoLoad() {
+            this.overlay = true;
+            this.$router.push({ name: "loadTags" });
+        },
         async allTags() {
             this.overlay = true;
             this.loading_table = true;
+            await this.axios.get('/api/auth')
+                .then(response => {
+                    this.user = response.data;
+                }).catch((error) => {
+                    console.log(error);
+                    this.axios.post('/api/logout')
+                        .then(response => {
+                            window.location.href = "/auth"
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                });
             this.data = [];
             await this.axios.get('/api/tag')
                 .then(response => {
@@ -157,8 +185,8 @@ export default {
         },
         async deleteTag(item) {
             await this.$swal({
-                title: '¿Esta seguro de eliminar la etiqueta?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar la etiqueta?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -200,7 +228,7 @@ export default {
         },
         async statusTag(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la etiqueta seleccionada?',
+                title: '¿Está seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la etiqueta seleccionada?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

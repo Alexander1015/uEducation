@@ -30,11 +30,11 @@
                             <v-icon>upload_file</v-icon>
                         </v-btn>
                     </template>
-                    <span>Cargar información de docentes no ingresados</span>
+                    <span>Cargar información de nuevos docentes</span>
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de los docentes existentes en la aplicación</p>
+                <p class="text-justify">Listado de los docentes existentes en la aplicación</p>
             </div>
             <v-text-field v-model="search" class="ml-2 mb-1" prepend-icon="search" label="Buscar" dense>
             </v-text-field>
@@ -91,7 +91,7 @@
                         </template>
                     </div>
                 </template>
-                <!-- Estado -->
+                <!-- Estádo -->
                 <template v-slot:item.status="{ item }">
                     <div>
                         <template v-if="item.status == 0">
@@ -257,8 +257,8 @@ export default {
         },
         async deleteUser(item) {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el usuario?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar el usuario?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -300,7 +300,7 @@ export default {
         },
         async statusUser(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el usuario seleccionado?',
+                title: '¿Está seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el usuario seleccionado?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

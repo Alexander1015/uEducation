@@ -19,7 +19,7 @@
                 <v-col>
                     <div class="py-6 mx-4">
                         <v-card-title class="text-h5">
-                            <p class="mx-auto">INICIO DE SESIÓN</p>
+                            <p class="mx-auto">INICIAR SESIÓN</p>
                         </v-card-title>
                         <v-card-subtitle class="text-center">Bienvenido a uEducation</v-card-subtitle>
                         <!-- Formulario de ingreso -->
@@ -63,7 +63,6 @@ export default {
         form: {
             user: "",
             password: "",
-            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             show: false,
         },
         userRules: [
@@ -81,21 +80,20 @@ export default {
             await this.axios.get('/api/auth')
                 .then(response => {
                     this.user = response.data;
-                    if (this.user.user) {
-                        window.location.href = "/";
-                    }
                 }).catch((error) => {
                     console.log(error);
                 });
         },
         async loginUser() {
-            this.overlay = true;
             if (this.$refs.form.validate()) {
-                await axios.post('/api/auth', this.form)
+                this.overlay = true;
+                let data = new FormData();
+                data.append('user', this.form.user);
+                data.append('password', this.form.password);
+                await axios.post('/api/auth', data)
                     .then(response => {
                         if (response.data.complete) {
-                            this.$refs.form.reset();
-                            window.location.href = "/";
+                            this.$router.push({ name: "public", params: { session: true } });
                         }
                         else {
                             this.$swal({
@@ -116,9 +114,6 @@ export default {
                             this.overlay = false;
                         });
                     });
-            }
-            else {
-                this.overlay = false;
             }
         },
     },

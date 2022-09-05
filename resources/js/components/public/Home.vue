@@ -42,9 +42,9 @@
                     </v-col>
                     <v-col cols="12" sm="4" class="mt-2 mx-auto bk_brown txt_white rounded-lg">
                         <p class="text-justify pa-4">
-                            uEducation es una aplicacion web que le permitira a los docentes el crear blogs de
-                            diferentes temas, de acuerdo a las materias que se encuentren en la misma, permitiendole al
-                            estudiante, poder leer cada blog que ha sido creada.
+                            uEducation es una aplicación web que le permite a los docentes el crear blogs de diferentes
+                            temas, de acuerdo con las materias que se encuentren inscritos, permitiéndole también al
+                            estudiante, poder leer cada blog que ha sido creado.
                         </p>
                     </v-col>
                 </v-row>

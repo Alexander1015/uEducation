@@ -204,7 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'name',
         align: 'center'
       }, {
-        text: 'Estado',
+        text: 'Estádo',
         value: 'status',
         align: 'center'
       }, {
@@ -308,8 +308,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de eliminar la materia?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar la materia?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -377,7 +377,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context3.next = 3;
                 return _this3.$swal({
-                  title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' la materia seleccionada?',
+                  title: '¿Está seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' la materia seleccionada?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1373,9 +1373,7 @@ var render = function () {
                       [
                         _vm._v(" "),
                         _c("span", [
-                          _vm._v(
-                            "Cargar información de materias no ingresadas"
-                          ),
+                          _vm._v("Cargar información de nuevas materias"),
                         ]),
                       ]
                     ),

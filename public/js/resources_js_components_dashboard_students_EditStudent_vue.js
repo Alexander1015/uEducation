@@ -292,24 +292,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         firstnameRules: [function (v) {
           return !!v || 'Los nombres son requeridos';
         }, function (v) {
-          return v && v.length <= 50 || 'Los nombres deben tener menos de 50 carácteres';
+          return v && v.length <= 50 || 'Los nombres deben tener menos de 50 caracteres';
         }],
         lastnameRules: [function (v) {
           return !!v || 'Los apellidos son requeridos';
         }, function (v) {
-          return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 carácteres';
+          return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 caracteres';
         }],
         emailRules: [function (v) {
           return !!v || 'El correo electrónico es requerido';
         }, function (v) {
-          return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 carácteres';
+          return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 caracteres';
         }, function (v) {
           return /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido';
         }],
         userRules: [function (v) {
           return !!v || 'El usuario es requerido';
         }, function (v) {
-          return v && v.length <= 50 || 'El usuario debe tener menos de 50 carácteres';
+          return v && v.length <= 50 || 'El usuario debe tener menos de 50 caracteres';
         }],
         avatarRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -319,7 +319,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         passwordRules: [function (v) {
           return !!v || 'La contraseña es requerida';
         }, function (v) {
-          return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+          return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres';
         }, function (v) {
           return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas';
         }],
@@ -459,7 +459,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de modificar la información del usuario?',
+                  title: '¿Está seguro de modificar la información del usuario?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -548,7 +548,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context3.next = 3;
                 return _this3.$swal({
-                  title: '¿Esta seguro de cambiar la contraseña?',
+                  title: '¿Está seguro de cambiar la contraseña?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -619,7 +619,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de cambiar el estado del usuario?',
+                  title: '¿Está seguro de cambiar el estado del usuario?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -684,8 +684,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.next = 2;
                 return _this5.$swal({
-                  title: '¿Esta seguro de eliminar el usuario?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar el usuario?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1725,7 +1725,7 @@ var render = function () {
                       "div",
                       { staticClass: "px-4 py-4" },
                       [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                        _c("v-card-subtitle", { staticClass: "text-justify" }, [
                           _vm._v(
                             "\n                            Información almacenada del estudiante seleccionado\n                        "
                           ),
@@ -2082,7 +2082,7 @@ var render = function () {
                       "div",
                       { staticClass: "px-4 py-4" },
                       [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                        _c("v-card-subtitle", { staticClass: "text-justify" }, [
                           _vm._v(
                             "\n                            Cambie la contraseña del usuario seleccionado\n                        "
                           ),
@@ -2262,7 +2262,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Cambie el estado del usuario en el sistema (Si esta deshabilitado no podra ingresar)\n                            "
+                                  "\n                                Cambie el estado del usuario en el sistema (Si esta deshabilitado no podrá ingresar)\n                            "
                                 ),
                               ]
                             ),
@@ -2284,7 +2284,7 @@ var render = function () {
                                   staticClass: "width_100",
                                   attrs: {
                                     items: _vm.items_status,
-                                    label: "Estado",
+                                    label: "Estádo",
                                     rules: _vm.statusRules,
                                     dense: "",
                                     "prepend-icon": "rule",
@@ -2356,7 +2356,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Elimine el usuario seleccionado de la base de datos, esta opcion no se puede\n                                revertir\n                            "
+                                  "\n                                Elimine el usuario seleccionado de la base de datos, esta opción no se puede\n                                revertir\n                            "
                                 ),
                               ]
                             ),

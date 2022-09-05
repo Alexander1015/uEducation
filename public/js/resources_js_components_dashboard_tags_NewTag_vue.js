@@ -121,10 +121,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTags",
   data: function data() {
@@ -143,7 +139,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       nameRules: [function (v) {
         return !!v || 'El titulo es requerido';
       }, function (v) {
-        return v && v.length <= 25 || 'El titulo debe tener menos de 25 carácteres';
+        return v && v.length <= 25 || 'El titulo debe tener menos de 25 caracteres';
       }],
       colorbkRules: [function (v) {
         return !!v || 'El color es requerido, o deje el valor por defecto';
@@ -182,7 +178,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear la etiqueta?',
+                  title: '¿Está seguro de crear la etiqueta?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',

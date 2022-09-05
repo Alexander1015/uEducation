@@ -28,7 +28,7 @@ class RecordController extends Controller
                     ORDER BY year ASC'
                 );
                 $data_year = array();
-                foreach($years as $item) {
+                foreach ($years as $item) {
                     array_push($data_year, $item->year);
                 }
                 return response()->json($data_year);

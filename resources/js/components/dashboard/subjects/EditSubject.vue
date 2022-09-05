@@ -64,7 +64,7 @@
                     <!-- Información de la materia -->
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Información almacenada de la materia seleccionada
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -138,8 +138,8 @@
                     <template v-if="topics.length > 0">
                         <v-tab-item>
                             <div class="px-4 py-4">
-                                <v-card-subtitle class="text-center">
-                                    Lista de los temas atribuidos a esta materia, ordenelos para la vista del lector.
+                                <v-card-subtitle class="text-justify">
+                                    Lista de los temas atribuidos a esta materia, ordénelos para la vista del lector
                                 </v-card-subtitle>
                                 <draggable class="list-group" tag="ul" v-model="topics" v-bind="dragOptions"
                                     @start="drag = true" @end="drag = false">
@@ -201,7 +201,7 @@
                                     </template>
                                     <v-tab-item>
                                         <div class="px-4 py-4">
-                                            <v-card-subtitle class="text-center">
+                                            <v-card-subtitle class="text-justify">
                                                 Listado de los docentes inscritos actualmente en la materia seleccionada
                                             </v-card-subtitle>
                                             <v-text-field v-model="search_subject_users" class="my-1"
@@ -425,7 +425,7 @@
                                     </v-tab>
                                     <v-tab-item>
                                         <div class="px-4 py-4">
-                                            <v-card-subtitle class="text-center">
+                                            <v-card-subtitle class="text-justify">
                                                 Listado de los estudiantes inscritos actualmente en la materia
                                                 seleccionada
                                             </v-card-subtitle>
@@ -520,7 +520,7 @@
                                     </v-tab-item>
                                     <v-tab-item>
                                         <div class="px-4 py-4">
-                                            <v-card-subtitle class="text-center">
+                                            <v-card-subtitle class="text-justify">
                                                 Suscribir estudiantes a la materia seleccionada
                                             </v-card-subtitle>
                                             <v-row>
@@ -622,12 +622,11 @@
                             <div class="px-4 py-4">
                                 <div>
                                     <v-card-subtitle class="text-justify">
-                                        Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra
-                                        ser visualizado por parte del lector)
+                                        Cambie el estado de la materia en el sistema (Si esta deshabilitado no podrá ser visualizado por parte del lector)
                                     </v-card-subtitle>
                                     <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
                                         <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                            label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                         <template
                                             v-if="form_status.status != (subject.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                             <v-btn class="txt_white bk_green" block type="submit">
@@ -699,11 +698,11 @@ export default {
         info: {
             nameRules: [
                 v => !!v || 'El titulo de la materia es requerido',
-                v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 carácteres',
+                v => (v && v.length <= 100) || 'El titulo de la materia debe tener menos de 100 caracteres',
             ],
             codeRules: [
                 v => !!v || 'El códigp es requerido',
-                v => (v && v.length <= 50) || 'El código debe tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'El código debe tener menos de 50 caracteres',
             ],
             imgRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -853,7 +852,7 @@ export default {
         async editSubject() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar la información de la materia?',
+                    title: '¿Está seguro de modificar la información de la materia?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -913,7 +912,7 @@ export default {
         },
         async saveListTopics() {
             await this.$swal({
-                title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                title: '¿Está seguro de cambiar lel orden de los temas seleccionados?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -962,7 +961,7 @@ export default {
         async unsubscribe(slug) {
             if (this.login_user.type == '0' || this.subject.access == '1') {
                 await this.$swal({
-                    title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
+                    title: '¿Está seguro de desuscribir al docente seleccionado de la materia actual?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1009,7 +1008,7 @@ export default {
         async suscribe() {
             if (this.selected.length > 0 && (this.login_user.type == '0' || this.subject.access == '1')) {
                 await this.$swal({
-                    title: '¿Esta seguro de suscribir los docentes seleccionados?',
+                    title: '¿Está seguro de suscribir los docentes seleccionados?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1062,7 +1061,7 @@ export default {
         async unsubscribe_students() {
             if (this.selected_subject_students.length > 0) {
                 await this.$swal({
-                    title: '¿Esta seguro de desuscribir al estudiante seleccionado de la materia actual?',
+                    title: '¿Está seguro de desuscribir al estudiante seleccionado de la materia actual?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1114,7 +1113,7 @@ export default {
         async suscribe_students() {
             if (this.selected_students.length > 0) {
                 await this.$swal({
-                    title: '¿Esta seguro de suscribir los estudiantes seleccionados?',
+                    title: '¿Está seguro de suscribir los estudiantes seleccionados?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1169,7 +1168,7 @@ export default {
         async statusSubject() {
             if (this.login_user.type == '0' || this.subject.access == '1') {
                 await this.$swal({
-                    title: '¿Esta seguro de cambiar el estado de la materia?',
+                    title: '¿Está seguro de cambiar el estado de la materia?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1220,7 +1219,7 @@ export default {
         async accessUser(item, type) {
             if (this.login_user.type == '0') {
                 await this.$swal({
-                    title: '¿Esta seguro de cambiar el acceso coordinador del usuario?',
+                    title: '¿Está seguro de cambiar el acceso coordinador del usuario?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -1269,8 +1268,8 @@ export default {
         async deleteSubject() {
             if (this.login_user.type == '0') {
                 await this.$swal({
-                    title: '¿Esta seguro de eliminar la materia?',
-                    text: "Esta acción no se puede revertir",
+                    title: '¿Está seguro de eliminar la materia?',
+                    text: "Está acción no se puede revertir",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

@@ -225,34 +225,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       firstnameRules: [function (v) {
         return !!v || 'Los nombres son requeridos';
       }, function (v) {
-        return v && v.length <= 50 || 'Los nombres deben tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'Los nombres deben tener menos de 50 caracteres';
       }],
       lastnameRules: [function (v) {
         return !!v || 'Los apellidos son requeridos';
       }, function (v) {
-        return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 caracteres';
       }],
       emailRules: [function (v) {
         return !!v || 'El correo electrónico es requerido';
       }, function (v) {
-        return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 carácteres';
+        return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 caracteres';
       }, function (v) {
         return /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido';
       }],
       userRules: [function (v) {
         return !!v || 'El usuario es requerido';
       }, function (v) {
-        return v && v.length <= 50 || 'El usuario debe tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'El usuario debe tener menos de 50 caracteres';
       }],
       avatarRules: [function (v) {
-        return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
+        return !v || v.size <= 25000000 || 'La imagen debe ser menor a 25MB';
       }],
       passwordRules: [function (v) {
         return !!v || 'La contraseña es requerida';
       }, function (v) {
-        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres';
       }, function (v) {
-        return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas';
+        return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || 'La contraseña debe contener al menos una Mayúscula, un número y minúsculas';
       }],
       passwordconfirmRules: [function (v) {
         return !!v || 'El repetir la contraseña es requerido';
@@ -328,14 +328,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de actualizar su información?',
+                  title: '¿Está seguro de actualizar su información?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this2.overlay = true; //Mostramos los datos asi por la imágen
+                    _this2.overlay = true; //Mostramos los datos asi por la imagen
 
                     var data = new FormData();
                     data.append('firstname', _this2.form.firstname);
@@ -373,7 +373,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          window.location.href = "/dashboard/profile";
+                          _this2.$router.push({
+                            name: "public",
+                            params: {
+                              session: true
+                            }
+                          });
                         } else _this2.overlay = false;
                       });
                     })["catch"](function (error) {
@@ -419,14 +424,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context3.next = 3;
                 return _this3.$swal({
-                  title: '¿Esta seguro de actualizar su contraseña?',
+                  title: '¿Está seguro de actualizar su contraseña?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
                   cancelButtonText: 'Cancelar'
                 }).then(function (result) {
                   if (result.isConfirmed) {
-                    _this3.overlay = true; //Mostramos los datos asi por la imágen
+                    _this3.overlay = true; //Mostramos los datos asi por la imagen
 
                     var data = new FormData();
                     data.append('password', _this3.form_password.password);
@@ -447,7 +452,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         text: response.data.message
                       }).then(function () {
                         if (response.data.complete) {
-                          window.location.href = "/dashboard/profile";
+                          _this3.$router.push({
+                            name: "public",
+                            params: {
+                              session: true
+                            }
+                          });
                         } else _this3.overlay = false;
                       });
                     })["catch"](function (error) {
@@ -1153,7 +1163,7 @@ var render = function () {
                   "div",
                   { staticClass: "px-4 py-4" },
                   [
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v(
                         "\n                        Su información almacenada en el sistema\n                    "
                       ),
@@ -1362,7 +1372,7 @@ var render = function () {
                                   staticClass: "d-none",
                                   attrs: {
                                     label:
-                                      "Haz clic(k) aquí para subir una imágen",
+                                      "Haz clic(k) aquí para subir una imagen",
                                     id: "avatar",
                                     "prepend-icon": "photo_camera",
                                     rules: _vm.avatarRules,
@@ -1519,7 +1529,7 @@ var render = function () {
                   "div",
                   { staticClass: "px-4 py-4" },
                   [
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v(
                         "\n                        Cambie su contraseña\n                    "
                       ),
@@ -1552,7 +1562,6 @@ var render = function () {
                               [
                                 _c("v-text-field", {
                                   attrs: {
-                                    type: "password",
                                     rules: _vm.passwordRules,
                                     label: "Contraseña *",
                                     tabindex: "1",
@@ -1561,11 +1570,11 @@ var render = function () {
                                     "append-icon": _vm.form_password.show1
                                       ? "visibility"
                                       : "visibility_off",
+                                    clearable: "",
+                                    "clear-icon": "cancel",
                                     type: _vm.form_password.show1
                                       ? "text"
                                       : "password",
-                                    clearable: "",
-                                    "clear-icon": "cancel",
                                     required: "",
                                   },
                                   on: {
@@ -1596,18 +1605,17 @@ var render = function () {
                               [
                                 _c("v-text-field", {
                                   attrs: {
-                                    type: "password",
                                     rules: _vm.passwordconfirmRules,
                                     label: "Repita la contraseña *",
                                     tabindex: "2",
                                     "prepend-icon": "lock",
                                     dense: "",
-                                    "append-icon": _vm.form_password.show2
-                                      ? "visibility"
-                                      : "visibility_off",
                                     type: _vm.form_password.show2
                                       ? "text"
                                       : "password",
+                                    "append-icon": _vm.form_password.show2
+                                      ? "visibility"
+                                      : "visibility_off",
                                     clearable: "",
                                     "clear-icon": "cancel",
                                     required: "",

@@ -33,6 +33,7 @@ use App\Http\Controllers\Subjects\LoadSubjectsController;
 // Tags
 use App\Http\Controllers\Tags\TagController;
 use App\Http\Controllers\Tags\StatusTagController;
+use App\Http\Controllers\Tags\LoadTagsController;
 // Topics
 use App\Http\Controllers\Topics\TopicController;
 use App\Http\Controllers\Topics\StatusTopicController;
@@ -42,10 +43,11 @@ use App\Http\Controllers\Topics\UploadImageController;
 // Record
 use App\Http\Controllers\Record\RecordController;
 use App\Http\Controllers\Record\ListRecordController;
-//Public
-use App\Http\Controllers\Public\GetDataController as PublicDataController;
-use App\Http\Controllers\Public\GetTopicController as PublicTopicController;
+// Public
 use App\Http\Controllers\Public\GetCarouselController as PublicCarouselController;
+// Contenido
+use App\Http\Controllers\Contents\GetDataController as ContentsDataController;
+use App\Http\Controllers\Contents\GetTopicController as ContentsTopicController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -56,14 +58,14 @@ Route::middleware('auth:sanctum')->get('/authenticated', function () {
 });
 
 //Public
-Route::resource("getdata", PublicDataController::class);
-Route::resource("gettopic", PublicTopicController::class);
 Route::resource("getcarousel", PublicCarouselController::class);
-
 // Auth
 Route::resource("auth", AuthController::class);
 Route::resource('logout', LogoutController::class);
-// Corousel
+// Contenido
+Route::resource("gettopic", ContentsTopicController::class)->middleware('auth');
+Route::resource("getdata", ContentsDataController::class)->middleware('auth');
+// Carousel
 Route::resource('carousel', CarouselController::class)->middleware('auth');
 Route::resource('carousel/list', ListController::class)->middleware('auth');
 // Profile
@@ -91,6 +93,7 @@ Route::resource('setacs', SetUsersAccessController::class)->middleware('auth');
 // Tags
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('tag/status', StatusTagController::class)->middleware('auth');
+Route::resource('loadtags', LoadTagsController::class)->middleware('auth');
 // Topics
 Route::resource('topic', TopicController::class)->middleware('auth');
 Route::resource('topic/status', StatusTopicController::class)->middleware('auth');

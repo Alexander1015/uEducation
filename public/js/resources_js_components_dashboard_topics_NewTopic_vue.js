@@ -277,6 +277,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "NewTopic",
   data: function data() {
@@ -307,10 +308,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       nameRules: [function (v) {
         return !!v || 'El titulo es requerido';
       }, function (v) {
-        return v && v.length <= 100 || 'El titulo debe tener menos de 100 carácteres';
+        return v && v.length <= 100 || 'El titulo debe tener menos de 100 caracteres';
       }],
       abstractRules: [function (v) {
-        return !v || v.length <= 250 || 'La descripción debe tener menos de 250 carácteres';
+        return !v || v.length <= 250 || 'La descripción debe tener menos de 250 caracteres';
       }],
       imgRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -416,7 +417,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de crear el tema?',
+                  title: '¿Está seguro de crear el tema?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1339,7 +1340,7 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v("Cree un tema nuevo"),
                     ]),
                     _vm._v(" "),
@@ -1495,7 +1496,7 @@ var render = function () {
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
-                                                                    "\n                                                                atribuido a este no podra ser accedido "
+                                                                    "\n                                                                atribuido a este no podrá ser accedido "
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
@@ -1614,7 +1615,7 @@ var render = function () {
                                                                               "br"
                                                                             ),
                                                                             _vm._v(
-                                                                              "\n                                                                        atribuido a este no podra ser accedido\n                                                                        "
+                                                                              "\n                                                                        atribuido a este no podrá ser accedido\n                                                                        "
                                                                             ),
                                                                             _c(
                                                                               "br"
@@ -1897,7 +1898,7 @@ var render = function () {
                                                                       ),
                                                                       _c("br"),
                                                                       _vm._v(
-                                                                        "\n                                                                    podra verla.\n                                                                "
+                                                                        "\n                                                                    podrá verla.\n                                                                "
                                                                       ),
                                                                     ]),
                                                                   ]
@@ -2009,7 +2010,7 @@ var render = function () {
                                                                               "br"
                                                                             ),
                                                                             _vm._v(
-                                                                              "\n                                                                        podra verla.\n                                                                    "
+                                                                              "\n                                                                        podrá verla.\n                                                                    "
                                                                             ),
                                                                           ]
                                                                         ),

@@ -84,7 +84,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: {
         user: "",
         password: "",
-        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         show: false
       },
       userRules: [function (v) {
@@ -110,10 +109,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 2;
                 return _this.axios.get('/api/auth').then(function (response) {
                   _this.user = response.data;
-
-                  if (_this.user.user) {
-                    window.location.href = "/";
-                  }
                 })["catch"](function (error) {
                   console.log(error);
                 });
@@ -130,23 +125,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.overlay = true;
-
                 if (!_this2.$refs.form.validate()) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
-                _context2.next = 4;
-                return axios.post('/api/auth', _this2.form).then(function (response) {
+                _this2.overlay = true;
+                data = new FormData();
+                data.append('user', _this2.form.user);
+                data.append('password', _this2.form.password);
+                _context2.next = 7;
+                return axios.post('/api/auth', data).then(function (response) {
                   if (response.data.complete) {
-                    _this2.$refs.form.reset();
-
-                    window.location.href = "/";
+                    _this2.$router.push({
+                      name: "public",
+                      params: {
+                        session: true
+                      }
+                    });
                   } else {
                     _this2.$swal({
                       title: "Error",
@@ -166,13 +167,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this2.overlay = false;
                   });
                 });
-
-              case 4:
-                _context2.next = 7;
-                break;
-
-              case 6:
-                _this2.overlay = false;
 
               case 7:
               case "end":
@@ -567,7 +561,7 @@ var render = function () {
                   [
                     _c("v-card-title", { staticClass: "text-h5" }, [
                       _c("p", { staticClass: "mx-auto" }, [
-                        _vm._v("INICIO DE SESIÓN"),
+                        _vm._v("INICIAR SESIÓN"),
                       ]),
                     ]),
                     _vm._v(" "),

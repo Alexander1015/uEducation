@@ -79,11 +79,7 @@
                                         </v-color-picker>
                                     </v-col>
                                 </v-row>
-                                <template v-if="
-                                    form.name != '' &&
-                                    form.color_bk != '' &&
-                                    form.color_txt != ''
-                                ">
+                                <template v-if="form.name != '' && form.color_bk != '' && form.color_txt != ''">
                                     <v-btn class="txt_white bk_green" block type="submit">
                                         <v-icon left>save</v-icon>
                                         Guardar
@@ -121,7 +117,7 @@ export default {
         },
         nameRules: [
             v => !!v || 'El titulo es requerido',
-            v => (v && v.length <= 25) || 'El titulo debe tener menos de 25 carácteres',
+            v => (v && v.length <= 25) || 'El titulo debe tener menos de 25 caracteres',
         ],
         colorbkRules: [
             v => !!v || 'El color es requerido, o deje el valor por defecto',
@@ -140,7 +136,7 @@ export default {
         async registerTags() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear la etiqueta?',
+                    title: '¿Está seguro de crear la etiqueta?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

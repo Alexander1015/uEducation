@@ -97,8 +97,8 @@
                                     </v-icon>
                                 </template>
                                 <span>
-                                    Esta materia esta deshabilitada. <br />
-                                    Todo tema atribuido a este no podra <br />
+                                    Está materia esta deshabilitada. <br />
+                                    Todo tema atribuido a este no podrá <br />
                                     ser accedido por el lector.
                                 </span>
                             </v-tooltip>
@@ -228,7 +228,7 @@ export default {
                 { text: 'Creado el', value: 'created_at', align: 'center' },
                 { text: 'Actualizado por', value: 'user_update', align: 'center' },
                 { text: 'Actualizado el', value: 'updated_at', align: 'center' },
-                { text: 'Estado', value: 'status', align: 'center' },
+                { text: 'Estádo', value: 'status', align: 'center' },
                 { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
             ]
         }
@@ -265,8 +265,8 @@ export default {
         },
         async deleteTopic(item) {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el tema?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar el tema?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -308,7 +308,7 @@ export default {
         },
         async statusTopic(item, type) {
             await this.$swal({
-                title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el tema seleccionado?',
+                title: '¿Está seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' el tema seleccionado?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

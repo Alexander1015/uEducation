@@ -2,11 +2,12 @@ import axios from 'axios'
 
 // Public
 const Public = () => import ('./components/public/Home.vue')
-const PublicContents = () => import ('./components/public/Contents.vue')
-const PublicSubject = () => import ('./components/public/Subject.vue')
-const PublicTopic = () => import ('./components/public/Topic.vue')
 // Auth
 const Auth = () => import ('./components/auth/Home.vue')
+// Contents
+const HomeContents = () => import ('./components/dashboard/contents/Home.vue')
+const SubjectContents = () => import ('./components/dashboard/contents/Subject.vue')
+const TopicContents = () => import ('./components/dashboard/contents/Topic.vue')
 // Carousel
 const DashboardCarousel = () => import ('./components/dashboard/carousel/Home.vue')
 // Users
@@ -29,6 +30,7 @@ const LoadRelations = () => import ('./components/dashboard/subjects/LoadRelatio
 const DashboardTags = () => import ('./components/dashboard/tags/Home.vue')
 const NewTag = () => import ('./components/dashboard/tags/NewTag.vue')
 const EditTag = () => import ('./components/dashboard/tags/EditTag.vue')
+const LoadTags = () => import ('./components/dashboard/tags/LoadTags.vue')
 // Topics
 const DashboardTopics = () => import ('./components/dashboard/topics/Home.vue')
 const NewTopic = () => import ('./components/dashboard/topics/NewTopic.vue')
@@ -44,20 +46,35 @@ const Error403 = () => import ('./components/error/403.vue')
 
 
 export const routes = [
+    // Public
     {
         name: 'public',
         path: '/',
         component: Public
     },
+    // Login
     {
         name: 'auth',
         path: '/auth',
-        component: Auth
+        component: Auth,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/auth').then(response => { // Verificamos si esta logueado el usuario
+                let user = response.data;
+                if (user.user) {
+                    return next({name: 'public'})
+                } else {
+                    next();
+                }
+            }).catch((error) => {
+                return next({name: 'public'})
+            });
+        }
     },
+    // Contenido
     {
         name: 'contents',
         path: '/contents',
-        component: PublicContents,
+        component: HomeContents,
         beforeEnter: (to, from, next) => {
             axios.get('/api/authenticated').then(response => {
                 next()
@@ -66,15 +83,16 @@ export const routes = [
             });
         }
     },
+    // Sección de lectura
     {
         name: 'publicSubject',
         path: '/contents/:subject',
-        component: PublicSubject,
+        component: SubjectContents,
         children: [
             {
                 name: 'publicTopic',
                 path: ':topic',
-                component: PublicTopic
+                component: TopicContents
             }
         ],
         beforeEnter: (to, from, next) => {
@@ -84,7 +102,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Carrusel
+    {
         name: 'carousel',
         path: '/carousel',
         component: DashboardCarousel,
@@ -103,7 +123,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Usuarios
+    {
         name: 'users',
         path: '/dashboard/users',
         component: DashboardUsers,
@@ -179,7 +201,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Estudiantes
+    {
         name: 'students',
         path: '/dashboard/students',
         component: DashboardStudents,
@@ -255,7 +279,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Materias
+    {
         name: 'subjects',
         path: '/dashboard/subjects',
         component: DashboardSubjects,
@@ -350,7 +376,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Temas
+    {
         name: 'topics',
         path: '/dashboard/topics',
         component: DashboardTopics,
@@ -407,7 +435,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Etiquetas
+    {
         name: 'tags',
         path: '/dashboard/tags',
         component: DashboardTags,
@@ -465,6 +495,27 @@ export const routes = [
             });
         }
     }, {
+        name: 'loadTags',
+        path: '/dashboard/tags/load',
+        component: LoadTags,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/authenticated').then(response => {
+                axios.get('/api/auth').then(response => { // Verificamos el tipo de usuario que ingresa
+                    if (response.data.type == "0") {
+                        next()
+                    } else {
+                        return next({name: 'forbiden'})
+                    }
+                }).catch((error) => {
+                    return next({name: 'forbiden'})
+                });
+            }).catch((error) => {
+                return next({name: 'auth'})
+            });
+        }
+    },
+    // Bitacoras
+    {
         name: 'records',
         path: '/dashboard/records',
         component: DashboardRecords,
@@ -502,7 +553,9 @@ export const routes = [
                 return next({name: 'auth'})
             });
         }
-    }, {
+    },
+    // Perfil
+    {
         name: 'profile',
         path: '/dashboard/profile',
         component: Profile,

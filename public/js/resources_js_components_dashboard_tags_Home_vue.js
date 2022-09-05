@@ -132,6 +132,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeTag",
   data: function data() {
@@ -151,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'text_color',
         align: 'center'
       }, {
-        text: 'Estado',
+        text: 'Estádo',
         value: 'status',
         align: 'center'
       }, {
@@ -161,7 +172,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         sortable: false
       }],
       search: '',
-      data: []
+      data: [],
+      user: {}
     };
   },
   mounted: function mounted() {
@@ -183,6 +195,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: "newTag"
       });
     },
+    gotoLoad: function gotoLoad() {
+      this.overlay = true;
+      this.$router.push({
+        name: "loadTags"
+      });
+    },
     allTags: function allTags() {
       var _this = this;
 
@@ -193,8 +211,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.overlay = true;
                 _this.loading_table = true;
+                _context.next = 4;
+                return _this.axios.get('/api/auth').then(function (response) {
+                  _this.user = response.data;
+                })["catch"](function (error) {
+                  console.log(error);
+
+                  _this.axios.post('/api/logout').then(function (response) {
+                    window.location.href = "/auth";
+                  })["catch"](function (error) {
+                    console.log(error);
+                  });
+                });
+
+              case 4:
                 _this.data = [];
-                _context.next = 5;
+                _context.next = 7;
                 return _this.axios.get('/api/tag').then(function (response) {
                   _this.data = response.data;
                   _this.loading_table = false;
@@ -205,7 +237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.overlay = false;
                 });
 
-              case 5:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -223,8 +255,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return _this2.$swal({
-                  title: '¿Esta seguro de eliminar la etiqueta?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar la etiqueta?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -285,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' la etiqueta seleccionada?',
+                  title: '¿Está seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' la etiqueta seleccionada?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1222,8 +1254,64 @@ var render = function () {
                 },
                 [_vm._v(" "), _c("span", [_vm._v("Nuevo")])]
               ),
+              _vm._v(" "),
+              _vm.user.type == "0"
+                ? [
+                    _c(
+                      "v-tooltip",
+                      {
+                        attrs: { bottom: "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function (ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          staticClass:
+                                            "ml-4 mt-n2 bk_blue txt_white",
+                                          on: {
+                                            click: function ($event) {
+                                              $event.stopPropagation()
+                                              return _vm.gotoLoad()
+                                            },
+                                          },
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [_c("v-icon", [_vm._v("upload_file")])],
+                                    1
+                                  ),
+                                ]
+                              },
+                            },
+                          ],
+                          null,
+                          false,
+                          1026149087
+                        ),
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v("Cargar información de nuevas etiquetas"),
+                        ]),
+                      ]
+                    ),
+                  ]
+                : _vm._e(),
             ],
-            1
+            2
           ),
           _vm._v(" "),
           _c("div", { staticClass: "mb-8" }, [

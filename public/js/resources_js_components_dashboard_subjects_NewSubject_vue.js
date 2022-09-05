@@ -131,12 +131,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       nameRules: [function (v) {
         return !!v || 'El titulo de la materia es requerido';
       }, function (v) {
-        return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
+        return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 caracteres';
       }],
       codeRules: [function (v) {
         return !!v || 'El codigo es requerido';
       }, function (v) {
-        return v && v.length <= 50 || 'El código debe tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'El código debe tener menos de 50 caracteres';
       }],
       imgRules: [function (v) {
         return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -181,7 +181,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear la materia?',
+                  title: '¿Está seguro de crear la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -778,7 +778,7 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v("Cree una materia nueva"),
                     ]),
                     _vm._v(" "),

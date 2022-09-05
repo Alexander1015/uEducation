@@ -272,7 +272,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'updated_at',
         align: 'center'
       }, {
-        text: 'Estado',
+        text: 'Estádo',
         value: 'status',
         align: 'center'
       }, {
@@ -344,8 +344,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de eliminar el tema?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar el tema?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -405,7 +405,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el tema seleccionado?',
+                  title: '¿Está seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el tema seleccionado?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1682,11 +1682,11 @@ var render = function () {
                                     _vm._v(" "),
                                     _c("span", [
                                       _vm._v(
-                                        "\n                                Esta materia esta deshabilitada. "
+                                        "\n                                Está materia esta deshabilitada. "
                                       ),
                                       _c("br"),
                                       _vm._v(
-                                        "\n                                Todo tema atribuido a este no podra "
+                                        "\n                                Todo tema atribuido a este no podrá "
                                       ),
                                       _c("br"),
                                       _vm._v(

@@ -54,7 +54,7 @@
                     <!-- Información del tema -->
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Información almacenada del tema seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -89,7 +89,7 @@
                                                                 <span>
                                                                     Esta materia esta deshabilitada. <br />
                                                                     Aunque se pueda seleccionar, todo tema <br />
-                                                                    atribuido a este no podra ser accedido <br />
+                                                                    atribuido a este no podrá ser accedido <br />
                                                                     por el lector.
                                                                 </span>
                                                             </v-tooltip>
@@ -114,7 +114,7 @@
                                                                             Esta materia esta deshabilitada. <br />
                                                                             Aunque se pueda seleccionar, todo tema
                                                                             <br />
-                                                                            atribuido a este no podra ser accedido
+                                                                            atribuido a este no podrá ser accedido
                                                                             <br />
                                                                             por el lector.
                                                                         </span>
@@ -168,7 +168,7 @@
                                                                     </template>
                                                                     <span>
                                                                         Esta etiqueta esta deshabilitada. <br />
-                                                                        Aunque se pueda seleccionar, el lector no podra
+                                                                        Aunque se pueda seleccionar, el lector no podrá
                                                                         verla.
                                                                     </span>
                                                                 </v-tooltip>
@@ -191,10 +191,9 @@
                                                                             </v-icon>
                                                                         </template>
                                                                         <span>
-                                                                            Esta etiqueta esta deshabilitada. <br />
+                                                                            Está etiqueta esta deshabilitada. <br />
                                                                             Aunque se pueda seleccionar, el lector no
-                                                                            podra
-                                                                            verla.
+                                                                            podrá verla.
                                                                         </span>
                                                                     </v-tooltip>
                                                                     {{ data.item.name }}
@@ -307,12 +306,11 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado del tema en el sistema (Si esta en borrador el tema no podra ser
-                                    visualizado por el lector)
+                                    Cambie el estado del tema en el sistema (Si está en borrador el tema no podrá ser por el lector)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusTopic()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (topic.status == 1 ? 'Habilitado' : 'Borrador')">
                                         <v-btn class="txt_white bk_green" block type="submit">
@@ -397,10 +395,10 @@ export default {
             ],
             nameRules: [
                 v => !!v || 'El titulo es requerido',
-                v => (v && v.length <= 100) || 'El titulo debe tener menos de 100 carácteres',
+                v => (v && v.length <= 100) || 'El titulo debe tener menos de 100 caracteres',
             ],
             abstractRules: [
-                v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 carácteres',
+                v => (!v || v.length <= 250) || 'La descripción debe tener menos de 250 caracteres',
             ],
             imgRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -539,7 +537,7 @@ export default {
         async editTopic() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar el tema?',
+                    title: '¿Está seguro de modificar el tema?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -606,7 +604,7 @@ export default {
         },
         async saveBody() {
             await this.$swal({
-                title: '¿Esta seguro de guardar el contenido?',
+                title: '¿Está seguro de guardar el contenido?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -651,7 +649,7 @@ export default {
         },
         async statusTopic() {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del tema?',
+                title: '¿Está seguro de cambiar el estado del tema?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -700,8 +698,8 @@ export default {
         },
         async deleteTopic() {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el tema?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar el tema?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

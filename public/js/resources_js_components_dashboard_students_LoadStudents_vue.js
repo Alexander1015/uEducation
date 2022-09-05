@@ -202,8 +202,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -350,7 +348,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
                 _context2.next = 3;
                 return _this3.$swal({
-                  title: '¿Esta seguro de subir estos estudiantes?',
+                  title: '¿Está seguro de subir estos estudiantes?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -4058,17 +4056,17 @@ var render = function () {
                           [
                             _c("p", { staticClass: "text-justify" }, [
                               _vm._v(
-                                "\n                                En este apartado puede subir la informacion de los estudiantes; para cargar dicha\n                                información\n                                proporcione un archivo de excel teniendo en cuenta el siguiente\n                                formato:\n                            "
+                                "\n                                En este apartado puede subir la información de los estudiantes; para cargar dicha\n                                información proporcione un archivo de Excel teniendo en cuenta el siguiente formato:\n                            "
                               ),
                             ]),
                             _vm._v(" "),
-                            _c("p", { staticClass: "text-center" }, [
+                            _c("p", { staticClass: "text-justify" }, [
                               _c(
                                 "small",
                                 { staticClass: "font-italic txt_red" },
                                 [
                                   _vm._v(
-                                    '\n                                    Importante: El documento de excel no debe poseer cabeceras, y tampoco\n                                    contraseñas debido a que estas se pondran de forma predeterminada como el\n                                    "Usuario" del mismo\n                                '
+                                    '\n                                    Importante: El documento de Excel no debe poseer cabeceras, y tampoco\n                                    contraseñas debido a que estas se pondrán de forma predeterminada como el\n                                    "Usuario" del mismo\n                                '
                                   ),
                                 ]
                               ),

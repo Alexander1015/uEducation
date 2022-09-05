@@ -410,8 +410,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -462,10 +460,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         nameRules: [function (v) {
           return !!v || 'El titulo es requerido';
         }, function (v) {
-          return v && v.length <= 100 || 'El titulo debe tener menos de 100 carácteres';
+          return v && v.length <= 100 || 'El titulo debe tener menos de 100 caracteres';
         }],
         abstractRules: [function (v) {
-          return !v || v.length <= 250 || 'La descripción debe tener menos de 250 carácteres';
+          return !v || v.length <= 250 || 'La descripción debe tener menos de 250 caracteres';
         }],
         imgRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -657,7 +655,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de modificar el tema?',
+                  title: '¿Está seguro de modificar el tema?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -762,7 +760,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de guardar el contenido?',
+                  title: '¿Está seguro de guardar el contenido?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -825,7 +823,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de cambiar el estado del tema?',
+                  title: '¿Está seguro de cambiar el estado del tema?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -890,8 +888,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context5.next = 2;
                 return _this5.$swal({
-                  title: '¿Esta seguro de eliminar el tema?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar el tema?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -2099,7 +2097,7 @@ var render = function () {
                       "div",
                       { staticClass: "px-4 py-4" },
                       [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                        _c("v-card-subtitle", { staticClass: "text-justify" }, [
                           _vm._v(
                             "\n                            Información almacenada del tema seleccionado\n                        "
                           ),
@@ -2257,7 +2255,7 @@ var render = function () {
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
-                                                                    "\n                                                                atribuido a este no podra ser accedido "
+                                                                    "\n                                                                atribuido a este no podrá ser accedido "
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
@@ -2376,7 +2374,7 @@ var render = function () {
                                                                               "br"
                                                                             ),
                                                                             _vm._v(
-                                                                              "\n                                                                        atribuido a este no podra ser accedido\n                                                                        "
+                                                                              "\n                                                                        atribuido a este no podrá ser accedido\n                                                                        "
                                                                             ),
                                                                             _c(
                                                                               "br"
@@ -2653,7 +2651,7 @@ var render = function () {
                                                                       ),
                                                                       _c("br"),
                                                                       _vm._v(
-                                                                        "\n                                                                    Aunque se pueda seleccionar, el lector no podra\n                                                                    verla.\n                                                                "
+                                                                        "\n                                                                    Aunque se pueda seleccionar, el lector no podrá\n                                                                    verla.\n                                                                "
                                                                       ),
                                                                     ]),
                                                                   ]
@@ -2753,13 +2751,13 @@ var render = function () {
                                                                           "span",
                                                                           [
                                                                             _vm._v(
-                                                                              "\n                                                                        Esta etiqueta esta deshabilitada. "
+                                                                              "\n                                                                        Está etiqueta esta deshabilitada. "
                                                                             ),
                                                                             _c(
                                                                               "br"
                                                                             ),
                                                                             _vm._v(
-                                                                              "\n                                                                        Aunque se pueda seleccionar, el lector no\n                                                                        podra\n                                                                        verla.\n                                                                    "
+                                                                              "\n                                                                        Aunque se pueda seleccionar, el lector no\n                                                                        podrá verla.\n                                                                    "
                                                                             ),
                                                                           ]
                                                                         ),
@@ -3207,7 +3205,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Cambie el estado del tema en el sistema (Si esta en borrador el tema no podra ser\n                                visualizado por el lector)\n                            "
+                                  "\n                                Cambie el estado del tema en el sistema (Si está en borrador el tema no podrá ser por el lector)\n                            "
                                 ),
                               ]
                             ),
@@ -3229,7 +3227,7 @@ var render = function () {
                                   staticClass: "width_100",
                                   attrs: {
                                     items: _vm.items_status,
-                                    label: "Estado",
+                                    label: "Estádo",
                                     rules: _vm.statusRules,
                                     dense: "",
                                     "prepend-icon": "rule",

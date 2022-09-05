@@ -48,7 +48,7 @@
                     <!-- Información del curso -->
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Información almacenada de la etiqueta seleccionada
                             </v-card-subtitle>
                             <!-- Vista previa -->
@@ -142,11 +142,11 @@
                             <div>
                                 <v-card-subtitle class="text-justify">
                                     Cambie el estado de la etiqueta en el sistema (Si esta deshabilitado los temas que
-                                    tengan la etiqueta no podran ser visualizados)
+                                    tengan la etiqueta no podrán ser visualizados)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusTag()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (tag.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green" block type="submit">
@@ -199,7 +199,7 @@ export default {
         info: {
             nameRules: [
                 v => !!v || 'El titulo es requerido',
-                v => (v && v.length <= 25) || 'El titulo de la etiqueta debe tener menos de 25 carácteres',
+                v => (v && v.length <= 25) || 'El titulo de la etiqueta debe tener menos de 25 caracteres',
             ],
             colorbkRules: [
                 v => !!v || 'El color es requerido, ó deje el valor por defecto',
@@ -259,7 +259,7 @@ export default {
         async editTags() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar la etiqueta?',
+                    title: '¿Está seguro de modificar la etiqueta?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -317,7 +317,7 @@ export default {
         },
         async statusTag() {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado de la etiqueta?',
+                title: '¿Está seguro de cambiar el estado de la etiqueta?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -366,8 +366,8 @@ export default {
         },
         async deleteTag() {
             await this.$swal({
-                title: '¿Esta seguro de eliminar la etiqueta?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar la etiqueta?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

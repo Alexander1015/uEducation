@@ -33,7 +33,7 @@
                                 <v-icon>upload_file</v-icon>
                             </v-btn>
                         </template>
-                        <span>Cargar información de materias no ingresadas</span>
+                        <span>Cargar información de nuevas materias</span>
                     </v-tooltip>
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
@@ -173,7 +173,7 @@ export default {
             { text: 'Portada', value: 'img', align: 'center', sortable: false },
             { text: 'Código', value: 'code', align: 'center' },
             { text: 'Titulo', value: 'name', align: 'center' },
-            { text: 'Estado', value: 'status', align: 'center' },
+            { text: 'Estádo', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',
@@ -231,8 +231,8 @@ export default {
         async deleteSubject(item) {
             if (this.user.type == "0") {
                 await this.$swal({
-                    title: '¿Esta seguro de eliminar la materia?',
-                    text: "Esta acción no se puede revertir",
+                    title: '¿Está seguro de eliminar la materia?',
+                    text: "Está acción no se puede revertir",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -278,7 +278,7 @@ export default {
         async statusSubject(item, type, access) {
             if (this.user.type == "0" || access == "1") {
                 await this.$swal({
-                    title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la materia seleccionada?',
+                    title: '¿Está seguro de ' + (type == 1 ? "habilitar" : (type == 0 ? "deshabilitar" : "cambiar el estado de")) + ' la materia seleccionada?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

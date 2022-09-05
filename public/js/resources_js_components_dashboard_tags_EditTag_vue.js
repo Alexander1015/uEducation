@@ -221,7 +221,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         nameRules: [function (v) {
           return !!v || 'El titulo es requerido';
         }, function (v) {
-          return v && v.length <= 25 || 'El titulo de la etiqueta debe tener menos de 25 carácteres';
+          return v && v.length <= 25 || 'El titulo de la etiqueta debe tener menos de 25 caracteres';
         }],
         colorbkRules: [function (v) {
           return !!v || 'El color es requerido, ó deje el valor por defecto';
@@ -325,7 +325,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de modificar la etiqueta?',
+                  title: '¿Está seguro de modificar la etiqueta?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -407,7 +407,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de cambiar el estado de la etiqueta?',
+                  title: '¿Está seguro de cambiar el estado de la etiqueta?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -472,8 +472,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context4.next = 2;
                 return _this4.$swal({
-                  title: '¿Esta seguro de eliminar la etiqueta?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar la etiqueta?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1725,7 +1725,7 @@ var render = function () {
                       "div",
                       { staticClass: "px-4 py-4" },
                       [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                        _c("v-card-subtitle", { staticClass: "text-justify" }, [
                           _vm._v(
                             "\n                            Información almacenada de la etiqueta seleccionada\n                        "
                           ),
@@ -2172,7 +2172,7 @@ var render = function () {
                               { staticClass: "text-justify" },
                               [
                                 _vm._v(
-                                  "\n                                Cambie el estado de la etiqueta en el sistema (Si esta deshabilitado los temas que\n                                tengan la etiqueta no podran ser visualizados)\n                            "
+                                  "\n                                Cambie el estado de la etiqueta en el sistema (Si esta deshabilitado los temas que\n                                tengan la etiqueta no podrán ser visualizados)\n                            "
                                 ),
                               ]
                             ),
@@ -2194,7 +2194,7 @@ var render = function () {
                                   staticClass: "width_100",
                                   attrs: {
                                     items: _vm.items_status,
-                                    label: "Estado",
+                                    label: "Estádo",
                                     rules: _vm.statusRules,
                                     dense: "",
                                     "prepend-icon": "rule",

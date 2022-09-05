@@ -59,7 +59,7 @@
                     <!-- Información del usuario -->
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Información almacenada del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -155,7 +155,7 @@
                     </v-tab-item>
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Cambie la contraseña del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -211,7 +211,7 @@
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green" block type="submit">
@@ -287,20 +287,20 @@ export default {
         info: {
             firstnameRules: [
                 v => !!v || 'Los nombres son requeridos',
-                v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 caracteres',
             ],
             lastnameRules: [
                 v => !!v || 'Los apellidos son requeridos',
-                v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 caracteres',
             ],
             emailRules: [
                 v => !!v || 'El correo electrónico es requerido',
-                v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
+                v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 caracteres',
                 v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
             ],
             userRules: [
                 v => !!v || 'El usuario es requerido',
-                v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 caracteres',
             ],
             avatarRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -312,7 +312,7 @@ export default {
         passw: {
             passwordRules: [
                 v => !!v || 'La contraseña es requerida',
-                v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+                v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres',
                 v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
             ],
             passwordconfirmRules: [
@@ -360,34 +360,34 @@ export default {
                             this.$router.push({ name: "error" });
                         }
                         else {
-                                this.form_information.firstname = this.user.firstname;
-                                this.form_information.lastname = this.user.lastname;
-                                this.form_information.user = this.user.user;
-                                this.form_information.email = this.user.email;
-                                if (this.user.avatar) {
-                                    this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
-                                    this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
-                                }
-                                else {
-                                    this.prev_img.url_img = "/img/users/blank.png";
-                                    this.prev_img.lazy_img = "/img/users/blank_lazy.png";
-                                }
-                                this.form_information.avatar = null;
-                                this.form_information.avatar_new = 0;
-                                if (this.form_password.password != "" || this.form_password.password_confirmation != "") {
-                                    this.form_password.password = "";
-                                    this.form_password.password_confirmation = "";
-                                    this.$refs.form_password.reset();
-                                }
-                                else {
-                                    this.form_password.password = "";
-                                    this.form_password.password_confirmation = "";
-                                }
-                                if (this.user.status == 0) this.form_status.status = "Deshabilitado";
-                                else if (this.user.status == 1) this.form_status.status = "Habilitado";
-                                    if (this.user.type == "0") this.form_information.type = this.user.type = "Administrador";
-                                    else if (this.user.type == "1") this.form_information.type = this.user.type = "Docente";
-                                this.overlay = false;
+                            this.form_information.firstname = this.user.firstname;
+                            this.form_information.lastname = this.user.lastname;
+                            this.form_information.user = this.user.user;
+                            this.form_information.email = this.user.email;
+                            if (this.user.avatar) {
+                                this.prev_img.url_img = "/img/users/" + this.user.avatar + "/index.png";
+                                this.prev_img.lazy_img = "/img/users/" + this.user.avatar + "/lazy.png";
+                            }
+                            else {
+                                this.prev_img.url_img = "/img/users/blank.png";
+                                this.prev_img.lazy_img = "/img/users/blank_lazy.png";
+                            }
+                            this.form_information.avatar = null;
+                            this.form_information.avatar_new = 0;
+                            if (this.form_password.password != "" || this.form_password.password_confirmation != "") {
+                                this.form_password.password = "";
+                                this.form_password.password_confirmation = "";
+                                this.$refs.form_password.reset();
+                            }
+                            else {
+                                this.form_password.password = "";
+                                this.form_password.password_confirmation = "";
+                            }
+                            if (this.user.status == 0) this.form_status.status = "Deshabilitado";
+                            else if (this.user.status == 1) this.form_status.status = "Habilitado";
+                            if (this.user.type == "0") this.form_information.type = this.user.type = "Administrador";
+                            else if (this.user.type == "1") this.form_information.type = this.user.type = "Docente";
+                            this.overlay = false;
                         }
                     }).catch((error) => {
                         console.log(error);
@@ -399,129 +399,9 @@ export default {
             }
         },
         async editUser() {
-                if (this.$refs.form_information.validate()) {
-                    await this.$swal({
-                        title: '¿Esta seguro de modificar la información del usuario?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Si',
-                        cancelButtonText: 'Cancelar',
-                    })
-                        .then(result => {
-                            if (result.isConfirmed) {
-                                this.overlay = true;
-                                let data = new FormData();
-                                data.append('firstname', this.form_information.firstname);
-                                data.append('lastname', this.form_information.lastname);
-                                data.append('user', (this.form_information.user).toUpperCase());
-                                data.append('email', this.form_information.email);
-                                this.form_information.avatar = document.querySelector('#avatar').files[0];
-                                if (this.form_information.avatar) {
-                                    data.append('avatar', this.form_information.avatar);
-                                }
-                                data.append('avatar_new', this.form_information.avatar_new);
-                                    let type = "";
-                                    if (this.form_information.type == "Administrador") {
-                                        type = "0";
-                                    }
-                                    else if (this.form_information.type == "Docente") {
-                                        type = "1";
-                                    }
-                                    data.append('type', type);
-                                data.append('_method', "put");
-                                this.axios.post('/api/user/' + this.$route.params.slug, data, {
-                                    headers: {
-                                        'Content-Type': 'multipart/form-data',
-                                    },
-                                })
-                                    .then(response => {
-                                        let title = "Error";
-                                        let icon = "error";
-                                        if (response.data.complete) {
-                                            title = "Éxito"
-                                            icon = "success";
-                                        }
-                                        this.$swal({
-                                            title: title,
-                                            icon: icon,
-                                            text: response.data.message,
-                                        }).then(() => {
-                                            if (response.data.complete) {
-                                                this.showUser();
-                                            }
-                                            this.overlay = false;
-                                        });
-                                    }).catch(error => {
-                                        this.$swal({
-                                            title: "Error",
-                                            icon: "error",
-                                            text: "Ha ocurrido un error en la aplicación",
-                                        }).then(() => {
-                                            console.log(error);
-                                            this.overlay = false;
-                                        });
-                                    })
-                            }
-                        });
-                }
-                else {
-                    this.overlay = false;
-                }
-        },
-        async editPassword() {
-                if (this.$refs.form_password.validate()) {
-                    await this.$swal({
-                        title: '¿Esta seguro de cambiar la contraseña?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Si',
-                        cancelButtonText: 'Cancelar',
-                    })
-                        .then(result => {
-                            if (result.isConfirmed) {
-                                this.overlay = true;
-                                let data = new FormData();
-                                data.append('password', this.form_password.password);
-                                data.append('password_confirmation', this.form_password.password_confirmation);
-                                data.append('_method', "put");
-                                this.axios.post('/api/user/password/' + this.$route.params.slug, data)
-                                    .then(response => {
-                                        let title = "Error";
-                                        let icon = "error";
-                                        if (response.data.complete) {
-                                            title = "Éxito"
-                                            icon = "success";
-                                        }
-                                        this.$swal({
-                                            title: title,
-                                            icon: icon,
-                                            text: response.data.message,
-                                        }).then(() => {
-                                            if (response.data.complete) {
-                                                this.showUser();
-                                            }
-                                            this.overlay = false;
-                                        });
-                                    }).catch(error => {
-                                        this.$swal({
-                                            title: "Error",
-                                            icon: "error",
-                                            text: "Ha ocurrido un error en la aplicación",
-                                        }).then(() => {
-                                            console.log(error);
-                                            this.overlay = false;
-                                        });
-                                    })
-                            }
-                        });
-                }
-                else {
-                    this.overlay = false;
-                }
-        },
-        async statusUser() {
+            if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de cambiar el estado del usuario?',
+                    title: '¿Está seguro de modificar la información del usuario?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -531,12 +411,29 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
-                            let type = 3;
-                            if (this.form_status.status == "Habilitado") type = 1;
-                            else if (this.form_status.status == "Deshabilitado") type = 0;
-                            data.append('status', type);
+                            data.append('firstname', this.form_information.firstname);
+                            data.append('lastname', this.form_information.lastname);
+                            data.append('user', (this.form_information.user).toUpperCase());
+                            data.append('email', this.form_information.email);
+                            this.form_information.avatar = document.querySelector('#avatar').files[0];
+                            if (this.form_information.avatar) {
+                                data.append('avatar', this.form_information.avatar);
+                            }
+                            data.append('avatar_new', this.form_information.avatar_new);
+                            let type = "";
+                            if (this.form_information.type == "Administrador") {
+                                type = "0";
+                            }
+                            else if (this.form_information.type == "Docente") {
+                                type = "1";
+                            }
+                            data.append('type', type);
                             data.append('_method', "put");
-                            this.axios.post('/api/user/status/' + this.$route.params.slug, data)
+                            this.axios.post('/api/user/' + this.$route.params.slug, data, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                },
+                            })
                                 .then(response => {
                                     let title = "Error";
                                     let icon = "error";
@@ -554,8 +451,7 @@ export default {
                                         }
                                         this.overlay = false;
                                     });
-                                })
-                                .catch(error => {
+                                }).catch(error => {
                                     this.$swal({
                                         title: "Error",
                                         icon: "error",
@@ -564,14 +460,18 @@ export default {
                                         console.log(error);
                                         this.overlay = false;
                                     });
-                                });
+                                })
                         }
                     });
+            }
+            else {
+                this.overlay = false;
+            }
         },
-        async deleteUser() {
+        async editPassword() {
+            if (this.$refs.form_password.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de eliminar el usuario?',
-                    text: "Esta acción no se puede revertir",
+                    title: '¿Está seguro de cambiar la contraseña?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -580,7 +480,11 @@ export default {
                     .then(result => {
                         if (result.isConfirmed) {
                             this.overlay = true;
-                            this.axios.delete('/api/user/' + this.$route.params.slug)
+                            let data = new FormData();
+                            data.append('password', this.form_password.password);
+                            data.append('password_confirmation', this.form_password.password_confirmation);
+                            data.append('_method', "put");
+                            this.axios.post('/api/user/password/' + this.$route.params.slug, data)
                                 .then(response => {
                                     let title = "Error";
                                     let icon = "error";
@@ -594,12 +498,11 @@ export default {
                                         text: response.data.message,
                                     }).then(() => {
                                         if (response.data.complete) {
-                                            this.$router.push({ name: "users" });
+                                            this.showUser();
                                         }
-                                        else this.overlay = false;
+                                        this.overlay = false;
                                     });
-                                })
-                                .catch(error => {
+                                }).catch(error => {
                                     this.$swal({
                                         title: "Error",
                                         icon: "error",
@@ -608,9 +511,106 @@ export default {
                                         console.log(error);
                                         this.overlay = false;
                                     });
-                                });
+                                })
                         }
                     });
+            }
+            else {
+                this.overlay = false;
+            }
+        },
+        async statusUser() {
+            await this.$swal({
+                title: '¿Está seguro de cambiar el estado del usuario?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        let data = new FormData();
+                        let type = 3;
+                        if (this.form_status.status == "Habilitado") type = 1;
+                        else if (this.form_status.status == "Deshabilitado") type = 0;
+                        data.append('status', type);
+                        data.append('_method', "put");
+                        this.axios.post('/api/user/status/' + this.$route.params.slug, data)
+                            .then(response => {
+                                let title = "Error";
+                                let icon = "error";
+                                if (response.data.complete) {
+                                    title = "Éxito"
+                                    icon = "success";
+                                }
+                                this.$swal({
+                                    title: title,
+                                    icon: icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.showUser();
+                                    }
+                                    this.overlay = false;
+                                });
+                            })
+                            .catch(error => {
+                                this.$swal({
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
+                                });
+                            });
+                    }
+                });
+        },
+        async deleteUser() {
+            await this.$swal({
+                title: '¿Está seguro de eliminar el usuario?',
+                text: "Está acción no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            })
+                .then(result => {
+                    if (result.isConfirmed) {
+                        this.overlay = true;
+                        this.axios.delete('/api/user/' + this.$route.params.slug)
+                            .then(response => {
+                                let title = "Error";
+                                let icon = "error";
+                                if (response.data.complete) {
+                                    title = "Éxito"
+                                    icon = "success";
+                                }
+                                this.$swal({
+                                    title: title,
+                                    icon: icon,
+                                    text: response.data.message,
+                                }).then(() => {
+                                    if (response.data.complete) {
+                                        this.$router.push({ name: "users" });
+                                    }
+                                    else this.overlay = false;
+                                });
+                            })
+                            .catch(error => {
+                                this.$swal({
+                                    title: "Error",
+                                    icon: "error",
+                                    text: "Ha ocurrido un error en la aplicación",
+                                }).then(() => {
+                                    console.log(error);
+                                    this.overlay = false;
+                                });
+                            });
+                    }
+                });
         },
         preview_img() {
             this.form_information.avatar_new = 1;

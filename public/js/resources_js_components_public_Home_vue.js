@@ -511,7 +511,7 @@ var render = function () {
                     [
                       _c("p", { staticClass: "text-justify pa-4" }, [
                         _vm._v(
-                          "\n                        uEducation es una aplicacion web que le permitira a los docentes el crear blogs de\n                        diferentes temas, de acuerdo a las materias que se encuentren en la misma, permitiendole al\n                        estudiante, poder leer cada blog que ha sido creada.\n                    "
+                          "\n                        uEducation es una aplicación web que le permite a los docentes el crear blogs de diferentes\n                        temas, de acuerdo con las materias que se encuentren inscritos, permitiéndole también al\n                        estudiante, poder leer cada blog que ha sido creado.\n                    "
                         ),
                       ]),
                     ]

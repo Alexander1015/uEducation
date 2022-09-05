@@ -19,7 +19,7 @@
                     </template>
                     <span>Actualizar</span>
                 </v-tooltip>
-                <span class="text-h6">IMÁGENES DEL CAROUSEL</span>
+                <span class="text-h6">IMÁGENES DEL CARRUSEL</span>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn class="ml-4 mt-n2 bk_green txt_white" v-bind="attrs" v-on="on"
@@ -27,12 +27,14 @@
                             <v-icon>add_box</v-icon>
                         </v-btn>
                     </template>
-                    <span>Agregar nueva imágen</span>
+                    <span>Agregar nueva imagen</span>
                 </v-tooltip>
             </div>
             <div class="mb-8">
-                <p>Listado de las imágenes/noticias mostradas en el carousel de la pantalla principal, arrastre las
-                    imágenes para reordenarlas</p>
+                <p>
+                    Listado de las imágenes/noticias mostradas en el carrusel de la pantalla principal, arrastre las
+                    imágenes para reordenarlas
+                </p>
             </div>
             <div>
                 <v-file-input ref="uploader" v-model="img" @change="uploadImage()"
@@ -106,7 +108,7 @@ export default {
         img: null,
         drag: false,
         imgRules: [
-            v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
+            v => (!v || v.size <= 25000000) || 'La imagen debe ser menor a 25MB',
         ],
         carousel: [],
         carousel_copy: [],
@@ -169,7 +171,7 @@ export default {
                 this.$swal({
                     title: "Error",
                     icon: "error",
-                    text: "No se ha cargado la imágen al servidor",
+                    text: "No se ha cargado la imagen al servidor",
                 }).then(() => {
                     this.overlay = false;
                 });
@@ -177,22 +179,6 @@ export default {
         },
         async showImages() {
             this.overlay = true;
-            await this.axios.get('/api/auth')
-                .then(response => {
-                    let user = response.data;
-                    if (user.type != "0") {
-                        this.$router.push({ name: "forbiden" });
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    this.axios.post('/api/logout')
-                        .then(response => {
-                            window.location.href = "/auth"
-                        }).catch((error) => {
-                            console.log(error);
-                            this.$router.push({ name: "forbiden" });
-                        });
-                });
             await this.axios.get('/api/carousel/')
                 .then(response => {
                     this.carousel = this.carousel_copy = response.data;

@@ -8,8 +8,8 @@
             <p class="text-h5 text-center my-4">
                 (Forbidden) Acceso denegado
             </p>
-            <v-img class="mx-auto" src="/img/logo/logo_letters.png"
-                lazy-src="/img/logo/logo_letters_lazy.png" height="200" contain>
+            <v-img class="mx-auto" src="/img/logo/logo_letters.png" lazy-src="/img/logo/logo_letters_lazy.png"
+                height="200" contain>
                 <template v-slot:placeholder>
                     <v-row class="fill-height ma-0" align="center" justify="center">
                         <v-progress-circular indeterminate color="grey lighten-5">

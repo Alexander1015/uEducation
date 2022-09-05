@@ -121,6 +121,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomeRecords",
   data: function data() {
@@ -138,7 +140,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data_period: ["01", "02", "03"],
       data_year: [],
       periodRules: [function (v) {
-        return !!v || 'El ciclo requerido';
+        return !!v || 'El ciclo es requerido';
       }],
       yearRules: [function (v) {
         return !!v || 'El año es requerido';
@@ -1209,7 +1211,7 @@ var render = function () {
               },
               [
                 _vm._v(" "),
-                _c("span", [_vm._v("Generar la bitacora del ciclo")]),
+                _c("span", [_vm._v("Generar la bitácora del ciclo")]),
               ]
             ),
           ],
@@ -1220,9 +1222,9 @@ var render = function () {
           "div",
           { staticClass: "mb-8" },
           [
-            _c("p", [
+            _c("p", { staticClass: "text-justify" }, [
               _vm._v(
-                "Bitacora de registros de las suscripciones de docentes y estudiantes."
+                "\n                Bitácora de registros de las suscripciones de docentes y estudiantes.\n            "
               ),
             ]),
             _vm._v(" "),

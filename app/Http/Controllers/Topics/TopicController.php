@@ -50,14 +50,13 @@ class TopicController extends Controller
                 $review = DB::table("user_subject")->where("user_id", $auth_user->id)->get();
                 if ($auth_user->type == "0") {
                     $subjects = DB::table("subjects")->get();
-                }
-                else {
-                    foreach($review as $item) {
+                } else {
+                    foreach ($review as $item) {
                         array_push($subjects, DB::table("subjects")->where("id", $item->subject_id)->first());
                     }
                 }
                 return response()->json([
-                    'data' =>$data,
+                    'data' => $data,
                     'subjects' => $subjects
                 ]);
             } else return response()->json([]);

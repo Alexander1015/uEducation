@@ -33,14 +33,11 @@
                         <v-stepper-content step="1">
                             <div class="mt-2 mb-4">
                                 <p class="text-justify">
-                                    En este apartado puede subir la informacion de las materias; para cargar dicha
-                                    información
-                                    proporcione un archivo de excel teniendo en cuenta el siguiente
-                                    formato:
+                                    En este apartado puede subir la información de las materias; para cargar dicha información proporcione un archivo de Excel teniendo en cuenta el siguiente formato:
                                 </p>
-                                <p class="text-center">
+                                <p class="text-justify">
                                     <small class="font-italic txt_red">
-                                        Importante: El documento de excel no debe poseer cabeceras
+                                        Importante: El documento de Excel no debe poseer cabeceras
                                     </small>
                                 </p>
                                 <v-img class="my-2 mx-auto" :src="banner.img" :lazy-src='banner.lazy'
@@ -255,7 +252,7 @@ export default {
         async loadSubjects() {
             if (this.data.length > 0 && this.login_user.type == '0') {
                 await this.$swal({
-                    title: '¿Esta seguro de subir crear estas materias?',
+                    title: '¿Está seguro de crear estas materias?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',

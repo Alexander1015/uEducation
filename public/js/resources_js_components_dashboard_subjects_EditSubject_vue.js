@@ -694,7 +694,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditSubject",
@@ -728,12 +727,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         nameRules: [function (v) {
           return !!v || 'El titulo de la materia es requerido';
         }, function (v) {
-          return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 carácteres';
+          return v && v.length <= 100 || 'El titulo de la materia debe tener menos de 100 caracteres';
         }],
         codeRules: [function (v) {
           return !!v || 'El códigp es requerido';
         }, function (v) {
-          return v && v.length <= 50 || 'El código debe tener menos de 50 carácteres';
+          return v && v.length <= 50 || 'El código debe tener menos de 50 caracteres';
         }],
         imgRules: [function (v) {
           return !v || v.size <= 25000000 || 'La imágen debe ser menor a 25MB';
@@ -985,7 +984,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context2.next = 3;
                 return _this2.$swal({
-                  title: '¿Esta seguro de modificar la información de la materia?',
+                  title: '¿Está seguro de modificar la información de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1071,7 +1070,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de cambiar lel orden de los temas seleccionados?',
+                  title: '¿Está seguro de cambiar lel orden de los temas seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1152,7 +1151,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context4.next = 3;
                 return _this4.$swal({
-                  title: '¿Esta seguro de desuscribir al docente seleccionado de la materia actual?',
+                  title: '¿Está seguro de desuscribir al docente seleccionado de la materia actual?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1218,7 +1217,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context5.next = 3;
                 return _this5.$swal({
-                  title: '¿Esta seguro de suscribir los docentes seleccionados?',
+                  title: '¿Está seguro de suscribir los docentes seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1306,7 +1305,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context6.next = 3;
                 return _this6.$swal({
-                  title: '¿Esta seguro de desuscribir al estudiante seleccionado de la materia actual?',
+                  title: '¿Está seguro de desuscribir al estudiante seleccionado de la materia actual?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1393,7 +1392,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context7.next = 3;
                 return _this7.$swal({
-                  title: '¿Esta seguro de suscribir los estudiantes seleccionados?',
+                  title: '¿Está seguro de suscribir los estudiantes seleccionados?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1483,7 +1482,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context8.next = 3;
                 return _this8.$swal({
-                  title: '¿Esta seguro de cambiar el estado de la materia?',
+                  title: '¿Está seguro de cambiar el estado de la materia?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1553,7 +1552,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context9.next = 3;
                 return _this9.$swal({
-                  title: '¿Esta seguro de cambiar el acceso coordinador del usuario?',
+                  title: '¿Está seguro de cambiar el acceso coordinador del usuario?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1622,8 +1621,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context10.next = 3;
                 return _this10.$swal({
-                  title: '¿Esta seguro de eliminar la materia?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar la materia?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -6736,7 +6735,7 @@ var render = function () {
                       "div",
                       { staticClass: "px-4 py-4" },
                       [
-                        _c("v-card-subtitle", { staticClass: "text-center" }, [
+                        _c("v-card-subtitle", { staticClass: "text-justify" }, [
                           _vm._v(
                             "\n                            Información almacenada de la materia seleccionada\n                        "
                           ),
@@ -7026,10 +7025,10 @@ var render = function () {
                             [
                               _c(
                                 "v-card-subtitle",
-                                { staticClass: "text-center" },
+                                { staticClass: "text-justify" },
                                 [
                                   _vm._v(
-                                    "\n                                Lista de los temas atribuidos a esta materia, ordenelos para la vista del lector.\n                            "
+                                    "\n                                Lista de los temas atribuidos a esta materia, ordénelos para la vista del lector\n                            "
                                   ),
                                 ]
                               ),
@@ -7248,7 +7247,7 @@ var render = function () {
                                       [
                                         _c(
                                           "v-card-subtitle",
-                                          { staticClass: "text-center" },
+                                          { staticClass: "text-justify" },
                                           [
                                             _vm._v(
                                               "\n                                            Listado de los docentes inscritos actualmente en la materia seleccionada\n                                        "
@@ -8244,7 +8243,7 @@ var render = function () {
                                       [
                                         _c(
                                           "v-card-subtitle",
-                                          { staticClass: "text-center" },
+                                          { staticClass: "text-justify" },
                                           [
                                             _vm._v(
                                               "\n                                            Listado de los estudiantes inscritos actualmente en la materia\n                                            seleccionada\n                                        "
@@ -8662,7 +8661,7 @@ var render = function () {
                                       [
                                         _c(
                                           "v-card-subtitle",
-                                          { staticClass: "text-center" },
+                                          { staticClass: "text-justify" },
                                           [
                                             _vm._v(
                                               "\n                                            Suscribir estudiantes a la materia seleccionada\n                                        "
@@ -9095,7 +9094,7 @@ var render = function () {
                                     { staticClass: "text-justify" },
                                     [
                                       _vm._v(
-                                        "\n                                    Cambie el estado de la materia en el sistema (Si esta deshabilitado no podra\n                                    ser visualizado por parte del lector)\n                                "
+                                        "\n                                    Cambie el estado de la materia en el sistema (Si esta deshabilitado no podrá ser visualizado por parte del lector)\n                                "
                                       ),
                                     ]
                                   ),
@@ -9120,7 +9119,7 @@ var render = function () {
                                         staticClass: "width_100",
                                         attrs: {
                                           items: _vm.items_status,
-                                          label: "Estado",
+                                          label: "Estádo",
                                           rules: _vm.statusRules,
                                           dense: "",
                                           "prepend-icon": "rule",

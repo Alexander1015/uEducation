@@ -59,7 +59,7 @@
                     <!-- Información del usuario -->
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Información almacenada del estudiante seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -146,7 +146,7 @@
                     </v-tab-item>
                     <v-tab-item>
                         <div class="px-4 py-4">
-                            <v-card-subtitle class="text-center">
+                            <v-card-subtitle class="text-justify">
                                 Cambie la contraseña del usuario seleccionado
                             </v-card-subtitle>
                             <!-- Formulario -->
@@ -195,11 +195,11 @@
                         <div class="px-4 py-4">
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no podra ingresar)
+                                    Cambie el estado del usuario en el sistema (Si esta deshabilitado no podrá ingresar)
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusUser()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (user.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                         <v-btn class="txt_white bk_green" block type="submit">
@@ -218,7 +218,7 @@
                             <v-divider class="mt-8 mb-4"></v-divider>
                             <div>
                                 <v-card-subtitle class="text-justify">
-                                    Elimine el usuario seleccionado de la base de datos, esta opcion no se puede
+                                    Elimine el usuario seleccionado de la base de datos, esta opción no se puede
                                     revertir
                                 </v-card-subtitle>
                                 <v-btn class="txt_white bk_red" block @click.stop="deleteUser()">
@@ -270,20 +270,20 @@ export default {
         info: {
             firstnameRules: [
                 v => !!v || 'Los nombres son requeridos',
-                v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'Los nombres deben tener menos de 50 caracteres',
             ],
             lastnameRules: [
                 v => !!v || 'Los apellidos son requeridos',
-                v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'Los apellidos deben tener menos de 50 caracteres',
             ],
             emailRules: [
                 v => !!v || 'El correo electrónico es requerido',
-                v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 carácteres',
+                v => (v && v.length <= 100) || 'El correo electrónico debe tener menos de 100 caracteres',
                 v => /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido',
             ],
             userRules: [
                 v => !!v || 'El usuario es requerido',
-                v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 carácteres',
+                v => (v && v.length <= 50) || 'El usuario debe tener menos de 50 caracteres',
             ],
             avatarRules: [
                 v => (!v || v.size <= 25000000) || 'La imágen debe ser menor a 25MB',
@@ -292,7 +292,7 @@ export default {
         passw: {
             passwordRules: [
                 v => !!v || 'La contraseña es requerida',
-                v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres',
+                v => (v && v.length >= 8 && v.length <= 50) || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres',
                 v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas',
             ],
             passwordconfirmRules: [
@@ -375,7 +375,7 @@ export default {
         async editUser() {
             if (this.$refs.form_information.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de modificar la información del usuario?',
+                    title: '¿Está seguro de modificar la información del usuario?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -437,7 +437,7 @@ export default {
         async editPassword() {
             if (this.$refs.form_password.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de cambiar la contraseña?',
+                    title: '¿Está seguro de cambiar la contraseña?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
@@ -487,7 +487,7 @@ export default {
         },
         async statusUser() {
             await this.$swal({
-                title: '¿Esta seguro de cambiar el estado del usuario?',
+                title: '¿Está seguro de cambiar el estado del usuario?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',
@@ -536,8 +536,8 @@ export default {
         },
         async deleteUser() {
             await this.$swal({
-                title: '¿Esta seguro de eliminar el usuario?',
-                text: "Esta acción no se puede revertir",
+                title: '¿Está seguro de eliminar el usuario?',
+                text: "Está acción no se puede revertir",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si',

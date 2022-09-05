@@ -340,8 +340,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context2.next = 2;
                 return _this2.$swal({
-                  title: '¿Esta seguro de eliminar el usuario?',
-                  text: "Esta acción no se puede revertir",
+                  title: '¿Está seguro de eliminar el usuario?',
+                  text: "Está acción no se puede revertir",
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -401,7 +401,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context3.next = 2;
                 return _this3.$swal({
-                  title: '¿Esta seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el usuario seleccionado?',
+                  title: '¿Está seguro de ' + (type == 1 ? "habilitar" : type == 0 ? "deshabilitar" : "cambiar el estado de") + ' el usuario seleccionado?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -1381,9 +1381,7 @@ var render = function () {
                 },
                 [
                   _vm._v(" "),
-                  _c("span", [
-                    _vm._v("Cargar información de docentes no ingresados"),
-                  ]),
+                  _c("span", [_vm._v("Cargar información de nuevos docentes")]),
                 ]
               ),
             ],
@@ -1391,7 +1389,7 @@ var render = function () {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "mb-8" }, [
-            _c("p", [
+            _c("p", { staticClass: "text-justify" }, [
               _vm._v("Listado de los docentes existentes en la aplicación"),
             ]),
           ]),

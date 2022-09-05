@@ -1,5 +1,8 @@
 <template>
     <v-app id="body">
+        <v-overlay :value="overlay">
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
         <v-main>
             <!-- Navbar Superior -->
             <v-app-bar dense flat fixed class="bk_brown">
@@ -40,10 +43,10 @@
                                 <span class="mx-1 caption">
                                     <template v-if="user.firstname || user.lastname">
                                         <template v-if="user.firstname">
-                                            {{  user.firstname  }}
+                                            {{ user.firstname }}
                                         </template>
                                         <template v-if="user.lastname">
-                                            {{  user.lastname  }}
+                                            {{ user.lastname }}
                                         </template>
                                     </template>
                                     <template v-else>
@@ -54,7 +57,7 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <div>
+                            <v-list-item>
                                 <v-btn text :to="to.profile" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="text-center mt-1">
@@ -65,19 +68,19 @@
                                         </v-col>
                                     </v-row>
                                 </v-btn>
-                            </div>
-                            <div>
+                            </v-list-item>
+                            <v-list-item>
                                 <v-btn text @click.prevent="logout" class="width_100">
                                     <v-row>
                                         <v-col cols="8" class="mx-auto mt-1">
-                                            <span>Salir de la sesión</span>
+                                            <span>Cerrar sesión</span>
                                         </v-col>
                                         <v-col cols="4" class="mx-auto">
                                             <v-icon>logout</v-icon>
                                         </v-col>
                                     </v-row>
                                 </v-btn>
-                            </div>
+                            </v-list-item>
                         </v-list>
                     </v-menu>
                 </template>
@@ -103,9 +106,9 @@
                         <template v-if="link.title">
                             <v-list-item v-if="link.visible" link :to="link.to" class="my-1">
                                 <v-list-item-icon>
-                                    <v-icon>{{  link.icon  }}</v-icon>
+                                    <v-icon>{{ link.icon }}</v-icon>
                                 </v-list-item-icon>
-                                <v-list-item-title>{{  link.title  }}</v-list-item-title>
+                                <v-list-item-title>{{ link.title }}</v-list-item-title>
                             </v-list-item>
                         </template>
                         <template v-else-if="link.header && link.visible">
@@ -123,12 +126,7 @@
                 <v-card class="flex bk_brown" flat tile>
                     <v-card-text class="pt-1 pb-0 text-center txt_white caption">
                         <strong>Edgard Alexander Barrera Flamenco</strong>
-                        <template v-if="today !== 2022">
-                            <span>(2022 - {{  today  }})</span>
-                        </template>
-                        <template v-else>
-                            <span> - 2022</span>
-                        </template>
+                        <span> - 2022</span>
                     </v-card-text>
                     <v-card-text class="pt-0 pb-1 text-center txt_white caption">
                         (alexanderbarrera105@gmail.com)
@@ -143,7 +141,6 @@
 export default {
     name: "App",
     data: () => ({
-        today: new Date().getFullYear(),
         user: {
             user: "",
             avatar: null,
@@ -175,18 +172,36 @@ export default {
             profile: { name: "profile" },
         },
         nav: false,
+        overlay: false,
     }),
+    mounted() {
+        this.login()
+    },
+    computed: {
+        session() {
+            return this.$route.params.session;
+        }
+    },
+    watch: {
+        session() {
+            this.login();
+        },
+        group() {
+            this.nav = false;
+        }
+    },
     methods: {
         toInit() {
             if (this.$route.path != "/") this.$router.push("/");
         },
         logout() {
+            this.overlay = true;
             this.axios.post('/api/logout')
                 .then(response => {
                     window.location.href = "/auth"
                 }).catch((error) => {
                     console.log(error);
-                    this.$router.push({ name: "error" });
+                    window.location.href = "/error"
                 });
         },
         async login() {
@@ -224,13 +239,5 @@ export default {
                 });
         },
     },
-    mounted() {
-        this.login()
-    },
-    watch: {
-        group() {
-            this.nav = false
-        }
-    }
 }
 </script>

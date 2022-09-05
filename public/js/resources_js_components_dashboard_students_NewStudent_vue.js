@@ -176,29 +176,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       firstnameRules: [function (v) {
         return !!v || 'Los nombres son requeridos';
       }, function (v) {
-        return v && v.length <= 50 || 'Los nombres deben tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'Los nombres deben tener menos de 50 caracteres';
       }],
       lastnameRules: [function (v) {
         return !!v || 'Los apellidos son requeridos';
       }, function (v) {
-        return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'Los apellidos deben tener menos de 50 caracteres';
       }],
       emailRules: [function (v) {
         return !!v || 'El correo electrónico es requerido';
       }, function (v) {
-        return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 carácteres';
+        return v && v.length <= 100 || 'El correo electrónico debe tener menos de 100 caracteres';
       }, function (v) {
         return /.+@.+\..+/.test(v) || 'El correo electrónico debe ser valido';
       }],
       userRules: [function (v) {
         return !!v || 'El usuario es requerido';
       }, function (v) {
-        return v && v.length <= 50 || 'El usuario debe tener menos de 50 carácteres';
+        return v && v.length <= 50 || 'El usuario debe tener menos de 50 caracteres';
       }],
       passwordRules: [function (v) {
         return !!v || 'La contraseña es requerida';
       }, function (v) {
-        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 carácteres y menor a 50 carácteres';
+        return v && v.length >= 8 && v.length <= 50 || 'La contraseña debe ser mayor a 8 caracteres y menor a 50 caracteres';
       }, function (v) {
         return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || ' La contraseña debe contener al menos una Mayúscula, un número y minúsculas';
       }],
@@ -241,7 +241,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 3;
                 return _this.$swal({
-                  title: '¿Esta seguro de crear el usuario?',
+                  title: '¿Está seguro de crear el usuario?',
                   icon: 'warning',
                   showCancelButton: true,
                   confirmButtonText: 'Si',
@@ -839,7 +839,7 @@ var render = function () {
                       ]),
                     ]),
                     _vm._v(" "),
-                    _c("v-card-subtitle", { staticClass: "text-center" }, [
+                    _c("v-card-subtitle", { staticClass: "text-justify" }, [
                       _vm._v("Cree un estudiante nuevo"),
                     ]),
                     _vm._v(" "),

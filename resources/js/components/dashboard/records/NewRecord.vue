@@ -25,10 +25,10 @@
                         <v-card-title class="text-h5">
                             <p class="mx-auto">GENERAR REGISTROS</p>
                         </v-card-title>
-                        <v-card-subtitle class="text-center">
-                            Genere la bitacora del ciclo actual según su especificación<br />
-                            <small class="text-center font-italic txt_red">
-                                Advertencia: Al generar la bitacora se eliminarán todas las suscripciones actuales de
+                        <v-card-subtitle class="text-justify">
+                            Genere la bitácora del ciclo actual según su especificación<br />
+                            <small class="text-justify font-italic txt_red">
+                                Advertencia: Al generar la bitácora se eliminarán todas las suscripciones actuales de
                                 los estudiantes; pero la de los docentes seguirá activa. Además este proceso puede durar
                                 varios minutos dependiendo de la información
                                 almacenada
@@ -55,7 +55,7 @@
                                 </v-row>
                                 <v-btn class="txt_white bk_green mt-2" block type="submit">
                                     <v-icon left>drive_file_move</v-icon>
-                                    Generar bitacora
+                                    Generar bitácora
                                 </v-btn>
                             </v-form>
                         </div>
@@ -93,7 +93,7 @@ export default {
             new Date().getFullYear() - 5,
         ],
         periodRules: [
-            v => !!v || 'El ciclo requerido',
+            v => !!v || 'El ciclo es requerido',
         ],
         yearRules: [
             v => !!v || 'El año es requerido',
@@ -108,7 +108,7 @@ export default {
         async registerRecord() {
             if (this.$refs.form.validate()) {
                 await this.$swal({
-                    title: '¿Esta seguro de crear la bitacora del ciclo actual especificado, esta acción es irreversible?',
+                    title: '¿Está seguro de crear la bitácora del ciclo actual especificado, esta acción es irreversible?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Si',
