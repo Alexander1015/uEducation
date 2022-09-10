@@ -85,7 +85,7 @@ class LoadStudentsController extends Controller
                                                                 'lastname' => $request->input('lastname')[$i],
                                                                 'email' => $request->input('email')[$i],
                                                                 'user' => strtolower($request->input('user')[$i]),
-                                                                'password' => Hash::make($request->input('user')[$i]),
+                                                                'password' => Hash::make(strtolower($request->input('user')[$i])),
                                                                 'type' => "2",
                                                                 'avatar' => ""
                                                             ])) {

@@ -268,7 +268,7 @@ export default {
                             for (let item of this.data) {
                                 data.append('code[]', item.code == null ? "" : item.code);
                             }
-                            this.axios.post('/api/loadsubjects/', data)
+                            this.axios.post('/api/loadsubjects', data)
                                 .then(response => {
                                     if (!response.data.complete) {
                                         let title = "Error";

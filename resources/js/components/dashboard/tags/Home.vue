@@ -132,7 +132,7 @@ export default {
             { text: 'Título', value: 'name', align: 'center' },
             { text: 'Color del fondo', value: 'background_color', align: 'center' },
             { text: 'Color del texto', value: 'text_color', align: 'center' },
-            { text: 'Estádo', value: 'status', align: 'center' },
+            { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',

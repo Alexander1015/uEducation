@@ -230,8 +230,8 @@ export default {
                             this.user.avatar_lazy = "blank_lazy.png";
                         }
                         else {
-                            this.user.avatar = this.user.avatar + "/index.png";
                             this.user.avatar_lazy = this.user.avatar + "/lazy.png";
+                            this.user.avatar = this.user.avatar + "/index.png";
                         }
                     }
                 }).catch((error) => {

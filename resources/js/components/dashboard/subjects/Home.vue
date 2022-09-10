@@ -173,7 +173,7 @@ export default {
             { text: 'Portada', value: 'img', align: 'center', sortable: false },
             { text: 'Código', value: 'code', align: 'center' },
             { text: 'Titulo', value: 'name', align: 'center' },
-            { text: 'Estádo', value: 'status', align: 'center' },
+            { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',

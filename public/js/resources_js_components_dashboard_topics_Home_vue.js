@@ -272,7 +272,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'updated_at',
         align: 'center'
       }, {
-        text: 'Estádo',
+        text: 'Estado',
         value: 'status',
         align: 'center'
       }, {

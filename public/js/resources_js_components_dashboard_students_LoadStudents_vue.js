@@ -414,7 +414,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       _iterator5.f();
                     }
 
-                    _this3.axios.post('/api/loadstudents/', data).then(function (response) {
+                    _this3.axios.post('/api/loadstudents', data).then(function (response) {
                       if (!response.data.complete) {
                         var title = "Error";
                         var icon = "error";
@@ -4066,7 +4066,7 @@ var render = function () {
                                 { staticClass: "font-italic txt_red" },
                                 [
                                   _vm._v(
-                                    '\n                                    Importante: El documento de Excel no debe poseer cabeceras, y tampoco\n                                    contraseñas debido a que estas se pondrán de forma predeterminada como el\n                                    "Usuario" del mismo\n                                '
+                                    '\n                                    Importante: El documento de Excel no debe poseer cabeceras, y tampoco\n                                    contraseñas debido a que estas se pondrán de forma predeterminada como el\n                                    "Usuario" del mismo en minúscula\n                                '
                                   ),
                                 ]
                               ),

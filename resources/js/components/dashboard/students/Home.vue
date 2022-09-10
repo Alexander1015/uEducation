@@ -77,7 +77,7 @@
                         </v-list-item-avatar>
                     </template>
                 </template>
-                <!-- Estádo -->
+                <!-- Estado -->
                 <template v-slot:item.status="{ item }">
                     <div>
                         <template v-if="item.status == 0">
@@ -164,7 +164,7 @@ export default {
             { text: 'Apellidos', value: 'lastname', align: 'center' },
             { text: 'Correo electrónico', value: 'email', align: 'center' },
             { text: 'Usuario', value: 'user', align: 'center' },
-            { text: 'Estádo', value: 'status', align: 'center' },
+            { text: 'Estado', value: 'status', align: 'center' },
             { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
         ],
         search: '',

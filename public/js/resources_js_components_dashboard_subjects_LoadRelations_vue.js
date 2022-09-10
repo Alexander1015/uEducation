@@ -375,7 +375,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       _iterator3.f();
                     }
 
-                    _this3.axios.post('/api/loadrelations/', data).then(function (response) {
+                    _this3.axios.post('/api/loadrelations', data).then(function (response) {
                       if (!response.data.complete) {
                         var title = "Error";
                         var icon = "error";

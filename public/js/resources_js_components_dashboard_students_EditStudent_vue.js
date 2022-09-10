@@ -2284,7 +2284,7 @@ var render = function () {
                                   staticClass: "width_100",
                                   attrs: {
                                     items: _vm.items_status,
-                                    label: "Estádo",
+                                    label: "Estado",
                                     rules: _vm.statusRules,
                                     dense: "",
                                     "prepend-icon": "rule",

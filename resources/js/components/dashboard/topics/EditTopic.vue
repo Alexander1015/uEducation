@@ -310,7 +310,7 @@
                                 </v-card-subtitle>
                                 <v-form ref="form_status" @submit.prevent="statusTopic()" lazy-validation>
                                     <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                        label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                        label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                     <template
                                         v-if="form_status.status != (topic.status == 1 ? 'Habilitado' : 'Borrador')">
                                         <v-btn class="txt_white bk_green" block type="submit">
@@ -547,7 +547,7 @@ export default {
                         if (result.isConfirmed) {
                             this.overlay = true;
                             let data = new FormData();
-                            data.append('subject', this.form_information.subject);
+                            data.append('subject', this.form_information.subject.code);
                             if (this.form_information.tags.length > 0) {
                                 for (let tag of this.form_information.tags) {
                                     data.append('tags[]', tag);

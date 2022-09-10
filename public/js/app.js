@@ -5718,8 +5718,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _this.user.avatar = "blank.png";
                       _this.user.avatar_lazy = "blank_lazy.png";
                     } else {
-                      _this.user.avatar = _this.user.avatar + "/index.png";
                       _this.user.avatar_lazy = _this.user.avatar + "/lazy.png";
+                      _this.user.avatar = _this.user.avatar + "/index.png";
                     }
                   }
                 })["catch"](function (error) {

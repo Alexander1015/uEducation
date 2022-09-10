@@ -369,7 +369,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                       _iterator3.f();
                     }
 
-                    _this3.axios.post('/api/loadtags/', data).then(function (response) {
+                    _this3.axios.post('/api/loadtags', data).then(function (response) {
                       if (!response.data.complete) {
                         var title = "Error";
                         var icon = "error";
@@ -3918,7 +3918,7 @@ var render = function () {
             ),
             _vm._v(" "),
             _c("v-card-title", { staticClass: "text-h5" }, [
-              _c("p", { staticClass: "mx-auto" }, [_vm._v("CARGAR MATERIAS")]),
+              _c("p", { staticClass: "mx-auto" }, [_vm._v("CARGAR ETIQUETAS")]),
             ]),
             _vm._v(" "),
             _c(

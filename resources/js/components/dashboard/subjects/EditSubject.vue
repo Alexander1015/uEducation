@@ -626,7 +626,7 @@
                                     </v-card-subtitle>
                                     <v-form ref="form_status" @submit.prevent="statusSubject" lazy-validation>
                                         <v-select class="width_100" v-model="form_status.status" :items="items_status"
-                                            label="Estádo" :rules="statusRules" dense prepend-icon="rule"></v-select>
+                                            label="Estado" :rules="statusRules" dense prepend-icon="rule"></v-select>
                                         <template
                                             v-if="form_status.status != (subject.status == 1 ? 'Habilitado' : 'Deshabilitado')">
                                             <v-btn class="txt_white bk_green" block type="submit">

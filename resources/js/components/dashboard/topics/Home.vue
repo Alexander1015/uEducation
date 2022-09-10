@@ -228,7 +228,7 @@ export default {
                 { text: 'Creado el', value: 'created_at', align: 'center' },
                 { text: 'Actualizado por', value: 'user_update', align: 'center' },
                 { text: 'Actualizado el', value: 'updated_at', align: 'center' },
-                { text: 'Estádo', value: 'status', align: 'center' },
+                { text: 'Estado', value: 'status', align: 'center' },
                 { text: 'Acciones', value: 'actions', align: 'center', sortable: false },
             ]
         }

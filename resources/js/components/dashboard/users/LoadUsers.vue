@@ -41,7 +41,7 @@
                                     <small class="font-italic txt_red">
                                         Importante: El documento de Excel no debe poseer cabeceras, y tampoco
                                         contraseñas debido a que estas se pondrán de forma predeterminada como el
-                                        "Usuario" del mismo
+                                        "Usuario" del mismo en minúscula
                                     </small>
                                 </p>
                                 <v-img class="my-2 mx-auto" :src="banner.img" :lazy-src='banner.lazy'
@@ -282,7 +282,7 @@ export default {
                             for (let item of this.data) {
                                 data.append('user[]', item.user == null ? "" : item.user);
                             }
-                            this.axios.post('/api/loadusers/', data)
+                            this.axios.post('/api/loadusers', data)
                                 .then(response => {
                                     if (!response.data.complete) {
                                         let title = "Error";

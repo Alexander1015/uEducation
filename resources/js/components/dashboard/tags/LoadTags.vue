@@ -12,7 +12,7 @@
                     Regresar
                 </v-btn>
                 <v-card-title class="text-h5">
-                    <p class="mx-auto">CARGAR MATERIAS</p>
+                    <p class="mx-auto">CARGAR ETIQUETAS</p>
                 </v-card-title>
                 <v-stepper class="mx-auto" v-model="step" alt-labels max-width="1100">
                     <v-stepper-header>
@@ -267,7 +267,7 @@ export default {
                             for (let item of this.data) {
                                 data.append('code[]', item.code == null ? "" : item.code);
                             }
-                            this.axios.post('/api/loadtags/', data)
+                            this.axios.post('/api/loadtags', data)
                                 .then(response => {
                                     if (!response.data.complete) {
                                         let title = "Error";

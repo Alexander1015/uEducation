@@ -270,7 +270,7 @@ export default {
                             for (let item of this.data) {
                                 data.append('subjects[]', item.subject == null ? "" : item.subject);
                             }
-                            this.axios.post('/api/loadrelations/', data)
+                            this.axios.post('/api/loadrelations', data)
                                 .then(response => {
                                     if (!response.data.complete) {
                                         let title = "Error";

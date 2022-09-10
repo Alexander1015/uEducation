@@ -162,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'text_color',
         align: 'center'
       }, {
-        text: 'Estádo',
+        text: 'Estado',
         value: 'status',
         align: 'center'
       }, {

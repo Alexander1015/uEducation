@@ -664,7 +664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (result.isConfirmed) {
                     _this2.overlay = true;
                     var data = new FormData();
-                    data.append('subject', _this2.form_information.subject);
+                    data.append('subject', _this2.form_information.subject.code);
 
                     if (_this2.form_information.tags.length > 0) {
                       var _iterator = _createForOfIteratorHelper(_this2.form_information.tags),
@@ -3227,7 +3227,7 @@ var render = function () {
                                   staticClass: "width_100",
                                   attrs: {
                                     items: _vm.items_status,
-                                    label: "Estádo",
+                                    label: "Estado",
                                     rules: _vm.statusRules,
                                     dense: "",
                                     "prepend-icon": "rule",

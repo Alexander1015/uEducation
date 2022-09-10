@@ -91,7 +91,7 @@
                         </template>
                     </div>
                 </template>
-                <!-- Estádo -->
+                <!-- Estado -->
                 <template v-slot:item.status="{ item }">
                     <div>
                         <template v-if="item.status == 0">

@@ -616,8 +616,8 @@ class TopicController extends Controller
             }
         } catch (Exception $ex) {
             return response()->json([
-                // 'message' => $ex->getMessage(),
-                'message' => "Ha ocurrido un error en la aplicación",
+                'message' => $ex->getMessage(),
+                // 'message' => "Ha ocurrido un error en la aplicación",
                 'complete' => false,
             ]);
         }
