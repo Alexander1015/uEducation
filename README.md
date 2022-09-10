@@ -30,3 +30,6 @@ Mira el archivo [LICENSE]() para mas detalles :scroll:
 ## Enlaces de interés :electron:
 * Trello: [Tablero :bookmark:](https://trello.com/b/yRHovYdy/ueducation)
 * Mock Ups: [Archivo PDF :spiral_notepad:](mockups/MockUps.pdf)
+* Manual de Instalación: [Archivo PDF :man_technologist:](documents/Manual de Instalación - uEducation.pdf)
+* Manual Técnico: [Archivo PDF :man_technologist:](documents/Manual Técnico - uEducation.pdf)
+* Manual de Usuario: [Archivo PDF :superhero_man:](documents/Manual de Usuario - uEducation.pdf)
