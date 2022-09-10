@@ -2,8 +2,9 @@
 uEducation es una aplicacion web que le permitira a los docentes el crear blogs de diferentes temas, de acuerdo a las materias que se encuentren en la misma, permitiendole al estudiante, poder leer cada blog que ha sido creada.
 
 ## Para comenzar :school:
-* [Manual de Usuario :boy:]()
-* [Manual Técnico :construction_worker:]()
+* [Manual de Usuario :superhero_man:](documents/Manual%20de%20Usuario%20-%20uEducation.pdf)
+* [Manual Técnico :man_technologist:](documents/Manual%20Técnico%20-%20uEducation.pdf)
+* [Manual de Instalación :desktop_computer:](documents/Manual%20de%20Instalación%20-%20uEducation.pdf)
 
 ## Requisitos :eyes:
 ```
@@ -30,6 +31,3 @@ Mira el archivo [LICENSE]() para mas detalles :scroll:
 ## Enlaces de interés :electron:
 * Trello: [Tablero :bookmark:](https://trello.com/b/yRHovYdy/ueducation)
 * Mock Ups: [Archivo PDF :spiral_notepad:](mockups/MockUps.pdf)
-* Manual de Instalación: [Archivo PDF :man_technologist:](documents/Manual%20de%20Instalación%20-%20uEducation.pdf)
-* Manual Técnico: [Archivo PDF :man_technologist:](documents/Manual%20Técnico%20-%20uEducation.pdf)
-* Manual de Usuario: [Archivo PDF :superhero_man:](documents/Manual%20de%20Usuario%20-%20uEducation.pdf)
